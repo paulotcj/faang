@@ -81,12 +81,13 @@ public static class TypedOutStrings
         int backspaceCount = 0;
         for (; index >= 0; index--)
         {
-            if (str[index].CompareTo('#') == 0) { backspaceCount++; }
+            char current = str[index];
+            if (current == '#') { backspaceCount++; }
             else
             {
                 if (backspaceCount > 0) { backspaceCount--; continue; }
                 
-                return str[index];
+                return current;
             }
         }
         return null;
