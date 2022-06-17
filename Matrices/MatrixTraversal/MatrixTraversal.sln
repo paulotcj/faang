@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixTraversalDFS", "MatrixTraversalDFS\MatrixTraversalDFS.csproj", "{C8644E71-6459-4227-AD7D-FE5783954742}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatrixTraversal", "MatrixTraversal\MatrixTraversal.csproj", "{C8644E71-6459-4227-AD7D-FE5783954742}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
