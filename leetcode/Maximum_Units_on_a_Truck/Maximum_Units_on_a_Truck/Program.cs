@@ -83,6 +83,7 @@ public class Solution
             availableSpaceForBoxes = truckSize - totalBoxes;
 
             totalUnits += numItems * Math.Min(numBoxes, availableSpaceForBoxes);
+
             totalBoxes += numBoxes;
             if (totalBoxes >= truckSize) { break; }
 
