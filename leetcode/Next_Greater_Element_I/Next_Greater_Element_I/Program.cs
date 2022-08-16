@@ -12,7 +12,7 @@ Console.WriteLine("--------------------");
 arr1 = new int[] { 4, 1, 2 };
 arr2 = new int[] { 1, 3, 4, 2 };
 
-response = sol.NextGreaterElement(arr1, arr2);
+response = sol.NextGreaterElement2(arr1, arr2);
 Console.WriteLine($"Response: [{sol.ArrayToString(response)}]  - Expected: [-1,3,-1]");
 Console.WriteLine("--------------------");
 
@@ -21,7 +21,7 @@ Console.WriteLine("--------------------");
 arr1 = new int[] { 2, 4 };
 arr2 = new int[] { 1, 2, 3, 4 };
 
-response = sol.NextGreaterElement(arr1, arr2);
+response = sol.NextGreaterElement2(arr1, arr2);
 Console.WriteLine($"Response: [{sol.ArrayToString(response)}]  - Expected: [3,-1]");
 Console.WriteLine("--------------------");
 
@@ -29,7 +29,7 @@ Console.WriteLine("--------------------");
 
 public class Solution
 {
-    public int[] NextGreaterElement2(int[] a, int[] b)
+    public int[] NextGreaterElement(int[] a, int[] b)
     {
         if (a == null || b == null || a.Length == 0 || b.Length == 0 || a.Length > b.Length) { return new int[0]; }
 
@@ -42,25 +42,29 @@ public class Solution
             if (matchingIndex == -1) { response[i] = -1; }
             else
             {
-
+                response[i] = ArraySeekGreaterElement(b, matchingIndex + 1, curr);
             }
 
-
         }
+
+        return response;
     }
 
     //------------------------------------------
 
     public int ArraySeekGreaterElement(int[] arr, int idxWhereToStart, int valueToSeek)
-    { 
-
+    {
+        for (int i = idxWhereToStart; i < arr.Length ; i++ ) 
+        {
+            if (arr[i] > valueToSeek) { return arr[i]; }
+        }
 
         return -1;
     }
 
     //------------------------------------------
 
-public int FindMatchingIndex(int[] arr, int value)
+    public int FindMatchingIndex(int[] arr, int value)
     {
         int index;
         for (int i = 0; i < arr.Length; i ++) 
@@ -73,7 +77,7 @@ public int FindMatchingIndex(int[] arr, int value)
 
 
 
-    public int[] NextGreaterElement(int[] a, int[] b)
+    public int[] NextGreaterElement_old(int[] a, int[] b)
     {
         if (a == null || b == null || a.Length > b.Length)
             return new int[0];
