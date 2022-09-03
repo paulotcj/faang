@@ -67,6 +67,7 @@ public class Solution
 
     public Node Flatten3(Node head)
     {
+        if (head == null) { return null; }
         Stack<Node> stack = new();
         Node previous = new();
         //---
@@ -89,7 +90,6 @@ public class Solution
         //---
         head.prev = null;
         return head;
-
     }
 
     public Node Flatten(Node head)
