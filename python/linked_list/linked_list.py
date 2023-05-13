@@ -15,19 +15,22 @@ class MyList:
     def append(self, value):
         new = MyNode(value)
 
-        new.next = self.tail
+        new.next = self.tail #for this new node the 'next node' is the current tail
         
-        self.tail = new
+        self.tail = new #the 'tail' pointer in this linked list will point to the new node
 
         self.length += 1
         
     def prepend(self, value):
         new = MyNode(value)
 
+        #the self.head.next tipically point to None, since there's nothing else after or above the head
+        # so we temporarily make the self.head.next to point to the new node
+        self.head.next = new 
         
-        self.head.next = new
-        
-        self.head = new
+        #and now we make the linked list pointer self.head to point to new, and considering the new node has
+        #  new.next equals to None, no further action is necessary
+        self.head = new 
         
         self.length += 1
         
