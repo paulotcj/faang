@@ -1,22 +1,20 @@
 class MyNode:
-    def __init__(self) -> None:
-        self.value = None
+    def __init__(self, value) -> None:
+        self.value = value
         self.next = None
 
 
 class MyList:
     def __init__(self, value) -> None:
-        new = MyNode()
-        new.value = value
-        new.next = None
+        new = MyNode(value)
         
         self.head = new
         self.tail = new
         self.length = 1
         
     def append(self, value):
-        new = MyNode()
-        new.value = value
+        new = MyNode(value)
+
         new.next = self.tail
         
         self.tail = new
@@ -24,9 +22,8 @@ class MyList:
         self.length += 1
         
     def prepend(self, value):
-        new = MyNode()
-        new.value = value
-        new.next = None
+        new = MyNode(value)
+
         
         self.head.next = new
         
@@ -40,7 +37,7 @@ class MyList:
         
         temp = self.tail
         while temp != None: 
-            print(temp.value)
+            print(f"{temp.value}{ ' -> tail' if temp == self.tail else '' }{ ' -> head' if temp == self.head else '' }")
             temp = temp.next
             
         print("----------------")
