@@ -143,7 +143,11 @@ class BinaryTree:
 
         else:
             print(f"Current has only one child - connect current's only child to current's parent")
-            if is_current_left_side:
+            if parent == None: 
+                print(f"Current is the root node.")
+                if current.right: self.root = current.right
+                else: self.root = current.left
+            elif is_current_left_side:
                 parent.left = current.left if current.left != None else current.right
                 # print(f"Current: {current.value} - left: {current.left.value}")
             else: #right sided
@@ -155,13 +159,7 @@ class BinaryTree:
         current.right = None
         return current
 
-            
-
-
-
-
-        
-        
+      
     #------------------------------------------------------------------
 
     def print(self):
@@ -205,7 +203,9 @@ tree.insert(3)
 tree.insert(20)
 # tree.print() #this is ok
 tree.remove(9)
+tree.remove(90)
 tree.print()
+# exit()
 
 #--------    
 #                 90

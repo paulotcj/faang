@@ -147,7 +147,11 @@ class BinaryTreeAVL:
 
         else:
             print(f"Current has only one child - connect current's only child to current's parent")
-            if is_current_left_side:
+            if parent == None: 
+                print(f"Current is the root node.")
+                if current.right: self.root = current.right
+                else: self.root = current.left
+            elif is_current_left_side:
                 parent.left = current.left if current.left != None else current.right
                 # print(f"Current: {current.value} - left: {current.left.value}")
             else: #right sided
@@ -159,13 +163,7 @@ class BinaryTreeAVL:
         current.right = None
         return current
 
-            
-
-
-
-
-        
-        
+      
     #------------------------------------------------------------------
 
     def print(self):
