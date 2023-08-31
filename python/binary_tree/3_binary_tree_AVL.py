@@ -27,19 +27,29 @@ class BinaryTreeAVL:
             if value < current_node.value: #must go to the left side
                 if current_node.left == None: # found the right place - insert here
                     current_node.left = new_obj
-                    new_obj.height = current_node.height + 1
-                    return
+                    new_obj.parent = current_node
+                    break
                 #----
                 current_node = current_node.left #continue going to the left side
             else: #right insert
                 if current_node.right == None: #found the right place - insert here
                     current_node.right = new_obj
-                    new_obj.height = current_node.height + 1
-                    return
+                    new_obj.parent = current_node
+                    break
                 #----
                 current_node = current_node.right
         #end of while
         #---------------
+        parent_to_update = new_obj.parent
+        current_height = new_obj.height
+        while parent_to_update:
+            current_height += 1
+            if parent_to_update.height < current_height:
+                parent_to_update.height = current_height
+            parent_to_update = parent_to_update.parent
+
+            
+
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def lookup(self, value):
@@ -58,7 +68,7 @@ class BinaryTreeAVL:
         return None
     #------------------------------------------------------------------
     #------------------------------------------------------------------
-    def lookup2(self, value):
+    def lookup_with_parent(self, value):
         parent = None
         current = self.root
         if current == None : return None
@@ -76,7 +86,7 @@ class BinaryTreeAVL:
         #---------------
         return None
     #------------------------------------------------------------------   
-        #------------------------------------------------------------------
+    #------------------------------------------------------------------
     def find_in_order_successor(self, param_node):
         if param_node == None or param_node.right == None: return None
         current = param_node.right
@@ -93,7 +103,7 @@ class BinaryTreeAVL:
     def remove(self, value):
         print(f"-------------------------------------------")
         print(f"removing - start\n")
-        lookup_result = self.lookup2(value)
+        lookup_result = self.lookup_with_parent(value)
         if lookup_result == None or lookup_result['current'] == None: return None
         current = lookup_result['current']
         parent = lookup_result['parent']
@@ -162,10 +172,31 @@ class BinaryTreeAVL:
         current.left = None
         current.right = None
         return current
-
-      
     #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def maxDepth(self, node: Node) -> int:
+        if node == None : return 0
 
+        current_depth = 0
+
+        queue = [node]
+        while queue :
+            #---------
+            #we add the elements of the current level, but only once we exhausted the count of all the elements
+            # currently in the queue, is that we increment the counter
+            for _count_current_level in range(0, len(queue)):
+                curr = queue.pop(0)
+                if curr.left != None:
+                    queue.append(curr.left)
+                if curr.right != None:
+                    queue.append(curr.right)
+
+            current_depth += 1
+            #---------
+        #---------
+        return current_depth    
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
     def print(self):
         print(f"-------------------------------------------")
         node_list = []
@@ -174,18 +205,21 @@ class BinaryTreeAVL:
         while(current):
             left_summary = "None"
             right_summary = "None"
+            parent_summary = "None"
             if current.left:
                 node_list.append(current.left)
                 left_summary = current.left.value
             if current.right:
                 node_list.append(current.right)
                 right_summary = current.right.value
+            if current.parent != None:
+                parent_summary = current.parent.value
 
-            print(f"curr v: {current.value}, left: {left_summary}, right: {right_summary}, height: {current.height}")
+            print(f"curr v: {current.value},\tleft: {left_summary},\tright: {right_summary},\theight: {current.height},\tparent:{parent_summary}")
 
             current =  node_list.pop(0) if node_list else None 
-
-
+    #------------------------------------------------------------------
+#------------------------------------------------------------------
 
 #--------    
 #                 90
