@@ -14,6 +14,7 @@ class BinaryTreeAVL:
         self.root = None
     #------------------------------------------------------------------
     #------------------------------------------------------------------
+    # Standard tree insertion. Left = Value is lower than current node, Right = Value is greater than current node
     def insert(self, value):
         new_obj = Node(value)
 
@@ -52,6 +53,7 @@ class BinaryTreeAVL:
 
     #------------------------------------------------------------------
     #------------------------------------------------------------------
+    # Find the node that matches the parameter value
     def lookup(self, value):
         current = self.root
         if current == None : return None
@@ -68,6 +70,7 @@ class BinaryTreeAVL:
         return None
     #------------------------------------------------------------------
     #------------------------------------------------------------------
+    # Find the node that matches the parameter value plus its parent (Note: parent might be None)
     def lookup_with_parent(self, value):
         parent = None
         current = self.root
@@ -87,6 +90,7 @@ class BinaryTreeAVL:
         return None
     #------------------------------------------------------------------   
     #------------------------------------------------------------------
+    # Inorder Successor - the node with the 'smallest key' 'greater than' 'the key of the input node'
     def find_in_order_successor(self, param_node):
         if param_node == None or param_node.right == None: return None
         current = param_node.right
@@ -100,6 +104,8 @@ class BinaryTreeAVL:
 
     #------------------------------------------------------------------   
     #------------------------------------------------------------------
+    # Remove find the node matching the value and then removes it.
+    #  It also handles node's relationships (parent, children)
     def remove(self, value):
         print(f"-------------------------------------------")
         print(f"removing - start\n")
