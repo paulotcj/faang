@@ -49,8 +49,6 @@ class BinaryTreeAVL:
                 parent_to_update.height = current_height
             parent_to_update = parent_to_update.parent
 
-            
-
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     # Find the node that matches the parameter value
@@ -180,28 +178,77 @@ class BinaryTreeAVL:
         return current
     #------------------------------------------------------------------
     #------------------------------------------------------------------
-    def maxDepth(self, node: Node) -> int:
-        if node == None : return 0
-
-        current_depth = 0
-
-        queue = [node]
-        while queue :
-            #---------
-            #we add the elements of the current level, but only once we exhausted the count of all the elements
-            # currently in the queue, is that we increment the counter
-            for _count_current_level in range(0, len(queue)):
-                curr = queue.pop(0)
-                if curr.left != None:
-                    queue.append(curr.left)
-                if curr.right != None:
-                    queue.append(curr.right)
-
-            current_depth += 1
-            #---------
-        #---------
-        return current_depth    
+    def get_height(self, node):
+        return 0 if not node else node.height
     #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def right_rotate(self, node):
+        # Algorithm explanation
+        #
+        #
+        #        B             A                               A
+        #     A    Z   -->   X   B                    -->    X   B
+        #   X   Y                  Z  (Y) not linked            Y Z 
+        #
+        # Preserved Links:  A(left) -> X  ,  B(right)-> Z
+        # New Links:        A(right)-> B  ,  B(left) -> Y
+
+        #-------
+        # saving the reference variables
+        b = node
+        a = b.left
+        y = a.right
+        #-------
+        if(self.root == b): self.root = a
+
+        a.right = b
+        b.left = y
+
+        a.parent = b.parent
+        b.parent = a
+        y.parent = b
+
+        b.height = max(  self.get_height(b.left) , self.get_height(b.right)  ) + 1
+        a.height = max(  self.get_height(a.left) , self.get_height(a.right)  ) + 1
+        
+
+
+        return a
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def left_rotate(self, node):
+        # Algorithm explanation
+        #
+        #      A                B                              B
+        #    X   B    --->    A   Z                  --->    A   Z
+        # 	    Y Z          X       (Y) not linked         X Y    
+        #
+        # Preserved Links:  A(left) -> X  ,  B(right)-> Z
+        # New Links:        A(right)-> Y  ,  B(left) -> A       
+        
+        #-------
+        # saving the reference variables
+        a = node
+        b = node.right
+        y  = b.left
+        #-------
+        
+        if(self.root == a): self.root = b
+
+        b.left = a
+        a.right = y
+
+        b.parent = a.parent
+        a.parent = b
+        y.parent = a
+        
+        a.height = max(  self.get_height(a.left) , self.get_height(a.right)  ) + 1
+        b.height = max(  self.get_height(b.left) , self.get_height(b.right)  ) + 1
+
+        return b
+
+
+    #------------------------------------------------------------------    
     #------------------------------------------------------------------
     def print(self):
         print(f"-------------------------------------------")
@@ -227,14 +274,36 @@ class BinaryTreeAVL:
     #------------------------------------------------------------------
 #------------------------------------------------------------------
 
+#       50
+#    25     75
+#         60  100
+
+tree = BinaryTreeAVL()
+tree.insert(50)
+tree.insert(25)
+tree.insert(75)
+tree.insert(60)
+tree.insert(100)
+tree.print()
+
+print(f'-----------\nLeft Rotate')
+target = tree.lookup(50)
+tree.left_rotate(target)
+tree.print()
+print(f'-----------\nRight Rotate')
+target = tree.lookup(75)
+tree.right_rotate(target)
+tree.print()
+
+exit()
+
+
 #--------    
 #                 90
 #            4     
 #       2        9
 #     1   3        20
 #               
- 
-
 
 
 tree = BinaryTreeAVL()
