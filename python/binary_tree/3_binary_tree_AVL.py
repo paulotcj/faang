@@ -20,7 +20,7 @@ class BinaryTreeAVL:
 
         if self.root == None:
             self.root = new_obj
-            return
+            return new_obj
         
         #---------------
         current_node = self.root
@@ -43,13 +43,56 @@ class BinaryTreeAVL:
 
 
         self.update_upstream(new_obj)
-
-
-        
-        
-
+        return new_obj
 
     #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def insert_avl(self,value):
+        node = self.insert(value)
+        if node.parent == None: return node
+        self.balance_avl(node)
+
+        
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------    
+    def balance_avl(self, node):
+        temp = node
+
+        while temp and temp.parent:
+            parent = temp.parent
+            balance = self.get_balance_factor(temp.parent)
+            # print(f'  Node: {temp.value} - Parent: {temp.parent.value} - Parent Balance: {balance}')
+
+            if balance >= 2: #LEFT SIDE too heavy
+                print('LEFT SIDE too heavy')
+                if temp.right != None and temp.left != None:
+                    print(f'Problem while balancing at {temp.value} - Both left and right nodes are occupied')
+                elif temp.left:
+                    temp  = self.right_rotate(parent)
+                else:
+                    self.left_rotate(temp)
+                    # self.print()
+                    temp = temp.parent
+                    self.right_rotate(parent)
+                    # self.print()
+
+
+            elif balance <= -2: #RIGHT SIDE too heavy
+                print('RIGHT SIDE too heavy')
+                if temp.right != None and temp.left != None:
+                    print(f'Problem while balancing at {temp.value} - Both left and right nodes are occupied')
+                elif temp.right:
+                    self.left_rotate(parent)
+                else:
+                    self.right_rotate(temp)
+                    # self.print()
+                    temp = temp.parent
+                    self.left_rotate(parent)
+                    # self.print()
+
+            temp = temp.parent
+
+    #------------------------------------------------------------------    
     #------------------------------------------------------------------
     def update_upstream(self,node):
 
@@ -209,26 +252,25 @@ class BinaryTreeAVL:
         #-------
         # saving the reference variables
         b = node
-        a = b.left
-        y = a.right
+        a = b.left if b is not None else None
+        y = a.right if a is not None else None
         #-------
         if(self.root == b): self.root = a
 
-        a.right = b
-        b.left = y
+        if a: a.right = b
+        if b: b.left = y
 
-        a.parent = b.parent
-        b.parent = a
-        y.parent = b
+        if a: a.parent = b.parent if b is not None else None
+        if b: b.parent = a 
+        if y: y.parent = b
 
-        if a.parent != None:
+        if a != None and a.parent != None:
             if a.parent.right == b : a.parent.right = a
             elif a.parent.left == b : a.parent.left = a
             else: print ("Error - Cannot match parent with its child")
     
-
-        b.height = max(  self.get_height(b.left) , self.get_height(b.right)  ) + 1
-        a.height = max(  self.get_height(a.left) , self.get_height(a.right)  ) + 1
+        if b: b.height = max(  self.get_height(b.left if b else None) , self.get_height(b.right if b else None)  ) + 1
+        if a: a.height = max(  self.get_height(a.left if a else None) , self.get_height(a.right if a else None)  ) + 1
         
         self.update_upstream(b)
 
@@ -248,33 +290,33 @@ class BinaryTreeAVL:
         #-------
         # saving the reference variables
         a = node
-        b = node.right
-        y  = b.left
+        b = a.right if a is not None else None
+        y = b.left if b is not None else None
         #-------
         
         if(self.root == a): self.root = b
 
-        b.left = a
-        a.right = y
+        if b: b.left = a
+        if a: a.right = y
 
-        b.parent = a.parent
-        a.parent = b
-        y.parent = a
+        if b: b.parent = a.parent
+        if a: a.parent = b
+        if y: y.parent = a
         
         
-        if b.parent != None:
+        if b != None and b.parent != None:
             if b.parent.right == a : b.parent.right = b
             elif b.parent.left == a : b.parent.left = b
             else: print ("Error - Cannot match parent with its child")
 
 
-        a.height = max(  self.get_height(a.left) , self.get_height(a.right)  ) + 1
-        b.height = max(  self.get_height(b.left) , self.get_height(b.right)  ) + 1
+        if a: a.height = max(  self.get_height(a.left if a else None) , self.get_height(a.right if a else None)  ) + 1
+        if b: b.height = max(  self.get_height(b.left if b else None) , self.get_height(b.right if b else None)  ) + 1
 
         self.update_upstream(a)
 
         return b
-    #------------------------------------------------------------------    
+    #------------------------------------------------------------------ 
     #------------------------------------------------------------------    
     def get_balance_factor(self, node):
         if not node:
@@ -314,23 +356,50 @@ class BinaryTreeAVL:
 #      100
 
 # tree = BinaryTreeAVL()
-# print('\n\n')
 # tree.insert(50)
-# tree.print()
-# print('\n\n')
 # tree.insert(75)
+# tree.insert(100)
 # tree.print()
 
-# print('\n\n')
+# target = tree.lookup(100)
+# tree.balance_avl(target)
+# tree.print()
+# exit()
+
+
+# tree = BinaryTreeAVL()
+# tree.insert(50)
+# tree.insert(25)
+# tree.insert(10)
+# tree.print()
+
+# target = tree.lookup(10)
+# tree.balance_avl(target)
+# tree.print()
+
+#-------------------------
+# tree = BinaryTreeAVL()
+# tree.insert(50)
+# tree.insert(75)
 # tree.insert(60)
 # tree.print()
 
-# # print('\n\n')
-# # tree.insert(100)
-# # tree.print()
+# target = tree.lookup(60)
+# tree.balance_avl(target)
+# tree.print()
 
-# # print('\n\n')
-# # tree.print()
+# exit()
+#-------------------------
+# tree = BinaryTreeAVL()
+# tree.insert(50)
+# tree.insert(25)
+# tree.insert(30)
+# tree.print()
+
+# target = tree.lookup(30)
+# tree.balance_avl(target)
+# tree.print()
+
 # exit()
 
 #       50
@@ -367,23 +436,23 @@ class BinaryTreeAVL:
 
 
 tree = BinaryTreeAVL()
-tree.insert(90)
-tree.insert(4)
-tree.insert(2)
-tree.insert(9)
-tree.insert(1)
-tree.insert(3)
-tree.insert(6)
-tree.insert(20)
-tree.insert(8)
-tree.insert(7)
+tree.insert_avl(90)
+tree.insert_avl(4)
+tree.insert_avl(2)
+tree.insert_avl(9)
+tree.insert_avl(1)
+tree.insert_avl(3)
+tree.insert_avl(6)
+# tree.insert_avl(20)
+tree.insert_avl(8)
+tree.insert_avl(7)
 tree.print()
 # tree.remove(4)
-target = tree.lookup(4)
-tree.left_rotate(target)
-tree.print()
+# target = tree.lookup(4)
+# tree.left_rotate(target)
+# tree.print()
 
-target = tree.lookup(9)
-tree.right_rotate(target)
-tree.print()
+# target = tree.lookup(9)
+# tree.right_rotate(target)
+# tree.print()
 
