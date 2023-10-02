@@ -324,11 +324,11 @@ class BinaryTreeAVL:
         else:
             return ( self.get_height(node.left) - self.get_height(node.right) ) 
     
-    #------------------------------------------------------------------    
     #------------------------------------------------------------------
-    def print(self):
-        print(f"-------------------------------------------")
+    #------------------------------------------------------------------
+    def print_generate_strings(self):
         node_list = []
+        return_obj = []
 
         current = self.root
         while(current):
@@ -345,9 +345,42 @@ class BinaryTreeAVL:
                 parent_summary = current.parent.value
             balance_factor = self.get_balance_factor(current)
 
-            print(f"curr v: {current.value},\tleft: {left_summary},\tright: {right_summary},\theight: {current.height},\tparent:{parent_summary},\tbalance:{balance_factor}")
+            # print(f"curr v: {current.value},\tleft: {left_summary},\tright: {right_summary},\theight: {current.height},\tparent:{parent_summary},\tbalance:{balance_factor}")
+            add_to_return_list = f"curr v: {current.value},\tleft: {left_summary},\tright: {right_summary},\theight: {current.height},\tparent:{parent_summary},\tbalance:{balance_factor}"
+            return_obj.append(add_to_return_list)
+            
 
             current =  node_list.pop(0) if node_list else None 
+        #end of while
+
+        return return_obj
+    #------------------------------------------------------------------    
+    #------------------------------------------------------------------
+    def print(self):
+        print(f"-------------------------------------------")
+        generated_list = self.print_generate_strings()
+        for i in generated_list:
+            print(i)
+        # node_list = []
+
+        # current = self.root
+        # while(current):
+        #     left_summary = "None"
+        #     right_summary = "None"
+        #     parent_summary = "None"
+        #     if current.left:
+        #         node_list.append(current.left)
+        #         left_summary = current.left.value
+        #     if current.right:
+        #         node_list.append(current.right)
+        #         right_summary = current.right.value
+        #     if current.parent != None:
+        #         parent_summary = current.parent.value
+        #     balance_factor = self.get_balance_factor(current)
+
+        #     print(f"curr v: {current.value},\tleft: {left_summary},\tright: {right_summary},\theight: {current.height},\tparent:{parent_summary},\tbalance:{balance_factor}")
+
+        #     current =  node_list.pop(0) if node_list else None 
     #------------------------------------------------------------------
 #------------------------------------------------------------------
 
@@ -359,11 +392,14 @@ class BinaryTreeAVL:
 # tree.insert(50)
 # tree.insert(75)
 # tree.insert(100)
-# tree.print()
+# print(tree.print_generate_strings())
+
+# exit()
 
 # target = tree.lookup(100)
 # tree.balance_avl(target)
 # tree.print()
+# print(tree.print_generate_strings())
 # exit()
 
 
@@ -371,11 +407,18 @@ class BinaryTreeAVL:
 # tree.insert(50)
 # tree.insert(25)
 # tree.insert(10)
+# print(tree.print_generate_strings())
 # tree.print()
+# exit()
 
 # target = tree.lookup(10)
 # tree.balance_avl(target)
+# print(tree.print_generate_strings())
+# exit()
 # tree.print()
+
+
+
 
 #-------------------------
 # tree = BinaryTreeAVL()
@@ -383,24 +426,30 @@ class BinaryTreeAVL:
 # tree.insert(75)
 # tree.insert(60)
 # tree.print()
+# print(tree.print_generate_strings())
+# exit()
 
 # target = tree.lookup(60)
 # tree.balance_avl(target)
 # tree.print()
-
+# print(tree.print_generate_strings())
 # exit()
 #-------------------------
 # tree = BinaryTreeAVL()
 # tree.insert(50)
 # tree.insert(25)
 # tree.insert(30)
+# print(tree.print_generate_strings())
 # tree.print()
+# exit()
 
 # target = tree.lookup(30)
 # tree.balance_avl(target)
 # tree.print()
-
+# print(tree.print_generate_strings())
 # exit()
+
+
 
 #       50
 #    25     75
@@ -413,18 +462,54 @@ class BinaryTreeAVL:
 # tree.insert(75)
 # tree.insert(60)
 # tree.insert(100)
+# print(tree.print_generate_strings())
+# exit()
 # tree.print()
 
 # print(f'-----------\nLeft Rotate')
 # target = tree.lookup(50)
 # tree.left_rotate(target)
+# print(tree.print_generate_strings())
 # tree.print()
+
 # print(f'-----------\nRight Rotate')
+# target = tree.lookup(50)
+# tree.right_rotate(target)
+# print(tree.print_generate_strings())
+# exit()
+
 # target = tree.lookup(75)
 # tree.right_rotate(target)
+# print(tree.print_generate_strings())
 # tree.print()
 
 # exit()
+###################################################################################
+###################################################################################
+########
+######## TESTED ABOVE
+########
+###################################################################################
+###################################################################################
+
+tree = BinaryTreeAVL()
+tree.insert_avl(50)
+tree.insert_avl(75)
+tree.insert_avl(100)
+tree.insert_avl(125)
+tree.insert_avl(150)
+
+tree.insert_avl(175)
+tree.print()
+exit()
+tree.insert_avl(200)
+tree.insert_avl(225)
+tree.insert_avl(250)
+tree.insert_avl(275)
+
+# print(tree.print_generate_strings())
+exit()
+
 
 
 #--------    
