@@ -65,9 +65,12 @@ class BinaryTreeAVL:
 
             if balance >= 2: #LEFT SIDE too heavy
                 print('LEFT SIDE too heavy')
-                if temp.right != None and temp.left != None:
-                    print(f'Problem while balancing at {temp.value} - Both left and right nodes are occupied')
-                elif temp.left:
+                # if temp.right != None and temp.left != None:
+                #     print(f'Problem while balancing at {parent.value} - Both left and right nodes are occupied')
+                # elif temp.left:
+
+
+                if temp.left:
                     temp  = self.right_rotate(parent)
                 else:
                     self.left_rotate(temp)
@@ -79,9 +82,12 @@ class BinaryTreeAVL:
 
             elif balance <= -2: #RIGHT SIDE too heavy
                 print('RIGHT SIDE too heavy')
-                if temp.right != None and temp.left != None:
-                    print(f'Problem while balancing at {temp.value} - Both left and right nodes are occupied')
-                elif temp.right:
+                # if temp.right != None and temp.left != None:
+                #     print(f'Problem while balancing at {parent.value} - Both left and right nodes are occupied')
+                #     self.left_rotate(parent)
+                # elif temp.right:
+
+                if temp.right:
                     self.left_rotate(parent)
                 else:
                     self.right_rotate(temp)
@@ -498,17 +504,33 @@ class BinaryTreeAVL:
 # tree.insert_avl(100)
 # tree.insert_avl(125)
 # tree.insert_avl(150)
-
 # tree.insert_avl(175)
-# tree.print()
-# exit()
 # tree.insert_avl(200)
 # tree.insert_avl(225)
 # tree.insert_avl(250)
 # tree.insert_avl(275)
+# # tree.print()
+# print(tree.print_generate_strings())
+# # exit()
 
-# # print(tree.print_generate_strings())
+
+# tree = BinaryTreeAVL()
+
+# tree.insert_avl(275)
+# tree.insert_avl(250)
+# tree.insert_avl(225)
+# tree.insert_avl(200)
+# tree.insert_avl(125)
+# tree.insert_avl(150)
+# tree.insert_avl(175)
+# tree.insert_avl(100)
+# tree.insert_avl(75)
+# tree.insert_avl(50)
+# print(tree.print_generate_strings())
 # exit()
+
+
+
 
 
 
@@ -520,19 +542,19 @@ class BinaryTreeAVL:
 #               
 
 
-tree = BinaryTreeAVL()
-tree.insert_avl(90)
-tree.insert_avl(4)
-tree.insert_avl(2)
-tree.insert_avl(9)
-tree.insert_avl(1)
-tree.insert_avl(3)
-tree.insert_avl(6)
-tree.insert_avl(20)
-tree.insert_avl(8)
-tree.insert_avl(7)
+# tree = BinaryTreeAVL()
+# tree.insert_avl(90)
+# tree.insert_avl(4)
+# tree.insert_avl(2)
+# tree.insert_avl(9)
+# tree.insert_avl(1)
+# tree.insert_avl(3)
+# tree.insert_avl(6)
+# tree.insert_avl(20)
+# tree.insert_avl(8)
+# tree.insert_avl(7)
 
-print(tree.print_generate_strings())
+# print(tree.print_generate_strings())
 # exit()
 
 # tree.remove(4)
@@ -544,3 +566,478 @@ print(tree.print_generate_strings())
 # tree.right_rotate(target)
 # tree.print()
 
+
+class Test_BinaryTreeAVL:
+    #----------------
+    # INSERT tests
+    def test_insert_rightHeavy_straight(self):
+        #  50
+        #    75
+        #      100
+
+        #arrange
+        tree = BinaryTreeAVL()
+
+        assert_values = [
+            'curr v: 50,\tleft: None,\tright: 75,\theight: 3,\tparent:None,\tbalance:-2',
+            'curr v: 75,\tleft: None,\tright: 100,\theight: 2,\tparent:50,\tbalance:-1',
+            'curr v: 100,\tleft: None,\tright: None,\theight: 1,\tparent:75,\tbalance:0'
+        ]    
+
+        #act
+        tree.insert(50)
+        tree.insert(75)
+        tree.insert(100)    
+        result_list = tree.print_generate_strings()
+
+
+        #assert
+        assert assert_values[0] == result_list[0]
+        assert assert_values[1] == result_list[1]
+        assert assert_values[2] == result_list[2]
+
+    def test_insert_leftHeavy_straight(self):
+        #      50
+        #    25
+        #  10
+
+        #arrange
+        tree = BinaryTreeAVL()
+
+        assert_values = ['curr v: 50,\tleft: 25,\tright: None,\theight: 3,\tparent:None,\tbalance:2', 
+                        'curr v: 25,\tleft: 10,\tright: None,\theight: 2,\tparent:50,\tbalance:1', 
+                        'curr v: 10,\tleft: None,\tright: None,\theight: 1,\tparent:25,\tbalance:0']   
+
+        #act
+        tree.insert(50)
+        tree.insert(25)
+        tree.insert(10) 
+        result_list = tree.print_generate_strings()
+
+        #assert
+        assert assert_values[0] == result_list[0]
+        assert assert_values[1] == result_list[1]
+        assert assert_values[2] == result_list[2]   
+
+    def test_insert_rightHeavy_angled(self):
+        #  50
+        #    75
+        #  60
+
+        #arrange
+        tree = BinaryTreeAVL()
+
+        assert_values = ['curr v: 50,\tleft: None,\tright: 75,\theight: 3,\tparent:None,\tbalance:-2', 
+                        'curr v: 75,\tleft: 60,\tright: None,\theight: 2,\tparent:50,\tbalance:1', 
+                        'curr v: 60,\tleft: None,\tright: None,\theight: 1,\tparent:75,\tbalance:0']  
+
+        #act
+        tree.insert(50)
+        tree.insert(75)
+        tree.insert(60) 
+        result_list = tree.print_generate_strings()
+
+
+        #assert
+        assert assert_values[0] == result_list[0]
+        assert assert_values[1] == result_list[1]
+        assert assert_values[2] == result_list[2]
+
+    def test_insert_leftHeavy_angled(self):
+        #    50
+        #  25
+        #    30
+
+        #arrange
+        tree = BinaryTreeAVL()
+
+        assert_values = ['curr v: 50,\tleft: 25,\tright: None,\theight: 3,\tparent:None,\tbalance:2', 
+                        'curr v: 25,\tleft: None,\tright: 30,\theight: 2,\tparent:50,\tbalance:-1', 
+                        'curr v: 30,\tleft: None,\tright: None,\theight: 1,\tparent:25,\tbalance:0'] 
+
+        #act
+        tree.insert(50)
+        tree.insert(25)
+        tree.insert(30)
+        result_list = tree.print_generate_strings()
+
+
+        #assert
+        assert assert_values[0] == result_list[0]
+        assert assert_values[1] == result_list[1]
+        assert assert_values[2] == result_list[2]
+
+    def test_insert_tree_50_25_75_60_100(self):
+        #       50
+        #    25     75
+        #         60  100   
+
+        #arrange
+        tree = BinaryTreeAVL()
+
+        assert_values = ['curr v: 50,\tleft: 25,\tright: 75,\theight: 3,\tparent:None,\tbalance:-1', 
+                        'curr v: 25,\tleft: None,\tright: None,\theight: 1,\tparent:50,\tbalance:0', 
+                        'curr v: 75,\tleft: 60,\tright: 100,\theight: 2,\tparent:50,\tbalance:0', 
+                        'curr v: 60,\tleft: None,\tright: None,\theight: 1,\tparent:75,\tbalance:0', 
+                        'curr v: 100,\tleft: None,\tright: None,\theight: 1,\tparent:75,\tbalance:0']
+        tree.insert(50)
+        tree.insert(25)
+        tree.insert(75)
+        tree.insert(60)
+        tree.insert(100)
+
+        #act
+        result_list = tree.print_generate_strings()
+
+
+        #assert
+        for i in range(len(result_list)):
+            assert assert_values[i] == result_list[i]
+
+    #----------------
+    #----------------
+    # ROTATE TEST
+    def test_rotate_left(self):
+        #       50
+        #    25     75
+        #         60  100   
+
+        #arrange
+        tree = BinaryTreeAVL()
+
+        assert_values = ['curr v: 75,\tleft: 50,\tright: 100,\theight: 3,\tparent:None,\tbalance:1', 
+                        'curr v: 50,\tleft: 25,\tright: 60,\theight: 2,\tparent:75,\tbalance:0', 
+                        'curr v: 100,\tleft: None,\tright: None,\theight: 1,\tparent:75,\tbalance:0', 
+                        'curr v: 25,\tleft: None,\tright: None,\theight: 1,\tparent:50,\tbalance:0', 
+                        'curr v: 60,\tleft: None,\tright: None,\theight: 1,\tparent:50,\tbalance:0'] 
+
+        tree.insert(50)
+        tree.insert(25)
+        tree.insert(75)
+        tree.insert(60)
+        tree.insert(100)   
+
+        #act
+        target = tree.lookup(50)
+        tree.left_rotate(target)
+        result_list = tree.print_generate_strings()
+
+        #assert
+        #assert
+        for i in range(len(result_list)):
+            assert assert_values[i] == result_list[i]    
+
+    def test_rotate_right(self):
+        #       50
+        #    25     75
+        #         60  100   
+
+        #arrange
+        tree = BinaryTreeAVL()
+
+        assert_values = ['curr v: 25,\tleft: None,\tright: 50,\theight: 4,\tparent:None,\tbalance:-3', 
+                        'curr v: 50,\tleft: None,\tright: 75,\theight: 3,\tparent:25,\tbalance:-2', 
+                        'curr v: 75,\tleft: 60,\tright: 100,\theight: 2,\tparent:50,\tbalance:0', 
+                        'curr v: 60,\tleft: None,\tright: None,\theight: 1,\tparent:75,\tbalance:0', 
+                        'curr v: 100,\tleft: None,\tright: None,\theight: 1,\tparent:75,\tbalance:0']
+
+        tree.insert(50)
+        tree.insert(25)
+        tree.insert(75)
+        tree.insert(60)
+        tree.insert(100) 
+
+        #act
+        target = tree.lookup(50)
+        tree.right_rotate(target)
+        result_list = tree.print_generate_strings()
+
+        #assert
+        #assert
+        for i in range(len(result_list)):
+            assert assert_values[i] == result_list[i]    
+
+    def test_rotate_left_then_rotate_rigth(self):
+        #       50                  75                 50
+        #    25     75   ->     50      100   ->   25     75
+        #         60  100     25  60                    60  100
+        # 
+        # left followed by a right rotation should reverse all changes
+        # and the tree should be back to its original configuration 
+
+        #arrange
+        tree = BinaryTreeAVL()
+
+        assert_values = ['curr v: 50,\tleft: 25,\tright: 75,\theight: 3,\tparent:None,\tbalance:-1', 
+                        'curr v: 25,\tleft: None,\tright: None,\theight: 1,\tparent:50,\tbalance:0', 
+                        'curr v: 75,\tleft: 60,\tright: 100,\theight: 2,\tparent:50,\tbalance:0', 
+                        'curr v: 60,\tleft: None,\tright: None,\theight: 1,\tparent:75,\tbalance:0', 
+                        'curr v: 100,\tleft: None,\tright: None,\theight: 1,\tparent:75,\tbalance:0']
+
+        tree.insert(50)
+        tree.insert(25)
+        tree.insert(75)
+        tree.insert(60)
+        tree.insert(100)   
+
+        #act
+        #---------
+        target = tree.lookup(50) #initial root node
+        tree.left_rotate(target)
+
+        target = tree.lookup(75) #new root node after rotating
+        tree.right_rotate(target)  
+        #---------  
+
+        result_list = tree.print_generate_strings()
+
+        #assert
+        for i in range(len(result_list)):
+            assert assert_values[i] == result_list[i]      
+    #----------------
+    #----------------
+    # BALANCE AVL tests
+    def test_insert_rightHeavy_straight_balance_AVL(self):
+        #  50
+        #    75
+        #      100
+
+        #arrange
+        tree = BinaryTreeAVL()
+
+        assert_values = ['curr v: 75,\tleft: 50,\tright: 100,\theight: 2,\tparent:None,\tbalance:0', 
+                        'curr v: 50,\tleft: None,\tright: None,\theight: 1,\tparent:75,\tbalance:0', 
+                        'curr v: 100,\tleft: None,\tright: None,\theight: 1,\tparent:75,\tbalance:0']
+
+        #act
+        tree.insert(50)
+        tree.insert(75)
+        tree.insert(100)    
+        target = tree.lookup(100)
+        tree.balance_avl(target)
+        result_list = tree.print_generate_strings()
+
+
+        #assert
+        assert assert_values[0] == result_list[0]
+        assert assert_values[1] == result_list[1]
+        assert assert_values[2] == result_list[2]
+
+    def test_insert_leftHeavy_straight_balance_AVL(self):
+        #      50
+        #    25
+        #  10
+
+        #arrange
+        tree = BinaryTreeAVL()
+
+        assert_values = ['curr v: 25,\tleft: 10,\tright: 50,\theight: 2,\tparent:None,\tbalance:0', 
+                        'curr v: 10,\tleft: None,\tright: None,\theight: 1,\tparent:25,\tbalance:0', 
+                        'curr v: 50,\tleft: None,\tright: None,\theight: 1,\tparent:25,\tbalance:0']  
+
+        #act
+        tree.insert(50)
+        tree.insert(25)
+        tree.insert(10) 
+        target = tree.lookup(10)
+        tree.balance_avl(target)
+        result_list = tree.print_generate_strings()
+
+        #assert
+        assert assert_values[0] == result_list[0]
+        assert assert_values[1] == result_list[1]
+        assert assert_values[2] == result_list[2]   
+
+    def test_insert_rightHeavy_angled_balance_AVL(self):
+        #  50
+        #    75
+        #  60
+
+        #arrange
+        tree = BinaryTreeAVL()
+
+        assert_values = ['curr v: 60,\tleft: 50,\tright: 75,\theight: 2,\tparent:None,\tbalance:0', 
+                        'curr v: 50,\tleft: None,\tright: None,\theight: 1,\tparent:60,\tbalance:0', 
+                        'curr v: 75,\tleft: None,\tright: None,\theight: 1,\tparent:60,\tbalance:0'] 
+
+        #act
+        tree.insert(50)
+        tree.insert(75)
+        tree.insert(60) 
+        target = tree.lookup(60)
+        tree.balance_avl(target)    
+        result_list = tree.print_generate_strings()
+
+
+        #assert
+        assert assert_values[0] == result_list[0]
+        assert assert_values[1] == result_list[1]
+        assert assert_values[2] == result_list[2]
+
+    def test_insert_leftHeavy_angled_balance_AVL(self):
+
+        #    50
+        #  25
+        #    30
+
+        #arrange
+        tree = BinaryTreeAVL()
+
+        assert_values = ['curr v: 30,\tleft: 25,\tright: 50,\theight: 2,\tparent:None,\tbalance:0', 
+                        'curr v: 25,\tleft: None,\tright: None,\theight: 1,\tparent:30,\tbalance:0', 
+                        'curr v: 50,\tleft: None,\tright: None,\theight: 1,\tparent:30,\tbalance:0']
+
+        #act
+        tree.insert(50)
+        tree.insert(25)
+        tree.insert(30)
+        target = tree.lookup(30)
+        tree.balance_avl(target)    
+        result_list = tree.print_generate_strings()
+
+
+        #assert
+        for i in range(len(result_list)):
+            assert assert_values[i] == result_list[i]
+    #----------------
+    #----------------
+    # INSERT AVL
+    def test_insertAVL_90_4_2_9_1_3_6_20_8_7(self):
+        #arrange
+        tree = BinaryTreeAVL()
+
+        assert_values = ['curr v: 4,\tleft: 2,\tright: 9,\theight: 4,\tparent:None,\tbalance:-1', 
+                        'curr v: 2,\tleft: 1,\tright: 3,\theight: 2,\tparent:4,\tbalance:0', 
+                        'curr v: 9,\tleft: 7,\tright: 90,\theight: 3,\tparent:4,\tbalance:0', 
+                        'curr v: 1,\tleft: None,\tright: None,\theight: 1,\tparent:2,\tbalance:0', 
+                        'curr v: 3,\tleft: None,\tright: None,\theight: 1,\tparent:2,\tbalance:0', 
+                        'curr v: 7,\tleft: 6,\tright: 8,\theight: 2,\tparent:9,\tbalance:0', 
+                        'curr v: 90,\tleft: 20,\tright: None,\theight: 2,\tparent:9,\tbalance:1', 
+                        'curr v: 6,\tleft: None,\tright: None,\theight: 1,\tparent:7,\tbalance:0', 
+                        'curr v: 8,\tleft: None,\tright: None,\theight: 1,\tparent:7,\tbalance:0', 
+                        'curr v: 20,\tleft: None,\tright: None,\theight: 1,\tparent:90,\tbalance:0']
+        
+        tree.insert_avl(90)
+        tree.insert_avl(4)
+        tree.insert_avl(2)
+        tree.insert_avl(9)
+        tree.insert_avl(1)
+        tree.insert_avl(3)
+        tree.insert_avl(6)
+        tree.insert_avl(20)
+        tree.insert_avl(8)
+        tree.insert_avl(7)
+
+        #act
+        result_list = tree.print_generate_strings()
+
+        #assert
+        for i in range(len(result_list)):
+            assert assert_values[i] == result_list[i]          
+
+    def test_insertAVL_right_straight_1(self):
+
+        #arrange
+        tree = BinaryTreeAVL()
+
+        assert_values = ['curr v: 75,\tleft: 50,\tright: 125,\theight: 3,\tparent:None,\tbalance:-1', 
+                        'curr v: 50,\tleft: None,\tright: None,\theight: 1,\tparent:75,\tbalance:0', 
+                        'curr v: 125,\tleft: 100,\tright: 150,\theight: 2,\tparent:75,\tbalance:0', 
+                        'curr v: 100,\tleft: None,\tright: None,\theight: 1,\tparent:125,\tbalance:0', 
+                        'curr v: 150,\tleft: None,\tright: None,\theight: 1,\tparent:125,\tbalance:0']
+        
+
+        tree.insert_avl(50)
+        tree.insert_avl(75)
+        tree.insert_avl(100)
+        tree.insert_avl(125)
+        tree.insert_avl(150)
+
+
+
+        #act
+        result_list = tree.print_generate_strings()
+
+
+        #assert
+        for i in range(len(result_list)):
+            assert assert_values[i] == result_list[i]    
+
+    def test_insertAVL_right_straight_2(self):
+
+        #arrange
+        tree = BinaryTreeAVL()
+
+        
+        assert_values = ['curr v: 125,\tleft: 75,\tright: 225,\theight: 4,\tparent:None,\tbalance:-1', 
+                        'curr v: 75,\tleft: 50,\tright: 100,\theight: 2,\tparent:125,\tbalance:0', 
+                        'curr v: 225,\tleft: 175,\tright: 250,\theight: 3,\tparent:125,\tbalance:0', 
+                        'curr v: 50,\tleft: None,\tright: None,\theight: 1,\tparent:75,\tbalance:0', 
+                        'curr v: 100,\tleft: None,\tright: None,\theight: 1,\tparent:75,\tbalance:0', 
+                        'curr v: 175,\tleft: 150,\tright: 200,\theight: 2,\tparent:225,\tbalance:0', 
+                        'curr v: 250,\tleft: None,\tright: 275,\theight: 2,\tparent:225,\tbalance:-1', 
+                        'curr v: 150,\tleft: None,\tright: None,\theight: 1,\tparent:175,\tbalance:0', 
+                        'curr v: 200,\tleft: None,\tright: None,\theight: 1,\tparent:175,\tbalance:0', 
+                        'curr v: 275,\tleft: None,\tright: None,\theight: 1,\tparent:250,\tbalance:0']
+        
+
+        tree.insert_avl(50)
+        tree.insert_avl(75)
+        tree.insert_avl(100)
+        tree.insert_avl(125)
+        tree.insert_avl(150)
+        tree.insert_avl(175)
+        tree.insert_avl(200)
+        tree.insert_avl(225)
+        tree.insert_avl(250)
+        tree.insert_avl(275)
+
+        #act
+        result_list = tree.print_generate_strings()
+
+
+        #assert
+        for i in range(len(result_list)):
+            assert assert_values[i] == result_list[i]
+
+    def test_insertAVL_left_straight_1(self):
+
+        #arrange
+        tree = BinaryTreeAVL()
+
+        
+        assert_values = ['curr v: 200,\tleft: 100,\tright: 250,\theight: 4,\tparent:None,\tbalance:1', 
+                        'curr v: 100,\tleft: 75,\tright: 150,\theight: 3,\tparent:200,\tbalance:0', 
+                        'curr v: 250,\tleft: 225,\tright: 275,\theight: 2,\tparent:200,\tbalance:0', 
+                        'curr v: 75,\tleft: 50,\tright: None,\theight: 2,\tparent:100,\tbalance:1', 
+                        'curr v: 150,\tleft: 125,\tright: 175,\theight: 2,\tparent:100,\tbalance:0', 
+                        'curr v: 225,\tleft: None,\tright: None,\theight: 1,\tparent:250,\tbalance:0', 
+                        'curr v: 275,\tleft: None,\tright: None,\theight: 1,\tparent:250,\tbalance:0', 
+                        'curr v: 50,\tleft: None,\tright: None,\theight: 1,\tparent:75,\tbalance:0', 
+                        'curr v: 125,\tleft: None,\tright: None,\theight: 1,\tparent:150,\tbalance:0', 
+                        'curr v: 175,\tleft: None,\tright: None,\theight: 1,\tparent:150,\tbalance:0']
+        
+
+        tree.insert_avl(275)
+        tree.insert_avl(250)
+        tree.insert_avl(225)
+        tree.insert_avl(200)
+        tree.insert_avl(125)
+        tree.insert_avl(150)
+        tree.insert_avl(175)
+        tree.insert_avl(100)
+        tree.insert_avl(75)
+        tree.insert_avl(50)
+
+        #act
+        result_list = tree.print_generate_strings()
+
+
+        #assert
+        for i in range(len(result_list)):
+            assert assert_values[i] == result_list[i]   
+
+    #----------------
+
+
+    
