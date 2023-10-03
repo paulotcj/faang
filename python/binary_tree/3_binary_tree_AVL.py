@@ -723,7 +723,6 @@ class Test_BinaryTreeAVL:
         result_list = tree.print_generate_strings()
 
         #assert
-        #assert
         for i in range(len(result_list)):
             assert assert_values[i] == result_list[i]    
 
