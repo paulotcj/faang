@@ -492,23 +492,23 @@ class BinaryTreeAVL:
 ###################################################################################
 ###################################################################################
 
-tree = BinaryTreeAVL()
-tree.insert_avl(50)
-tree.insert_avl(75)
-tree.insert_avl(100)
-tree.insert_avl(125)
-tree.insert_avl(150)
+# tree = BinaryTreeAVL()
+# tree.insert_avl(50)
+# tree.insert_avl(75)
+# tree.insert_avl(100)
+# tree.insert_avl(125)
+# tree.insert_avl(150)
 
-tree.insert_avl(175)
-tree.print()
-exit()
-tree.insert_avl(200)
-tree.insert_avl(225)
-tree.insert_avl(250)
-tree.insert_avl(275)
+# tree.insert_avl(175)
+# tree.print()
+# exit()
+# tree.insert_avl(200)
+# tree.insert_avl(225)
+# tree.insert_avl(250)
+# tree.insert_avl(275)
 
-# print(tree.print_generate_strings())
-exit()
+# # print(tree.print_generate_strings())
+# exit()
 
 
 
@@ -528,10 +528,13 @@ tree.insert_avl(9)
 tree.insert_avl(1)
 tree.insert_avl(3)
 tree.insert_avl(6)
-# tree.insert_avl(20)
+tree.insert_avl(20)
 tree.insert_avl(8)
 tree.insert_avl(7)
-tree.print()
+
+print(tree.print_generate_strings())
+# exit()
+
 # tree.remove(4)
 # target = tree.lookup(4)
 # tree.left_rotate(target)

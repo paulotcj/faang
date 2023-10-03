@@ -336,38 +336,74 @@ def test_insert_leftHeavy_angled_balance_AVL():
 #----------------
 #----------------
 # INSERT AVL
+
+def test_insertAVL_90_4_2_9_1_3_6_20_8_7():
+    #arrange
+    tree = BinaryTreeAVL()
+
+    assert_values = ['curr v: 4,\tleft: 2,\tright: 9,\theight: 4,\tparent:None,\tbalance:-1', 
+                     'curr v: 2,\tleft: 1,\tright: 3,\theight: 2,\tparent:4,\tbalance:0', 
+                     'curr v: 9,\tleft: 7,\tright: 90,\theight: 3,\tparent:4,\tbalance:0', 
+                     'curr v: 1,\tleft: None,\tright: None,\theight: 1,\tparent:2,\tbalance:0', 
+                     'curr v: 3,\tleft: None,\tright: None,\theight: 1,\tparent:2,\tbalance:0', 
+                     'curr v: 7,\tleft: 6,\tright: 8,\theight: 2,\tparent:9,\tbalance:0', 
+                     'curr v: 90,\tleft: 20,\tright: None,\theight: 2,\tparent:9,\tbalance:1', 
+                     'curr v: 6,\tleft: None,\tright: None,\theight: 1,\tparent:7,\tbalance:0', 
+                     'curr v: 8,\tleft: None,\tright: None,\theight: 1,\tparent:7,\tbalance:0', 
+                     'curr v: 20,\tleft: None,\tright: None,\theight: 1,\tparent:90,\tbalance:0']
+    
+    tree.insert_avl(90)
+    tree.insert_avl(4)
+    tree.insert_avl(2)
+    tree.insert_avl(9)
+    tree.insert_avl(1)
+    tree.insert_avl(3)
+    tree.insert_avl(6)
+    tree.insert_avl(20)
+    tree.insert_avl(8)
+    tree.insert_avl(7)
+
+    #act
+    result_list = tree.print_generate_strings()
+
+    #assert
+    for i in range(len(result_list)):
+        assert assert_values[i] == result_list[i]          
+
+    
+
 def test_insertAVL_right_straight():
 
     #arrange
     tree = BinaryTreeAVL()
 
-    # assert_values = ['curr v: 75,\tleft: 50,\tright: 125,\theight: 3,\tparent:None,\tbalance:-1', 
-    #                  'curr v: 50,\tleft: None,\tright: None,\theight: 1,\tparent:75,\tbalance:0', 
-    #                  'curr v: 125,\tleft: 100,\tright: 150,\theight: 2,\tparent:75,\tbalance:0', 
-    #                  'curr v: 100,\tleft: None,\tright: None,\theight: 1,\tparent:125,\tbalance:0', 
-    #                  'curr v: 150,\tleft: None,\tright: None,\theight: 1,\tparent:125,\tbalance:0']
-    
-    assert_values = ['curr v: 75,\tleft: 50,\tright: 125,\theight: 6,\tparent:None,\tbalance:-4', 
+    assert_values = ['curr v: 75,\tleft: 50,\tright: 125,\theight: 3,\tparent:None,\tbalance:-1', 
                      'curr v: 50,\tleft: None,\tright: None,\theight: 1,\tparent:75,\tbalance:0', 
-                     'curr v: 125,\tleft: 100,\tright: 175,\theight: 5,\tparent:75,\tbalance:-3', 
+                     'curr v: 125,\tleft: 100,\tright: 150,\theight: 2,\tparent:75,\tbalance:0', 
                      'curr v: 100,\tleft: None,\tright: None,\theight: 1,\tparent:125,\tbalance:0', 
-                     'curr v: 175,\tleft: 150,\tright: 225,\theight: 4,\tparent:125,\tbalance:-2', 
-                     'curr v: 150,\tleft: None,\tright: None,\theight: 1,\tparent:175,\tbalance:0', 
-                     'curr v: 225,\tleft: 200,\tright: 250,\theight: 3,\tparent:175,\tbalance:-1', 
-                     'curr v: 200,\tleft: None,\tright: None,\theight: 1,\tparent:225,\tbalance:0', 
-                     'curr v: 250,\tleft: None,\tright: 275,\theight: 2,\tparent:225,\tbalance:-1', 
-                     'curr v: 275,\tleft: None,\tright: None,\theight: 1,\tparent:250,\tbalance:0']
+                     'curr v: 150,\tleft: None,\tright: None,\theight: 1,\tparent:125,\tbalance:0']
+    
+    # assert_values = ['curr v: 75,\tleft: 50,\tright: 125,\theight: 6,\tparent:None,\tbalance:-4', 
+    #                  'curr v: 50,\tleft: None,\tright: None,\theight: 1,\tparent:75,\tbalance:0', 
+    #                  'curr v: 125,\tleft: 100,\tright: 175,\theight: 5,\tparent:75,\tbalance:-3', 
+    #                  'curr v: 100,\tleft: None,\tright: None,\theight: 1,\tparent:125,\tbalance:0', 
+    #                  'curr v: 175,\tleft: 150,\tright: 225,\theight: 4,\tparent:125,\tbalance:-2', 
+    #                  'curr v: 150,\tleft: None,\tright: None,\theight: 1,\tparent:175,\tbalance:0', 
+    #                  'curr v: 225,\tleft: 200,\tright: 250,\theight: 3,\tparent:175,\tbalance:-1', 
+    #                  'curr v: 200,\tleft: None,\tright: None,\theight: 1,\tparent:225,\tbalance:0', 
+    #                  'curr v: 250,\tleft: None,\tright: 275,\theight: 2,\tparent:225,\tbalance:-1', 
+    #                  'curr v: 275,\tleft: None,\tright: None,\theight: 1,\tparent:250,\tbalance:0']
     tree.insert_avl(50)
     tree.insert_avl(75)
     tree.insert_avl(100)
     tree.insert_avl(125)
     tree.insert_avl(150)
 
-    tree.insert_avl(175)
-    tree.insert_avl(200)
-    tree.insert_avl(225)
-    tree.insert_avl(250)
-    tree.insert_avl(275)
+    # tree.insert_avl(175)
+    # tree.insert_avl(200)
+    # tree.insert_avl(225)
+    # tree.insert_avl(250)
+    # tree.insert_avl(275)
 
     #act
     result_list = tree.print_generate_strings()
