@@ -3,7 +3,7 @@ class Node:
         # self.left = None
         # self.right = None
         self.value = value
-        # self.parent = None
+        self.parent = None
         self.height = 1
 
 
@@ -11,7 +11,7 @@ class BinaryTreeArray:
     def __init__(self):
         self.tree = []
         self.count = 0
-        self.level = 0
+        self.level = -1
         self.capacity = 0
     #------------------------------------------------------------------
     #------------------------------------------------------------------
@@ -19,8 +19,8 @@ class BinaryTreeArray:
         # print('----------------')
         # print(f'Adding capacity   - current capacity: {self.capacity},\tlevel:{self.level}')
         initial_capacity = self.capacity
-        self.capacity = 2 ** self.level + self.capacity
         self.level += 1
+        self.capacity = 2 ** self.level + self.capacity
 
         loop_range = self.capacity - initial_capacity
         for _ in range(loop_range):
@@ -34,6 +34,7 @@ class BinaryTreeArray:
         # print(f'adding: {value}')
         if self.count + 1 > self.capacity: self.add_capacity()
   
+        parent_idx = 0
         idx = 0
         while True:
             if idx+1 > self.capacity:
@@ -42,14 +43,17 @@ class BinaryTreeArray:
 
             if self.tree[idx] == None: # spot found - add node here
                 new_obj = Node(value)
+                new_obj.parent = parent_idx
                 self.tree[idx] = new_obj
                 self.count +=1 
                 break
 
             elif value < self.tree[idx].value: #must go to the left side
+                parent_idx = idx
                 idx = idx*2 + 1
 
             else: # by exclusion: must go to the right side
+                parent_idx = idx
                 idx = idx*2 + 2
     #------------------------------------------------------------------
     #------------------------------------------------------------------
@@ -73,6 +77,50 @@ class BinaryTreeArray:
         #i.value if i is not None else None
         return_obj = [ i.value if i is not None else None for i in self.tree]
         return return_obj
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def get_parent_n(self, node):
+        if node == None or node.parent < 0 or node.parent >= len(self.tree) : return None
+        return self.tree[ node.parent ]
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def get_node_index(self,node):
+        if node == None or node.parent < 0 or node.parent >= len(self.tree) : return None
+        if node.parent == None or node.parent == 0 : return 0
+
+        parent_left_child_idx = node.parent*2 + 1
+        parent_right_child_idx = node.parent*2 + 2
+        if self.tree[ parent_left_child_idx ] == node: return parent_left_child_idx
+        elif self.tree[ parent_right_child_idx ] == node : return parent_right_child_idx
+        else:
+            print(f'Error: Could not locate node index')
+            return None
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------    
+    def get_left_n(self,node):
+        node_idx = self.get_node_index(node)
+        node_left_idx = node_idx*2 + 1
+        if node_left_idx < node_idx or node_left_idx >= len(self.tree): return None
+        
+        return self.tree[node_left_idx]
+    #------------------------------------------------------------------
+    def get_right_n(self,node):
+        node_idx = self.get_node_index(node)
+        node_right_idx = node_idx*2 + 2
+        if node_right_idx < node_idx or node_right_idx >= len(self.tree): return None
+        
+        return self.tree[node_right_idx]
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def update_height_upstream(self, node):
+
+        while node != None:
+            left_n = self.get_left_n(node)
+            right_n = self.get_right_n(node)
+            node.height = max(  self.get_height(left_n) , self.get_height(right_n)  ) + 1
+            
+            node = self.get_parent_n(node)
+
 
 
         
@@ -88,7 +136,7 @@ class Test_BinaryTreeArray:
         tree = BinaryTreeArray()
 
         #act
-        expected_level = 1 #at the end of expansion the level is expected to be 1 level above the actual number
+        expected_level = 0 #at the end of expansion the level is expected to be 1 level above the actual number
         tree.insert(1)
         measured_level = tree.level
         
@@ -105,7 +153,7 @@ class Test_BinaryTreeArray:
         tree = BinaryTreeArray()
 
         #act
-        expected_level = 3 #at the end of expansion the level is expected to be 1 level above the actual number
+        expected_level = 2 #at the end of expansion the level is expected to be 1 level above the actual number
         tree.insert(1)
         tree.insert(2)
         tree.insert(3)        
@@ -121,7 +169,7 @@ class Test_BinaryTreeArray:
         tree = BinaryTreeArray()
 
         #act
-        expected_level = 4 #at the end of expansion the level is expected to be 1 level above the actual number
+        expected_level = 3 #at the end of expansion the level is expected to be 1 level above the actual number
         tree.insert(1) #lv0
         tree.insert(2) #lv1
         tree.insert(3) #lv2
@@ -197,9 +245,6 @@ class Test_BinaryTreeArray:
             assert lookup_results[i] == None
 
 
-     
-
-
     #------------------------------------------------------------------
     #------------------------------------------------------------------        
     def test_lookup_9_4_2_9_1_3_6_20_8_7_all_must_be_found(self):
@@ -219,6 +264,33 @@ class Test_BinaryTreeArray:
         #assert
         for i in range(len(numbers)):
             assert numbers[i] == lookup_results[i]
+
+
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------    
+    def test_find_parents_9_4_2_9_1_3_6_20_8_7(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [90,4,2,9,1,3,6,20,8,7]
+        for i in numbers:
+            tree.insert(i) 
+
+        find_parents_for = [4,  2, 3, 9, 6, 20, 8, 7, 1]
+        parents_result   = [90, 4, 2, 4, 9, 9,  6, 8, 2]
+
+        #act
+        lookup_results = []
+        for i in find_parents_for:
+            local_node = tree.lookup(i)
+            parent_idx = local_node.parent if local_node is not None else None
+            parent = tree.tree[parent_idx] if parent_idx is not None else None
+            parent_value = parent.value if parent is not None else None
+            lookup_results.append( parent_value )
+
+        #assert
+        for i in range(len(parents_result)):
+            assert parents_result[i] == lookup_results[i]
+
 
 
 
