@@ -33,7 +33,7 @@ class BinaryTreeArray:
     def insert(self, value):
         # print(f'adding: {value}')
         if self.count + 1 > self.capacity: self.add_capacity()
-  
+
         parent_idx = 0
         idx = 0
         while True:
@@ -85,8 +85,12 @@ class BinaryTreeArray:
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def get_node_index(self,node):
-        if node == None or node.parent < 0 or node.parent >= len(self.tree) : return None
-        if node.parent == None or node.parent == 0 : return 0
+        if  node == None or \
+            node.parent < 0 or \
+            node.parent >= len(self.tree):
+            return None
+
+        if self.tree[0] == node: return 0
 
         parent_left_child_idx = node.parent*2 + 1
         parent_right_child_idx = node.parent*2 + 2
@@ -128,7 +132,27 @@ class BinaryTreeArray:
 
 #------------------------------------------------------------------------
 
+#arrange
+tree = BinaryTreeArray()
+numbers = [90,4,2,9,1,3,6,20,8,7]
+for i in numbers:
+    tree.insert(i)         
 
+#act
+lookup_results = []
+for i in numbers:
+    node = tree.lookup(i)
+    node_idx = tree.get_node_index(node)
+    lookup_results.append(node_idx)
+
+
+for i in range(len(numbers)):
+
+    print(f' lookup_results[i]: {lookup_results[i]}')
+
+print(tree.values_to_array())
+
+#------------------------------------------------------------------------
 
 class Test_BinaryTreeArray:
     def test_capacity_1(self):
@@ -290,6 +314,55 @@ class Test_BinaryTreeArray:
         #assert
         for i in range(len(parents_result)):
             assert parents_result[i] == lookup_results[i]
+
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------             
+    def test_find_parents_9_4_2_9_1_3_6_20_8_7_using_get_parent_n(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [90,4,2,9,1,3,6,20,8,7]
+        for i in numbers:
+            tree.insert(i) 
+
+        find_parents_for = [4,  2, 3, 9, 6, 20, 8, 7, 1]
+        parents_result   = [90, 4, 2, 4, 9, 9,  6, 8, 2]
+
+        #act
+        lookup_results = []
+        for i in find_parents_for:
+            local_node = tree.lookup(i)
+            parent = tree.get_parent_n(local_node)
+            parent_value = parent.value if parent is not None else None
+            lookup_results.append( parent_value )
+
+        #assert
+        for i in range(len(parents_result)):
+            assert parents_result[i] == lookup_results[i]
+    #------------------------------------------------------------------
+    # #------------------------------------------------------------------   
+    # def test_get_node_index(self):
+    #     #arrange
+    #     tree = BinaryTreeArray()
+    #     numbers = [90,4,2,9,1,3,6,20,8,7]
+    #     for i in numbers:
+    #         tree.insert(i)         
+
+    #     #act
+    #     lookup_results = []
+    #     for i in numbers:
+    #         node = tree.lookup(i)
+    #         node_idx = tree.get_node_index(node)
+    #         lookup_results.append(node_idx)
+
+
+    #     for i in range(len(numbers)):
+
+    #         print(f' lookup_results[i]: {lookup_results[i]}')
+
+    #         # node = tree.tree[ lookup_results[i] ]
+
+            
+    #         # assert node.value == numbers[i]
 
 
 
