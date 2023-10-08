@@ -42,10 +42,11 @@ class BinaryTreeArray:
 
 
             if self.tree[idx] == None: # spot found - add node here
-                new_obj = Node(value)
-                new_obj.parent = parent_idx
-                self.tree[idx] = new_obj
+                new_node = Node(value)
+                new_node.parent = parent_idx
+                self.tree[idx] = new_node
                 self.count +=1 
+                self.update_height_upstream(new_node)
                 break
 
             elif value < self.tree[idx].value: #must go to the left side
@@ -55,6 +56,8 @@ class BinaryTreeArray:
             else: # by exclusion: must go to the right side
                 parent_idx = idx
                 idx = idx*2 + 2
+                
+        
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def lookup(self, value):
@@ -80,7 +83,8 @@ class BinaryTreeArray:
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def get_parent_n(self, node):
-        if node == None or node.parent < 0 or node.parent >= len(self.tree) : return None
+        if node == None or node.parent < 0 or node.parent >= len(self.tree) or\
+            self.tree[0] == node  : return None
         return self.tree[ node.parent ]
     #------------------------------------------------------------------
     #------------------------------------------------------------------
@@ -116,6 +120,10 @@ class BinaryTreeArray:
         return self.tree[node_right_idx]
     #------------------------------------------------------------------
     #------------------------------------------------------------------
+    def get_height(self, node):
+        return 0 if not node else node.height
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
     def update_height_upstream(self, node):
 
         while node != None:
@@ -124,11 +132,6 @@ class BinaryTreeArray:
             node.height = max(  self.get_height(left_n) , self.get_height(right_n)  ) + 1
             
             node = self.get_parent_n(node)
-
-
-
-        
-                
 
 #------------------------------------------------------------------------
 
@@ -438,11 +441,98 @@ class Test_BinaryTreeArray:
             assert expected_result[i] == lookup_results[i]    
     #------------------------------------------------------------------ 
     #------------------------------------------------------------------
-    def test_update_upstream(self):
+    def test_node_height_update(self):
         #arrange
         tree = BinaryTreeArray()
-        numbers = [90,4,2,9,1,3,6,20,8,7]              
-    
+        numbers = [90,4,2,9,1,3,6,20,8,7]
+        
+        expected_results = [ 
+            {'insert': 90, 'check': None, 'height': None},  
+            {'insert': None, 'check': 90, 'height': 1},  
+            #----
+            {'insert': 4, 'check': None, 'height': None},
+            {'insert': None, 'check': 90, 'height': 2},
+            {'insert': None, 'check': 4, 'height': 1},
+            #----
+            {'insert': 2, 'check': None, 'height': None},
+            {'insert': None, 'check': 90, 'height': 3},
+            {'insert': None, 'check': 4, 'height': 2},
+            {'insert': None, 'check': 2, 'height': 1},
+            #----
+            {'insert': 1, 'check': None, 'height': None},
+            {'insert': 3, 'check': None, 'height': None},
+            {'insert': None, 'check': 90, 'height': 4},
+            {'insert': None, 'check': 4, 'height': 3},    
+            {'insert': None, 'check': 2, 'height': 2},       
+            #----  
+            {'insert': 9, 'check': None, 'height': None},
+            {'insert': None, 'check': 90, 'height': 4},
+            {'insert': None, 'check': 4, 'height': 3},    
+            {'insert': None, 'check': 2, 'height': 2},   
+            {'insert': None, 'check': 1, 'height': 1},  
+            {'insert': None, 'check': 3, 'height': 1},               
+            {'insert': None, 'check': 9, 'height': 1},  
+            #----  
+            {'insert': 6, 'check': None, 'height': None},
+            {'insert': None, 'check': 90, 'height': 4},
+            {'insert': None, 'check': 4, 'height': 3},    
+            {'insert': None, 'check': 2, 'height': 2},   
+            {'insert': None, 'check': 1, 'height': 1},  
+            {'insert': None, 'check': 3, 'height': 1},               
+            {'insert': None, 'check': 9, 'height': 2},
+            #----  
+            {'insert': 8, 'check': None, 'height': None},
+            {'insert': None, 'check': 90, 'height': 5},
+            {'insert': None, 'check': 4, 'height': 4},    
+            {'insert': None, 'check': 2, 'height': 2},   
+            {'insert': None, 'check': 1, 'height': 1},  
+            {'insert': None, 'check': 3, 'height': 1},               
+            {'insert': None, 'check': 9, 'height': 3},      
+            {'insert': None, 'check': 6, 'height': 2},
+            {'insert': None, 'check': 8, 'height': 1},
+            #----  
+            {'insert': 20, 'check': None, 'height': None},
+            {'insert': None, 'check': 90, 'height': 5},
+            {'insert': None, 'check': 4, 'height': 4},    
+            {'insert': None, 'check': 2, 'height': 2},   
+            {'insert': None, 'check': 1, 'height': 1},  
+            {'insert': None, 'check': 3, 'height': 1},               
+            {'insert': None, 'check': 9, 'height': 3},      
+            {'insert': None, 'check': 6, 'height': 2},
+            {'insert': None, 'check': 8, 'height': 1},
+            {'insert': None, 'check': 20, 'height': 1},
+            #----  
+            {'insert': 7, 'check': None, 'height': None},
+            {'insert': None, 'check': 90, 'height': 6},
+            {'insert': None, 'check': 4, 'height': 5},    
+            {'insert': None, 'check': 2, 'height': 2},   
+            {'insert': None, 'check': 1, 'height': 1},  
+            {'insert': None, 'check': 3, 'height': 1},               
+            {'insert': None, 'check': 9, 'height': 4},      
+            {'insert': None, 'check': 6, 'height': 3},
+            {'insert': None, 'check': 8, 'height': 2},
+            {'insert': None, 'check': 20, 'height': 1},
+            {'insert': None, 'check': 7, 'height': 1},
+        ]
+        
+        #act
+        test_results = []
+        for i in expected_results:
+            insert_value = i['insert']
+            check_for_this_value = i['check']
+            expected_height = i['height']
+
+            if insert_value: tree.insert(insert_value)
+            if check_for_this_value:
+                loop_node = tree.lookup(check_for_this_value)
+                if loop_node: test_results.append({ 'node_height': loop_node.height, 'expected_height' : expected_height })
+        
+        
+        #assert
+        for i in test_results:
+            node_height = i['node_height']
+            expected_height = i['expected_height']
+            assert node_height == expected_height
     
 
 
