@@ -316,6 +316,31 @@ class Test_BinaryTreeArray:
             assert parents_result[i] == lookup_results[i]
 
     #------------------------------------------------------------------
+    #------------------------------------------------------------------    
+    def test_find_parents_none_must_be_found(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [90,4,2,9,1,3,6,20,8,7]
+        for i in numbers:
+            tree.insert(i) 
+
+        find_parents_for = [30,31,32,-1]
+        parents_result   = [None, None, None, None]
+
+        #act
+        lookup_results = []
+        for i in find_parents_for:
+            local_node = tree.lookup(i)
+            parent_idx = local_node.parent if local_node is not None else None
+            parent = tree.tree[parent_idx] if parent_idx is not None else None
+            parent_value = parent.value if parent is not None else None
+            lookup_results.append( parent_value )
+
+        #assert
+        for i in range(len(parents_result)):
+            assert parents_result[i] == lookup_results[i]
+
+    #------------------------------------------------------------------    
     #------------------------------------------------------------------             
     def test_find_parents_9_4_2_9_1_3_6_20_8_7_using_get_parent_n(self):
         #arrange
@@ -339,30 +364,61 @@ class Test_BinaryTreeArray:
         for i in range(len(parents_result)):
             assert parents_result[i] == lookup_results[i]
     #------------------------------------------------------------------
-    # #------------------------------------------------------------------   
-    # def test_get_node_index(self):
-    #     #arrange
-    #     tree = BinaryTreeArray()
-    #     numbers = [90,4,2,9,1,3,6,20,8,7]
-    #     for i in numbers:
-    #         tree.insert(i)         
+    #------------------------------------------------------------------             
+    def test_find_parents_using_get_parent_n_noneMustBeFound(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [90,4,2,9,1,3,6,20,8,7]
+        for i in numbers:
+            tree.insert(i) 
+        
+        find_parents_for = [30,31,32,-1]
+        parents_result   = [None, None, None, None]        
 
-    #     #act
-    #     lookup_results = []
-    #     for i in numbers:
-    #         node = tree.lookup(i)
-    #         node_idx = tree.get_node_index(node)
-    #         lookup_results.append(node_idx)
+        #act
+        lookup_results = []
+        for i in find_parents_for:
+            local_node = tree.lookup(i)
+            parent = tree.get_parent_n(local_node)
+            parent_value = parent.value if parent is not None else None
+            lookup_results.append( parent_value )
+
+        #assert
+        for i in range(len(parents_result)):
+            assert parents_result[i] == lookup_results[i]
+    #------------------------------------------------------------------    
+    #------------------------------------------------------------------   
+    def test_get_node_index(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [90,4,2,9,1,3,6,20,8,7]
+        for i in numbers:
+            tree.insert(i)         
+
+        #act
+        lookup_results = []
+        for i in numbers:
+            node = tree.lookup(i)
+            node_idx = tree.get_node_index(node)
+            lookup_results.append(node_idx)
 
 
-    #     for i in range(len(numbers)):
-
-    #         print(f' lookup_results[i]: {lookup_results[i]}')
-
-    #         # node = tree.tree[ lookup_results[i] ]
-
-            
-    #         # assert node.value == numbers[i]
+        for i in range(len(numbers)):
+            node = tree.tree[ lookup_results[i] ]
+            assert node.value == numbers[i]
+    #------------------------------------------------------------------
+    def test_find_all_left_children(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [90,4,2,9,1,3,6,20,8,7]
+        for i in numbers:
+            tree.insert(i)       
+           
+ 
+    #------------------------------------------------------------------   
+    #------------------------------------------------------------------          
+    
+    
 
 
 
