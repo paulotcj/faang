@@ -435,7 +435,13 @@ class Test_BinaryTreeArray:
             
         #assert
         for i in range(len(expected_result)):
-            assert expected_result[i] == lookup_results[i]             
+            assert expected_result[i] == lookup_results[i]    
+    #------------------------------------------------------------------ 
+    #------------------------------------------------------------------
+    def test_update_upstream(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [90,4,2,9,1,3,6,20,8,7]              
     
     
 
