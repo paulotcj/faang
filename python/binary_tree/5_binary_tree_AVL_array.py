@@ -132,25 +132,7 @@ class BinaryTreeArray:
 
 #------------------------------------------------------------------------
 
-#arrange
-tree = BinaryTreeArray()
-numbers = [90,4,2,9,1,3,6,20,8,7]
-for i in numbers:
-    tree.insert(i)         
 
-#act
-lookup_results = []
-for i in numbers:
-    node = tree.lookup(i)
-    node_idx = tree.get_node_index(node)
-    lookup_results.append(node_idx)
-
-
-for i in range(len(numbers)):
-
-    print(f' lookup_results[i]: {lookup_results[i]}')
-
-print(tree.values_to_array())
 
 #------------------------------------------------------------------------
 
@@ -407,16 +389,53 @@ class Test_BinaryTreeArray:
             node = tree.tree[ lookup_results[i] ]
             assert node.value == numbers[i]
     #------------------------------------------------------------------
-    def test_find_all_left_children(self):
+    #------------------------------------------------------------------
+    def test_find_left_children(self):
         #arrange
         tree = BinaryTreeArray()
         numbers = [90,4,2,9,1,3,6,20,8,7]
         for i in numbers:
-            tree.insert(i)       
+            tree.insert(i)
+            
+        find_left_child_of = [90,4, 2, 9, 8, 6]
+        expected_result =    [4, 2, 1, 6, 7, None] 
+            
+        #act
+        lookup_results = []
+        for i in find_left_child_of:
+            node = tree.lookup(i)
+            left_node = tree.get_left_n(node)
+            left_node_value = left_node.value if left_node else None
+            lookup_results.append(left_node_value) 
+            
+        #assert
+        for i in range(len(expected_result)):
+            assert expected_result[i] == lookup_results[i]  
            
  
+    #------------------------------------------------------------------ 
     #------------------------------------------------------------------   
-    #------------------------------------------------------------------          
+    def test_find_right_children(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [90,4,2,9,1,3,6,20,8,7]
+        for i in numbers:
+            tree.insert(i)
+            
+        find_left_child_of = [4, 2, 9,  6, 8]
+        expected_result =    [9, 3, 20, 8, None] 
+            
+        #act
+        lookup_results = []
+        for i in find_left_child_of:
+            node = tree.lookup(i)
+            left_node = tree.get_right_n(node)
+            left_node_value = left_node.value if left_node else None
+            lookup_results.append(left_node_value) 
+            
+        #assert
+        for i in range(len(expected_result)):
+            assert expected_result[i] == lookup_results[i]             
     
     
 
