@@ -104,19 +104,31 @@ class BinaryTreeArray:
             print(f'Error: Could not locate node index')
             return None
     #------------------------------------------------------------------
-    #------------------------------------------------------------------    
-    def get_left_n(self,node):
+    #------------------------------------------------------------------
+    def get_left_idx(self,node):
         node_idx = self.get_node_index(node)
         node_left_idx = node_idx*2 + 1
         if node_left_idx < node_idx or node_left_idx >= len(self.tree): return None
+        return node_left_idx        
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------   
+    def get_left_n(self,node):
+        node_left_idx = self.get_left_idx(node)
+        if node_left_idx == None: return None
         
         return self.tree[node_left_idx]
     #------------------------------------------------------------------
-    def get_right_n(self,node):
+    #------------------------------------------------------------------
+    def get_right_idx(self,node):
         node_idx = self.get_node_index(node)
         node_right_idx = node_idx*2 + 2
         if node_right_idx < node_idx or node_right_idx >= len(self.tree): return None
-        
+        return node_right_idx
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------    
+    def get_right_n(self,node):
+        node_right_idx = self.get_right_idx(node)
+        if node_right_idx == None: return None
         return self.tree[node_right_idx]
     #------------------------------------------------------------------
     #------------------------------------------------------------------
@@ -162,7 +174,7 @@ class BinaryTreeArray:
         #-------
         # if(self.root == b): self.root = a
         ############## ended here ###################
-
+        # self.tree[a.right] = 
         if a: a.right = b
         if b: b.left = y
 
