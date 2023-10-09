@@ -115,7 +115,6 @@ class BinaryTreeArray:
     def get_left_n(self,node):
         node_left_idx = self.get_left_idx(node)
         if node_left_idx == None: return None
-        
         return self.tree[node_left_idx]
     #------------------------------------------------------------------
     #------------------------------------------------------------------
@@ -173,10 +172,13 @@ class BinaryTreeArray:
         y = self.get_right_n(a) if a is not None else None
         #-------
         # if(self.root == b): self.root = a
+        
+        
+        
+        if a: self.tree[ self.get_right_idx(a) ] = b
+        if b: self.tree[ self.get_left_idx(b)  ] = y
+        
         ############## ended here ###################
-        # self.tree[a.right] = 
-        if a: a.right = b
-        if b: b.left = y
 
         if a: a.parent = b.parent if b is not None else None
         if b: b.parent = a 
