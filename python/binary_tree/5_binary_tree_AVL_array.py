@@ -132,6 +132,17 @@ class BinaryTreeArray:
             node.height = max(  self.get_height(left_n) , self.get_height(right_n)  ) + 1
             
             node = self.get_parent_n(node)
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------    
+    def get_balance_factor(self, node):
+        if not node:
+            return 0
+        else:
+            node_left = self.get_left_n(node)
+            node_right = self.get_right_n(node)
+            return ( self.get_height(node_left) - self.get_height(node_right) )
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------ 
 
 #------------------------------------------------------------------------
 
@@ -534,9 +545,40 @@ class Test_BinaryTreeArray:
             expected_height = i['expected_height']
             assert node_height == expected_height
     
+    #------------------------------------------------------------------
+    def test_balance_factor_90_4_2_9_1_3_6_20_8_7(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers =          [90, 4, 2, 9, 1, 3,  6, 20, 8, 7]  
+        expected_results = [5, -2, 0, 2, 0, 0, -2, 0,  1, 0] 
+        for i in numbers:
+            tree.insert(i)
+        
+        #act
+        test_results = []
+        for i in numbers:
+            node = tree.lookup(i)
+            balance = tree.get_balance_factor(node)
+            test_results.append(balance)
+            
+        #assert
+        for i in range(len(expected_results)):
+            assert expected_results[i] == test_results[i]
 
 
+    #------------------------------------------------------------------
+    
+#------------------------------------------------------------------     
 
 
+tree = BinaryTreeArray()
+numbers = [90,4,2,9,1,3,6,20,8,7]
+for i in numbers:
+    tree.insert(i)
+    
+for i in numbers:
+    node = tree.lookup(i)
+    balance = tree.get_balance_factor(node)
+    print(f'node:{ node.value },\tbalance:{balance}')
         
         
