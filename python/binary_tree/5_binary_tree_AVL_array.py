@@ -157,10 +157,11 @@ class BinaryTreeArray:
         #-------
         # saving the reference variables
         b = node
-        a = b.left if b is not None else None
-        y = a.right if a is not None else None
+        a = self.get_left_n(b) if b is not None else None
+        y = self.get_right_n(a) if a is not None else None
         #-------
-        if(self.root == b): self.root = a
+        # if(self.root == b): self.root = a
+        ############## ended here ###################
 
         if a: a.right = b
         if b: b.left = y
