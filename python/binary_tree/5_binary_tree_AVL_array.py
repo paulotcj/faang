@@ -142,7 +142,45 @@ class BinaryTreeArray:
             node_right = self.get_right_n(node)
             return ( self.get_height(node_left) - self.get_height(node_right) )
     #------------------------------------------------------------------
-    #------------------------------------------------------------------ 
+    #------------------------------------------------------------------
+    def right_rotate(self, node):
+        # Algorithm explanation
+        #
+        #
+        #        B             A                               A
+        #     A    Z   -->   X   B                    -->    X   B
+        #   X   Y                  Z  (Y) not linked            Y Z 
+        #
+        # Preserved Links:  A(left) -> X  ,  B(right)-> Z
+        # New Links:        A(right)-> B  ,  B(left) -> Y
+
+        #-------
+        # saving the reference variables
+        b = node
+        a = b.left if b is not None else None
+        y = a.right if a is not None else None
+        #-------
+        if(self.root == b): self.root = a
+
+        if a: a.right = b
+        if b: b.left = y
+
+        if a: a.parent = b.parent if b is not None else None
+        if b: b.parent = a 
+        if y: y.parent = b
+
+        if a != None and a.parent != None:
+            if a.parent.right == b : a.parent.right = a
+            elif a.parent.left == b : a.parent.left = a
+            else: print ("Error - Cannot match parent with its child")
+    
+        if b: b.height = max(  self.get_height(b.left if b else None) , self.get_height(b.right if b else None)  ) + 1
+        if a: a.height = max(  self.get_height(a.left if a else None) , self.get_height(a.right if a else None)  ) + 1
+        
+        self.update_upstream(b)
+
+        return a
+    #------------------------------------------------------------------    
 
 #------------------------------------------------------------------------
 
