@@ -89,12 +89,17 @@ class BinaryTreeArray:
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def get_node_index(self,node):
-        if  node == None or \
-            node.parent < 0 or \
-            node.parent >= len(self.tree):
-            return None
-
+        
+        #-------
+        #base cases
+        if  node == None: return None
         if self.tree[0] == node: return 0
+        #-------
+
+        #Fail-safe
+        if  node.parent < 0 or \
+            node.parent >= len(self.tree):
+            return None        
 
         parent_left_child_idx = node.parent*2 + 1
         parent_right_child_idx = node.parent*2 + 2
@@ -168,29 +173,41 @@ class BinaryTreeArray:
         #-------
         # saving the reference variables
         b = node
-        a = self.get_left_n(b) if b is not None else None
-        y = self.get_right_n(a) if a is not None else None
+        a = self.get_left_n(b) 
+        y = self.get_right_n(a) 
         #-------
         # if(self.root == b): self.root = a
-        
-        
-        
-        if a: self.tree[ self.get_right_idx(a) ] = b
-        if b: self.tree[ self.get_left_idx(b)  ] = y
-        
-        ############## ended here ###################
 
+        a_right_idx = self.get_right_idx(a)
+        b_right_idx = self.get_left_idx(b)
+        if a: self.tree[ a_right_idx ] = b
+        if b: self.tree[ b_right_idx ] = y
+
+        
+        
+        a_idx = self.get_node_index(a)
+        b_idx = self.get_node_index(b)
         if a: a.parent = b.parent if b is not None else None
-        if b: b.parent = a 
-        if y: y.parent = b
+        if b: b.parent = a_idx
+        if y: y.parent = b_idx
 
-        if a != None and a.parent != None:
-            if a.parent.right == b : a.parent.right = a
-            elif a.parent.left == b : a.parent.left = a
+        
+        a_parent = self.get_parent_n(a)
+        if a != None and a_parent != None:
+            a_parent_right = self.get_right_n(a_parent)
+            a_parent_left = self.get_left_n(a_parent)
+            if a_parent_right == b : a_parent_right = a
+            elif a_parent_left == b : a_parent_left = a
             else: print ("Error - Cannot match parent with its child")
+
+        
+        b_left  = self.get_left_n(b)
+        b_right = self.get_right_n(b)
+        a_left  = self.get_left_n(a)
+        a_right = self.get_right_n(a)
     
-        if b: b.height = max(  self.get_height(b.left if b else None) , self.get_height(b.right if b else None)  ) + 1
-        if a: a.height = max(  self.get_height(a.left if a else None) , self.get_height(a.right if a else None)  ) + 1
+        if b: b.height = max(  self.get_height(b_left) , self.get_height(b_right)  ) + 1
+        if a: a.height = max(  self.get_height(a_left) , self.get_height(a_right)  ) + 1
         
         self.update_upstream(b)
 
@@ -597,7 +614,7 @@ class Test_BinaryTreeArray:
             node_height = i['node_height']
             expected_height = i['expected_height']
             assert node_height == expected_height
-    
+    #------------------------------------------------------------------
     #------------------------------------------------------------------
     def test_balance_factor_90_4_2_9_1_3_6_20_8_7(self):
         #arrange
@@ -620,18 +637,31 @@ class Test_BinaryTreeArray:
 
 
     #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_right_rotate_straight_50_40_30(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [50,40,30]
+        for i in numbers:
+            tree.insert(i)           
+    #------------------------------------------------------------------
     
 #------------------------------------------------------------------     
 
 
 tree = BinaryTreeArray()
-numbers = [90,4,2,9,1,3,6,20,8,7]
+numbers = [50,40,70,30,45,60,90]
 for i in numbers:
-    tree.insert(i)
-    
+    tree.insert(i)     
+
+print( tree.values_to_array()  )
+
+
+tree = BinaryTreeArray()
+numbers = [40,30,50,45,70,60,90]
 for i in numbers:
-    node = tree.lookup(i)
-    balance = tree.get_balance_factor(node)
-    print(f'node:{ node.value },\tbalance:{balance}')
-        
-        
+    tree.insert(i)     
+
+print( tree.values_to_array()  )
+
+
