@@ -56,8 +56,6 @@ class BinaryTreeArray:
             else: # by exclusion: must go to the right side
                 parent_idx = idx
                 idx = idx*2 + 2
-                
-        
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def lookup(self, value):
@@ -73,7 +71,6 @@ class BinaryTreeArray:
                 idx = idx*2 + 1
             else: # by exclusion: must go to the right side
                 idx = idx*2 + 2
-
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def values_to_array(self):
@@ -192,7 +189,6 @@ class BinaryTreeArray:
             
         #---
         return return_list 
-
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def get_subtree(self, node_idx):
