@@ -165,6 +165,36 @@ class BinaryTreeArray:
             return ( self.get_height(node_left) - self.get_height(node_right) )
     #------------------------------------------------------------------
     #------------------------------------------------------------------
+    def clear_subtree(self, node_idx):
+        num_elements = 1
+        num_to_skip = None
+        #---
+        current_list_len = len(self.tree)
+        return_list = []
+        #---
+        target_idx = node_idx
+        upper_limit = target_idx + num_elements
+        while target_idx < current_list_len: #we do not take the full range as it might be a problem if the tree is not full
+            if target_idx >= upper_limit:
+                num_elements *= 2
+                #---
+                if num_to_skip == None: 
+                    num_to_skip = node_idx
+                else: 
+                    num_to_skip *= 2
+                #---
+                target_idx += num_to_skip
+                upper_limit = target_idx + num_elements
+                continue
+            #---
+            self.tree[target_idx] = None
+            target_idx += 1
+            
+        #---
+        return return_list 
+
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
     def get_subtree(self, node_idx):
         num_elements = 1
         num_to_skip = None
@@ -210,6 +240,8 @@ class BinaryTreeArray:
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def insert_subtree(self, node_idx, subtree):
+        self.clear_subtree(node_idx)
+        #---
         num_elements = 1
         num_to_skip = None
         #---
@@ -218,6 +250,8 @@ class BinaryTreeArray:
         target_idx = node_idx
         upper_limit = target_idx + num_elements
         for i in subtree:
+            # while target_idx < current_list_len:
+                
             #---
             if target_idx >= current_list_len:
                 self.add_capacity()
@@ -233,15 +267,12 @@ class BinaryTreeArray:
                 #---
                 target_idx += num_to_skip
                 upper_limit = target_idx + num_elements
-                continue
+                # continue
             #---
 
             i.parent = self.get_parent_idx(target_idx)
             self.tree[target_idx] = i
             target_idx += 1
-
-
-
     #------------------------------------------------------------------   
     #------------------------------------------------------------------
     def right_rotate(self, node):
@@ -322,7 +353,14 @@ for i in numbers:
 
 print( tree.values_to_array()  )
 print('---------')
-node_idx = tree.get_node_index(tree.lookup(14))
-subtree = tree.get_subtree(node_idx)
+
+subtree = tree.get_subtree(5)
 array1 = tree.values_to_array_from_array(subtree)
 print(array1)
+
+tree.clear_subtree(5)
+print( tree.values_to_array()  )
+
+
+tree.insert_subtree(5,subtree)
+print( tree.values_to_array()  )
