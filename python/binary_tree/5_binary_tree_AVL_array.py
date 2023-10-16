@@ -82,6 +82,12 @@ class BinaryTreeArray:
         return return_obj
     #------------------------------------------------------------------
     #------------------------------------------------------------------
+    def values_to_array_from_array(self, array):
+        #i.value if i is not None else None
+        return_obj = [ i.value if i is not None else None for i in array]
+        return return_obj    
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
     def get_parent_n(self, node):
         if node == None or node.parent < 0 or node.parent >= len(self.tree) or\
             self.tree[0] == node  : return None
@@ -159,59 +165,37 @@ class BinaryTreeArray:
             return ( self.get_height(node_left) - self.get_height(node_right) )
     #------------------------------------------------------------------
     #------------------------------------------------------------------
-    def right_rotate(self, node):
-        # Algorithm explanation
-        #
-        #
-        #        B             A                               A
-        #     A    Z   -->   X   B                    -->    X   B
-        #   X   Y                  Z  (Y) not linked            Y Z 
-        #
-        # Preserved Links:  A(left) -> X  ,  B(right)-> Z
-        # New Links:        A(right)-> B  ,  B(left) -> Y
+    def get_subtree(self, node_idx):
+        num_elements = 1
+        num_to_skip = None
+        #---
+        current_list_len = len(self.tree)
+        return_list = []
+        #---
+        target_idx = node_idx
+        upper_limit = target_idx + num_elements
+        while target_idx < current_list_len: #we do not take the full range as it might be a problem if the tree is not full
+            if target_idx >= upper_limit:
+                num_elements *= 2
+                #---
+                if num_to_skip == None: 
+                    num_to_skip = node_idx
+                else: 
+                    num_to_skip *= 2
+                #---
+                target_idx += num_to_skip
+                upper_limit = target_idx + num_elements
+                continue
+            #---
+            return_list.append( self.tree[target_idx] )
+            target_idx += 1
+            
+        #---
+        return return_list 
+                    
 
-        #-------
-        # saving the reference variables
-        b = node
-        a = self.get_left_n(b) 
-        y = self.get_right_n(a) 
-        #-------
-        # if(self.root == b): self.root = a
 
-        a_right_idx = self.get_right_idx(a)
-        b_right_idx = self.get_left_idx(b)
-        if a: self.tree[ a_right_idx ] = b
-        if b: self.tree[ b_right_idx ] = y
 
-        
-        
-        a_idx = self.get_node_index(a)
-        b_idx = self.get_node_index(b)
-        if a: a.parent = b.parent if b is not None else None
-        if b: b.parent = a_idx
-        if y: y.parent = b_idx
-
-        
-        a_parent = self.get_parent_n(a)
-        if a != None and a_parent != None:
-            a_parent_right = self.get_right_n(a_parent)
-            a_parent_left = self.get_left_n(a_parent)
-            if a_parent_right == b : a_parent_right = a
-            elif a_parent_left == b : a_parent_left = a
-            else: print ("Error - Cannot match parent with its child")
-
-        
-        b_left  = self.get_left_n(b)
-        b_right = self.get_right_n(b)
-        a_left  = self.get_left_n(a)
-        a_right = self.get_right_n(a)
-    
-        if b: b.height = max(  self.get_height(b_left) , self.get_height(b_right)  ) + 1
-        if a: a.height = max(  self.get_height(a_left) , self.get_height(a_right)  ) + 1
-        
-        self.update_upstream(b)
-
-        return a
     #------------------------------------------------------------------    
 
 #------------------------------------------------------------------------
@@ -649,19 +633,43 @@ class Test_BinaryTreeArray:
 #------------------------------------------------------------------     
 
 
+# tree = BinaryTreeArray()
+# numbers = [50,40,70,30,45,60,90]
+# for i in numbers:
+#     tree.insert(i)     
+
+# print( tree.values_to_array()  )
+
+
+# tree = BinaryTreeArray()
+# numbers = [40,30,50,45,70,60,90]
+# for i in numbers:
+#     tree.insert(i)     
+
+# print( tree.values_to_array()  )
+
+#-------------------------------
+
+# tree = BinaryTreeArray()
+# numbers = [9,6,8,7]
+# for i in numbers:
+#     tree.insert(i)     
+
+# print( tree.values_to_array()  )
+
+
 tree = BinaryTreeArray()
-numbers = [50,40,70,30,45,60,90]
+numbers = [                                    46,  
+                                  28,                        74,  
+                                 14,34,                     56,91,  
+                              8,21,32,39,                52,62,87,94,
+                         6,9,17,25,31,33,37,41,   48,53,60,70,85,89,93,99]
 for i in numbers:
     tree.insert(i)     
 
 print( tree.values_to_array()  )
-
-
-tree = BinaryTreeArray()
-numbers = [40,30,50,45,70,60,90]
-for i in numbers:
-    tree.insert(i)     
-
-print( tree.values_to_array()  )
-
-
+print('---------')
+node_idx = tree.get_node_index(tree.lookup(34))
+subtree = tree.get_subtree(node_idx)
+array1 = tree.values_to_array_from_array(subtree)
+print(array1)
