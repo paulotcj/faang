@@ -296,7 +296,6 @@ class Test_BinaryTreeArray:
         #act
         for i in range(len(numbers)):
             assert numbers[i] == lookup_result[i]
-
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def test_lookup_none_must_be_found(self):
@@ -317,8 +316,6 @@ class Test_BinaryTreeArray:
         #assert
         for i in range(len(numbers_not_to_be_found)):
             assert lookup_results[i] == None
-
-
     #------------------------------------------------------------------
     #------------------------------------------------------------------        
     def test_lookup_9_4_2_9_1_3_6_20_8_7_all_must_be_found(self):
@@ -338,8 +335,6 @@ class Test_BinaryTreeArray:
         #assert
         for i in range(len(numbers)):
             assert numbers[i] == lookup_results[i]
-
-
     #------------------------------------------------------------------
     #------------------------------------------------------------------    
     def test_find_parents_9_4_2_9_1_3_6_20_8_7(self):
@@ -364,7 +359,6 @@ class Test_BinaryTreeArray:
         #assert
         for i in range(len(parents_result)):
             assert parents_result[i] == lookup_results[i]
-
     #------------------------------------------------------------------
     #------------------------------------------------------------------    
     def test_find_parents_none_must_be_found(self):
@@ -389,7 +383,6 @@ class Test_BinaryTreeArray:
         #assert
         for i in range(len(parents_result)):
             assert parents_result[i] == lookup_results[i]
-
     #------------------------------------------------------------------    
     #------------------------------------------------------------------             
     def test_find_parents_9_4_2_9_1_3_6_20_8_7_using_get_parent_n(self):
@@ -479,8 +472,6 @@ class Test_BinaryTreeArray:
         #assert
         for i in range(len(expected_result)):
             assert expected_result[i] == lookup_results[i]  
-           
- 
     #------------------------------------------------------------------ 
     #------------------------------------------------------------------   
     def test_find_right_children(self):
@@ -607,7 +598,7 @@ class Test_BinaryTreeArray:
         expected_results = [5, -2, 0, 2, 0, 0, -2, 0,  1, 0] 
         for i in numbers:
             tree.insert(i)
-        
+
         #act
         test_results = []
         for i in numbers:
@@ -618,18 +609,181 @@ class Test_BinaryTreeArray:
         #assert
         for i in range(len(expected_results)):
             assert expected_results[i] == test_results[i]
-
-
     #------------------------------------------------------------------
     #------------------------------------------------------------------
-    def test_right_rotate_straight_50_40_30(self):
+    def test_get_subtree_34(self):
         #arrange
         tree = BinaryTreeArray()
-        numbers = [50,40,30]
+        numbers = [                   46,  
+                          28,                            74,  
+                   14,           34,              56,            91,  
+                 8,   21,     32,    39,       52,    62,    87,    94,
+                6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99] 
+        
+        expected_results = [34, 32, 39, 31, 33, 37, 41]
+
         for i in numbers:
-            tree.insert(i)           
+            tree.insert(i)  
+
+        #act
+        node_idx = tree.get_node_index(tree.lookup(34))
+        subtree = tree.get_subtree(node_idx)
+        test_results = tree.values_to_array_from_array(subtree)
+
+        #assert
+        for i in range(len(expected_results)):
+            assert expected_results[i] == test_results[i]
     #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_get_subtree_28(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [                   46,  
+                          28,                            74,  
+                   14,           34,              56,            91,  
+                 8,   21,     32,    39,       52,    62,    87,    94,
+                6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99] 
+        
+        expected_results = [28, 14, 34, 8, 21, 32, 39, 6, 9, 17, 25, 31, 33, 37, 41]
+
+        for i in numbers:
+            tree.insert(i)  
+
+        #act
+        node_idx = tree.get_node_index(tree.lookup(28))
+        subtree = tree.get_subtree(node_idx)
+        test_results = tree.values_to_array_from_array(subtree)
+
+        #assert
+        for i in range(len(expected_results)):
+            assert expected_results[i] == test_results[i]
+    #------------------------------------------------------------------  
+    #------------------------------------------------------------------
+    def test_get_subtree_74(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [                   46,  
+                          28,                            74,  
+                   14,           34,              56,            91,  
+                 8,   21,     32,    39,       52,    62,    87,    94,
+                6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99] 
+        
+        expected_results = [74, 56, 91, 52, 62, 87, 94, 48, 53, 60, 70, 85, 89, 93, 99]
+
+        for i in numbers:
+            tree.insert(i)  
+
+        #act
+        node_idx = tree.get_node_index(tree.lookup(74))
+        subtree = tree.get_subtree(node_idx)
+        test_results = tree.values_to_array_from_array(subtree)
+
+        #assert
+        for i in range(len(expected_results)):
+            assert expected_results[i] == test_results[i]
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_get_subtree_56(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [                   46,  
+                          28,                            74,  
+                   14,           34,              56,            91,  
+                 8,   21,     32,    39,       52,    62,    87,    94,
+                6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99] 
+        
+        expected_results = [56, 52, 62, 48, 53, 60, 70]
+
+        for i in numbers:
+            tree.insert(i)  
+
+        #act
+        node_idx = tree.get_node_index(tree.lookup(56))
+        subtree = tree.get_subtree(node_idx)
+        test_results = tree.values_to_array_from_array(subtree)
+
+        #assert
+        for i in range(len(expected_results)):
+            assert expected_results[i] == test_results[i]
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_get_subtree_91(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [                   46,  
+                          28,                            74,  
+                   14,           34,              56,            91,  
+                 8,   21,     32,    39,       52,    62,    87,    94,
+                6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99] 
+        
+        expected_results = [91, 87, 94, 85, 89, 93, 99]
+
+        for i in numbers:
+            tree.insert(i)  
+
+        #act
+        node_idx = tree.get_node_index(tree.lookup(91))
+        subtree = tree.get_subtree(node_idx)
+        test_results = tree.values_to_array_from_array(subtree)
+
+        #assert
+        for i in range(len(expected_results)):
+            assert expected_results[i] == test_results[i]
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_get_subtree_14(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [                   46,  
+                          28,                            74,  
+                   14,           34,              56,            91,  
+                 8,   21,     32,    39,       52,    62,    87,    94,
+                6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99] 
+        
+        expected_results = [14, 8, 21, 6, 9, 17, 25]
+
+        for i in numbers:
+            tree.insert(i)  
+
+        #act
+        node_idx = tree.get_node_index(tree.lookup(14))
+        subtree = tree.get_subtree(node_idx)
+        test_results = tree.values_to_array_from_array(subtree)
+
+        #assert
+        for i in range(len(expected_results)):
+            assert expected_results[i] == test_results[i]
+    #------------------------------------------------------------------     
+    #------------------------------------------------------------------
+    def test_get_subtree_46(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [                   46,  
+                          28,                            74,  
+                   14,           34,              56,            91,  
+                 8,   21,     32,    39,       52,    62,    87,    94,
+                6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99] 
+        
+        expected_results = [              46,  
+                          28,                            74,  
+                   14,           34,              56,            91,  
+                 8,   21,     32,    39,       52,    62,    87,    94,
+                6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99] 
+
+        for i in numbers:
+            tree.insert(i)  
+
+        #act
+        node_idx = tree.get_node_index(tree.lookup(46))
+        subtree = tree.get_subtree(node_idx)
+        test_results = tree.values_to_array_from_array(subtree)
+
+        #assert
+        for i in range(len(expected_results)):
+            assert expected_results[i] == test_results[i]
+    #------------------------------------------------------------------        
     
+#end of Test_BinaryTreeArray
 #------------------------------------------------------------------     
 
 
@@ -659,17 +813,17 @@ class Test_BinaryTreeArray:
 
 
 tree = BinaryTreeArray()
-numbers = [                                    46,  
-                                  28,                        74,  
-                                 14,34,                     56,91,  
-                              8,21,32,39,                52,62,87,94,
-                         6,9,17,25,31,33,37,41,   48,53,60,70,85,89,93,99]
+numbers = [                               46,  
+                          28,                            74,  
+                   14,           34,              56,            91,  
+                 8,   21,     32,    39,       52,    62,    87,    94,
+                6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99] 
 for i in numbers:
     tree.insert(i)     
 
 print( tree.values_to_array()  )
 print('---------')
-node_idx = tree.get_node_index(tree.lookup(34))
+node_idx = tree.get_node_index(tree.lookup(14))
 subtree = tree.get_subtree(node_idx)
 array1 = tree.values_to_array_from_array(subtree)
 print(array1)
