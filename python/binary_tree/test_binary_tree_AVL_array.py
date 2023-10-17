@@ -703,7 +703,7 @@ class Test_BinaryTreeArray:
                 6,9, 17,25,  31,33, 37,41,   None,None, None,None,  85,89, 93,99]   
         
         #act
-        tree.clear_subtree(5)
+        tree.clear_subtree(tree.tree,5)
         test_result = tree.values_to_array()
 
         #assert
@@ -735,7 +735,7 @@ class Test_BinaryTreeArray:
                 6,9, 17,25,  31,33, 37,41,   None,None, None,None,  None,None, None,None] 
         
         #act
-        tree.clear_subtree(2)
+        tree.clear_subtree(tree.tree,2)
         test_result = tree.values_to_array()
 
         #assert
@@ -767,7 +767,7 @@ class Test_BinaryTreeArray:
                 6,9, 17,25,  31,33, 37,41,   None,None, 60,70,  85,89, 93,99] 
         
         #act
-        tree.clear_subtree(11)
+        tree.clear_subtree(tree.tree,11)
         test_result = tree.values_to_array()
 
         #assert
@@ -800,8 +800,9 @@ class Test_BinaryTreeArray:
 
         #act
         subtree = tree.get_subtree(4)
-        tree.clear_subtree(4)
-        tree.insert_subtree(4, subtree)
+        tree.clear_subtree(tree.tree,4)
+
+        tree.insert_subtree(from_subtree = subtree, to_subtree = tree.tree, to_subtree_idx = 4)
         test_result = tree.values_to_array()
 
         #assert
@@ -843,10 +844,10 @@ class Test_BinaryTreeArray:
 
 
         #act
-        subtree = tree.get_subtree(4)
-        tree.clear_subtree(4)
+        # subtree = tree.get_subtree(4)
+        tree.clear_subtree(tree.tree,4)
         
-        tree.insert_subtree(4, subtree_to_be_inserted)
+        tree.insert_subtree(from_subtree = subtree_to_be_inserted, to_subtree = tree.tree, to_subtree_idx = 4)
         test_result = tree.values_to_array()
 
         #assert
@@ -904,9 +905,9 @@ class Test_BinaryTreeArray:
 
         #act
         subtree = tree.get_subtree(4)
-        tree.clear_subtree(4)
+        tree.clear_subtree(tree.tree,4)
         
-        tree.insert_subtree(4, subtree_to_be_inserted)
+        tree.insert_subtree(from_subtree = subtree_to_be_inserted, to_subtree = tree.tree, to_subtree_idx = 4)
 
 
         #assert

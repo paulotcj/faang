@@ -180,21 +180,21 @@ class BinaryTreeArray:
             return ( self.get_height(node_left) - self.get_height(node_right) )
     #------------------------------------------------------------------
     #------------------------------------------------------------------
-    def clear_subtree(self, node_idx):
+    def clear_subtree(self, subtree, subtree_idx):
         num_elements = 1
         num_to_skip = None
         #---
-        current_list_len = len(self.tree)
+        current_list_len = len(subtree)
         return_list = []
         #---
-        target_idx = node_idx
+        target_idx = subtree_idx
         upper_limit = target_idx + num_elements
         while target_idx < current_list_len: #we do not take the full range as it might be a problem if the tree is not full
             if target_idx >= upper_limit:
                 num_elements *= 2
                 #---
                 if num_to_skip == None: 
-                    num_to_skip = node_idx
+                    num_to_skip = subtree_idx
                 else: 
                     num_to_skip *= 2
                 #---
@@ -202,7 +202,7 @@ class BinaryTreeArray:
                 upper_limit = target_idx + num_elements
                 continue
             #---
-            self.tree[target_idx] = None
+            subtree[target_idx] = None
             target_idx += 1
             
         #---
@@ -253,29 +253,65 @@ class BinaryTreeArray:
         return parent_index
     #------------------------------------------------------------------
     #------------------------------------------------------------------
-    def insert_subtree(self, node_idx, subtree):
-        self.clear_subtree(node_idx)
+    # def insert_subtree(self, node_idx, subtree):
+    #     self.clear_subtree(self.tree,node_idx)
+    #     #---
+    #     num_elements = 1
+    #     num_to_skip = None
+    #     #---
+    #     current_list_len = len(self.tree)
+    #     #---
+    #     target_idx = node_idx
+    #     upper_limit = target_idx + num_elements
+    #     for i in subtree:
+    #         # while target_idx < current_list_len:
+                
+    #         #---
+    #         if target_idx >= current_list_len:
+    #             self.add_capacity()
+    #             current_list_len = len(self.tree)
+    #         #---
+    #         if target_idx >= upper_limit:
+    #             num_elements *= 2
+    #             #---
+    #             if num_to_skip == None: 
+    #                 num_to_skip = node_idx
+    #             else: 
+    #                 num_to_skip *= 2
+    #             #---
+    #             target_idx += num_to_skip
+    #             upper_limit = target_idx + num_elements
+    #             # continue
+    #         #---
+
+    #         i.parent = self.get_parent_idx(target_idx)
+    #         self.tree[target_idx] = i
+    #         target_idx += 1
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def insert_subtree(self, from_subtree, to_subtree, to_subtree_idx):
+        self.clear_subtree(to_subtree,to_subtree_idx)
         #---
         num_elements = 1
         num_to_skip = None
         #---
-        current_list_len = len(self.tree)
+        current_list_len = len(to_subtree)
         #---
-        target_idx = node_idx
+        target_idx = to_subtree_idx
         upper_limit = target_idx + num_elements
-        for i in subtree:
+        for i in from_subtree:
             # while target_idx < current_list_len:
                 
             #---
             if target_idx >= current_list_len:
                 self.add_capacity()
-                current_list_len = len(self.tree)
+                current_list_len = len(to_subtree)
             #---
             if target_idx >= upper_limit:
                 num_elements *= 2
                 #---
                 if num_to_skip == None: 
-                    num_to_skip = node_idx
+                    num_to_skip = to_subtree_idx
                 else: 
                     num_to_skip *= 2
                 #---
@@ -285,12 +321,8 @@ class BinaryTreeArray:
             #---
 
             i.parent = self.get_parent_idx(target_idx)
-            self.tree[target_idx] = i
+            to_subtree[target_idx] = i
             target_idx += 1
-    #------------------------------------------------------------------
-    #------------------------------------------------------------------
-    def insert_subtree_into_subtree(self, from_subtree, to_subtree, to_subtree_idx):
-        pass
     #------------------------------------------------------------------   
     #------------------------------------------------------------------
     def right_rotate(self, node):
@@ -326,12 +358,20 @@ class BinaryTreeArray:
         #              | 0  | 1  | 2  | 3  | 4  | 5  | 6  |
         temp_subtree = [None,None,None,None,None,None,None]
 
+        #0
         temp_subtree[0] = a
-        self.insert_subtree(1,temp_subtree)
+        #1
+        self.insert_subtree(from_subtree = subtree_x, to_subtree = temp_subtree, to_subtree_idx=1)
+        #2
+        temp_subtree[2] = b
+        #3 - No action
+        #4 - No action
+        #5
+        self.insert_subtree(from_subtree = subtree_y, to_subtree = temp_subtree, to_subtree_idx=5)
+        #6
+        self.insert_subtree(from_subtree = subtree_z, to_subtree = temp_subtree, to_subtree_idx=6)
 
 
-
-        pass
     #------------------------------------------------------------------
 #------------------------------------------------------------------------
 
