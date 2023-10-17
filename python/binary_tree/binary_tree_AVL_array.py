@@ -280,6 +280,41 @@ class BinaryTreeArray:
             target_idx += 1
     #------------------------------------------------------------------   
     #------------------------------------------------------------------
+    def trim_tree(self, subtree):
+        from math import log2
+        initial_capacity = len(subtree)
+        level = int(log2(initial_capacity+1))
+
+        if (level-1) < 0: return
+
+        target_capacity = int(2 ** (level-1) -1)
+
+
+
+
+
+
+        pass   
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def trim_to_last_non_none_level(input_list):
+        # Find the index of the last non-None element
+        last_non_none_index = None
+        
+        for i in range(len(input_list) - 1, -1, -1):
+            if input_list[i] is not None:
+                last_non_none_index = i
+                break
+
+        # If all elements are None, return an empty list
+        if last_non_none_index is None:
+            return []
+
+        # Slice the list up to the last non-None element
+        trimmed_list = input_list[:last_non_none_index + 1]
+        return trimmed_list    
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
     def right_rotate(self, idx):
         # Algorithm explanation
         #
