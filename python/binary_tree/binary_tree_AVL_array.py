@@ -18,17 +18,35 @@ class BinaryTreeArray:
     def add_capacity(self):
         # print('----------------')
         # print(f'Adding capacity   - current capacity: {self.capacity},\tlevel:{self.level}')
-        initial_capacity = self.capacity
+        
+        initial_capacity = len(self.tree)
         self.level += 1
-        self.capacity = 2 ** self.level + self.capacity
+        target_capacity = 2 ** self.level + self.capacity
 
-        loop_range = self.capacity - initial_capacity
+        loop_range = target_capacity - initial_capacity
         for _ in range(loop_range):
             self.tree.append(None)
+
+        self.capacity = len(self.tree)
 
         # print(f'Capacity expanded - current capacity: {self.capacity},\tlevel:{self.level},\tnew slots added:{self.capacity - initial_capacity}')
         # print('----------------')
     #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def add_capacity_to_subtree(self, subtree):
+        from math import log2
+
+        if subtree == None: return
+
+        initial_capacity = len(subtree)
+        level = log2(initial_capacity+1)
+
+        target_capacity = int(2 ** level + len(subtree))
+
+        loop_range = target_capacity - initial_capacity
+        for _ in range(loop_range):
+            subtree.append(None)
+    #------------------------------------------------------------------    
     #------------------------------------------------------------------
     def insert(self, value):
         # print(f'adding: {value}')
@@ -162,7 +180,7 @@ class BinaryTreeArray:
             return ( self.get_height(node_left) - self.get_height(node_right) )
     #------------------------------------------------------------------
     #------------------------------------------------------------------
-    def clear_subtree(self, node_idx):
+    def clear_subtree(self, subtree, node_idx):
         num_elements = 1
         num_to_skip = None
         #---
@@ -269,11 +287,14 @@ class BinaryTreeArray:
             i.parent = self.get_parent_idx(target_idx)
             self.tree[target_idx] = i
             target_idx += 1
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def insert_subtree_into_subtree(self, from_subtree, to_subtree, to_subtree_idx):
+        pass
     #------------------------------------------------------------------   
     #------------------------------------------------------------------
     def right_rotate(self, node):
         # Algorithm explanation
-        #
         #
         #        B             A                               A
         #     A    Z   -->   X   B                    -->    X   B
@@ -281,25 +302,35 @@ class BinaryTreeArray:
         #
         # Nodes: A, B
         # Substree: X, Y, Z
-
-        #---
+        #-------------------------------------------------------------------
+        #                              0,
+        #               1,                           2,
+        #       3,             4,              5,           6,
+        #    7,     8,     9,    10,       11,    12,    13,   14
+        #  15,16, 17,18, 19,20, 21,22,   23,24, 25,26, 27,28, 29,30             
+        #--------------------------------------------------------------------
+        # |0| 1|2| 3|4| 5|6|...   -> |0| 1|2| 3|4| 5|6|...
+        # |B| A|Z| X|Y| -|-|...   -> |A| X|B| -|-| Y|Z|...
+        #
+        #
         b = node
         b_idx = self.get_node_index(b)
-        # B part
-        a = self.get_left_n(b) #left
-        z = self.get_right_n(b) #right
-        a_idx = self.get_node_index(a)
-        z_idx = self.get_node_index(z)
-        # A part
-        x = self.get_left_n(a) #left
-        y = self.get_right_n(a) #right
-        x_idx = self.get_node_index(x)
-        y_idx = self.get_node_index(y)
-        # Subtrees
-        subtree_x = self.get_subtree(x_idx)
-        subtree_y = self.get_subtree(y_idx)
-        subtree_z = self.get_subtree(z_idx)
-        #---
+        a = self.get_left_n(b)
+
+        subtree_z = self.get_subtree( self.get_right_idx(b)  )
+
+        subtree_x = self.get_subtree( self.get_left_idx(a)   )
+        subtree_y = self.get_subtree( self.get_right_idx(a)  )
+        #--------------
+
+        #              | 0  | 1  | 2  | 3  | 4  | 5  | 6  |
+        temp_subtree = [None,None,None,None,None,None,None]
+
+        temp_subtree[0] = a
+        self.insert_subtree(1,temp_subtree)
+
+
+
         pass
     #------------------------------------------------------------------
 #------------------------------------------------------------------------
@@ -336,27 +367,66 @@ class BinaryTreeArray:
         #    7,     8,     9,    10,       11,    12,    13,   14
         #  15,16, 17,18, 19,20, 21,22,   23,24, 25,26, 27,28, 29,30   
 
+# tree = BinaryTreeArray()
+# numbers = [                               46,  
+#                           28,                            74,  
+#                    14,           34,              56,            91,  
+#                  8,   21,     32,    39,       52,    62,    87,    94,
+#                 6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99] 
+# for i in numbers:
+#     tree.insert(i)  
+
+# # print(f'parent at zero: parent: {tree.tree[0].value}, {tree.tree[0].parent}')   
+
+# print( tree.values_to_array()  )
+# print('---------')
+
+# subtree = tree.get_subtree(5)
+# array1 = tree.values_to_array_from_array(subtree)
+# print(array1)
+
+# tree.clear_subtree(5)
+# print( tree.values_to_array()  )
+
+
+# tree.insert_subtree(5,subtree)
+# print( tree.values_to_array()  )
+
+
+#-------------------------------
+
 tree = BinaryTreeArray()
-numbers = [                               46,  
-                          28,                            74,  
-                   14,           34,              56,            91,  
-                 8,   21,     32,    39,       52,    62,    87,    94,
-                6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99] 
-for i in numbers:
-    tree.insert(i)  
+subtree = []
 
-# print(f'parent at zero: parent: {tree.tree[0].value}, {tree.tree[0].parent}')   
-
-print( tree.values_to_array()  )
-print('---------')
-
-subtree = tree.get_subtree(5)
-array1 = tree.values_to_array_from_array(subtree)
-print(array1)
-
-tree.clear_subtree(5)
-print( tree.values_to_array()  )
-
-
-tree.insert_subtree(5,subtree)
-print( tree.values_to_array()  )
+print('----------------')
+tree.add_capacity_to_subtree(subtree)
+print(subtree)
+print(len(subtree))
+print('----------------')
+tree.add_capacity_to_subtree(subtree)
+print(subtree)
+print(len(subtree))
+print('----------------')
+tree.add_capacity_to_subtree(subtree)
+print(subtree)
+print(len(subtree))
+print('----------------')
+tree.add_capacity_to_subtree(subtree)
+print(subtree)
+print(len(subtree))
+print('----------------')
+tree.add_capacity_to_subtree(subtree)
+print(subtree)
+print(len(subtree))
+print('----------------')
+tree.add_capacity_to_subtree(subtree)
+print(subtree)
+print(len(subtree))
+print('----------------')
+tree.add_capacity_to_subtree(subtree)
+print(subtree)
+print(len(subtree))
+print('----------------')
+tree.add_capacity_to_subtree(subtree)
+print(subtree)
+print(len(subtree))

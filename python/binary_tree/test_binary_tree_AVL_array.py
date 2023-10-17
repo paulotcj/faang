@@ -2,6 +2,7 @@ from binary_tree_AVL_array import BinaryTreeArray, Node
 
 #------------------------------------------------------------------------
 class Test_BinaryTreeArray:
+    #------------------------------------------------------------------
     def test_capacity_1(self):
         #arrange
         tree = BinaryTreeArray()
@@ -51,6 +52,26 @@ class Test_BinaryTreeArray:
         assert expected_capacity == tree.capacity
         assert expected_level == tree.level        
     #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_add_capacity_subtree_1(self):
+        #arrange
+        tree = BinaryTreeArray()
+        subtree = []
+        expected_results = [1,3,7,15,31,63,127,255,511,1023,2047]
+        test_results = []
+
+        #act
+        for i in range(len(expected_results)):
+            tree.add_capacity_to_subtree(subtree)
+            test_results.append(len(subtree))
+
+        #assert
+        for i in range(len(expected_results)):
+            assert expected_results[i] == test_results[i]
+
+        
+    #------------------------------------------------------------------
+
     #------------------------------------------------------------------
     def test_tree_insert_1_2_3_4_5(self):
         #arrange
@@ -886,7 +907,7 @@ class Test_BinaryTreeArray:
         tree.clear_subtree(4)
         
         tree.insert_subtree(4, subtree_to_be_inserted)
-        test_result = tree.values_to_array()
+
 
         #assert
         for i in range(len(expected_result)):
