@@ -12,7 +12,7 @@ class BinaryTreeArray:
         self.tree = []
         self.count = 0
         self.level = -1
-        self.capacity = 0
+        # self.capacity = 0
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def add_capacity(self):
@@ -27,7 +27,7 @@ class BinaryTreeArray:
         for _ in range(loop_range):
             self.tree.append(None)
 
-        self.capacity = len(self.tree)
+        # self.capacity = len(self.tree)
 
 
     #------------------------------------------------------------------
@@ -49,12 +49,12 @@ class BinaryTreeArray:
     #------------------------------------------------------------------
     def insert(self, value):
         # print(f'adding: {value}')
-        if self.count + 1 > self.capacity: self.add_capacity()
+        if self.count + 1 > len(self.tree): self.add_capacity()
 
         parent_idx = 0
         idx = 0
         while True:
-            if idx+1 > self.capacity:
+            if idx+1 > len(self.tree):
                 self.add_capacity()
 
 
@@ -78,7 +78,7 @@ class BinaryTreeArray:
     def lookup(self, value):
         idx = 0
         while True:
-            if idx+1 > self.capacity or self.tree[idx] == None:
+            if idx+1 > len(self.tree) or self.tree[idx] == None:
                 print('Item not found')
                 return None
             

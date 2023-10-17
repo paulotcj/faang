@@ -16,7 +16,7 @@ class Test_BinaryTreeArray:
         expected_capacity = 1 #Level 0 = 2^0 + previous_capacity = 2^0 + 0 = 1
         
 
-        assert expected_capacity == tree.capacity
+        assert expected_capacity == len(tree.tree)
         assert expected_level == measured_level
     #------------------------------------------------------------------
     #------------------------------------------------------------------
@@ -32,7 +32,7 @@ class Test_BinaryTreeArray:
         expected_capacity = 7 #Level 2 = 2^2 + previous_capacity = 2^2 + 3 = 4 + 3 = 7
         
 
-        assert expected_capacity == tree.capacity
+        assert expected_capacity == len(tree.tree)
         assert expected_level == tree.level
     #------------------------------------------------------------------
     #------------------------------------------------------------------
@@ -49,7 +49,7 @@ class Test_BinaryTreeArray:
         expected_capacity = 15 #Level 3 = 2^3 + previous_capacity = 2^3 + 7 = 8 + 7 = 15
         
 
-        assert expected_capacity == tree.capacity
+        assert expected_capacity == len(tree.tree)
         assert expected_level == tree.level        
     #------------------------------------------------------------------
     #------------------------------------------------------------------
