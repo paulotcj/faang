@@ -15,22 +15,22 @@ class BinaryTreeArray:
         self.capacity = 0
     #------------------------------------------------------------------
     #------------------------------------------------------------------
-    def add_capacity(self):
-        # print('----------------')
-        # print(f'Adding capacity   - current capacity: {self.capacity},\tlevel:{self.level}')
+    # def add_capacity(self):
+    #     # print('----------------')
+    #     # print(f'Adding capacity   - current capacity: {self.capacity},\tlevel:{self.level}')
         
-        initial_capacity = len(self.tree)
-        self.level += 1
-        target_capacity = 2 ** self.level + self.capacity
+    #     initial_capacity = len(self.tree)
+    #     self.level += 1
+    #     target_capacity = 2 ** self.level + self.capacity
 
-        loop_range = target_capacity - initial_capacity
-        for _ in range(loop_range):
-            self.tree.append(None)
+    #     loop_range = target_capacity - initial_capacity
+    #     for _ in range(loop_range):
+    #         self.tree.append(None)
 
-        self.capacity = len(self.tree)
+    #     self.capacity = len(self.tree)
 
-        # print(f'Capacity expanded - current capacity: {self.capacity},\tlevel:{self.level},\tnew slots added:{self.capacity - initial_capacity}')
-        # print('----------------')
+    #     # print(f'Capacity expanded - current capacity: {self.capacity},\tlevel:{self.level},\tnew slots added:{self.capacity - initial_capacity}')
+    #     # print('----------------')
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def add_capacity_to_subtree(self, subtree):
@@ -253,40 +253,6 @@ class BinaryTreeArray:
         return parent_index
     #------------------------------------------------------------------
     #------------------------------------------------------------------
-    # def insert_subtree(self, node_idx, subtree):
-    #     self.clear_subtree(self.tree,node_idx)
-    #     #---
-    #     num_elements = 1
-    #     num_to_skip = None
-    #     #---
-    #     current_list_len = len(self.tree)
-    #     #---
-    #     target_idx = node_idx
-    #     upper_limit = target_idx + num_elements
-    #     for i in subtree:
-    #         # while target_idx < current_list_len:
-                
-    #         #---
-    #         if target_idx >= current_list_len:
-    #             self.add_capacity()
-    #             current_list_len = len(self.tree)
-    #         #---
-    #         if target_idx >= upper_limit:
-    #             num_elements *= 2
-    #             #---
-    #             if num_to_skip == None: 
-    #                 num_to_skip = node_idx
-    #             else: 
-    #                 num_to_skip *= 2
-    #             #---
-    #             target_idx += num_to_skip
-    #             upper_limit = target_idx + num_elements
-    #             # continue
-    #         #---
-
-    #         i.parent = self.get_parent_idx(target_idx)
-    #         self.tree[target_idx] = i
-    #         target_idx += 1
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def insert_subtree(self, from_subtree, to_subtree, to_subtree_idx):
@@ -304,8 +270,9 @@ class BinaryTreeArray:
                 
             #---
             if target_idx >= current_list_len:
-                self.add_capacity()
-                current_list_len = len(to_subtree)
+                while current_list_len <= target_idx:
+                    self.add_capacity()
+                    current_list_len = len(to_subtree)
             #---
             if target_idx >= upper_limit:
                 num_elements *= 2
@@ -320,12 +287,13 @@ class BinaryTreeArray:
                 # continue
             #---
 
-            i.parent = self.get_parent_idx(target_idx)
+            if i :  i.parent = self.get_parent_idx(target_idx)
+
             to_subtree[target_idx] = i
             target_idx += 1
     #------------------------------------------------------------------   
     #------------------------------------------------------------------
-    def right_rotate(self, node):
+    def right_rotate(self, idx):
         # Algorithm explanation
         #
         #        B             A                               A
@@ -345,8 +313,9 @@ class BinaryTreeArray:
         # |B| A|Z| X|Y| -|-|...   -> |A| X|B| -|-| Y|Z|...
         #
         #
-        b = node
-        b_idx = self.get_node_index(b)
+        
+        b_idx = idx
+        b = self.tree[b_idx]        
         a = self.get_left_n(b)
 
         subtree_z = self.get_subtree( self.get_right_idx(b)  )
@@ -435,38 +404,14 @@ class BinaryTreeArray:
 
 #-------------------------------
 
-tree = BinaryTreeArray()
-subtree = []
+# tree = BinaryTreeArray()
+# numbers = [ 90 , 4, 2,]
+# for i in numbers:
+#     tree.insert(i)
 
-print('----------------')
-tree.add_capacity_to_subtree(subtree)
-print(subtree)
-print(len(subtree))
-print('----------------')
-tree.add_capacity_to_subtree(subtree)
-print(subtree)
-print(len(subtree))
-print('----------------')
-tree.add_capacity_to_subtree(subtree)
-print(subtree)
-print(len(subtree))
-print('----------------')
-tree.add_capacity_to_subtree(subtree)
-print(subtree)
-print(len(subtree))
-print('----------------')
-tree.add_capacity_to_subtree(subtree)
-print(subtree)
-print(len(subtree))
-print('----------------')
-tree.add_capacity_to_subtree(subtree)
-print(subtree)
-print(len(subtree))
-print('----------------')
-tree.add_capacity_to_subtree(subtree)
-print(subtree)
-print(len(subtree))
-print('----------------')
-tree.add_capacity_to_subtree(subtree)
-print(subtree)
-print(len(subtree))
+# print(tree.values_to_array())   
+
+# tree.right_rotate(0)
+
+# print(tree.values_to_array())   
+

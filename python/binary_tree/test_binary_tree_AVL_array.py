@@ -68,10 +68,7 @@ class Test_BinaryTreeArray:
         #assert
         for i in range(len(expected_results)):
             assert expected_results[i] == test_results[i]
-
-        
     #------------------------------------------------------------------
-
     #------------------------------------------------------------------
     def test_tree_insert_1_2_3_4_5(self):
         #arrange
