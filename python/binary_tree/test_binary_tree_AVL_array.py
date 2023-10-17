@@ -831,7 +831,70 @@ class Test_BinaryTreeArray:
         #assert
         for i in range(len(expected_result)):
             assert expected_result[i] == test_result[i]                
-    #------------------------------------------------------------------       
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------ 
+    def test_insert_subtree_4_2_check_parents(self):
+        #                              0,
+        #               1,                           2,
+        #       3,             4,              5,           6,
+        #    7,     8,     9,    10,       11,    12,    13,   14
+        #  15,16, 17,18, 19,20, 21,22,   23,24, 25,26, 27,28, 29,30          
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [                       46,  
+                          28,                            74,  
+                   14,           34,              56,            91,  
+                 8,   21,     32,    39,       52,    62,    87,    94,
+                6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99] 
+
+        for i in numbers:
+            tree.insert(i) 
+
+        #---
+        array_to_be_inserted = [0,  1,2,   3,4,5,6]
+        subtree_to_be_inserted = []
+        for i in array_to_be_inserted:
+            temp = Node(i)
+            subtree_to_be_inserted.append(temp)   
+        #---       
+
+        # expected_result = [               46,  
+        #                   28,                            74,  
+        #            14,           0,              56,            91,  
+        #          8,   21,     1,    2,       52,    62,    87,    94,
+        #         6,9, 17,25,  3,4,    5,6,   48,53, 60,70,  85,89, 93,99]   
+
+        expected_result = [
+            {'idx':1, 'parent_idx':0},
+
+            {'idx':4, 'parent_idx':1},
+            
+            {'idx':9, 'parent_idx':4},
+            {'idx':10, 'parent_idx':4},
+            
+            {'idx':19, 'parent_idx':9},
+            {'idx':20, 'parent_idx':9},
+
+            {'idx':21, 'parent_idx':10},
+            {'idx':22, 'parent_idx':10},
+        ]
+
+
+
+        #act
+        subtree = tree.get_subtree(4)
+        tree.clear_subtree(4)
+        
+        tree.insert_subtree(4, subtree_to_be_inserted)
+        test_result = tree.values_to_array()
+
+        #assert
+        for i in range(len(expected_result)):
+            idx = expected_result[i]['idx']
+            parent_idx = expected_result[i]['parent_idx']
+
+            assert tree.tree[idx].parent == parent_idx
+    #------------------------------------------------------------------     
     
 #end of Test_BinaryTreeArray
 #------------------------------------------------------------------     
