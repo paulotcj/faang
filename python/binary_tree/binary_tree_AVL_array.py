@@ -258,7 +258,7 @@ class BinaryTreeArray:
             #---
             if target_idx >= current_list_len:
                 while current_list_len <= target_idx:
-                    self.add_capacity()
+                    self.add_capacity_to_subtree(to_subtree)
                     current_list_len = len(to_subtree)
             #---
             if target_idx >= upper_limit:
@@ -327,6 +327,9 @@ class BinaryTreeArray:
         #6
         self.insert_subtree(from_subtree = subtree_z, to_subtree = temp_subtree, to_subtree_idx=6)
 
+        #----
+        self.insert_subtree(from_subtree = temp_subtree, to_subtree = self.tree, to_subtree_idx=idx)
+
 
     #------------------------------------------------------------------
 #------------------------------------------------------------------------
@@ -391,14 +394,14 @@ class BinaryTreeArray:
 
 #-------------------------------
 
-# tree = BinaryTreeArray()
-# numbers = [ 90 , 4, 2,]
-# for i in numbers:
-#     tree.insert(i)
+tree = BinaryTreeArray()
+numbers = [ 90 , 4, 2,]
+for i in numbers:
+    tree.insert(i)
 
-# print(tree.values_to_array())   
+print(tree.values_to_array())   
 
-# tree.right_rotate(0)
+tree.right_rotate(0)
 
-# print(tree.values_to_array())   
+print(tree.values_to_array())   
 
