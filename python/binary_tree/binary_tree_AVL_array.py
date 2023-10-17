@@ -180,7 +180,7 @@ class BinaryTreeArray:
             return ( self.get_height(node_left) - self.get_height(node_right) )
     #------------------------------------------------------------------
     #------------------------------------------------------------------
-    def clear_subtree(self, subtree, node_idx):
+    def clear_subtree(self, node_idx):
         num_elements = 1
         num_to_skip = None
         #---
