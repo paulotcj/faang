@@ -11,25 +11,12 @@ class BinaryTreeArray:
     def __init__(self):
         self.tree = []
         self.count = 0
-        self.level = -1
-        # self.capacity = 0
+        self.level = 0
+
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def add_capacity(self):
-        from math import log2
-
-        initial_capacity = len(self.tree)
-        self.level = int(log2(initial_capacity+1))
-
-        target_capacity = int(2 ** self.level + len(self.tree))
-
-        loop_range = target_capacity - initial_capacity
-        for _ in range(loop_range):
-            self.tree.append(None)
-
-        # self.capacity = len(self.tree)
-
-
+        self.add_capacity_to_subtree(self.tree)
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def add_capacity_to_subtree(self, subtree):
@@ -39,6 +26,7 @@ class BinaryTreeArray:
 
         initial_capacity = len(subtree)
         level = int(log2(initial_capacity+1))
+        self.level = level
 
         target_capacity = int(2 ** level + len(subtree))
 
