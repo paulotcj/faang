@@ -1155,8 +1155,181 @@ class Test_BinaryTreeArray:
         for i in range(len(expected_result)):
             temp = subtree[i].value if subtree[i] else None
             assert temp == expected_result[i]
-    #------------------------------------------------------------------ 
     #------------------------------------------------------------------
+    def test_left_rotate_simple_1(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [50,60,70]
+        for i in numbers:
+            tree.insert(i)
+
+        expected_result = [60, 50, 70]
+        #act
+        tree.left_rotate(0)
+
+        #assert
+        for i in range(len(expected_result)):
+            assert tree.tree[i].value == expected_result[i]  
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_left_rotate_simple_2(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [50,60,70,80]
+        for i in numbers:
+            tree.insert(i)
+
+        expected_result = [60, 50, 70, None, None, None, 80]
+        #act
+        tree.left_rotate(0)
+
+        #assert
+        for i in range(len(expected_result)):
+            temp = tree.tree[i].value if tree.tree[i] else None
+            assert temp == expected_result[i]  
+    #------------------------------------------------------------------    
+    #------------------------------------------------------------------
+    def test_left_rotate_simple_3(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [50,60,70,80]
+        for i in numbers:
+            tree.insert(i)
+
+        expected_result = [50, None, 70, None, None, 60, 80]
+        target_idx = 2
+        #act
+        tree.left_rotate(target_idx)
+
+        #assert
+        for i in range(len(expected_result)):
+            temp = tree.tree[i].value if tree.tree[i] else None
+            assert temp == expected_result[i]  
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_left_rotate_1(self):
+        #                              0,
+        #               1,                           2,
+        #        3,            4,              5,           6,
+        #    7,     8,     9,    10,       11,    12,    13,   14
+        #  15,16, 17,18, 19,20, 21,22,   23,24, 25,26, 27,28, 29,30                  
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [                               
+                                      46,  
+                     28,                              74,  
+               14,            34,              56,           91,  
+             8,   21,     32,    39,       52,    62,    87,    94,
+            6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99
+        ] 
+        for i in numbers:
+            tree.insert(i)
+        target_idx = 14
+        expected_result = [99, 94, None, 93, None, None, None]
+
+
+        #act
+        tree.left_rotate(target_idx)
+        subtree = tree.get_subtree(target_idx)
+
+        #assert
+        for i in range(len(expected_result)):
+            temp = subtree[i].value if subtree[i] else None
+            assert temp == expected_result[i]
+    #------------------------------------------------------------------  
+    #------------------------------------------------------------------
+    def test_left_rotate_2(self):
+        #                              0,
+        #               1,                           2,
+        #        3,            4,              5,           6,
+        #    7,     8,     9,    10,       11,    12,    13,   14
+        #  15,16, 17,18, 19,20, 21,22,   23,24, 25,26, 27,28, 29,30                  
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [                               
+                                      46,  
+                     28,                              74,  
+               14,            34,              56,           91,  
+             8,   21,     32,    39,       52,    62,    87,    94,
+            6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99
+        ] 
+        for i in numbers:
+            tree.insert(i)
+        target_idx = 10
+        expected_result = [41, 39, None, 37, None, None, None]
+
+
+        #act
+        tree.left_rotate(target_idx)
+        subtree = tree.get_subtree(target_idx)
+
+        #assert
+        for i in range(len(expected_result)):
+            temp = subtree[i].value if subtree[i] else None
+            assert temp == expected_result[i]
+    #------------------------------------------------------------------      
+    #------------------------------------------------------------------
+    def test_left_rotate_3(self):
+        #                              0,
+        #               1,                           2,
+        #        3,            4,              5,           6,
+        #    7,     8,     9,    10,       11,    12,    13,   14
+        #  15,16, 17,18, 19,20, 21,22,   23,24, 25,26, 27,28, 29,30                  
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [                               
+                                      46,  
+                     28,                              74,  
+               14,            34,              56,           91,  
+             8,   21,     32,    39,       52,    62,    87,    94,
+            6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99
+        ] 
+        for i in numbers:
+            tree.insert(i)
+        target_idx = 23
+        expected_result = [48]
+
+
+        #act
+        tree.left_rotate(target_idx)
+        subtree = tree.get_subtree(target_idx)
+
+        #assert
+        for i in range(len(expected_result)):
+            temp = subtree[i].value if subtree[i] else None
+            assert temp == expected_result[i]
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_left_rotate_4(self):
+        #                              0,
+        #               1,                           2,
+        #        3,            4,              5,           6,
+        #    7,     8,     9,    10,       11,    12,    13,   14
+        #  15,16, 17,18, 19,20, 21,22,   23,24, 25,26, 27,28, 29,30                  
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [                               
+                                      46,  
+                     28,                              74,  
+               14,            34,              56,           91,  
+             8,   21,     32,    39,       52,    62,    87,    94,
+            6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99
+        ] 
+        for i in numbers:
+            tree.insert(i)
+        target_idx = 2
+        expected_result = [91, 74, 94, 56, 87, 93, 99, 52, 62, 85, 89, None, None, None, None, 48, 53, 60, 70, None, None, None, None, None, None, None, None, None, None, None, None]
+
+
+        #act
+        tree.left_rotate(target_idx)
+        subtree = tree.get_subtree(target_idx)
+
+        #assert
+        for i in range(len(expected_result)):
+            temp = subtree[i].value if subtree[i] else None
+            assert temp == expected_result[i]
+    #------------------------------------------------------------------  
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     #------------------------------------------------------------------

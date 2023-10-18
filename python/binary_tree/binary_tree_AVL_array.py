@@ -457,54 +457,7 @@ class BinaryTreeArray:
 
 
 
-#-------------------------------
-# tree = BinaryTreeArray()
-# numbers = [                               46,  
-#                           28,                            74,  
-#                    14,           34,              56,            91,  
-#                 #  8,   21,     32,    39,       52,    62,    87,    94,
-#                 # 6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99
-# ] 
-# for i in numbers:
-#     tree.insert(i)
 
-# tree.add_capacity()
-# tree.add_capacity()
-# print(tree.values_to_array())
-# tree.trim_tree(tree.tree)
-# print(tree.values_to_array())
-
-# tree = BinaryTreeArray()
-
-# numbers = [9,8,7,6]
-# for i in numbers:
-#     tree.insert(i)
-# print(tree.values_to_array())
-# # [9, 
-# #  8, None, 
-# #  7, None, None, None, 
-# #  6, None, None, None, None, None, None, None]
-
-# tree.right_rotate(0)
-# print(tree.values_to_array())
-
-#---------------------------------
-# tree = BinaryTreeArray()
-
-# numbers = [1,2,3,4]
-# for i in numbers:
-#     tree.insert(i)
-# print(tree.values_to_array())
-# # [                         1, 
-# #            None,                      2, 
-# #    None,         None,         None,         3, 
-# #  None, None,   None, None,  None, None,   None, 4]
-
-# tree.left_rotate(2)
-# print(tree.values_to_array())
-# # [     1, 
-# #     None,      3, 
-# #  None, None,  2, 4]
 
 
 # tree = BinaryTreeArray()
@@ -522,25 +475,29 @@ class BinaryTreeArray:
 # print(tree.values_to_array())
 
 
-#------------------------------------
-        #                              0,
-        #               1,                           2,
-        #        3,            4,              5,           6,
-        #    7,     8,     9,    10,       11,    12,    13,   14
-        #  15,16, 17,18, 19,20, 21,22,   23,24, 25,26, 27,28, 29,30     
-tree = BinaryTreeArray()
-numbers = [                               
-                                 46,  
-                 28,                            74,  
-          14,           34,              56,            91,  
-        8,   21,     32,    39,       52,    62,    87,    94,
-       6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99
-] 
-for i in numbers:
-    tree.insert(i)
-target_idx = 2
-tree.right_rotate(target_idx)
-print(tree.values_to_array())
+# #------------------------------------
+#         #                              0,
+#         #               1,                           2,
+#         #        3,            4,              5,           6,
+#         #    7,     8,     9,    10,       11,    12,    13,   14
+#         #  15,16, 17,18, 19,20, 21,22,   23,24, 25,26, 27,28, 29,30     
+# tree = BinaryTreeArray()
+# numbers = [                               
+#                                  46,  
+#                  28,                            74,  
+#           14,           34,              56,            91,  
+#         8,   21,     32,    39,       52,    62,    87,    94,
+#        6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99
+# ] 
+# for i in numbers:
+#     tree.insert(i)
 
-subtree = tree.get_subtree(target_idx)
-print(tree.values_to_array_from_array(subtree))
+# target_idx = 2
+# tree.left_rotate(target_idx)
+# print(tree.values_to_array())
+
+# subtree = tree.get_subtree(target_idx)
+# print(tree.values_to_array_from_array(subtree))
+
+
+
