@@ -449,8 +449,9 @@ class BinaryTreeArray:
         self.insert_subtree(from_subtree = temp_subtree, to_subtree = self.tree, to_subtree_idx=idx)
         self.trim_tree(self.tree)
     #------------------------------------------------------------------
-    def check_tree_unbalanced(self, node):
-        
+    def check_node_unbalanced(self, node):
+        if node == None: return None
+
         balance = self.get_balance_factor(node)
         if balance >= 2: #LEFT SIDE too heavy
             return -1 #left side
@@ -458,8 +459,6 @@ class BinaryTreeArray:
             return 1 #right side
         else: #balanced
             return 0
-
-
     #------------------------------------------------------------------
     def insert_avl(self,value):
         node = self.insert(value)
@@ -469,33 +468,33 @@ class BinaryTreeArray:
     #------------------------------------------------------------------
     def balance_avl(self, node):
         temp = node
-        temp_parent = self.get_parent_n(temp)
+        # temp_parent = self.get_parent_n(temp)
 
-        while temp and temp_parent:
+        # while temp and temp_parent:
+        while temp:
 
-            balance = self.get_balance_factor(temp_parent)
+            check_for_heavy_side = self.check_node_unbalanced(temp)
 
-            if balance >= 2: #LEFT SIDE too heavy
+            if check_for_heavy_side == -1: #LEFT SIDE too heavy
                 print('LEFT SIDE too heavy')
 
-                # actual logic disabled for testing - start
-                # if temp.left:
-                #     temp  = self.right_rotate(parent)
-                # else:
-                #     self.left_rotate(temp)
-                #     # self.print()
-                #     temp = temp.parent
-                #     self.right_rotate(parent)
-                #     # self.print()
-                # actual logic disabled for testing - end
+                
+                if temp.left:
+                    temp  = self.right_rotate(parent)
+                else:
+                    self.left_rotate(temp)
+                    # self.print()
+                    temp = temp.parent
+                    self.right_rotate(parent)
+                    # self.print()
+                
 
-
-            elif balance <= -2: #RIGHT SIDE too heavy
+            elif check_for_heavy_side == 1: #RIGHT SIDE too heavy
                 print('RIGHT SIDE too heavy')
 
 
 
-                # actual logic disabled for testing - start
+
                 # if temp.right:
                 #     self.left_rotate(parent)
                 # else:
@@ -503,11 +502,14 @@ class BinaryTreeArray:
 
                 #     temp = temp.parent
                 #     self.left_rotate(parent)
-                # actual logic disabled for testing - end
+
+
+            else: #balanced
+                pass
 
 
             temp = self.tree[temp.parent] if temp and temp.parent else None
-            temp_parent = self.tree[temp.parent] if temp and temp.parent else None
+            # temp_parent = self.tree[temp.parent] if temp and temp.parent else None
         # end of while loop
         #----------------------------
     #------------------------------------------------------------------
@@ -559,4 +561,16 @@ class BinaryTreeArray:
 # print(tree.values_to_array_from_array(subtree))
 
 
+tree = BinaryTreeArray()
+numbers = [90,80,70,60]
+for i in numbers:
+    tree.insert(i)
 
+print(tree.values_to_array())
+
+result = tree.check_node_unbalanced(tree.tree[1])
+if result == 0 : result = "Balanced"
+elif result == -1 : result = "Left side too heavy"
+elif result == 1 : result = "Right side too heavy"
+else: result = "Error"
+print(result)

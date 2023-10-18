@@ -1329,8 +1329,70 @@ class Test_BinaryTreeArray:
         for i in range(len(expected_result)):
             temp = subtree[i].value if subtree[i] else None
             assert temp == expected_result[i]
-    #------------------------------------------------------------------  
     #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_check_node_unbalanced_using_straig_left(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [90,80,70,60]
+        for i in numbers:
+            tree.insert(i)
+
+        expected_result = [ 
+            {'idx':7, 'result':0},
+            {'idx':3, 'result':0},
+            {'idx':1, 'result':-1},
+            {'idx':0, 'result':-1},
+        ]
+        test_result = []
+
+        #act
+        for i in expected_result:
+            idx = i['idx']
+            temp = tree.check_node_unbalanced(tree.tree[idx])
+            test_result.append( {'idx':idx, 'result': temp} )
+
+        #assert     
+        for i in range(len(expected_result)):
+            e_idx = expected_result[i]['idx']
+            t_idx = test_result[i]['idx']
+            e_result = expected_result[i]['result']
+            t_result = test_result[i]['result']
+
+            assert e_idx == t_idx
+            assert e_result == t_result
+    #------------------------------------------------------------------         
+    #------------------------------------------------------------------
+    def test_check_node_unbalanced_using_straig_right(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [60,70,80,90]
+        for i in numbers:
+            tree.insert(i)
+
+        expected_result = [ 
+            {'idx':14, 'result':0},
+            {'idx':6, 'result':0},
+            {'idx':2, 'result':1},
+            {'idx':0, 'result':1},
+        ]
+        test_result = []
+
+        #act
+        for i in expected_result:
+            idx = i['idx']
+            temp = tree.check_node_unbalanced(tree.tree[idx])
+            test_result.append( {'idx':idx, 'result': temp} )
+
+        #assert     
+        for i in range(len(expected_result)):
+            e_idx = expected_result[i]['idx']
+            t_idx = test_result[i]['idx']
+            e_result = expected_result[i]['result']
+            t_result = test_result[i]['result']
+
+            assert e_idx == t_idx
+            assert e_result == t_result
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     #------------------------------------------------------------------
