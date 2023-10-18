@@ -340,8 +340,6 @@ class BinaryTreeArray:
         while self.__is_level_empty(tree,level):
             self.__clean_tree_level(tree,level)
             level -= 1
-
- 
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def right_rotate(self, idx):
@@ -396,7 +394,6 @@ class BinaryTreeArray:
         #----
         self.insert_subtree(from_subtree = temp_subtree, to_subtree = self.tree, to_subtree_idx=idx)
         self.trim_tree(self.tree)
-
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def left_rotate(self, idx):
@@ -452,6 +449,17 @@ class BinaryTreeArray:
         self.insert_subtree(from_subtree = temp_subtree, to_subtree = self.tree, to_subtree_idx=idx)
         self.trim_tree(self.tree)
     #------------------------------------------------------------------
+    def check_tree_unbalanced(self, node):
+        
+        balance = self.get_balance_factor(node)
+        if balance >= 2: #LEFT SIDE too heavy
+            return -1 #left side
+        elif balance <= -2: #RIGHT SIDE too heavy
+            return 1 #right side
+        else: #balanced
+            return 0
+
+
     #------------------------------------------------------------------
     def insert_avl(self,value):
         node = self.insert(value)
