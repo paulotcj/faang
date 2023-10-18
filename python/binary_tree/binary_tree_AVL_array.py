@@ -119,6 +119,8 @@ class BinaryTreeArray:
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def get_left_idx(self,node):
+        if node == None: return None
+
         node_idx = self.get_node_index(node)
         node_left_idx = node_idx*2 + 1
         if node_left_idx < node_idx or node_left_idx >= len(self.tree): return None
@@ -132,6 +134,8 @@ class BinaryTreeArray:
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def get_right_idx(self,node):
+        if node == None: return None
+
         node_idx = self.get_node_index(node)
         node_right_idx = node_idx*2 + 2
         if node_right_idx < node_idx or node_right_idx >= len(self.tree): return None
@@ -197,6 +201,8 @@ class BinaryTreeArray:
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def get_subtree(self, node_idx):
+        if node_idx == None or node_idx < 0 or node_idx >= len(self.tree): return None
+
         num_elements = 1
         num_to_skip = None
         #---
@@ -243,6 +249,12 @@ class BinaryTreeArray:
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def insert_subtree(self, from_subtree, to_subtree, to_subtree_idx):
+        if from_subtree == None or \
+            to_subtree == None or \
+            not from_subtree or \
+            to_subtree_idx >= len(to_subtree): 
+                return
+
         self.clear_subtree(to_subtree,to_subtree_idx)
         #---
         num_elements = 1
@@ -356,6 +368,8 @@ class BinaryTreeArray:
         b_idx = idx
         b = self.tree[b_idx]        
         a = self.get_left_n(b)
+
+        if a == None: return
 
         subtree_z = self.get_subtree( self.get_right_idx(b)  )
 
@@ -512,19 +526,19 @@ class BinaryTreeArray:
         #        3,            4,              5,           6,
         #    7,     8,     9,    10,       11,    12,    13,   14
         #  15,16, 17,18, 19,20, 21,22,   23,24, 25,26, 27,28, 29,30     
-# tree = BinaryTreeArray()
-# numbers = [                               
-#                                  46,  
-#                  28,                            74,  
-#           14,           34,              56,            91,  
-#         8,   21,     32,    39,       52,    62,    87,    94,
-#        6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99
-# ] 
-# for i in numbers:
-#     tree.insert(i)
+tree = BinaryTreeArray()
+numbers = [                               
+                                 46,  
+                 28,                            74,  
+          14,           34,              56,            91,  
+        8,   21,     32,    39,       52,    62,    87,    94,
+       6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99
+] 
+for i in numbers:
+    tree.insert(i)
 
-# tree.right_rotate(8)
-# print(tree.values_to_array())
+tree.right_rotate(5)
+print(tree.values_to_array())
 
-# subtree = tree.get_subtree(8)
-# print(tree.values_to_array_from_array(subtree))
+subtree = tree.get_subtree(5)
+print(tree.values_to_array_from_array(subtree))
