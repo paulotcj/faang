@@ -246,8 +246,6 @@ class BinaryTreeArray:
         return parent_index
     #------------------------------------------------------------------
     #------------------------------------------------------------------
-    #------------------------------------------------------------------
-    #------------------------------------------------------------------
     def insert_subtree(self, from_subtree, to_subtree, to_subtree_idx):
         if from_subtree == None or \
             to_subtree == None or \
@@ -393,6 +391,7 @@ class BinaryTreeArray:
 
         #----
         self.insert_subtree(from_subtree = temp_subtree, to_subtree = self.tree, to_subtree_idx=idx)
+        self.update_height_upstream(b)
         self.trim_tree(self.tree)
     #------------------------------------------------------------------
     #------------------------------------------------------------------
@@ -447,6 +446,7 @@ class BinaryTreeArray:
 
         #----
         self.insert_subtree(from_subtree = temp_subtree, to_subtree = self.tree, to_subtree_idx=idx)
+        self.update_height_upstream(a)
         self.trim_tree(self.tree)
     #------------------------------------------------------------------
     def check_node_unbalanced(self, node):
@@ -472,43 +472,64 @@ class BinaryTreeArray:
 
         # while temp and temp_parent:
         while temp:
+            print(f"processing: {temp.value}")
 
             check_for_heavy_side = self.check_node_unbalanced(temp)
 
             if check_for_heavy_side == -1: #LEFT SIDE too heavy
                 print('LEFT SIDE too heavy')
+                # This could be:
+                #      A             A
+                #    B      OR     B
+                #  C                C
+                
+                a = temp
+                a_idx = self.get_node_index(a)
+                b = self.get_right_n(a)
+                b_idx = self.get_node_index(b)
+                c_right = self.get_right_n(b)
+                c_left = self.get_left_n(b)
+
+                if c_right:
+                    self.left_rotate(b_idx)
+                
+                self.right_rotate(a_idx)
 
                 
-                if temp.left:
-                    temp  = self.right_rotate(parent)
-                else:
-                    self.left_rotate(temp)
-                    # self.print()
-                    temp = temp.parent
-                    self.right_rotate(parent)
-                    # self.print()
-                
-
             elif check_for_heavy_side == 1: #RIGHT SIDE too heavy
                 print('RIGHT SIDE too heavy')
 
+                # This could be:
+                #  A             A
+                #    B      OR     B
+                #      C          C
+
+                a = temp
+                a_idx = self.get_node_index(a)
+                b = self.get_right_n(a)
+                b_idx = self.get_node_index(b)
+                # c_right = self.get_right_n(b)
+                c_left = self.get_left_n(b)
 
 
+                if c_left:
+                    self.right_rotate(b_idx)
 
-                # if temp.right:
-                #     self.left_rotate(parent)
-                # else:
-                #     self.right_rotate(temp)
 
-                #     temp = temp.parent
-                #     self.left_rotate(parent)
+                self.left_rotate(a_idx)
+
 
 
             else: #balanced
-                pass
+                print('BALANCED')
+
+            if temp.parent != None and temp.parent >= 0 and temp.parent < len(self.tree) and \
+            tree.tree[0] != temp: 
+                temp = self.tree[temp.parent]
+            else:
+                temp = None
 
 
-            temp = self.tree[temp.parent] if temp and temp.parent else None
             # temp_parent = self.tree[temp.parent] if temp and temp.parent else None
         # end of while loop
         #----------------------------
@@ -562,15 +583,14 @@ class BinaryTreeArray:
 
 
 tree = BinaryTreeArray()
-numbers = [90,80,70,60]
+numbers = [9,6,8,7]
 for i in numbers:
     tree.insert(i)
 
 print(tree.values_to_array())
+node = tree.lookup(7)
+tree.balance_avl(node)
 
-result = tree.check_node_unbalanced(tree.tree[1])
-if result == 0 : result = "Balanced"
-elif result == -1 : result = "Left side too heavy"
-elif result == 1 : result = "Right side too heavy"
-else: result = "Error"
-print(result)
+print(tree.values_to_array())   
+
+ 
