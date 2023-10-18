@@ -285,11 +285,12 @@ class BinaryTreeArray:
     #------------------------------------------------------------------   
     #------------------------------------------------------------------
     def __all_empty(self,subtree,from_idx, to_idx):
+        
 
         if from_idx < 0 or from_idx >= len(subtree): return
         if to_idx < 0 or to_idx >= len(subtree): return
 
-        for i in range(from_idx, to_idx):
+        for i in range(from_idx, to_idx+1):
             if subtree[i] != None:
                 return False
 
@@ -383,6 +384,58 @@ class BinaryTreeArray:
         self.trim_tree(self.tree)
 
     #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def left_rotate(self, idx):
+        # Algorithm explanation
+        #
+        #      A                B                              B
+        #    X   B    --->    A   Z                  --->    A   Z
+        # 	    Y Z          X       (Y) not linked         X Y    
+        #
+        # Nodes: A, B
+        # Substree: X, Y, Z
+        #-------------------------------------------------------------------
+        #                              0,
+        #               1,                           2,
+        #       3,             4,              5,           6,
+        #    7,     8,     9,    10,       11,    12,    13,   14
+        #  15,16, 17,18, 19,20, 21,22,   23,24, 25,26, 27,28, 29,30             
+        #--------------------------------------------------------------------
+        # |0| 1|2| 3|4| 5|6|...   -> |0| 1|2| 3|4| 5|6|...
+        # |A| X|B|  | | Y|Z|...   -> |B| A|Z| X|Y|  | |...
+        #
+
+        a_idx = idx
+        a = self.tree[a_idx]
+        b = self.get_right_n(a)
+       
+        subtree_x = self.get_subtree( self.get_left_idx(a)  )
+        subtree_y = self.get_subtree( self.get_left_idx(b)  )
+        subtree_z = self.get_subtree( self.get_right_idx(b) )
+
+        #--------------
+
+        #              | 0  | 1  | 2  | 3  | 4  | 5  | 6  |
+        temp_subtree = [None,None,None,None,None,None,None]  
+        #---
+        #0
+        temp_subtree[0] = b
+        #1
+        temp_subtree[1] = a
+        #2
+        self.insert_subtree(from_subtree = subtree_z, to_subtree = temp_subtree, to_subtree_idx=2)
+        #3
+        self.insert_subtree(from_subtree = subtree_x, to_subtree = temp_subtree, to_subtree_idx=3)
+        #4
+        self.insert_subtree(from_subtree = subtree_y, to_subtree = temp_subtree, to_subtree_idx=4)
+        #5 - No action
+        #6 - No action
+
+
+        #----
+        self.insert_subtree(from_subtree = temp_subtree, to_subtree = self.tree, to_subtree_idx=idx)
+        self.trim_tree(self.tree)
+    #------------------------------------------------------------------
 #------------------------------------------------------------------------
 
 
@@ -405,16 +458,49 @@ class BinaryTreeArray:
 # tree.trim_tree(tree.tree)
 # print(tree.values_to_array())
 
+# tree = BinaryTreeArray()
+
+# numbers = [9,8,7,6]
+# for i in numbers:
+#     tree.insert(i)
+# print(tree.values_to_array())
+# # [9, 
+# #  8, None, 
+# #  7, None, None, None, 
+# #  6, None, None, None, None, None, None, None]
+
+# tree.right_rotate(0)
+# print(tree.values_to_array())
+
+#---------------------------------
+# tree = BinaryTreeArray()
+
+# numbers = [1,2,3,4]
+# for i in numbers:
+#     tree.insert(i)
+# print(tree.values_to_array())
+# # [                         1, 
+# #            None,                      2, 
+# #    None,         None,         None,         3, 
+# #  None, None,   None, None,  None, None,   None, 4]
+
+# tree.left_rotate(2)
+# print(tree.values_to_array())
+# # [     1, 
+# #     None,      3, 
+# #  None, None,  2, 4]
+
+
 tree = BinaryTreeArray()
 
-numbers = [9,8,7,6]
+numbers = [1,2,3,4]
 for i in numbers:
     tree.insert(i)
 print(tree.values_to_array())
-# [9, 
-#  8, None, 
-#  7, None, None, None, 
-#  6, None, None, None, None, None, None, None]
+# [                         1, 
+#            None,                      2, 
+#    None,         None,         None,         3, 
+#  None, None,   None, None,  None, None,   None, 4]
 
-tree.right_rotate(0)
+tree.left_rotate(0)
 print(tree.values_to_array())

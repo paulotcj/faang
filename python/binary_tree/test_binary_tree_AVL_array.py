@@ -925,7 +925,9 @@ class Test_BinaryTreeArray:
         for i in numbers:
             tree.insert(i)
 
-        expected_result = [46, 28, 74, 14, 34, 56, 91]
+        expected_result = [46, 
+                           28, 74, 
+                           14, 34, 56, 91]
 
         #act
         tree.add_capacity()
