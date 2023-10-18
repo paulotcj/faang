@@ -422,6 +422,8 @@ class BinaryTreeArray:
         a_idx = idx
         a = self.tree[a_idx]
         b = self.get_right_n(a)
+	
+        if b == None: return
        
         subtree_x = self.get_subtree( self.get_left_idx(a)  )
         subtree_y = self.get_subtree( self.get_left_idx(b)  )
@@ -536,9 +538,9 @@ numbers = [
 ] 
 for i in numbers:
     tree.insert(i)
-
-tree.right_rotate(5)
+target_idx = 2
+tree.right_rotate(target_idx)
 print(tree.values_to_array())
 
-subtree = tree.get_subtree(5)
+subtree = tree.get_subtree(target_idx)
 print(tree.values_to_array_from_array(subtree))
