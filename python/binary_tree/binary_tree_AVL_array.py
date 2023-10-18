@@ -452,6 +452,57 @@ class BinaryTreeArray:
         self.insert_subtree(from_subtree = temp_subtree, to_subtree = self.tree, to_subtree_idx=idx)
         self.trim_tree(self.tree)
     #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def insert_avl(self,value):
+        node = self.insert(value)
+        if node.parent == None: return node
+        self.balance_avl(node)
+    #------------------------------------------------------------------        
+    #------------------------------------------------------------------
+    def balance_avl(self, node):
+        temp = node
+        temp_parent = self.get_parent_n(temp)
+
+        while temp and temp_parent:
+
+            balance = self.get_balance_factor(temp_parent)
+
+            if balance >= 2: #LEFT SIDE too heavy
+                print('LEFT SIDE too heavy')
+
+                # actual logic disabled for testing - start
+                # if temp.left:
+                #     temp  = self.right_rotate(parent)
+                # else:
+                #     self.left_rotate(temp)
+                #     # self.print()
+                #     temp = temp.parent
+                #     self.right_rotate(parent)
+                #     # self.print()
+                # actual logic disabled for testing - end
+
+
+            elif balance <= -2: #RIGHT SIDE too heavy
+                print('RIGHT SIDE too heavy')
+
+
+
+                # actual logic disabled for testing - start
+                # if temp.right:
+                #     self.left_rotate(parent)
+                # else:
+                #     self.right_rotate(temp)
+
+                #     temp = temp.parent
+                #     self.left_rotate(parent)
+                # actual logic disabled for testing - end
+
+
+            temp = self.tree[temp.parent] if temp and temp.parent else None
+            temp_parent = self.tree[temp.parent] if temp and temp.parent else None
+        # end of while loop
+        #----------------------------
+    #------------------------------------------------------------------
 #------------------------------------------------------------------------
 
 
