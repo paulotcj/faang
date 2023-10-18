@@ -255,11 +255,8 @@ class BinaryTreeArray:
         for i in from_subtree:
             # while target_idx < current_list_len:
                 
-            #---
-            if target_idx >= current_list_len:
-                while current_list_len <= target_idx:
-                    self.add_capacity_to_subtree(to_subtree)
-                    current_list_len = len(to_subtree)
+
+
             #---
             if target_idx >= upper_limit:
                 num_elements *= 2
@@ -273,6 +270,13 @@ class BinaryTreeArray:
                 upper_limit = target_idx + num_elements
                 # continue
             #---
+            if target_idx >= (current_list_len-1):
+                while target_idx >= (current_list_len-1):
+                    self.add_capacity_to_subtree(to_subtree)
+                    current_list_len = len(to_subtree)
+            #---
+            # if target_idx == 15:
+            #     print('here')            
 
             if i :  i.parent = self.get_parent_idx(target_idx)
 
@@ -280,39 +284,51 @@ class BinaryTreeArray:
             target_idx += 1
     #------------------------------------------------------------------   
     #------------------------------------------------------------------
-    def trim_tree(self, subtree):
+    def __all_empty(self,subtree,from_idx, to_idx):
+
+        if from_idx < 0 or from_idx >= len(subtree): return
+        if to_idx < 0 or to_idx >= len(subtree): return
+
+        for i in range(from_idx, to_idx):
+            if subtree[i] != None:
+                return False
+
+        return True
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def __is_level_empty(self,subtree,level):
+        from_idx = 2**(level-1) - 1
+        to_idx = (2**level - 1) - 1
+
+        return self.__all_empty(subtree,from_idx,to_idx)
+    #------------------------------------------------------------------    
+    #------------------------------------------------------------------
+    def __clean_tree_level(self,tree,level):
+        from_idx = (2**(level-1) - 1) - 1 #the loop needs to be adjusted by - 1
+        to_idx =   (2**level - 1) - 1 #the loop needs to be adjusted by - 1
+
+        for i in range(to_idx,from_idx , -1):
+            tree.pop(i)
+    #------------------------------------------------------------------    
+    #------------------------------------------------------------------
+    def trim_tree(self,tree):
         from math import log2
-        initial_capacity = len(subtree)
-        level = int(log2(initial_capacity+1))
 
-        if (level-1) < 0: return
+        level = int(log2(len(tree)+1))
+        list_capacity = len(tree)
 
-        target_capacity = int(2 ** (level-1) -1)
+        #---
+        expected_capacity = (2**level - 1)
+        if list_capacity != expected_capacity: 
+            print(f'Error: List capacity is {list_capacity}, and expected capacity is {expected_capacity}')
+            return
+        #---
 
+        while self.__is_level_empty(tree,level):
+            self.__clean_tree_level(tree,level)
+            level -= 1
 
-
-
-
-
-        pass   
-    #------------------------------------------------------------------
-    #------------------------------------------------------------------
-    def trim_to_last_non_none_level(input_list):
-        # Find the index of the last non-None element
-        last_non_none_index = None
-        
-        for i in range(len(input_list) - 1, -1, -1):
-            if input_list[i] is not None:
-                last_non_none_index = i
-                break
-
-        # If all elements are None, return an empty list
-        if last_non_none_index is None:
-            return []
-
-        # Slice the list up to the last non-None element
-        trimmed_list = input_list[:last_non_none_index + 1]
-        return trimmed_list    
+ 
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def right_rotate(self, idx):
@@ -364,79 +380,41 @@ class BinaryTreeArray:
 
         #----
         self.insert_subtree(from_subtree = temp_subtree, to_subtree = self.tree, to_subtree_idx=idx)
-
+        self.trim_tree(self.tree)
 
     #------------------------------------------------------------------
 #------------------------------------------------------------------------
 
 
 
-# tree = BinaryTreeArray()
-# numbers = [50,40,70,30,45,60,90]
-# for i in numbers:
-#     tree.insert(i)     
-
-# print( tree.values_to_array()  )
-
-
-# tree = BinaryTreeArray()
-# numbers = [40,30,50,45,70,60,90]
-# for i in numbers:
-#     tree.insert(i)     
-
-# print( tree.values_to_array()  )
 
 #-------------------------------
-
-# tree = BinaryTreeArray()
-# numbers = [9,6,8,7]
-# for i in numbers:
-#     tree.insert(i)     
-
-# print( tree.values_to_array()  )
-
-        #                              0,
-        #               1,                           2,
-        #       3,             4,              5,           6,
-        #    7,     8,     9,    10,       11,    12,    13,   14
-        #  15,16, 17,18, 19,20, 21,22,   23,24, 25,26, 27,28, 29,30   
-
 # tree = BinaryTreeArray()
 # numbers = [                               46,  
 #                           28,                            74,  
 #                    14,           34,              56,            91,  
-#                  8,   21,     32,    39,       52,    62,    87,    94,
-#                 6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99] 
+#                 #  8,   21,     32,    39,       52,    62,    87,    94,
+#                 # 6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99
+# ] 
 # for i in numbers:
-#     tree.insert(i)  
+#     tree.insert(i)
 
-# # print(f'parent at zero: parent: {tree.tree[0].value}, {tree.tree[0].parent}')   
-
-# print( tree.values_to_array()  )
-# print('---------')
-
-# subtree = tree.get_subtree(5)
-# array1 = tree.values_to_array_from_array(subtree)
-# print(array1)
-
-# tree.clear_subtree(5)
-# print( tree.values_to_array()  )
-
-
-# tree.insert_subtree(5,subtree)
-# print( tree.values_to_array()  )
-
-
-#-------------------------------
+# tree.add_capacity()
+# tree.add_capacity()
+# print(tree.values_to_array())
+# tree.trim_tree(tree.tree)
+# print(tree.values_to_array())
 
 tree = BinaryTreeArray()
-numbers = [ 90 , 4, 2,]
+
+numbers = [9,8,7,6]
 for i in numbers:
     tree.insert(i)
-
-print(tree.values_to_array())   
+print(tree.values_to_array())
+# [9, 
+#  8, None, 
+#  7, None, None, None, 
+#  6, None, None, None, None, None, None, None]
 
 tree.right_rotate(0)
-
-print(tree.values_to_array())   
-
+print(tree.values_to_array())

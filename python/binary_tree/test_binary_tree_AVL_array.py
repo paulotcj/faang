@@ -913,7 +913,107 @@ class Test_BinaryTreeArray:
             parent_idx = expected_result[i]['parent_idx']
 
             assert tree.tree[idx].parent == parent_idx
-    #------------------------------------------------------------------     
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_trim_1(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [                     46,  
+                          28,                            74,  
+                   14,           34,              56,            91,  
+        ] 
+        for i in numbers:
+            tree.insert(i)
+
+        expected_result = [46, 28, 74, 14, 34, 56, 91]
+
+        #act
+        tree.add_capacity()
+        tree.add_capacity()
+        tree.trim_tree(tree.tree)
+
+        #assert
+        assert len(tree.tree) == len(expected_result)
+        for i in range(len(expected_result)):
+            assert tree.tree[i].value == expected_result[i]
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_right_rotate_simple_1(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [9,4,2]
+        for i in numbers:
+            tree.insert(i)
+
+        expected_result = [4,2,9]
+        #act
+        tree.right_rotate(0)
+
+        #assert
+        for i in range(len(expected_result)):
+            assert tree.tree[i].value == expected_result[i]
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_right_rotate_simple_2(self):
+        #arrange
+        tree = BinaryTreeArray()
+        #             9
+        #       8            *
+        #   7      *      *     *
+        # 6  *    * *    * *   * *
+
+        numbers = [9,8,7,6]
+        for i in numbers:
+            tree.insert(i)
+
+        expected_result = [    9,
+                            7,    None,
+                           6,8, None,None]
+
+        #act
+        tree.right_rotate(1)
+
+        #assert
+        for i in range(len(expected_result)):
+            temp = tree.tree[i].value if tree.tree[i] else None
+            assert temp == expected_result[i]
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_right_rotate_simple_3(self):
+        #arrange
+        tree = BinaryTreeArray()
+        #             9
+        #       8            *
+        #   7      *      *     *
+        # 6  *    * *    * *   * *
+
+        numbers = [9,8,7,6]
+        for i in numbers:
+            tree.insert(i)
+
+        expected_result = [         8, 
+                             7,            9, 
+                           6, None,    None, None]
+
+        #act
+        tree.right_rotate(0)
+
+        #assert
+        for i in range(len(expected_result)):
+            temp = tree.tree[i].value if tree.tree[i] else None
+            assert temp == expected_result[i]
+    #------------------------------------------------------------------      
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------  
     
 #end of Test_BinaryTreeArray
 #------------------------------------------------------------------     
