@@ -52,6 +52,7 @@ class BinaryTreeArray:
                 self.tree[idx] = new_node
                 self.count +=1 
                 self.update_height_upstream(new_node)
+                return new_node
                 break
 
             elif value < self.tree[idx].value: #must go to the left side
@@ -461,24 +462,23 @@ class BinaryTreeArray:
             return 0
     #------------------------------------------------------------------
     def insert_avl(self,value):
-        node = self.insert(value)
-        if node.parent == None: return node
-        self.balance_avl(node)
+        new_node = self.insert(value)
+        self.balance_avl(new_node)
     #------------------------------------------------------------------        
     #------------------------------------------------------------------
     def balance_avl(self, node):
         temp = node
 
-        print(self.values_to_array())
+        # print(self.values_to_array())
 
 
         while temp:
-            print(f"processing: {temp.value}")
+            # print(f"processing: {temp.value}")
 
             check_for_heavy_side = self.check_node_unbalanced(temp)
 
             if check_for_heavy_side == -1: #LEFT SIDE too heavy
-                print('LEFT SIDE too heavy')
+                # print('LEFT SIDE too heavy')
                 # This could be:
                 #      A             A
                 #    B      OR     B
@@ -496,11 +496,19 @@ class BinaryTreeArray:
                 
                 self.right_rotate(a_idx)
 
-                print(self.values_to_array())
+                # print('----')
+                # debug_tree = self.get_subtree(a_idx)
+                # array_debug = self.values_to_array_from_array(debug_tree)
+                # print(f'    {array_debug}')
+                # print('----')
+
+                # print(self.values_to_array())
+
+                continue
 
                 
             elif check_for_heavy_side == 1: #RIGHT SIDE too heavy
-                print('RIGHT SIDE too heavy')
+                # print('RIGHT SIDE too heavy')
 
                 # This could be:
                 #  A             A
@@ -521,21 +529,27 @@ class BinaryTreeArray:
 
                 self.left_rotate(a_idx)
 
-                print(self.values_to_array())
+                # print('----')
+                # debug_tree = self.get_subtree(a_idx)
+                # array_debug = self.values_to_array_from_array(debug_tree)
+                # print(f'    {array_debug}')
+                # print('----')
+
+                # print(self.values_to_array())
+
+                continue
 
 
 
-            else: #balanced
-                print('BALANCED')
+            # else: #balanced
+            #     print('BALANCED')
 
             if temp.parent != None and temp.parent >= 0 and temp.parent < len(self.tree) and \
-            tree.tree[0] != temp: 
+            self.tree[0] != temp: 
                 temp = self.tree[temp.parent]
             else:
                 temp = None
 
-
-            # temp_parent = self.tree[temp.parent] if temp and temp.parent else None
         # end of while loop
         #----------------------------
     #------------------------------------------------------------------
@@ -544,58 +558,3 @@ class BinaryTreeArray:
 
 
 
-
-
-
-# tree = BinaryTreeArray()
-
-# numbers = [1,2,3,4]
-# for i in numbers:
-#     tree.insert(i)
-# print(tree.values_to_array())
-# # [                         1, 
-# #            None,                      2, 
-# #    None,         None,         None,         3, 
-# #  None, None,   None, None,  None, None,   None, 4]
-
-# tree.left_rotate(0)
-# print(tree.values_to_array())
-
-
-# #------------------------------------
-#         #                              0,
-#         #               1,                           2,
-#         #        3,            4,              5,           6,
-#         #    7,     8,     9,    10,       11,    12,    13,   14
-#         #  15,16, 17,18, 19,20, 21,22,   23,24, 25,26, 27,28, 29,30     
-# tree = BinaryTreeArray()
-# numbers = [                               
-#                                  46,  
-#                  28,                            74,  
-#           14,           34,              56,            91,  
-#         8,   21,     32,    39,       52,    62,    87,    94,
-#        6,9, 17,25,  31,33, 37,41,   48,53, 60,70,  85,89, 93,99
-# ] 
-# for i in numbers:
-#     tree.insert(i)
-
-# target_idx = 2
-# tree.left_rotate(target_idx)
-# print(tree.values_to_array())
-
-# subtree = tree.get_subtree(target_idx)
-# print(tree.values_to_array_from_array(subtree))
-
-
-tree = BinaryTreeArray()
-numbers = [9,6,8,7]
-for i in numbers:
-    tree.insert(i)
-
-print(tree.values_to_array())
-node = tree.lookup(7)
-tree.balance_avl(node)
-
-print(tree.values_to_array())   
-
- 

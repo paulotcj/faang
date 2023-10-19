@@ -1457,8 +1457,191 @@ class Test_BinaryTreeArray:
 
             assert e_idx == t_idx
             assert e_result == t_result
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_avl_balance_90_80_70(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [90,80,70]
+        for i in numbers:
+            tree.insert(i)
+
+
+        expected_result = [80, 70, 90]
+
+        #act
+        last_node = tree.lookup(70)
+        tree.balance_avl(last_node)
+        test_result = tree.values_to_array()
+
+
+        #assert     
+        for i in range(len(expected_result)):
+            assert expected_result[i] == test_result[i]
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_avl_balance_70_80_90(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [70,80,90]
+        for i in numbers:
+            tree.insert(i)
+
+
+        expected_result = [80, 70, 90]
+
+        #act
+        last_node = tree.lookup(90)
+        tree.balance_avl(last_node)
+        test_result = tree.values_to_array()
+
+
+        #assert     
+        for i in range(len(expected_result)):
+            assert expected_result[i] == test_result[i]
     #------------------------------------------------------------------    
     #------------------------------------------------------------------
+    def test_avl_balance_90_80_70_60(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [90,80,70,60]
+        for i in numbers:
+            tree.insert(i)
+
+
+        expected_result = [70, 60, 90, None, None, 80, None]
+
+        #act
+        last_node = tree.lookup(60)
+        tree.balance_avl(last_node)
+        test_result = tree.values_to_array()
+
+
+        #assert     
+        for i in range(len(expected_result)):
+            assert expected_result[i] == test_result[i]
+    #------------------------------------------------------------------    
+    #------------------------------------------------------------------
+    def test_avl_balance_60_70_80_90(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [60,70,80,90]
+        for i in numbers:
+            tree.insert(i)
+
+
+        expected_result = [80, 60, 90, None, 70, None, None]
+
+        #act
+        last_node = tree.lookup(90)
+        tree.balance_avl(last_node)
+        test_result = tree.values_to_array()
+
+
+        #assert     
+        for i in range(len(expected_result)):
+            assert expected_result[i] == test_result[i]
+    #------------------------------------------------------------------ 
+    #------------------------------------------------------------------
+    def test_avl_balance_9_6_8_7(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [9,6,8,7]
+        for i in numbers:
+            tree.insert(i)
+
+        expected_result = [7, 6, 9, None, None, 8, None]
+
+        #act
+        last_node = tree.lookup(7)
+        tree.balance_avl(last_node)
+        test_result = tree.values_to_array()
+
+        #assert     
+        for i in range(len(expected_result)):
+            assert expected_result[i] == test_result[i]
+    #------------------------------------------------------------------     
+    #------------------------------------------------------------------
+    def test_avl_balance_4_9_6_8_7(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [4,9,6,8,7]
+        for i in numbers:
+            tree.insert(i)
+
+        expected_result = [7, 4, 9, None, 6, 8, None]
+
+        #act
+        last_node = tree.lookup(7)
+        tree.balance_avl(last_node)
+        test_result = tree.values_to_array()
+
+        #assert     
+        for i in range(len(expected_result)):
+            assert expected_result[i] == test_result[i]
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_avl_balance_90_4_2_9_1_3_6_8_7(self):
+        #arrange
+        tree = BinaryTreeArray()
+        numbers = [90,4,2,9,1,3,6,8,7]
+        for i in numbers:
+            tree.insert(i)
+
+        expected_result = [4, 2, 7, 1, 3, 6, 9, None, None, None, None, None, None, 8, 90]
+
+        #act
+        last_node = tree.lookup(7)
+        tree.balance_avl(last_node)
+        test_result = tree.values_to_array()
+
+        #assert     
+        for i in range(len(expected_result)):
+            assert expected_result[i] == test_result[i]
+    #------------------------------------------------------------------  
+
+
+
+
+    #------------------------------------------------------------------  
+    def test_insert_avl_90_4_2_9_1_3_6_8_7(self):
+        #arrange
+        tree = BinaryTreeArray()
+        
+        expected_result = [
+            {'num':90, 'result':[90]},
+            {'num':4,  'result':[90, 4, None]},
+            {'num':2,  'result':[4, 2, 90]},
+            {'num':9,  'result':[4, 2, 90, None, None, 9, None]},
+            {'num':1,  'result':[4, 2, 90, 1, None, 9, None]},
+            {'num':3,  'result':[4, 2, 90, 1, 3, 9, None]},
+            {'num':6,  'result':[4, 2, 9, 1, 3, 6, 90]},
+            {'num':8,  'result':[4, 2, 9, 1, 3, 6, 90, None, None, None, None, None, 8, None, None]},
+            {'num':7,  'result':[4, 2, 9, 1, 3, 7, 90, None, None, None, None, 6, 8, None, None]},
+        ]
+        test_result = []    
+
+        #act
+        for i in expected_result:
+            num = i['num']
+            tree.insert_avl(num)
+            result = tree.values_to_array()
+            test_result.append( {'num':num,'result':result}  )
+
+        #assert
+        for i in range(len(expected_result)):
+            e_num = expected_result[i]['num']
+            e_result = expected_result[i]['result']
+            t_num = test_result[i]['num']
+            t_result = test_result[i]['result']
+
+            #numbers must match
+            assert e_num == t_num
+
+            #check for each value in each result
+            for j in range(len(e_result)):
+                assert e_result[j] == t_result[j]
+    #------------------------------------------------------------------  
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     #------------------------------------------------------------------
