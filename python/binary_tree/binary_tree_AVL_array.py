@@ -91,7 +91,7 @@ class BinaryTreeArray:
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def get_parent_n(self, node):
-        if node == None or node.parent < 0 or node.parent >= len(self.tree) or\
+        if node == None or node.parent == None or node.parent < 0 or node.parent >= len(self.tree) or\
             self.tree[0] == node  : return None
         return self.tree[ node.parent ]
     #------------------------------------------------------------------
@@ -468,9 +468,10 @@ class BinaryTreeArray:
     #------------------------------------------------------------------
     def balance_avl(self, node):
         temp = node
-        # temp_parent = self.get_parent_n(temp)
 
-        # while temp and temp_parent:
+        print(self.values_to_array())
+
+
         while temp:
             print(f"processing: {temp.value}")
 
@@ -485,15 +486,17 @@ class BinaryTreeArray:
                 
                 a = temp
                 a_idx = self.get_node_index(a)
-                b = self.get_right_n(a)
+                b = self.get_left_n(a)
                 b_idx = self.get_node_index(b)
                 c_right = self.get_right_n(b)
                 c_left = self.get_left_n(b)
 
-                if c_right:
+                if c_right != None and c_left == None:
                     self.left_rotate(b_idx)
                 
                 self.right_rotate(a_idx)
+
+                print(self.values_to_array())
 
                 
             elif check_for_heavy_side == 1: #RIGHT SIDE too heavy
@@ -508,15 +511,17 @@ class BinaryTreeArray:
                 a_idx = self.get_node_index(a)
                 b = self.get_right_n(a)
                 b_idx = self.get_node_index(b)
-                # c_right = self.get_right_n(b)
+                c_right = self.get_right_n(b)
                 c_left = self.get_left_n(b)
 
 
-                if c_left:
+                if c_left != None and c_right == None:
                     self.right_rotate(b_idx)
 
 
                 self.left_rotate(a_idx)
+
+                print(self.values_to_array())
 
 
 
