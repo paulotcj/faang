@@ -78,7 +78,8 @@ class MinHeapArray:
             i = parent_idx
             parent_idx = self.get_parent_idx(i)
 
-            if i or parent_idx is None: break
+            if i is None or parent_idx is None: 
+                break
 
 
     #------------------------------------------------------------------
