@@ -2,6 +2,7 @@ from heap_priority_queue_array import MinHeapArray, MaxHeapArray
 
 #------------------------------------------------------------------
 class Test_MinHeapArray:
+    # generic tests that can be used for any heap - start
     #------------------------------------------------------------------
     def test_get_parent_idx(self):
         #                              0,
@@ -409,7 +410,8 @@ class Test_MinHeapArray:
             idx = expected_results[i]['idx']
             value = expected_results[i]['value']
             assert heap.heap[idx] == value
-    #------------------------------------------------------------------        
+    #------------------------------------------------------------------ 
+    # generic tests that can be used for any heap - end       
     #####
     #####
     #####
@@ -461,7 +463,6 @@ class Test_MinHeapArray:
         for i in range(len(expected_results)):
             assert expected_results[i] == test_results[i]
     #------------------------------------------------------------------
-
     #------------------------------------------------------------------
     def test_sift_up_1(self):
         #                              0,
@@ -557,6 +558,8 @@ class Test_MinHeapArray:
         for i in range(len(expected_results)):
             assert expected_results[i] == test_results[i]
     #------------------------------------------------------------------
+
+
     #------------------------------------------------------------------
     def test_update_by_index_1(self):
         #arrange
@@ -633,7 +636,129 @@ class Test_MaxHeapArray:
         for i in range(len(expected_results)):
             assert expected_results[i] == test_results[i]
     #------------------------------------------------------------------ 
+    #------------------------------------------------------------------
+    def test_sift_up_1(self):
+        #          0    1   2    3  4  5  6     7  8  9  10 11 12 13 14
+
+        #                              0,
+        #               1,                           2,
+        #        3,            4,              5,           6,
+        #    7,     8,     9,    10,       11,    12,    13,   14
+        # ------
+        #               50
+        #        51             52
+        #    53      54      55      56
+        #  57 58   59 60   61 62   63 64   
+        #
+        #arrange
+        heap = MaxHeapArray()
+        #          0    1   2    3  4  5  6     7  8  9  10 11 12 13 14
+        numbers = [50,  49, 48,  47,46,45,44,   43,42,41,40,39,38,37,99]
+
+        for i in numbers:
+            heap.heap.append(i)
+
+        #                   0    1   2    3  4  5  6     7  8  9  10 11 12 13 14
+        expected_results = [99,  49, 50,  47,46,45,48,   43,42,41,40,39,38,37,44]
+
+        #act
+        heap.sift_up(14)
+        test_results = heap.heap
+
+
+        #assert
+        for i in range(len(expected_results)):
+            assert expected_results[i] == test_results[i]
+    #------------------------------------------------------------------    
+    #------------------------------------------------------------------
+    def test_sift_up_2(self):
+        #                              0,
+        #               1,                           2,
+        #        3,            4,              5,           6,
+        #    7,     8,     9,    10,       11,    12,    13,   14
+        # ------
+
+
+        #arrange
+        heap = MaxHeapArray()
+        #          0    1   2    3  4  5  6     7  8  9  10 11 12 13 14
+        numbers = [50,  49, 48,  47,46,45,44,   43,42,41,40,99,38,37,36]
+
+        for i in numbers:
+            heap.heap.append(i)
+
+        #                   0    1   2    3  4  5  6     7  8  9  10 11 12 13 14
+        expected_results = [99,  49, 50,  47,46,48,44,   43,42,41,40,45,38,37,36]
+
+        #act
+        heap.sift_up(11)
+        test_results = heap.heap
+
+        #assert
+        for i in range(len(expected_results)):
+            assert expected_results[i] == test_results[i]
+    #------------------------------------------------------------------   
+    #------------------------------------------------------------------
+    def test_sift_down_1(self):
+        #                              0,
+        #               1,                           2,
+        #        3,            4,              5,           6,
+        #    7,     8,     9,    10,       11,    12,    13,   14
+
+        #arrange
+        heap = MaxHeapArray()
+        #          0    1   2    3  4  5  6     7  8  9  10 11 12 13 14
+        numbers = [0,   49, 48,  47,46,45,44,   43,42,41,40,39,38,37,36]
+        for i in numbers:
+            heap.heap.append(i)
+
+        #                  0    1   2   3  4  5  6     7  8  9  10 11 12 13 14
+        expected_results =[49,  47,48,  43,46,45,44,   0, 42,41,40,39,38,37,36]
+
+
+        #act
+        heap.sift_down(0)
+        test_results = heap.heap
+        print(test_results)
+
+        #assert
+        for i in range(len(expected_results)):
+            assert expected_results[i] == test_results[i]
+    #------------------------------------------------------------------  
+    #------------------------------------------------------------------
+    def test_update_by_index_1(self):
+
+        #          0     1   2    3  4  5  6     7  8  9  10 11 12 13 14
+        numbers = [50,   49, 48,  47,46,39,44,   43,42,41,40,0,38,37,36]
+
+
+        #                              0,
+        #               1,                           2,
+        #        3,            4,              5,           6,
+        #    7,     8,     9,    10,       11,    12,    13,   14        
+        #arrange
+        heap = MaxHeapArray()
+        #          0     1   2    3  4  5  6     7  8  9  10 11 12 13 14
+        numbers = [50,   49, 48,  47,46,45,44,   43,42,41,40,39,38,37,36]
+        for i in numbers:
+            heap.insert(i)
+
+        #                   0     1   2    3  4  5  6     7  8  9  10 11 12 13 14
+        expected_results = [50,   49, 48,  47,46,39,44,   43,42,41,40,0, 38,37,36]
+    
+        # act
+        heap.update_using_idx(idx= 5, new_value = 0)
+        test_results = heap.heap
+
+        # assert  
+
+        for i in range(len(expected_results)):
+            assert expected_results[i] == test_results[i]
+    #------------------------------------------------------------------          
 #------------------------------------------------------------------
 
-# e = Test_MinHeapArray()
-# e.test_extract_min()
+# we still need to test update for min heap and max MaxHeapArray
+# and then implement the priority queue
+
+# e = Test_MaxHeapArray()
+# e.test_sift_down_1()
