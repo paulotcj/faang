@@ -558,8 +558,6 @@ class Test_MinHeapArray:
         for i in range(len(expected_results)):
             assert expected_results[i] == test_results[i]
     #------------------------------------------------------------------
-
-
     #------------------------------------------------------------------
     def test_update_by_index_1(self):
         #arrange
@@ -587,7 +585,7 @@ class Test_MinHeapArray:
             idx = expected_results[i]['idx']
             value = expected_results[i]['value']
             assert heap.heap[idx] == value
-    #------------------------------------------------------------------
+    #------------------------------------------------------------------  
 
 #------------------------------------------------------------------
 #------------------------------------------------------------------
@@ -754,7 +752,37 @@ class Test_MaxHeapArray:
 
         for i in range(len(expected_results)):
             assert expected_results[i] == test_results[i]
-    #------------------------------------------------------------------          
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_update_1(self):
+
+        #          0     1   2    3  4  5  6     7  8  9  10 11 12 13 14
+        numbers = [50,   49, 48,  47,46,39,44,   43,42,41,40,0,38,37,36]
+
+
+        #                              0,
+        #               1,                           2,
+        #        3,            4,              5,           6,
+        #    7,     8,     9,    10,       11,    12,    13,   14        
+        #arrange
+        heap = MaxHeapArray()
+        #          0     1   2    3  4  5  6     7  8  9  10 11 12 13 14
+        numbers = [50,   49, 48,  47,46,45,44,   43,42,41,40,39,38,37,36]
+        for i in numbers:
+            heap.insert(i)
+
+        #                   0     1   2    3  4  5  6     7  8  9  10 11 12 13 14
+        expected_results = [50,   49, 48,  47,46,39,44,   43,42,41,40,0, 38,37,36]
+    
+        # act
+        heap.update(old_value = 45, new_value = 0)
+        test_results = heap.heap
+
+        # assert  
+
+        for i in range(len(expected_results)):
+            assert expected_results[i] == test_results[i]
+    #------------------------------------------------------------------               
 #------------------------------------------------------------------
 
 # we still need to test update for min heap and max MaxHeapArray
