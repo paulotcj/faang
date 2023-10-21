@@ -382,10 +382,86 @@ class Test_MinHeapArray:
             for j in range(len(e_result)):
                 assert e_result[j] == t_result[j]
     #------------------------------------------------------------------  
+    #------------------------------------------------------------------
+    def test_update_1(self):
+        #arrange
+        heap = MinHeapArray()
+
+        #         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+        numbers = [1,2, 3, 4, 5, 6, 7, 8, 9, 10,11, 12, 13, 14]
+        for i in numbers:
+            heap.insert(i)
+
+        expected_results = [
+            {'idx': 0,  'value': 0},
+            {'idx': 2,  'value': 1},
+            {'idx': 5,  'value': 3},
+            {'idx': 10, 'value': 11},
+            {'idx': 11, 'value': 12},
+        ]
+        
+
+        # act
+        heap.update(old_value = 6, new_value = 0)
+
+        # assert  
+        for i in range(len(expected_results)):
+            idx = expected_results[i]['idx']
+            value = expected_results[i]['value']
+            assert heap.heap[idx] == value
+    #------------------------------------------------------------------        
     #####
     #####
     #####
     #####
+    #------------------------------------------------------------------
+    def test_get_min_1(self):
+        #arrange
+        heap = MinHeapArray()
+        #          0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14
+        numbers = [75,13,71,78,56,27,73,77,20,75,9, 76,36,91,23]
+        for i in numbers:
+            heap.insert(i)
+        
+        expected_results = 9
+        #act
+        result = heap.get_min()
+
+        #assert
+        assert expected_results == result
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_extract_min(self):
+        #                              0,
+        #               1,                           2,
+        #        3,            4,              5,           6,
+        #    7,     8,     9,    10,       11,    12,    13,   14
+        #  15,16, 17,18, 19,20, 21,22,   23,24, 25,26, 27,28, 29,30  
+        # ------
+        #arrange
+        heap = MinHeapArray()
+        numbers = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+        for i in numbers:
+            heap.insert(i)
+            # print(heap.heap)
+
+        # this is an in order array going from min to max, to this is the expected order of extraction
+        expected_results = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+        test_results = []
+
+
+        #act
+        for i in range(len(heap.heap)):
+            value = heap.extract_min()
+            test_results.append(value)
+            
+
+
+        #assert
+        for i in range(len(expected_results)):
+            assert expected_results[i] == test_results[i]
+    #------------------------------------------------------------------
+
     #------------------------------------------------------------------
     def test_sift_up_1(self):
         #                              0,
@@ -482,37 +558,6 @@ class Test_MinHeapArray:
             assert expected_results[i] == test_results[i]
     #------------------------------------------------------------------
     #------------------------------------------------------------------
-    def test_extract_min(self):
-        #                              0,
-        #               1,                           2,
-        #        3,            4,              5,           6,
-        #    7,     8,     9,    10,       11,    12,    13,   14
-        #  15,16, 17,18, 19,20, 21,22,   23,24, 25,26, 27,28, 29,30  
-        # ------
-        #arrange
-        heap = MinHeapArray()
-        numbers = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
-        for i in numbers:
-            heap.insert(i)
-            # print(heap.heap)
-
-        # this is an in order array going from min to max, to this is the expected order of extraction
-        expected_results = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
-        test_results = []
-
-
-        #act
-        for i in range(len(heap.heap)):
-            value = heap.extract_min()
-            test_results.append(value)
-            
-
-
-        #assert
-        for i in range(len(expected_results)):
-            assert expected_results[i] == test_results[i]
-    #------------------------------------------------------------------
-    #------------------------------------------------------------------
     def test_update_by_index_1(self):
         #arrange
         heap = MinHeapArray()
@@ -540,38 +585,54 @@ class Test_MinHeapArray:
             value = expected_results[i]['value']
             assert heap.heap[idx] == value
     #------------------------------------------------------------------
-    #------------------------------------------------------------------
-    def test_update_1(self):
-        #arrange
-        heap = MinHeapArray()
 
-        #         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
-        numbers = [1,2, 3, 4, 5, 6, 7, 8, 9, 10,11, 12, 13, 14]
-        for i in numbers:
-            heap.insert(i)
-
-        expected_results = [
-            {'idx': 0,  'value': 0},
-            {'idx': 2,  'value': 1},
-            {'idx': 5,  'value': 3},
-            {'idx': 10, 'value': 11},
-            {'idx': 11, 'value': 12},
-        ]
-        
-
-        # act
-        heap.update(old_value = 6, new_value = 0)
-
-        # assert  
-        for i in range(len(expected_results)):
-            idx = expected_results[i]['idx']
-            value = expected_results[i]['value']
-            assert heap.heap[idx] == value
-    #------------------------------------------------------------------    
 #------------------------------------------------------------------
 #------------------------------------------------------------------
 class Test_MaxHeapArray:
-    def
+    #------------------------------------------------------------------
+    def test_get_max_1(self):
+        #arrange
+        heap = MaxHeapArray()
+        #          0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14
+        numbers = [75,13,71,78,56,27,73,77,20,75,9, 76,36,91,23]
+        for i in numbers:
+            heap.insert(i)
+        
+        expected_results = 91
+        #act
+        result = heap.get_max()
+
+        #assert
+        assert expected_results == result
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_extract_max(self):
+        #                              0,
+        #               1,                           2,
+        #        3,            4,              5,           6,
+        #    7,     8,     9,    10,       11,    12,    13,   14
+        #  15,16, 17,18, 19,20, 21,22,   23,24, 25,26, 27,28, 29,30  
+        # ------
+        #arrange
+        heap = MaxHeapArray()
+        numbers = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+        for i in numbers:
+            heap.insert(i)
+
+        # this is an in order array going from max to min, so this is the expected order of extraction
+        expected_results = [14,13,12,11,10,9,8,7,6,5,4,3,2,1,0]
+
+
+        #act
+        test_results = []
+        for i in range(len(heap.heap)):
+            value = heap.extract_max()
+            test_results.append(value)
+            
+        #assert
+        for i in range(len(expected_results)):
+            assert expected_results[i] == test_results[i]
+    #------------------------------------------------------------------ 
 #------------------------------------------------------------------
 
 # e = Test_MinHeapArray()
