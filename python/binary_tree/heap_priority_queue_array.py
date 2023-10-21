@@ -216,20 +216,14 @@ class MaxHeapArray(HeapArray):
 
             if i is None or parent_idx is None: 
                 break
-    #------------------------------------------------------------------    
-    ###########
-    ###########
-    ###########
-    ###########
-
-
+    #------------------------------------------------------------------
     #------------------------------------------------------------------
     def sift_down(self,idx):
         #  exchanging the value with the smaller of its two children.
         
         left_idx = self.get_left_idx(idx)
         right_idx = self.get_right_idx(idx)
-        smallest_v_idx = None
+        biggest_v_idx = None
 
         #----------------------
         #while  left  index is valid and left_value  is less than current OR
@@ -237,24 +231,31 @@ class MaxHeapArray(HeapArray):
         while (left_idx  and self.heap[idx] < self.heap[left_idx ]    ) or \
               (right_idx and self.heap[idx] < self.heap[right_idx]    ): 
             #---        
-            #find the smallest value index
-            if right_idx is None or self.heap[left_idx] < self.heap[right_idx]: #right is invalid therefore use left OR left is less than right
-                smallest_v_idx = left_idx
+            #find the biggest value index
+            if right_idx is None or self.heap[left_idx] > self.heap[right_idx]: #right is invalid therefore use left OR left is bigger than right
+                biggest_v_idx = left_idx
             else:
-                smallest_v_idx = right_idx
+                biggest_v_idx = right_idx
             #---
             #swap values
             temp = self.heap[idx]
-            self.heap[idx] = self.heap[smallest_v_idx]
-            self.heap[smallest_v_idx] = temp
+            self.heap[idx] = self.heap[biggest_v_idx]
+            self.heap[biggest_v_idx] = temp
             #---
-            idx = smallest_v_idx #idx now points to the index which was holding the smallest value
+            idx = biggest_v_idx #idx now points to the index (of the child) which was holding the biggest value
             #---
             left_idx = self.get_left_idx(idx)
             right_idx = self.get_right_idx(idx)
         #end of while loop
         #----------------------
-    #------------------------------------------------------------------        
+    #------------------------------------------------------------------       
+    ###########
+    ###########
+    ###########
+    ###########
+
+
+     
     #------------------------------------------------------------------
     def insert(self,value):
         self.heap.append(value)
