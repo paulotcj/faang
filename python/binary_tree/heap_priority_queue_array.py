@@ -256,14 +256,7 @@ class MaxHeapArray(HeapArray):
         if new_value > old_value: self.sift_up(idx)
         else: self.sift_down(idx)
     #------------------------------------------------------------------
-    #------------------------------------------------------------------
-    def update(self,old_value, new_value):
-        #look up for the 'old_value' and if found replace with the new value
-
-        if old_value in self.heap:
-            idx = self.heap.index(old_value)
-            self.update_using_idx(idx,new_value)
-    #------------------------------------------------------------------    
+ 
 
 
 
