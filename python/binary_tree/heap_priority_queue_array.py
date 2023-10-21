@@ -1,15 +1,8 @@
 
-#------------------------------------------------------------------
-class MinHeapArray:
+class HeapArray:
     #------------------------------------------------------------------
     def __init__(self) -> None:
         self.heap = []
-    #------------------------------------------------------------------
-    #------------------------------------------------------------------
-    def get_min(self):
-        if self.heap:
-            return self.heap[0]
-        return None
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def get_parent_idx(self,idx):
@@ -59,15 +52,21 @@ class MinHeapArray:
         else: 
             return True
     #------------------------------------------------------------------
+
+
+#------------------------------------------------------------------
+class MinHeapArray(HeapArray):
     #------------------------------------------------------------------
-    def insert(self,value):
-        self.heap.append(value)
+    def __init__(self) -> None:
+        super().__init__()
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def sift_up(self,idx):
         # swapping a node with its parent
-        parent_idx = self.get_parent_idx(idx)
         i = idx #preserving the original index
+        parent_idx = self.get_parent_idx(idx)
+        #----
+        if idx is None or parent_idx is None: return
         #----
         while self.is_idx_in_range(i) and self.heap[i] < self.heap[parent_idx]:
             temp = self.heap[parent_idx]
@@ -80,43 +79,210 @@ class MinHeapArray:
 
             if i is None or parent_idx is None: 
                 break
-
-
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def sift_down(self,idx):
         #  exchanging the value with the smaller of its two children.
-        pass
+        
+        left_idx = self.get_left_idx(idx)
+        right_idx = self.get_right_idx(idx)
+        smallest_v_idx = None
+
+        #----------------------
+        #while  left  index is valid and left_value  is less than current OR
+        #       right index is valid and right value is less than current
+        while (left_idx  and self.heap[idx] > self.heap[left_idx ]    ) or \
+              (right_idx and self.heap[idx] > self.heap[right_idx]    ): 
+            #---        
+            #find the smallest value index
+            if right_idx is None or self.heap[left_idx] < self.heap[right_idx]: #right is invalid therefore use left OR left is less than right
+                smallest_v_idx = left_idx
+            else:
+                smallest_v_idx = right_idx
+            #---
+            #swap values
+            temp = self.heap[idx]
+            self.heap[idx] = self.heap[smallest_v_idx]
+            self.heap[smallest_v_idx] = temp
+            #---
+            idx = smallest_v_idx #idx now points to the index which was holding the smallest value
+            #---
+            left_idx = self.get_left_idx(idx)
+            right_idx = self.get_right_idx(idx)
+        #end of while loop
+        #----------------------
+    #------------------------------------------------------------------        
+    #------------------------------------------------------------------
+    def insert(self,value):
+        self.heap.append(value)
+        idx = len(self.heap)-1
+        self.sift_up(idx)
     #------------------------------------------------------------------
     #------------------------------------------------------------------
+    def get_min(self):
+        if self.heap:
+            return self.heap[0]
+        return None
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def extract_min(self):
+        #the algorithm's general idea is to take the root node at index 0 
+        # and replace it with the last node in the heap
+
+        if self.heap is None or len(self.heap) == 0: 
+            return None #house keeping
+        
+        min_v = self.heap[0] #get the min value
+        #---
+        self.heap[0] = self.heap[-1] #replace it
+        self.heap.pop() #remove the last node
+        #---
+        self.sift_down(0) #now adjust the heap
+        #-------
+        return min_v
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def update_using_idx(self,idx,new_value):
+        if self.is_idx_in_range(idx) is False: return
+        
+        old_value = self.heap[idx]
+        self.heap[idx] = new_value
+
+        #new < old -> sift up
+        #new > old -> sift down
+        if new_value < old_value: self.sift_up(idx)
+        else: self.sift_down(idx)
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def update(self,old_value, new_value):
+        #look up for the 'old_value' and if found replace with the new value
+
+        if old_value in self.heap:
+            idx = self.heap.index(old_value)
+            self.update_using_idx(idx,new_value)
+    #------------------------------------------------------------------
+
+
 #------------------------------------------------------------------
 
 
-# heap = MinHeapArray()
-# numbers = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
-# for i in numbers:
-#     heap.insert(i)
+#------------------------------------------------------------------
+class MaxHeapArray(HeapArray):
+    #------------------------------------------------------------------
+    def __init__(self) -> None:
+        super().__init__()
+    #------------------------------------------------------------------
 
-# expected_result = [
-#     # {'idx':0, 'parent_idx':None},
-#     {'idx':1, 'parent_idx':0},
-#     {'idx':2, 'parent_idx':0},
-#     {'idx':3, 'parent_idx':1},
-#     {'idx':4, 'parent_idx':1},
-#     {'idx':5, 'parent_idx':2},
-#     {'idx':6, 'parent_idx':2},
-#     {'idx':7, 'parent_idx':3},
-#     {'idx':8, 'parent_idx':3},
-#     {'idx':9, 'parent_idx':4},
-#     {'idx':10, 'parent_idx':4},
-#     {'idx':11, 'parent_idx':5},
-#     {'idx':12, 'parent_idx':5},
-#     {'idx':13, 'parent_idx':6},
-#     {'idx':14, 'parent_idx':6},
-# ]
-# #act
-# test_result = []
-# for i in expected_result:
-#     idx = i['idx']
-#     parent_idx = heap.get_parent_idx(idx)
-#     test_result.append( {'idx': idx, 'parent_idx': parent_idx} )
+    #------------------------------------------------------------------
+    def get_max(self):
+        if self.heap:
+            return self.heap[0]
+        return None
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def extract_max(self):
+        #the algorithm's general idea is to take the root node at index 0 
+        # and replace it with the last node in the heap
+
+        if self.heap is None or len(self.heap) == 0: 
+            return None #house keeping
+        
+        max_v = self.heap[0] #get the min value
+        #---
+        self.heap[0] = self.heap[-1] #replace it
+        self.heap.pop() #remove the last node
+        #---
+        self.sift_down(0) #now adjust the heap
+        #-------
+        return max_v
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def sift_up(self,idx):
+        # swapping a node with its parent
+        i = idx #preserving the original index
+        parent_idx = self.get_parent_idx(idx)
+        #----
+        if idx is None or parent_idx is None: return
+        #----
+        while self.is_idx_in_range(i) and self.heap[i] > self.heap[parent_idx]:
+            #swap values
+            temp = self.heap[parent_idx]
+            self.heap[parent_idx] = self.heap[i]
+            self.heap[i] = temp
+            #----
+            #now we jump the the parent index and compare from there
+            i = parent_idx
+            parent_idx = self.get_parent_idx(i)
+
+            if i is None or parent_idx is None: 
+                break
+    #------------------------------------------------------------------    
+    ###########
+    ###########
+    ###########
+    ###########
+
+
+    #------------------------------------------------------------------
+    def sift_down(self,idx):
+        #  exchanging the value with the smaller of its two children.
+        
+        left_idx = self.get_left_idx(idx)
+        right_idx = self.get_right_idx(idx)
+        smallest_v_idx = None
+
+        #----------------------
+        #while  left  index is valid and left_value  is less than current OR
+        #       right index is valid and right value is less than current
+        while (left_idx  and self.heap[idx] < self.heap[left_idx ]    ) or \
+              (right_idx and self.heap[idx] < self.heap[right_idx]    ): 
+            #---        
+            #find the smallest value index
+            if right_idx is None or self.heap[left_idx] < self.heap[right_idx]: #right is invalid therefore use left OR left is less than right
+                smallest_v_idx = left_idx
+            else:
+                smallest_v_idx = right_idx
+            #---
+            #swap values
+            temp = self.heap[idx]
+            self.heap[idx] = self.heap[smallest_v_idx]
+            self.heap[smallest_v_idx] = temp
+            #---
+            idx = smallest_v_idx #idx now points to the index which was holding the smallest value
+            #---
+            left_idx = self.get_left_idx(idx)
+            right_idx = self.get_right_idx(idx)
+        #end of while loop
+        #----------------------
+    #------------------------------------------------------------------        
+    #------------------------------------------------------------------
+    def insert(self,value):
+        self.heap.append(value)
+        idx = len(self.heap)-1
+        self.sift_up(idx)
+    #------------------------------------------------------------------
+
+    #------------------------------------------------------------------
+    def update_using_idx(self,idx,new_value):
+        if self.is_idx_in_range(idx) is False: return
+        
+        old_value = self.heap[idx]
+        self.heap[idx] = new_value
+
+        #new < old -> sift up
+        #new > old -> sift down
+        if new_value < old_value: self.sift_up(idx)
+        else: self.sift_down(idx)
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def update(self,old_value, new_value):
+        #look up for the 'old_value' and if found replace with the new value
+
+        if old_value in self.heap:
+            idx = self.heap.index(old_value)
+            self.update_using_idx(idx,new_value)
+    #------------------------------------------------------------------
+
+
+#------------------------------------------------------------------
+

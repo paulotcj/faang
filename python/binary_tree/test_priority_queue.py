@@ -334,30 +334,31 @@ class Test_MinHeapArray:
             assert e_result == t_result
     #------------------------------------------------------------------
     #------------------------------------------------------------------
-    def test_sift_up(self):
+    def test_sift_up_1(self):
         #                              0,
         #               1,                           2,
         #        3,            4,              5,           6,
         #    7,     8,     9,    10,       11,    12,    13,   14
         #  15,16, 17,18, 19,20, 21,22,   23,24, 25,26, 27,28, 29,30  
         # ------
-        #                  90
-        #        80                 100      
-        #   70        85        95        105
-        # 60  74    83  86    93  97   103  2
+        #               50
+        #        51             52
+        #    53      54      55      56
+        #  57 58   59 60   61 62   63 64   
         #
         #arrange
         heap = MinHeapArray()
         #          0    1   2    3  4  5  6     7  8  9  10 11 12 13 14
-        numbers = [90,  80,100,  70,85,95,105,  60,74,83,86,93,97,103,2]
+        numbers = [50,  51, 52,  53,54,55,56,   57,58,59,60,61,62,63,2]
         for i in numbers:
             heap.heap.append(i)
 
-        expected_results = [2, 80, 90, 70, 85, 95, 100, 60, 74, 83, 86, 93, 97, 103, 105]
+        expected_results = [2, 51, 50, 53, 54, 55, 52, 57, 58, 59, 60, 61, 62, 63, 56]
 
         #act
         heap.sift_up(14)
         test_results = heap.heap
+        # print(test_results)
 
         #assert
         for i in range(len(expected_results)):
@@ -371,41 +372,201 @@ class Test_MinHeapArray:
         #    7,     8,     9,    10,       11,    12,    13,   14
         #  15,16, 17,18, 19,20, 21,22,   23,24, 25,26, 27,28, 29,30  
         # ------
-        #                  90
-        #        80                 100      
-        #   70        85        95        105
-        # 60  74    83  2     93  97   103  107
+        #               50
+        #        51             52
+        #    53      54      55      56
+        #  57 58   59 60   61 62   63 64   
         #
         #arrange
         heap = MinHeapArray()
-        #          0    1   2    3  4  5  6     7  8  9  10 11 12 13  14
-        numbers = [90,  80,100,  70,85,95,105,  60,74,83,2 ,93,97,103,107]
+        #          0    1   2    3  4  5  6     7  8  9  10 11 12 13 14
+        numbers = [50,  51, 52,  53,54,55,56,   57,58,2, 60,61,62,63,64]
         for i in numbers:
             heap.heap.append(i)
 
-        #                   0  1   2    3   4   5   6    7   8   9   10  11  12  13   14
-        expected_results = [2, 90, 100, 70, 80, 95, 105, 60, 74, 83, 85, 93, 97, 103, 107]
+        #                   0   1   2     3   4   5   6     7   8   9   10  11  12  13  14
+        expected_results = [2,  50, 52,   53, 51, 55, 56,   57, 58, 54, 60, 61, 62, 63, 64]
 
         #act
-        heap.sift_up(10)
+        heap.sift_up(9)
         test_results = heap.heap
-        print(test_results)
+        # print(test_results)
 
-        # #assert
-        # for i in range(len(expected_results)):
-        #     assert expected_results[i] == test_results[i]
+        #assert
+        for i in range(len(expected_results)):
+            assert expected_results[i] == test_results[i]
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_insert_1(self):
+        #                              0,
+        #               1,                           2,
+        #        3,            4,              5,           6,
+        #    7,     8,     9,    10,       11,    12,    13,   14
+        #  15,16, 17,18, 19,20, 21,22,   23,24, 25,26, 27,28, 29,30  
+        # ------
+        #arrange
+        heap = MinHeapArray()
+
+
+        expected_results = [   
+            {'value': 14, 'result': [14]},
+            {'value': 13, 'result': [13, 14]},
+            {'value': 12, 'result': [12, 14, 13]},
+            {'value': 11, 'result': [11, 12, 13, 14]},
+            {'value': 10, 'result': [10, 11, 13, 14, 12]},
+            {'value': 9,  'result': [9, 11, 10, 14, 12, 13]},
+            {'value': 8,  'result': [8, 11, 9, 14, 12, 13, 10]},
+            {'value': 7,  'result': [7, 8, 9, 11, 12, 13, 10, 14]},
+            {'value': 6,  'result': [6, 7, 9, 8, 12, 13, 10, 14, 11]},
+            {'value': 5,  'result': [5, 6, 9, 8, 7, 13, 10, 14, 11, 12]},
+            {'value': 4,  'result': [4, 5, 9, 8, 6, 13, 10, 14, 11, 12, 7]},
+            {'value': 3,  'result': [3, 5, 4, 8, 6, 9, 10, 14, 11, 12, 7, 13]},
+            {'value': 2,  'result': [2, 5, 3, 8, 6, 4, 10, 14, 11, 12, 7, 13, 9]},
+            {'value': 1,  'result': [1, 5, 2, 8, 6, 4, 3, 14, 11, 12, 7, 13, 9, 10]},
+            {'value': 0,  'result': [0, 5, 1, 8, 6, 4, 2, 14, 11, 12, 7, 13, 9, 10, 3]},
+        ]
+
+        #act
+        test_results = []
+        for i in expected_results:
+            v = i['value']
+            heap.insert(v)
+            temp = heap.heap.copy()
+            test_results.append( {'value': v,'result' : temp } )
+            # print(f"{{'value': {i}, 'result': {test_results}}}")
+
+        #assert
+        for i in range(len(expected_results)):
+            e_value = expected_results[i]['value']
+            e_result = expected_results[i]['result']
+            t_value = test_results[i]['value']
+            t_result = test_results[i]['result']
+            assert e_value == t_value
+            for j in range(len(e_result)):
+                assert e_result[j] == t_result[j]
+    #------------------------------------------------------------------  
+    #------------------------------------------------------------------
+    def test_sift_down_1(self):
+        #                              0,
+        #               1,                           2,
+        #        3,            4,              5,           6,
+        #    7,     8,     9,    10,       11,    12,    13,   14
+        #  15,16, 17,18, 19,20, 21,22,   23,24, 25,26, 27,28, 29,30  
+        # ------
+        #               50
+        #        51             52
+        #    53      54      55      56
+        #  57 58   59 60   61 62   63 64   
+        #
+        #arrange
+        heap = MinHeapArray()
+        #          0    1   2    3  4  5  6     7  8  9  10 11 12 13 14
+        numbers = [99,  1,  2,   3, 4, 5, 6,    7, 8, 9, 10,11,12,13,14]
+        for i in numbers:
+            heap.heap.append(i)
+
+        #                   0   1   2     3   4   5   6     7   8   9   10  11  12  13  14
+        expected_results = [1, 3, 2, 7, 4, 5, 6, 99, 8, 9, 10, 11, 12, 13, 14]
+
+        #act
+        heap.sift_down(0)
+        test_results = heap.heap
+        # print(test_results)
+
+        #assert
+        for i in range(len(expected_results)):
+            assert expected_results[i] == test_results[i]
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_extract_min(self):
+        #                              0,
+        #               1,                           2,
+        #        3,            4,              5,           6,
+        #    7,     8,     9,    10,       11,    12,    13,   14
+        #  15,16, 17,18, 19,20, 21,22,   23,24, 25,26, 27,28, 29,30  
+        # ------
+        #arrange
+        heap = MinHeapArray()
+        numbers = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+        for i in numbers:
+            heap.insert(i)
+            # print(heap.heap)
+
+        # this is an in order array going from min to max, to this is the expected order of extraction
+        expected_results = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+        test_results = []
+
+
+        #act
+        for i in range(len(heap.heap)):
+            value = heap.extract_min()
+            test_results.append(value)
+            
+
+
+        #assert
+        for i in range(len(expected_results)):
+            assert expected_results[i] == test_results[i]
+
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_update_by_index_1(self):
+        #arrange
+        heap = MinHeapArray()
+
+        #         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+        numbers = [1,2, 3, 4, 5, 6, 7, 8, 9, 10,11, 12, 13, 14]
+        for i in numbers:
+            heap.insert(i)
+
+        expected_results = [
+            {'idx': 0,  'value': 0},
+            {'idx': 2,  'value': 1},
+            {'idx': 5,  'value': 3},
+            {'idx': 10, 'value': 11},
+            {'idx': 11, 'value': 12},
+        ]
+        
+
+        # act
+        heap.update_using_idx(idx= 5, new_value = 0)
+
+        # assert  
+        for i in range(len(expected_results)):
+            idx = expected_results[i]['idx']
+            value = expected_results[i]['value']
+            assert heap.heap[idx] == value
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def test_update_1(self):
+        #arrange
+        heap = MinHeapArray()
+
+        #         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+        numbers = [1,2, 3, 4, 5, 6, 7, 8, 9, 10,11, 12, 13, 14]
+        for i in numbers:
+            heap.insert(i)
+
+        expected_results = [
+            {'idx': 0,  'value': 0},
+            {'idx': 2,  'value': 1},
+            {'idx': 5,  'value': 3},
+            {'idx': 10, 'value': 11},
+            {'idx': 11, 'value': 12},
+        ]
+        
+
+        # act
+        heap.update(old_value = 6, new_value = 0)
+
+        # assert  
+        for i in range(len(expected_results)):
+            idx = expected_results[i]['idx']
+            value = expected_results[i]['value']
+            assert heap.heap[idx] == value
     #------------------------------------------------------------------    
-    #------------------------------------------------------------------
-    #------------------------------------------------------------------
-    #------------------------------------------------------------------
-    #------------------------------------------------------------------
-    #------------------------------------------------------------------
-    #------------------------------------------------------------------
-    #------------------------------------------------------------------
-    #------------------------------------------------------------------
-
         
 #------------------------------------------------------------------
 
-e = Test_MinHeapArray()
-e.test_sift_up_2()
+# e = Test_MinHeapArray()
+# e.test_extract_min()
