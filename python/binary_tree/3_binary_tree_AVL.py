@@ -44,15 +44,12 @@ class BinaryTreeAVL:
 
         self.update_upstream(new_obj)
         return new_obj
-
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def insert_avl(self,value):
         node = self.insert(value)
         if node.parent == None: return node
         self.balance_avl(node)
-
-        
     #------------------------------------------------------------------
     #------------------------------------------------------------------    
     def balance_avl(self, node):
@@ -97,7 +94,6 @@ class BinaryTreeAVL:
                     # self.print()
 
             temp = temp.parent
-
     #------------------------------------------------------------------    
     #------------------------------------------------------------------
     def update_upstream(self,node):
@@ -109,8 +105,6 @@ class BinaryTreeAVL:
             # print(f'Parent: {parent_to_update.value} -  Balance at insert: {balance}')
 
             node = node.parent
-
-
     #------------------------------------------------------------------    
     #------------------------------------------------------------------
     # Find the node that matches the parameter value
@@ -161,7 +155,6 @@ class BinaryTreeAVL:
                 current = current.left
             else:
                 return {'current' : current, 'parent' : parent}
-
     #------------------------------------------------------------------   
     #------------------------------------------------------------------
     # Remove find the node matching the value and then removes it.
@@ -329,7 +322,6 @@ class BinaryTreeAVL:
             return 0
         else:
             return ( self.get_height(node.left) - self.get_height(node.right) ) 
-    
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def print_generate_strings(self):
