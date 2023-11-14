@@ -1,5 +1,26 @@
 #-------------------------------------------------------------------------
 class BubbleSort:
+    # Bubble sort is the simplest sorting algorithm that works by repeatedly swapping adjacent elements. 
+    # This algorithm is not suitable for large data sets as its average and worst time complexity is O(n^2).
+    # Most practical algorithms have substantially better worst-case or average complexity, usually O(n.log n). 
+    # Even other O(n^2) algorithms, such as insertion sort run faster than bubble sort.
+
+    # For instance, if we consider the array:
+    # [5, 1, 4, 2, 8] 
+    #
+    #  We start with the first element and compare it against the next element, if the next element is smaller than the current element
+    #  we swap them. Then we move to the next element and repeat the process. We keep doing this until we reach the end of the array.
+    #      
+    # [5, 1, 4, 2, 8] -> [1, 5, 4, 2, 8] -> [1, 4, 5, 2, 8] -> [1, 4, 2, 5, 8] -> [1, 4, 2, 5, 8]
+    #  ^                     ^                     ^                     ^                     ^
+    # Now repeat the previous step for the number of elements in the array and we will end up with a sorted array.
+    # [1,2,4,5,8]
+    #
+    # One thing to consider is that at the end of every pass, the largest element will be pushed to the end of the array, so we don't
+    # need to compare it again. So in the next pass we can ignore the last element.
+    # We also could stop a the algorithm if during a full step no swap was made, this meaning the array is already sorted.
+
+
 
     #-------------------------------------------------------------------------
     def sort(self,plist):
