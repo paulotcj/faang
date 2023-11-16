@@ -1,26 +1,28 @@
 #-------------------------------------------------------------------------
 class MergeSort:
-    # Merge Sort is an efficient, general-purpose sorting algorithm. Most implementations produce a stable sort. Merge sort is a divide-and-conquer algorithm.
-    # Performance-wise, Merge Sort has a worst case of O(n.log n).
-    #
-    # The algorithm:
-    # - Break down the array ist until you have only the individual elements, so in the case of the array:
-    # [38,27,43,3,9,89,10]
-    #
-    #    we get -> [  [38],  [27],  [43],  [3],  [9],  [89],  [10]  ]
-    #
-    #    Note this is not an even number of elements, and to make this algorithm to work we need to fix this, so the final list should be:
-    # [  [38],  [27],  [43],  [3],  [9],  [89],  [10],  []  ]
-    #
-    # Now we merge:
-    #
-    # [  [38],  [27],  [43],  [3],  [9],  [89],  [10],  []  ]
-    #      |    /       |    /       |    /       |    /
-    # [  [27,38]    ,  [3,43]    ,  [9,89]    ,  [10]       ]
-    #       |           /              |        /
-    # [  [3, 27, 38,  43]        ,  [9, 10, 89]             ]
-    #       |                      /   
-    # [  3, 9, 10, 27, 38, 43, 89]       -> sorted    
+    def __explanation_and_collapsable():
+        pass
+        # Merge Sort is an efficient, general-purpose sorting algorithm. Most implementations produce a stable sort. Merge sort is a divide-and-conquer algorithm.
+        # Performance-wise, Merge Sort has a worst case of O(n.log n).
+        #
+        # The algorithm:
+        # - Break down the array ist until you have only the individual elements, so in the case of the array:
+        # [38,27,43,3,9,89,10]
+        #
+        #    we get -> [  [38],  [27],  [43],  [3],  [9],  [89],  [10]  ]
+        #
+        #    Note this is not an even number of elements, and to make this algorithm to work we need to fix this, so the final list should be:
+        # [  [38],  [27],  [43],  [3],  [9],  [89],  [10],  []  ]
+        #
+        # Now we merge:
+        #
+        # [  [38],  [27],  [43],  [3],  [9],  [89],  [10],  []  ]
+        #      |    /       |    /       |    /       |    /
+        # [  [27,38]    ,  [3,43]    ,  [9,89]    ,  [10]       ]
+        #       |           /              |        /
+        # [  [3, 27, 38,  43]        ,  [9, 10, 89]             ]
+        #       |                      /   
+        # [  3, 9, 10, 27, 38, 43, 89]       -> sorted    
 
 
     #-------------------------------------------------------------------------

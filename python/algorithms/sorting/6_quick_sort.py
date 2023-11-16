@@ -1,52 +1,54 @@
 
 #-------------------------------------------------------------------------
 class QuickSort:
-    # Quick Sort is an efficient sorting algorithm. Its average performance is O(n.log n), but the worst-case scenario is still O(n^2).
-    # Quick Sort is a commonly used sorting algorithm, and is usually slightly faster than merge sort, particularly for larger data sets.
-    #
-    # The algorithm:
-    #   Consider the array: [20,50,10,30,80,60,90,70,40]
-    #   We pick a pivot, and for this example we will take the last element of the array, in this case: 40
-    #    then we start from a given left index up to a given right index, and we compare the values with the pivot,
-    #    if the value is less than the pivot, we swap the value, moving it to the left side. And we continue to do this for all
-    #    the elements in the range.
-    #    Eventually there will be a point where the last swap was made, meaning, all the values to the left are smaller than our pivot,
-    #    and all the values to the right are larger than our pivot. So we swap the pivot with this last swap position.
-    #
-    #  So this would be:
-    #   [20,50,10,30,80,60,90,70,40] -> [20,50,10,30,80,60,90,70,40] -> [20,50,10,30,80,60,90,70,40] ->  [20,10,50,30,80,60,90,70,40] -> 
-    #    ^^                      P       ^  ^                    P          ^  ^                 P              ^  ^              P
-    #
-    #  [20,10,30,50,80,60,90,70,40] -> [20,10,30,50,80,60,90,70,40] -> [20,10,30,50,80,60,90,70,40] -> [20,10,30,50,80,60,90,70,40] -> 
-    #            ^  ^           P                   ^  ^        P                      ^  ^     p                         ^  ^  p 
-    #
-    #  [20,10,30,50,80,60,90,70,40] -> DONE.  The last swap was where 50 is sitting right now, so we swap the pivot with 50.
-    #                        ^^ P 
-    #
-    # [20,10,30,40,80,60,90,70,50] in this case, the pivot, 40, is in the correct position. Now we have to partition the array in two parts,
-    #  left and right of the pivot, and repeat the process for each partition.
-    #
-    # LEFT PART = [20,10,30],  RIGHT PART = [80,60,90,70,50],  and then you repeat the process for each partition until all is sorted
-    #
-    # [20,10,30] -> [20,10,30] -> [10,20,30] -> DONE
-    #  ^^    P       ^  ^  P          ^^ P
-    #
-    # Then you do the same for: [10,20]  which happens to be already sorted.
-    # So far we have: [10,20,30,40,  80,60,90,70,50]
-    #                  < sorted  >   <  unsorted  >
-    #
-    # [80,60,90,70,50] -> [80,60,90,70,50] -> DONE, no swap made, so we swap the pivot with the last swap position
-    # [50,60,90,70,80]
-    # 
-    # Now we process [60,90,70,80] -> [60,90,70,80] -> [60,70,90,80] -> DONE, we swap the pivot with the last swap position
-    # [60,70,80,90]
-    #
-    # Now we process [60,70] -> [60,70] -> DONE, we swap the pivot with the last swap position
-    # [60, 70]
-    #
-    # Now we process [90] -> [90] -> DONE
-    # 
-    # Let's put all together: [10,20,30,40] + [60,70] + [80] + [90] =  [10,20,30,40,60,70,80,90]
+    def __explanation_and_collapsable():
+        pass
+        # Quick Sort is an efficient sorting algorithm. Its average performance is O(n.log n), but the worst-case scenario is still O(n^2).
+        # Quick Sort is a commonly used sorting algorithm, and is usually slightly faster than merge sort, particularly for larger data sets.
+        #
+        # The algorithm:
+        #   Consider the array: [20,50,10,30,80,60,90,70,40]
+        #   We pick a pivot, and for this example we will take the last element of the array, in this case: 40
+        #    then we start from a given left index up to a given right index, and we compare the values with the pivot,
+        #    if the value is less than the pivot, we swap the value, moving it to the left side. And we continue to do this for all
+        #    the elements in the range.
+        #    Eventually there will be a point where the last swap was made, meaning, all the values to the left are smaller than our pivot,
+        #    and all the values to the right are larger than our pivot. So we swap the pivot with this last swap position.
+        #
+        #  So this would be:
+        #   [20,50,10,30,80,60,90,70,40] -> [20,50,10,30,80,60,90,70,40] -> [20,50,10,30,80,60,90,70,40] ->  [20,10,50,30,80,60,90,70,40] -> 
+        #    ^^                      P       ^  ^                    P          ^  ^                 P              ^  ^              P
+        #
+        #  [20,10,30,50,80,60,90,70,40] -> [20,10,30,50,80,60,90,70,40] -> [20,10,30,50,80,60,90,70,40] -> [20,10,30,50,80,60,90,70,40] -> 
+        #            ^  ^           P                   ^  ^        P                      ^  ^     p                         ^  ^  p 
+        #
+        #  [20,10,30,50,80,60,90,70,40] -> DONE.  The last swap was where 50 is sitting right now, so we swap the pivot with 50.
+        #                        ^^ P 
+        #
+        # [20,10,30,40,80,60,90,70,50] in this case, the pivot, 40, is in the correct position. Now we have to partition the array in two parts,
+        #  left and right of the pivot, and repeat the process for each partition.
+        #
+        # LEFT PART = [20,10,30],  RIGHT PART = [80,60,90,70,50],  and then you repeat the process for each partition until all is sorted
+        #
+        # [20,10,30] -> [20,10,30] -> [10,20,30] -> DONE
+        #  ^^    P       ^  ^  P          ^^ P
+        #
+        # Then you do the same for: [10,20]  which happens to be already sorted.
+        # So far we have: [10,20,30,40,  80,60,90,70,50]
+        #                  < sorted  >   <  unsorted  >
+        #
+        # [80,60,90,70,50] -> [80,60,90,70,50] -> DONE, no swap made, so we swap the pivot with the last swap position
+        # [50,60,90,70,80]
+        # 
+        # Now we process [60,90,70,80] -> [60,90,70,80] -> [60,70,90,80] -> DONE, we swap the pivot with the last swap position
+        # [60,70,80,90]
+        #
+        # Now we process [60,70] -> [60,70] -> DONE, we swap the pivot with the last swap position
+        # [60, 70]
+        #
+        # Now we process [90] -> [90] -> DONE
+        # 
+        # Let's put all together: [10,20,30,40] + [60,70] + [80] + [90] =  [10,20,30,40,60,70,80,90]
 
     #-------------------------------------------------------------------------
     def __swap(self, array, idx1, idx2):
