@@ -33,9 +33,41 @@ class CountingSort:
             i -= 1
 
         return outputArray
+    
 
 
-        
+    def countingSortForRadix(self,inputArray, placeValue):
+        # We can assume that the number of digits used to represent
+        # all numbers on the placeValue position is not greater than 10
+        countArray = [0] * 10
+        inputSize = len(inputArray)
+
+        # placeElement is the value of the current place value
+        # of the current element, e.g. if the current element is
+        # 123, and the place value is 10, the placeElement is
+        # equal to 2
+        for i in range(inputSize): 
+            placeElement = (inputArray[i] // placeValue) % 10
+            countArray[placeElement] += 1
+
+        for i in range(1, 10):
+            countArray[i] += countArray[i-1]
+
+        # Reconstructing the output array
+        outputArray = [0] * inputSize
+        i = inputSize - 1
+        while i >= 0:
+            currentEl = inputArray[i]
+            placeElement = (inputArray[i] // placeValue) % 10
+            countArray[placeElement] -= 1
+            newPosition = countArray[placeElement]
+            outputArray[newPosition] = currentEl
+            i -= 1
+            
+        return outputArray    
+
+
+        # https://stackabuse.com/radix-sort-in-python/
 
 
         
