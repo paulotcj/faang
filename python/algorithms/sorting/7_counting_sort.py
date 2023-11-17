@@ -80,8 +80,7 @@ class CountingSort:
             array_placing[k] = v
         #---------
         # And now we calculate the preliminary offset (note: we are not done with offset yet)
-        for i in range(0,len(array_placing)):
-            if i == 0: continue
+        for i in range(1,len(array_placing)):
             array_placing[i] += array_placing[i-1]
         #---------
         #At the end of this step we shold be done with the offset
