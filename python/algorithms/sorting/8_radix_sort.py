@@ -42,9 +42,10 @@ class CountingSort:
         countArray = [0] * 10
         inputSize = len(inputArray)
 
+        # placeElement is the value selector for the digit. e.g.( number: 123, placeValue:10, placeElement: 2 )
         # placeElement is the value of the current place value
         # of the current element, e.g. if the current element is
-        # 123, and the place value is 10, the placeElement is
+        # 123, and the place value is 10, the placeElement is 
         # equal to 2
         for i in range(inputSize): 
             placeElement = (inputArray[i] // placeValue) % 10
