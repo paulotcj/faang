@@ -1,78 +1,117 @@
 class CountingSort:
-
+    #-------------------------------------------------------------------------
     def sort(self,input_array):
-        # Find the maximum element in the inputArray
-        maxEl = max(input_array)
+        # Find the maximum element in the input_array
+        max_v = max(input_array)
 
-        countArrayLength = maxEl+1
+        len_count_array = max_v+1
+        len_input_array = len(input_array)
 
-        # Initialize the countArray with (max+1) zeros
-        countArray = [0] * countArrayLength
+        #---------
+        # Initialize the count_array with (max+1) zeros
+        count_array = [0] * len_count_array
 
-        # Step 1 -> Traverse the inputArray and increase 
+        #---------
+        # Step 1 -> Traverse the input_array and increase 
         # the corresponding count for every element by 1
-        for el in input_array: 
-            countArray[el] += 1
+        for i in input_array: 
+            count_array[i] += 1
 
-        # Step 2 -> For each element in the countArray, 
+        #---------
+        # Step 2 -> For each element in the count_array, 
         # sum up its value with the value of the previous 
         # element, and then store that value 
         # as the value of the current element
-        for i in range(1, countArrayLength):
-            countArray[i] += countArray[i-1] 
+        for i in range(1, len_count_array):
+            count_array[i] += count_array[i-1] 
 
+        #---------
         # Step 3 -> Calculate element position
-        # based on the countArray values
-        outputArray = [0] * len(input_array)
-        i = len(input_array) - 1
-        while i >= 0:
-            currentEl = input_array[i]
-            countArray[currentEl] -= 1
-            newPosition = countArray[currentEl]
-            outputArray[newPosition] = currentEl
-            i -= 1
+        # based on the count_array values
+        output_array = [0] * len_input_array
+        for i in reversed(range(len_input_array)):
+            current_element = input_array[i]
+            count_array[current_element] -= 1
+            new_position = count_array[current_element]
+            output_array[new_position] = current_element
+
+        #---------
+        return output_array
+    #-------------------------------------------------------------------------
+    def __radix_place_element(self, value, digit_selector = None):
+        if digit_selector == None: return value
+
+        return_v = (value // digit_selector) % 10 # the %10 at the end ensures that it's a single digit
+        return return_v
+    #-------------------------------------------------------------------------
+    def countingSortForRadix(self,input_array, digit_selector):
+        # We can assume that the number of digits used to represent
+        # all numbers on the digit_selector position is not greater than 10
+        count_array = [0] * 10
+        len_input_array = len(input_array)
+
+        #---------
+        # place_element is the value selector for the digit. e.g.( number: 123, digit_selector:10, place_element: 2 )
+        # place_element is the value of the current place value of the current element, e.g. if the current element is
+        # 123, and the place value is 10, the place_element is equal to 2
+        for i in range(len_input_array): 
+            place_element = self.__radix_place_element(input_array[i], digit_selector)
+            count_array[place_element] += 1
+
+        #---------
+        array_placing = count_array.copy()
+        for i in range(1, 10): #10 digits max, start from 1 (first element will always be at 0)
+            array_placing[i] += array_placing[i-1]
+
+        #---------
+        # Reconstructing the output array
+        sorted_array = [0] * len_input_array
+        for i in reversed(range(len_input_array)):
+            current_e = input_array[i]
+            place_element = self.__radix_place_element(current_e, digit_selector)
+
+            array_placing[place_element] -= 1
+            newPosition = array_placing[place_element]
+            sorted_array[newPosition] = current_e
+
+        ###############
+        # sorted_array = [0] * len(input_array)
+        # for i in input_array:
+        #     position_to_place = self.__radix_place_element(i, digit_selector)
+        #     sorted_array[ position_to_place  ] = i
+
+        #     array_placing[i] += 1 #we increment the offset for the next time we see this element        
+        ###############
+    
+            
+        return sorted_array    
+    #-------------------------------------------------------------------------
+
+    #-------------------------------------------------------------------------
+    def radixSort(self, input_array):
+        # Step 1 -> Find the maximum element in the input array
+        maxEl = max(input_array)
+
+        # Step 2 -> Find the number of digits in the `max` element
+        D = len(str(maxEl))
+        
+        # Step 3 -> Initialize the place value to the least significant place
+        placeVal = 1
+
+        # Step 4
+        outputArray = input_array.copy()
+        while D > 0:
+            outputArray = self.countingSortForRadix(outputArray, placeVal)
+            print(f'outputArray: {outputArray}')
+            placeVal *= 10  
+            D -= 1
 
         return outputArray
-    
-
-
-    def countingSortForRadix(self,inputArray, placeValue):
-        # We can assume that the number of digits used to represent
-        # all numbers on the placeValue position is not greater than 10
-        countArray = [0] * 10
-        inputSize = len(inputArray)
-
-        # placeElement is the value selector for the digit. e.g.( number: 123, placeValue:10, placeElement: 2 )
-        # placeElement is the value of the current place value
-        # of the current element, e.g. if the current element is
-        # 123, and the place value is 10, the placeElement is 
-        # equal to 2
-        for i in range(inputSize): 
-            placeElement = (inputArray[i] // placeValue) % 10
-            countArray[placeElement] += 1
-
-        for i in range(1, 10):
-            countArray[i] += countArray[i-1]
-
-        # Reconstructing the output array
-        outputArray = [0] * inputSize
-        i = inputSize - 1
-        while i >= 0:
-            currentEl = inputArray[i]
-            placeElement = (inputArray[i] // placeValue) % 10
-            countArray[placeElement] -= 1
-            newPosition = countArray[placeElement]
-            outputArray[newPosition] = currentEl
-            i -= 1
-            
-        return outputArray    
-
-
-        # https://stackabuse.com/radix-sort-in-python/
+    #-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
 
 
         
-
 
 #-------------------------------------------------------------------------
 
@@ -81,24 +120,33 @@ numbers =  [18,6,27,2,30,9,15,21,4,25,11,12,0,8,3,22,14,7,16,20,28,1,19,26,10,17
 expected = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
 
 x = CountingSort()
+#-----
+# numbers = [2,20,61,997,1,619]
+# expected = [1, 2, 20, 61, 619, 997]
+# numbers = x.radixSort(numbers)
+
+# print(f'Radix sort result: {numbers}')
+# print(f'Is the result correct? {numbers == expected}')
+# exit()
+#-----
 numbers = [1,0,3,1,3,1]
 expected = [0,1,1,1,3,3]
 numbers = x.sort(numbers)
 
-print(f'Count sort result: {numbers}')
+print(f'Radix sort result: {numbers}')
 print(f'Is the result correct? {numbers == expected}')
-
+exit()
 #-----
 numbers =  [18,6,27,2,30,9,15,21,4,25,11,12,0,8,3,22,14,7,16,20,28,1,19,26,10,17,5,23,13,29,24]
 expected = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
-numbers = x.sort(numbers)
-print(f'Count sort result: {numbers}')
+numbers = x.radixSort(numbers)
+print(f'Radix sort result: {numbers}')
 print(f'Is the result correct? {numbers == expected}')
 
 #-----
 
 numbers =  [1, 0, 3, 1, 3, 1, 4, 5, 1, 3, 4, 1, 5, 5, 1, 3, 1, 3]
 expected = [0, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 4, 4, 5, 5, 5]
-numbers = x.sort(numbers)
-print(f'Count sort result: {numbers}')
+numbers = x.radixSort(numbers)
+print(f'Radix sort result: {numbers}')
 print(f'Is the result correct? {numbers == expected}')
