@@ -91,11 +91,7 @@ class CountingSort:
             array_placing[position_in_placing_arr] += 1 #we increment the offset for the next time we see this element        
             #---
         #---------   
-
-
-
-    
-            
+                
         return sorted_array    
     #-------------------------------------------------------------------------
 
@@ -114,7 +110,7 @@ class CountingSort:
         outputArray = input_array.copy()
         while D > 0:
             outputArray = self.countingSortForRadix(outputArray, placeVal)
-            print(f'    outputArray: {outputArray}')
+            # print(f'    outputArray: {outputArray}')
             placeVal *= 10  
             D -= 1
 
@@ -139,14 +135,14 @@ numbers = x.radixSort(numbers)
 
 print(f'Radix sort result: {numbers}')
 print(f'Is the result correct? {numbers == expected}')
-exit()
-#-----
-# numbers = [1,0,3,1,3,1]
-# expected = [0,1,1,1,3,3]
-# numbers = x.radixSort(numbers)
 
-# print(f'Radix sort result: {numbers}')
-# print(f'Is the result correct? {numbers == expected}')
+#-----
+numbers = [1,0,3,1,3,1]
+expected = [0,1,1,1,3,3]
+numbers = x.radixSort(numbers)
+
+print(f'Radix sort result: {numbers}')
+print(f'Is the result correct? {numbers == expected}')
 
 #-----
 numbers = [1,0,3,1,3,12]
@@ -158,16 +154,16 @@ print(f'Is the result correct? {numbers == expected}')
 
 
 #-----
-# numbers =  [18,6,27,2,30,9,15,21,4,25,11,12,0,8,3,22,14,7,16,20,28,1,19,26,10,17,5,23,13,29,24]
-# expected = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
-# numbers = x.radixSort(numbers)
-# print(f'Radix sort result: {numbers}')
-# print(f'Is the result correct? {numbers == expected}')
+numbers =  [18,6,27,2,30,9,15,21,4,25,11,12,0,8,3,22,14,7,16,20,28,1,19,26,10,17,5,23,13,29,24]
+expected = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
+numbers = x.radixSort(numbers)
+print(f'Radix sort result: {numbers}')
+print(f'Is the result correct? {numbers == expected}')
 
 #-----
 
-# numbers =  [1, 0, 3, 1, 3, 1, 4, 5, 1, 3, 4, 1, 5, 5, 1, 3, 1, 3]
-# expected = [0, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 4, 4, 5, 5, 5]
-# numbers = x.radixSort(numbers)
-# print(f'Radix sort result: {numbers}')
-# print(f'Is the result correct? {numbers == expected}')
+numbers =  [1, 0, 3, 1, 3, 1, 4, 5, 1, 3, 4, 1, 5, 5, 1, 3, 1, 3]
+expected = [0, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 4, 4, 5, 5, 5]
+numbers = x.radixSort(numbers)
+print(f'Radix sort result: {numbers}')
+print(f'Is the result correct? {numbers == expected}')
