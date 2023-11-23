@@ -51,13 +51,8 @@ class CountingSort:
         #---------
         return sorted_array
     #-------------------------------------------------------------------------
-    def __radix_place_element(self, value, digit_selector = None):
-        if digit_selector == None: return value
-
-        return_v = (value // digit_selector) % 10 # the %10 at the end ensures that it's a single digit
-        return return_v
     #-------------------------------------------------------------------------
-    def countingSortForRadix(self,input_array, digit_selector):
+    def countingSortForRadix_old(self,input_array, digit_selector):
         # We can assume that the number of digits used to represent
         # all numbers on the digit_selector position is not greater than 10
         count_array = [0] * 10
@@ -93,8 +88,67 @@ class CountingSort:
         #---------   
                 
         return sorted_array    
+    #-------------------------------------------------------------------------    
     #-------------------------------------------------------------------------
+    def __radix_place_element(self, value, digit_selector = None):
+        return_v = (value // digit_selector) % 10 # the %10 at the end ensures that it's a single digit
+        return return_v
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def __count(self, input_array, digit_selector):
+        # We can assume that the number of digits used to represent
+        # all numbers on the digit_selector position is not greater than 10        
+        count_array = [0] * 10
+        # place_element is the value selector for the digit. e.g.( number: 123, digit_selector:10, place_element: 2 )
+        # place_element is the value of the current place value of the current element, e.g. if the current element is
+        # 123, and the place value is 10, the place_element is equal to 2
+        for input_el in range(len(input_array)): 
+            place_element = self.__radix_place_element(input_array[input_el], digit_selector)
+            count_array[place_element] += 1
 
+        return count_array
+
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def __array_placing(self, count_array):
+        array_placing = count_array.copy()
+        for input_el in range(1, len(count_array)): #10 digits max, start from 1 (first element will always be at 0)
+            array_placing[input_el] += array_placing[input_el-1]
+
+        #---------
+        array_placing = [0] + array_placing[:-1]
+
+        return array_placing
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def __map_sortedArray(self, input_array, array_placing, digit_selector):
+        sorted_array = [0] * len(input_array)
+        for input_el in input_array:
+            #---
+            position_in_placing_arr = self.__radix_place_element(input_el, digit_selector) #refactor position to place to take into account the digit selector
+            position_in_sorted_arr = array_placing[position_in_placing_arr]
+            #---
+            sorted_array[ position_in_sorted_arr  ] = input_el
+            array_placing[position_in_placing_arr] += 1 #we increment the offset for the next time we see this element        
+            #---
+
+        return sorted_array
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def countingSortForRadix(self,input_array, digit_selector):
+        #---------
+        count_array = self.__count(input_array=input_array, digit_selector=digit_selector)
+
+        #---------
+        array_placing = self.__array_placing(count_array=count_array)
+
+        #---------
+        sorted_array = self.__map_sortedArray(input_array=input_array, array_placing=array_placing, digit_selector=digit_selector)
+        
+        #---------   
+                
+        return sorted_array    
+    #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def radixSort(self, input_array):
         # Step 1 -> Find the maximum element in the input array
@@ -119,10 +173,8 @@ class CountingSort:
 #-------------------------------------------------------------------------
 
 
-        
 
 #-------------------------------------------------------------------------
-
 
 numbers =  [18,6,27,2,30,9,15,21,4,25,11,12,0,8,3,22,14,7,16,20,28,1,19,26,10,17,5,23,13,29,24]
 expected = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]

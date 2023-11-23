@@ -1,4 +1,5 @@
 class CountingSort:
+    #-------------------------------------------------------------------------
     def __explanation_and_collapsable():
         pass
         # Counting sort is a sorting algorithm that operates by counting the number of objects that possess distinct key values 
@@ -62,9 +63,10 @@ class CountingSort:
         #                    ^                  ^                                           
         # DONE!
         # The sorted array is: sorted_array = [0   ,1   ,1   ,1   ,3   ,3   ]
+    #-------------------------------------------------------------------------
 
-
-    def sort(self,input_array):
+    #-------------------------------------------------------------------------
+    def sort_old(self,input_array):
         #---------
         #First we count the number of times each element appears in the array
         count_dict = {}
@@ -97,10 +99,64 @@ class CountingSort:
             array_placing[i] += 1 #we increment the offset for the next time we see this element
 
         return sorted_array
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def __count(self,input_array):
+        count_dict = {}
+        max_v = 0
+        for i in input_array:
+            if i in count_dict: count_dict[i] += 1
+            else: count_dict[i] = 1
+            max_v = max(max_v,i)
 
+        return count_dict, max_v
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def __array_placing(self,count_dict,max_v):
+        #Then we map where each element count to their equivalent index in the array
+        array_placing = [0] * (max_v+1) #zero based array
+        for k,v in count_dict.items():
+            array_placing[k] = v
+        #---------
+        # And now we calculate the preliminary offset (note: we are not done with offset yet)
+        for i in range(1,len(array_placing)):
+            array_placing[i] += array_placing[i-1]
+        #---------
+        #At the end of this step we shold be done with the offset
+        array_placing = [0] + array_placing[:-1]
 
-        
+        return array_placing
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def __map_sortedArray(self,input_array,array_placing):
+        #Now we run through the input array, and through the 'array_placing' we know where to place each element
+        # after placing the element we increment the offset for the next time we see this element
+        sorted_array = [0] * len(input_array)
+        for i in input_array:
+            position_to_place = array_placing[i]
+            sorted_array[ position_to_place  ] = i
 
+            array_placing[i] += 1 #we increment the offset for the next time we see this element
+
+        return sorted_array
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def sort(self,input_array):
+        #---------
+        #First we count the number of times each element appears in the array
+        count_dict, max_v = self.__count(input_array=input_array)
+
+        #---------
+        #Then we map where each element count to their equivalent index in the array
+        array_placing = self.__array_placing(count_dict=count_dict, max_v=max_v)
+
+        #---------
+        #Now we run through the input array, and through the 'array_placing' we know where to place each element
+        # after placing the element we increment the offset for the next time we see this element
+        sorted_array = self.__map_sortedArray(input_array=input_array, array_placing=array_placing)
+
+        return sorted_array
+    #-------------------------------------------------------------------------
 
         
 
