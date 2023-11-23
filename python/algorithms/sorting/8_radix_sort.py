@@ -152,21 +152,19 @@ class CountingSort:
     #-------------------------------------------------------------------------
     def radixSort(self, input_array):
         # Step 1 -> Find the maximum element in the input array
-        maxEl = max(input_array)
+        max_value = max(input_array)
 
         # Step 2 -> Find the number of digits in the `max` element
-        D = len(str(maxEl))
+        max_v_num_digits = len(str(max_value))
         
         # Step 3 -> Initialize the place value to the least significant place
-        placeVal = 1
+        digit_selector = 1
 
         # Step 4
         outputArray = input_array.copy()
-        while D > 0:
-            outputArray = self.countingSortForRadix(outputArray, placeVal)
-            # print(f'    outputArray: {outputArray}')
-            placeVal *= 10  
-            D -= 1
+        for _ in range(max_v_num_digits):
+            outputArray = self.countingSortForRadix(outputArray, digit_selector)
+            digit_selector *= 10        
 
         return outputArray
     #-------------------------------------------------------------------------
