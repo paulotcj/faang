@@ -214,14 +214,17 @@ class BinaryTree:
                 current = current.left #eventually this will be None, so then we rely on the stack
             else: #----------------------> No left nodes left
                 temp = stack[-1].right #right node of the last element added to the the stack
-                if temp:
-                    current = temp
-                else:
+                if temp: #right node found
+                    current = temp #ending the loop here current will be placed in the stack
+                    continue #just to make things clearer
+                else: #no left or right nodes, we must retrieve element from stack
                     temp = stack.pop()
                     result.append(temp.value)
+                    
                     while stack and temp == stack[-1].right:
                         temp = stack.pop()
                         result.append(temp.value)
+                        
                 #end of: if temp
             #end of: if current
         #end of while
