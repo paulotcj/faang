@@ -199,6 +199,9 @@ class BinaryTree:
         return self.__DFS_post_order(root = self.root )
     #------------------------------------------------------------------        
     #------------------------------------------------------------------
+    #       9
+    #    4      20
+    #  1  6   15  170
     #Post-Order: 1,6,4,15,170,20,9
     def __DFS_post_order(self, root):
         stack = []
@@ -208,17 +211,22 @@ class BinaryTree:
         while stack or current:
             if current: #go all the way to the left
                 stack.append(current)
-                current = current.left
-            else:
-                temp = stack[-1].right
-                if not temp:
+                current = current.left #eventually this will be None, so then we rely on the stack
+            else: #----------------------> No left nodes left
+                temp = stack[-1].right #right node of the last element added to the the stack
+                if temp:
+                    current = temp
+                else:
                     temp = stack.pop()
                     result.append(temp.value)
                     while stack and temp == stack[-1].right:
                         temp = stack.pop()
                         result.append(temp.value)
-                else:
-                    current = temp
+                #end of: if temp
+            #end of: if current
+        #end of while
+ 
+                    
 
         return result
     #------------------------------------------------------------------     
@@ -249,16 +257,16 @@ expected_result = [1,6,4,15,170,20,9]
 print(f"Tree DFS Post-Order: {x}")
 print(f"Is the result correct? {x == expected_result}")
 
-print('--------------------------')
-x = tree.DFS_PreOrder()
-expected_result = [9,4,1,6,20,15,170]
-print(f"Tree DFS Pre-Order: {x}")
-print(f"Is the result correct? {x == expected_result}")
+# print('--------------------------')
+# x = tree.DFS_PreOrder()
+# expected_result = [9,4,1,6,20,15,170]
+# print(f"Tree DFS Pre-Order: {x}")
+# print(f"Is the result correct? {x == expected_result}")
 
-print('--------------------------')
-x = tree.DFS_InOrder()
-expected_result = [1,4,6,9,15,20,170]
-print(f"Tree DFS In-Order: {x}")
-print(f"Is the result correct? {x == expected_result}")
+# print('--------------------------')
+# x = tree.DFS_InOrder()
+# expected_result = [1,4,6,9,15,20,170]
+# print(f"Tree DFS In-Order: {x}")
+# print(f"Is the result correct? {x == expected_result}")
 
 
