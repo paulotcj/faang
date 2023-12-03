@@ -150,41 +150,95 @@ class BinaryTree:
             current =  node_list.pop(0) if node_list else None 
     #------------------------------------------------------------------
     #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
     def DFS_InOrder(self):
-        initial_list = []
-        initial_node = self.root
-        return self.__DFS_in_order(node = initial_node, list = initial_list )
+        iterative = self.__DFS_in_order_iterative()
+        recursive = self.__DFS_in_order_recursive(node = self.root, list = [] )
+        if( iterative != recursive): 
+            print(f"Error at DFS_InOrder - iterative: {iterative} - recursive: {recursive}")
+            return None
+
+        return iterative              
     #------------------------------------------------------------------    
     #------------------------------------------------------------------
-    def __DFS_in_order(self, node, list):
+    def __DFS_in_order_iterative(self):
+        return_list = []
+        stack = []
+        current = self.root
+
+        while stack or current:
+            while current:
+                stack.append(current)
+                current = current.left
+
+            current = stack.pop()
+            return_list.append(current.value)
+            current = current.right
+
+        return return_list
+    #------------------------------------------------------------------
+    #------------------------------------------------------------------
+    def __DFS_in_order_recursive(self, node, list):
         if node.left: 
-            self.__DFS_in_order(node.left, list) #go all the way to the left
+            self.__DFS_in_order_recursive(node.left, list) #go all the way to the left
         list.append(node.value)
         if node.right: 
-            self.__DFS_in_order(node.right, list)
+            self.__DFS_in_order_recursive(node.right, list)
         return list
     #------------------------------------------------------------------
     #------------------------------------------------------------------
     def DFS_PreOrder(self):
-        initial_list = []
-        initial_node = self.root
-        return self.__DFS_pre_order(node = initial_node, list = initial_list )
+        iterative =  self.__DFS_pre_order_iterative()
+        recursive = self.__DFS_pre_order_recursive(node = self.root, list = [])
+        if( iterative != recursive): 
+            print(f"Error at DFS_PreOrder - iterative: {iterative} - recursive: {recursive}")
+            return None
+
+        return iterative        
     #------------------------------------------------------------------      
     #------------------------------------------------------------------
-    def __DFS_pre_order(self, node, list):
+    def __DFS_pre_order_recursive(self, node, list):
         list.append(node.value)
         if node.left: 
-            self.__DFS_pre_order(node.left, list)
+            self.__DFS_pre_order_recursive(node.left, list)
         if node.right: 
-            self.__DFS_pre_order(node.right, list)
+            self.__DFS_pre_order_recursive(node.right, list)
         return list
     #------------------------------------------------------------------    
+    #------------------------------------------------------------------
+    def __DFS_pre_order_iterative(self):
+        #       9
+        #    4      20
+        #  1  6   15  170        
+        #Pre-Order: 9,4,1,6,20,15,170
+        stack = [self.root]
+        return_list = []
+        while stack:
+            node = stack.pop()
+            if node:
+                return_list.append(node.value)
+                stack.append(node.right)  # Note: Right child is pushed first
+                stack.append(node.left)
+        return return_list
+    #------------------------------------------------------------------
     #------------------------------------------------------------------
     def DFS_PostOrder_Recursive(self):
         initial_list = []
         initial_node = self.root
         return self.__DFS_post_order(node = initial_node, list = initial_list )
     #------------------------------------------------------------------      
+    #------------------------------------------------------------------
+    def DFS_PostOrder(self):
+        iterative = self.__DFS_post_order_iterative()
+        recursive = self.__DFS_post_order_recursive(node = self.root, list = [])
+        if( iterative != recursive): 
+            print(f"Error at DFS_PostOrder - iterative: {iterative} - recursive: {recursive}")
+            return None
+
+        return iterative
+    #------------------------------------------------------------------
     #------------------------------------------------------------------
     def __DFS_post_order_recursive(self, node, list):
         if node.left: 
@@ -195,43 +249,24 @@ class BinaryTree:
         return list
     #------------------------------------------------------------------  
     #------------------------------------------------------------------
-    def DFS_PostOrder(self):
-        return self.__DFS_post_order(root = self.root )
-    #------------------------------------------------------------------        
-    #------------------------------------------------------------------
-    #       9
-    #    4      20
-    #  1  6   15  170
-    #Post-Order: 1,6,4,15,170,20,9
-    def __DFS_post_order(self, root):
-        stack = []
-        result = []
-        current = root
+    def __DFS_post_order_iterative(self):
+        #       9
+        #    4      20
+        #  1  6   15  170
+        #Post-Order: 1,6,4,15,170,20,9          
+        stack = [self.root]
+        result_stack = []
 
-        while stack or current:
-            if current: #go all the way to the left
-                stack.append(current)
-                current = current.left #eventually this will be None, so then we rely on the stack
-            else: #----------------------> No left nodes left
-                temp = stack[-1].right #right node of the last element added to the the stack
-                if temp: #right node found
-                    current = temp #ending the loop here current will be placed in the stack
-                    continue #just to make things clearer
-                else: #no left or right nodes, we must retrieve element from stack
-                    temp = stack.pop()
-                    result.append(temp.value)
-                    
-                    while stack and temp == stack[-1].right:
-                        temp = stack.pop()
-                        result.append(temp.value)
-                        
-                #end of: if temp
-            #end of: if current
-        #end of while
- 
-                    
+        while stack:
+            node = stack.pop()
+            if node:
+                result_stack.append(node.value)
+                stack.append(node.left)
+                stack.append(node.right)
 
-        return result
+        return_list = result_stack[::-1]
+        return return_list
+
     #------------------------------------------------------------------     
 
         
@@ -254,11 +289,11 @@ tree.insert(1)
 #In-Order:  1,4,6,9,15,20,170
 #Post-Order: 1,6,4,15,170,20,9
 
-print('--------------------------')
-x = tree.DFS_PostOrder()
-expected_result = [1,6,4,15,170,20,9]
-print(f"Tree DFS Post-Order: {x}")
-print(f"Is the result correct? {x == expected_result}")
+# print('--------------------------')
+# x = tree.DFS_PostOrder()
+# expected_result = [1,6,4,15,170,20,9]
+# print(f"Tree DFS Post-Order: {x}")
+# print(f"Is the result correct? {x == expected_result}")
 
 # print('--------------------------')
 # x = tree.DFS_PreOrder()
@@ -266,10 +301,10 @@ print(f"Is the result correct? {x == expected_result}")
 # print(f"Tree DFS Pre-Order: {x}")
 # print(f"Is the result correct? {x == expected_result}")
 
-# print('--------------------------')
-# x = tree.DFS_InOrder()
-# expected_result = [1,4,6,9,15,20,170]
-# print(f"Tree DFS In-Order: {x}")
-# print(f"Is the result correct? {x == expected_result}")
+print('--------------------------')
+x = tree.DFS_InOrder()
+expected_result = [1,4,6,9,15,20,170]
+print(f"Tree DFS In-Order: {x}")
+print(f"Is the result correct? {x == expected_result}")
 
 
