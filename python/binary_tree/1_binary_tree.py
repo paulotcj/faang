@@ -1,11 +1,13 @@
+#------------------------------------------------------------------
 class Node:
+    #------------------------------------------------------------------
     def __init__(self, value) -> None:
         self.left = None
         self.right = None
         self.value = value
-
-#--------
-
+    #------------------------------------------------------------------        
+#------------------------------------------------------------------
+#------------------------------------------------------------------
 class BinaryTree:
     #------------------------------------------------------------------
     def __init__(self) -> None:
@@ -72,7 +74,7 @@ class BinaryTree:
         #---------------
         return None
     #------------------------------------------------------------------   
-        #------------------------------------------------------------------
+    #------------------------------------------------------------------
     def find_in_order_successor(self, param_node):
         if param_node == None or param_node.right == None: return None
         current = param_node.right
@@ -83,7 +85,6 @@ class BinaryTree:
                 current = current.left
             else:
                 return {'current' : current, 'parent' : parent}
-
     #------------------------------------------------------------------   
     #------------------------------------------------------------------
     def remove(self, value):
@@ -158,10 +159,7 @@ class BinaryTree:
         current.left = None
         current.right = None
         return current
-
-      
     #------------------------------------------------------------------
-
     def print(self):
         print(f"-------------------------------------------")
         node_list = []
@@ -180,7 +178,8 @@ class BinaryTree:
             print(f"Current value: {current.value}, current.left: {left_summary} , current.right: {right_summary}")
 
             current =  node_list.pop(0) if node_list else None 
-
+    #------------------------------------------------------------------
+#------------------------------------------------------------------
 
 
 #--------    
