@@ -164,6 +164,10 @@ class BinaryTree:
     #------------------------------------------------------------------    
     #------------------------------------------------------------------
     def __DFS_in_order_iterative(self):
+        #       9
+        #    4      20
+        #  1  6   15  170        
+        #In-Order:  1,4,6,9,15,20,170   
         return_list = []
         stack = []
         current = self.root
@@ -289,17 +293,17 @@ tree.insert(1)
 #In-Order:  1,4,6,9,15,20,170
 #Post-Order: 1,6,4,15,170,20,9
 
-# print('--------------------------')
-# x = tree.DFS_PostOrder()
-# expected_result = [1,6,4,15,170,20,9]
-# print(f"Tree DFS Post-Order: {x}")
-# print(f"Is the result correct? {x == expected_result}")
+print('--------------------------')
+x = tree.DFS_PostOrder()
+expected_result = [1,6,4,15,170,20,9]
+print(f"Tree DFS Post-Order: {x}")
+print(f"Is the result correct? {x == expected_result}")
 
-# print('--------------------------')
-# x = tree.DFS_PreOrder()
-# expected_result = [9,4,1,6,20,15,170]
-# print(f"Tree DFS Pre-Order: {x}")
-# print(f"Is the result correct? {x == expected_result}")
+print('--------------------------')
+x = tree.DFS_PreOrder()
+expected_result = [9,4,1,6,20,15,170]
+print(f"Tree DFS Pre-Order: {x}")
+print(f"Is the result correct? {x == expected_result}")
 
 print('--------------------------')
 x = tree.DFS_InOrder()
