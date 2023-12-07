@@ -86,6 +86,8 @@ class MyGraph_Dijkstra_Path:
             # 2 - If no previous path is found, add one
 
             if  child.node in self.distance_table:
+                if child.node == 'B':
+                    print('debug')
                 # we need to update the existing reference if the added distance of the current node and its previous node is less than
                 # the distance of the existing conn
                 path_so_far = self.distance_table[child.node]
@@ -97,6 +99,8 @@ class MyGraph_Dijkstra_Path:
                 if current_node_dist.shortest_distance > sum_distances:
                     current_node_dist.shortest_distance = sum_distances #updated new shorter distance
                     current_node_dist.prev = current_node #the shortest path now is taken through the current child node
+                    
+                    self.distance_table[current_node] = current_node_dist
 
                     # if the shortest distance of this path is altered we need to reevaluate all paths connected to this path
                     #  therefore, we need to enqueue again
