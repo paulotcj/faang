@@ -94,7 +94,7 @@ class MyGraph_Dijkstra_Path:
                 sum_distances = (path_so_far.shortest_distance + child.edge_distance)
 
                 # did we find a shorter path? if yes update!
-                if current_node_dist.shortest_distance < sum_distances:
+                if current_node_dist.shortest_distance > sum_distances:
                     current_node_dist.shortest_distance = sum_distances #updated new shorter distance
                     current_node_dist.prev = current_node #the shortest path now is taken through the current child node
 
@@ -124,6 +124,9 @@ class MyGraph_Dijkstra_Path:
         self.distance_table[param_start] = ShortestDist(dist=0, prev=param_start)
 
         while self.q:
+            print(f"printing the queue")
+            print(self.q)
+
             current = self.q.pop(0)
             #calculate distance table for current
             self.__calculate_distance_table(current) #this step is far too complicated so it is better to place it in a separate place
@@ -132,7 +135,7 @@ class MyGraph_Dijkstra_Path:
     def print_distance_table(self):
         if self.distance_table == None: return
 
-        for k, v in self.distance_table:
+        for k, v in self.distance_table.items():
             print(f"Vertex: {k} - Shortest Distance: {v.shortest_distance} - Previous vertex: {v.prev} ")
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
@@ -177,7 +180,7 @@ class MyGraph_Dijkstra_Path_Test:
         print(f"Does the summary results match the expected results? Answer: {result == expected_result}")
         print("-------")
         g.dijkstra(param_start="A")
-        # g.print_distance_table()
+        g.print_distance_table()
 
 
     #-------------------------------------------------------------------------
