@@ -86,8 +86,7 @@ class MyGraph_Dijkstra_Path:
             # 2 - If no previous path is found, add one
 
             if  child.node in self.distance_table:
-                if child.node == 'B':
-                    print('debug')
+
                 # we need to update the existing reference if the added distance of the current node and its previous node is less than
                 # the distance of the existing conn
                 path_so_far = self.distance_table[child.node]
@@ -98,9 +97,9 @@ class MyGraph_Dijkstra_Path:
                 # did we find a shorter path? if yes update!
                 if current_node_dist.shortest_distance > sum_distances:
                     current_node_dist.shortest_distance = sum_distances #updated new shorter distance
-                    current_node_dist.prev = current_node #the shortest path now is taken through the current child node
+                    current_node_dist.prev = child.node #the shortest path now is taken through the current child node
                     
-                    self.distance_table[current_node] = current_node_dist
+                    # self.distance_table[current_node] = current_node_dist
 
                     # if the shortest distance of this path is altered we need to reevaluate all paths connected to this path
                     #  therefore, we need to enqueue again
@@ -128,8 +127,8 @@ class MyGraph_Dijkstra_Path:
         self.distance_table[param_start] = ShortestDist(dist=0, prev=param_start)
 
         while self.q:
-            print(f"printing the queue")
-            print(self.q)
+            # print(f"printing the queue")
+            # print(self.q)
 
             current = self.q.pop(0)
             #calculate distance table for current
@@ -137,10 +136,42 @@ class MyGraph_Dijkstra_Path:
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def print_distance_table(self):
-        if self.distance_table == None: return
+        return self.__print_distance_table(self.distance_table)
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def __print_distance_table(self, param_distance_table):
+        if param_distance_table == None: return
+        return_result = []
 
-        for k, v in self.distance_table.items():
-            print(f"Vertex: {k} - Shortest Distance: {v.shortest_distance} - Previous vertex: {v.prev} ")
+        for k, v in param_distance_table.items():
+            temp_str = f"Vertex: {k} - Shortest Distance: {v.shortest_distance} - Previous vertex: {v.prev}"
+            print(temp_str)
+            return_result.append(temp_str)
+
+        return return_result        
+    #-------------------------------------------------------------------------    
+    #-------------------------------------------------------------------------
+    def find_shortest_path_to(self, endpoint):
+        select = None
+        prev = None
+        shortest_path_route = []
+        while True:
+            prev = select
+            select = {endpoint : self.distance_table[endpoint]}
+            shortest_path_route.append([endpoint, self.distance_table[endpoint].shortest_distance])
+            
+            if self.distance_table[endpoint].shortest_distance == 0:
+                # self.__print_distance_table(select)
+                break
+            
+            # self.__print_distance_table(select)
+            endpoint = self.distance_table[endpoint].prev
+        #end of while loop
+        #---------
+        return shortest_path_route
+
+
+
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 class MyGraph_Dijkstra_Path_Test:
@@ -179,12 +210,34 @@ class MyGraph_Dijkstra_Path_Test:
             "Node D - Connects to: A (dist:1), B (dist:2), E (dist:1), ",
             "Node E - Connects to: B (dist:2), C (dist:5), D (dist:1), "
         ]
+        print("Analyzing the graph:")
         result = g.print()
+
+        print(f"\nDoes the summary results match the expected results? Answer: {result == expected_result}")
         print("-------")
+        expected_result = [
+            "Vertex: A - Shortest Distance: 0 - Previous vertex: A",
+            "Vertex: B - Shortest Distance: 3 - Previous vertex: D",
+            "Vertex: D - Shortest Distance: 1 - Previous vertex: A",
+            "Vertex: E - Shortest Distance: 2 - Previous vertex: D",
+            "Vertex: C - Shortest Distance: 7 - Previous vertex: E",            
+        ]
+        g.dijkstra(param_start="A")
+        print("Dijkstra distance table\n(Note we can derive a route considering the origin from 'A' ):\n")
+        result = g.print_distance_table()
+
+        print(f"\nDoes the summary results match the expected results? Answer: {result == expected_result}")
+        print("-------")
+        expected_result = [
+            ['C', 7],
+            ['E', 2],
+            ['D', 1],
+            ['A', 0]
+        ]        
+        result = g.find_shortest_path_to("C")
+        print(f"Result for the shortest path from A to C: {result}")
         print(f"Does the summary results match the expected results? Answer: {result == expected_result}")
         print("-------")
-        g.dijkstra(param_start="A")
-        g.print_distance_table()
 
 
     #-------------------------------------------------------------------------
