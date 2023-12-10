@@ -51,12 +51,15 @@ class MyGraph_Dijkstra_Path:
         node1_dist = NodeDist(node1,distance)
         node2_dist = NodeDist(node2,distance)
         #---
-        entry_exists = True if node2 in self.data[node1] else False
-        if entry_exists == False:
+        
+        # entry_exists = True if node2 in self.data[node1] else False
+        entry_exists = [node_i for node_i in self.data[node1] if node_i.node == node2 ]
+        if len(entry_exists) == 0 and node1 != node2:
             self.data[node1].append(node2_dist)
         #---
-        entry_exists = True if node1 in self.data[node2] else False
-        if entry_exists == False:
+        # entry_exists = True if node1 in self.data[node2] else False
+        entry_exists = [node_i for node_i in self.data[node2] if node_i.node == node1 ]
+        if len(entry_exists) == 0 and node1 != node2:
             self.data[node2].append(node1_dist)
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
@@ -143,6 +146,8 @@ class MyGraph_Dijkstra_Path:
         if param_distance_table == None: return
         return_result = []
 
+        param_distance_table = dict(sorted(param_distance_table.items()))
+
         for k, v in param_distance_table.items():
             temp_str = f"Vertex: {k} - Shortest Distance: {v.shortest_distance} - Previous vertex: {v.prev}"
             print(temp_str)
@@ -169,9 +174,18 @@ class MyGraph_Dijkstra_Path:
         #end of while loop
         #---------
         return shortest_path_route
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def input_data_from_matrix(self, headers_list, connection_matrix, distance_matrix):
+        for header_i in range(len(headers_list)):
+            node_1 = headers_list[header_i] 
 
-
-
+            for conn_i in range(len(connection_matrix[header_i])):
+                target_connection = connection_matrix[header_i][conn_i]
+                if  target_connection == 1:
+                    node_2 = headers_list[conn_i]
+                    distance = distance_matrix[header_i][conn_i]
+                    self.add_edge(node1 = node_1, node2= node_2, distance= distance)            
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 class MyGraph_Dijkstra_Path_Test:
@@ -203,7 +217,7 @@ class MyGraph_Dijkstra_Path_Test:
         g.add_edge("D", "E", 1)
         g.add_edge("E", "C", 5)
 
-        expected_result = [
+        connections_expected_result = [
             "Node A - Connects to: B (dist:6), D (dist:1), ",
             "Node B - Connects to: A (dist:6), C (dist:5), D (dist:2), E (dist:2), ",
             "Node C - Connects to: B (dist:5), E (dist:5), ",
@@ -211,33 +225,106 @@ class MyGraph_Dijkstra_Path_Test:
             "Node E - Connects to: B (dist:2), C (dist:5), D (dist:1), "
         ]
         print("Analyzing the graph:")
-        result = g.print()
+        connection_result = g.print()
 
-        print(f"\nDoes the summary results match the expected results? Answer: {result == expected_result}")
+        print(f"\nDoes the summary results match the expected results? Answer: {connection_result == connections_expected_result}")
+        
+        
         print("-------")
-        expected_result = [
+
+        shortest_distance_table_expected_result = [
             "Vertex: A - Shortest Distance: 0 - Previous vertex: A",
             "Vertex: B - Shortest Distance: 3 - Previous vertex: D",
+            "Vertex: C - Shortest Distance: 7 - Previous vertex: E",
             "Vertex: D - Shortest Distance: 1 - Previous vertex: A",
             "Vertex: E - Shortest Distance: 2 - Previous vertex: D",
-            "Vertex: C - Shortest Distance: 7 - Previous vertex: E",            
         ]
+
+
         g.dijkstra(param_start="A")
         print("Dijkstra distance table\n(Note we can derive a route considering the origin from 'A' ):\n")
-        result = g.print_distance_table()
+        shortest_distance_table_result = g.print_distance_table()
 
-        print(f"\nDoes the summary results match the expected results? Answer: {result == expected_result}")
+        print(f"\nDoes the summary results match the expected results? Answer: {shortest_distance_table_result == shortest_distance_table_expected_result}")
         print("-------")
-        expected_result = [
+        route_expected_result = [
             ['C', 7],
             ['E', 2],
             ['D', 1],
             ['A', 0]
         ]        
-        result = g.find_shortest_path_to("C")
-        print(f"Result for the shortest path from A to C: {result}")
-        print(f"Does the summary results match the expected results? Answer: {result == expected_result}")
+        route_result = g.find_shortest_path_to("C")
+        print(f"Result for the shortest path from A to C: {route_result}")
+        print(f"Does the summary results match the expected results? Answer: {route_result == route_expected_result}")
         print("-------")
+
+        #---------------------------------------
+        # Matrix representation of the graph
+        #    A-------B
+        #    |     / |  \ 
+        #    |   /   |    C
+        #    | /     |  /
+        #    D-------E
+
+        #       (6)
+        #    A-------B
+        #    | (2) / |  \(5)
+        # (1)|   /   |    C
+        #    | /  (2)|  /(5)
+        #    D-------E
+        #       (1)
+
+        #     A  B  C  D  E
+        #  A  1  1  0  1  0        
+        #  B  1  1  1  1  1    
+        #  C  0  1  1  0  1    
+        #  D  1  1  0  1  1    
+        #  E  0  1  1  1  1  
+        
+        nodes_list = ["A", "B", "C", "D", "E" ]  
+        nodes_connections = [
+            #A   B   C   D   E
+            [1,  1,  0,  1,  0], # A
+            [1,  1,  1,  1,  1], # B
+            [0,  1,  1,  0,  1], # C
+            [1,  1,  0,  1,  1], # D
+            [0,  1,  1,  1,  1]  # E       
+        ]
+
+        #Note: -1 distances are for nodes that are not connected
+        nodes_distance = [
+              #A   B   C   D   E
+            [  0,  6, -1,  1, -1 ], # A
+            [  6,  0,  5,  2,  2 ], # B
+            [ -1,  5,  0, -1,  5 ], # C
+            [  1,  2, -1,  0,  1 ], # D
+            [ -1,  2,  5,  1,  0 ]  # E         
+        ]
+
+        #Let's start a new graph
+        g = MyGraph_Dijkstra_Path()
+        g.input_data_from_matrix(headers_list = nodes_list, connection_matrix = nodes_connections,
+                                 distance_matrix = nodes_distance)
+        
+        print("Matrix representation of the graph")
+        matrix_connection_result = g.print()
+        print(f"Does the summary results match the expected results? Answer: {matrix_connection_result == connections_expected_result}")
+        print("-------")
+
+
+        g.dijkstra(param_start="A")
+        print("Dijkstra distance table (USING MATRICES)\n(Note we can derive a route considering the origin from 'A' ):\n")
+        matrix_shortest_distance_table_result = g.print_distance_table()
+
+        print(f"\nDoes the summary results match the expected results? Answer: {matrix_shortest_distance_table_result == shortest_distance_table_expected_result}")
+        print("-------")  
+
+        matrix_route_result = g.find_shortest_path_to("C")
+        print(f"(Matrix) Result for the shortest path from A to C: {route_result}")
+        print(f"Does the summary results match the expected results? Answer: {matrix_route_result == route_expected_result}")
+        print("-------")              
+
+           
 
 
     #-------------------------------------------------------------------------
