@@ -13,6 +13,17 @@ def add_edge(graph_dict, node1, node2, distance):
     # print(graph_dict)
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
+def calculate_new_distance(graph, queue, distances, previous_nodes, curr_node, curr_distance):
+
+    for neighbor, neighbor_distance in graph[curr_node].items():
+        new_distance = curr_distance + neighbor_distance
+        if new_distance < distances[neighbor]:
+            distances[neighbor] = new_distance
+            previous_nodes[neighbor] = curr_node
+            heapq.heappush(queue, (neighbor,new_distance))
+    
+#-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
 def dijkstra(graph, start):
     #--------------------
     # prep
@@ -25,12 +36,9 @@ def dijkstra(graph, start):
         (curr_node, curr_distance) = heapq.heappop(queue)
         #-----
         if curr_distance <= distances[curr_node]:
-            for neighbor, neighbor_distance in graph[curr_node].items():
-                new_distance = curr_distance + neighbor_distance
-                if new_distance < distances[neighbor]:
-                    distances[neighbor] = new_distance
-                    previous_nodes[neighbor] = curr_node
-                    heapq.heappush(queue, (neighbor,new_distance))
+            calculate_new_distance(graph = graph, queue = queue, distances = distances,
+                                   previous_nodes = previous_nodes, curr_node = curr_node,
+                                   curr_distance = curr_distance)
         #-----
     #end of while
     #--------------------
