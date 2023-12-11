@@ -1,13 +1,15 @@
 import heapq
 
 #-------------------------------------------------------------------------
-def add_edge(graph, node1, node2, cost):
-    if node1 not in graph:
-        graph[node1] = {}
-    if node2 not in graph:
-        graph[node2] = {}
-    graph[node1][node2] = cost
-    graph[node2][node1] = cost
+def add_edge(graph_dict, node1, node2, distance):
+    #graph_dict is a dictionary of dictionaries
+    if node1 not in graph_dict:
+        graph_dict[node1] = {}
+    if node2 not in graph_dict:
+        graph_dict[node2] = {}
+
+    graph_dict[node1][node2] = distance
+    graph_dict[node2][node1] = distance
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 def dijkstra(graph, start):
@@ -56,6 +58,8 @@ def shortest_path(graph, start, end):
 #       (1)    
 graph = {}
 add_edge(graph, "A", "B", 6)
+add_edge(graph, "A", "B", 6) # duplicate entry - added to test
+add_edge(graph, "A", "B", 6) # duplicate entry - added to test
 add_edge(graph, "A", "D", 1)
 add_edge(graph, "B", "D", 2)
 add_edge(graph, "B", "E", 2)
