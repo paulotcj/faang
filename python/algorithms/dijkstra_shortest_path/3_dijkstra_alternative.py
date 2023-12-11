@@ -10,25 +10,28 @@ def add_edge(graph_dict, node1, node2, distance):
 
     graph_dict[node1][node2] = distance
     graph_dict[node2][node1] = distance
+    # print(graph_dict)
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 def dijkstra(graph, start):
     #--------------------
     # prep
-    queue = [(0, start)]
-    distances = {node: float('infinity') for node in graph}
+    queue = [(start, 0)]
+    distances = {node: float('infinity') for node in graph} # creates a dictionary, the keys are the nodes in the graph, and the values are initially set to 'infinity'
     distances[start] = 0
     previous_nodes = {node: None for node in graph}
     #--------------------
     while queue:
-        (distance, current_node) = heapq.heappop(queue)
-        if distance <= distances[current_node]:
-            for neighbor, neighbor_distance in graph[current_node].items():
-                new_distance = distance + neighbor_distance
+        (curr_node, curr_distance) = heapq.heappop(queue)
+        #-----
+        if curr_distance <= distances[curr_node]:
+            for neighbor, neighbor_distance in graph[curr_node].items():
+                new_distance = curr_distance + neighbor_distance
                 if new_distance < distances[neighbor]:
                     distances[neighbor] = new_distance
-                    previous_nodes[neighbor] = current_node
-                    heapq.heappush(queue, (new_distance, neighbor))
+                    previous_nodes[neighbor] = curr_node
+                    heapq.heappush(queue, (neighbor,new_distance))
+        #-----
     #end of while
     #--------------------
     return distances, previous_nodes
@@ -67,7 +70,7 @@ add_edge(graph, "B", "C", 5)
 add_edge(graph, "D", "E", 1)
 add_edge(graph, "E", "C", 5)
 
-print(dijkstra(graph, "A")) 
+print(dijkstra(graph, "A")[0]) # 0 = distances, 1 = previous_nodes - we only want the distances here
 
 print(shortest_path(graph, "A", "C"))
 
