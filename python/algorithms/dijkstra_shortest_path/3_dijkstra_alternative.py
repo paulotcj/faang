@@ -33,7 +33,7 @@ def dijkstra(graph, start):
     previous_nodes = {node: None for node in graph}
     #--------------------
     while queue:
-        (curr_node, curr_distance) = heapq.heappop(queue)
+        curr_node, curr_distance = heapq.heappop(queue)
         #-----
         if curr_distance <= distances[curr_node]:
             calculate_new_distance(graph = graph, queue = queue, distances = distances,
