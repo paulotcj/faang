@@ -70,17 +70,17 @@ def shortest_path(graph, start, end):
 #    D-------E
 #       (1)    
 
-# graph = {}
-# add_edge(graph, "A", "B", 5)
-# add_edge(graph, "A", "C", 1)
-# add_edge(graph, "C", "B", 1)
+graph = {}
+add_edge(graph, "A", "B", 5)
+add_edge(graph, "A", "C", 1)
+add_edge(graph, "C", "B", 1)
 
 
-# print(dijkstra(graph, "A")[0]) # 0 = distances, 1 = previous_nodes - we only want the distances here
+print(dijkstra(graph, "A")[0]) # 0 = distances, 1 = previous_nodes - we only want the distances here
 
-# print(shortest_path(graph, "A", "B"))
+print(shortest_path(graph, "A", "B"))
 
-# print('-------------------')
+print('-------------------')
 # exit()
 
 graph = {}
@@ -97,45 +97,45 @@ add_edge(graph, "C", "D", 8)
 print(shortest_path(graph, "A", "D"))
 
 print('-------------------')
-exit()
+# exit()
 
 
-# graph = {}
-# add_edge(graph, "A", "B", 6)
-# add_edge(graph, "A", "B", 6) # duplicate entry - added to test
-# add_edge(graph, "A", "B", 6) # duplicate entry - added to test
-# add_edge(graph, "A", "D", 1)
-# add_edge(graph, "B", "D", 2)
-# add_edge(graph, "B", "E", 2)
-# add_edge(graph, "B", "C", 5)
-# add_edge(graph, "D", "E", 1)
-# add_edge(graph, "E", "C", 5)
+graph = {}
+add_edge(graph, "A", "B", 6)
+add_edge(graph, "A", "B", 6) # duplicate entry - added to test
+add_edge(graph, "A", "B", 6) # duplicate entry - added to test
+add_edge(graph, "A", "D", 1)
+add_edge(graph, "B", "D", 2)
+add_edge(graph, "B", "E", 2)
+add_edge(graph, "B", "C", 5)
+add_edge(graph, "D", "E", 1)
+add_edge(graph, "E", "C", 5)
 
-# print(dijkstra(graph, "A")[0]) # 0 = distances, 1 = previous_nodes - we only want the distances here
+print(dijkstra(graph, "A")[0]) # 0 = distances, 1 = previous_nodes - we only want the distances here
 
-# print(shortest_path(graph, "A", "C"))
+print(shortest_path(graph, "A", "C"))
 
 # exit()
-# print('-------------------')
+print('-------------------')
 
-# graph = {}
-# add_edge(graph, "A", "B", 5)
-# add_edge(graph, "A", "C", 1)
+graph = {}
+add_edge(graph, "A", "B", 5)
+add_edge(graph, "A", "C", 1)
 
-# add_edge(graph, "B", "D", 2)
-# add_edge(graph, "C", "D", 8)
+add_edge(graph, "B", "D", 2)
+add_edge(graph, "C", "D", 8)
 
-# add_edge(graph, "D", "E", 1)
-# add_edge(graph, "D", "F", 1)
+add_edge(graph, "D", "E", 1)
+add_edge(graph, "D", "F", 1)
 
-# add_edge(graph, "E", "G", 2)
-# add_edge(graph, "F", "G", 1)
+add_edge(graph, "E", "G", 2)
+add_edge(graph, "F", "G", 1)
 
 
-# print(dijkstra(graph, "A")[0]) # 0 = distances, 1 = previous_nodes - we only want the distances here
+print(dijkstra(graph, "A")[0]) # 0 = distances, 1 = previous_nodes - we only want the distances here
 
-# print(shortest_path(graph, "A", "G"))
-# print('-------------------')
+print(shortest_path(graph, "A", "G"))
+print('-------------------')
 # exit()
 
 
