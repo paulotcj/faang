@@ -1,5 +1,47 @@
 import heapq
-
+#-------------------------------------------------------------------------
+def __explanation_and_collapsable():
+    pass 
+    # Consider the following graph with the distances between the parenteses:
+    #       (5)
+    #    A-------B
+    #    |       |
+    #    |(1)    |(2)
+    #    |       |
+    #    C-------D
+    #       (8)
+    #
+    # And considering we are looking to find the shortest path from A to all different nodes, and ultimately we want to find the
+    #  shortest path from A to D.
+    # So we start by queueing A (in a priority queue ordered by distance), and we set the distance of A to 0.
+    # We then examine all nodes connections (in this case all nodes connected to A), and we update the distance of the nodes connected to A.
+    # We find that A is connected to B(5) and C(1)
+    # Now we queue B and C to be checked next, and we also set a shortest path table.
+    # Here's the representation of the priority queue (distance,node): (1, C) , (5, B)
+    # And here's the representation of the shortest path table: {A: None, B: A, C: A, D: None}
+    #
+    # Now we pop the first node from the queue, C, and we examine its connections. It's connected to A(1) and D(8). For simplicity, we'll
+    #  ignore A, since we already examined that path.
+    # The connection to D has a distance of 8, and we update the distance of D to 9, since A --(1)--> C --(8)--> D = 9
+    # Here's the representation of the priority queue (distance,node): (5, B), (9, D)
+    # And here's the representation of the shortest path table: {A: None, B: A, C: A, D: C}
+    #
+    # Now we pop the first node from the queue, B, and we examine its connections. It's connected to A(5) and D(2). For simplicity, we'll
+    #  ignore A, since we already examined that path.
+    # The connection from B to D has a distance of 2, and we update the distance of D to 7, since A --(5)--> B --(2)--> D = 7
+    # Here's the representation of the priority queue (distance,node): (7,D), (9, D)
+    # And here's the representation of the shortest path table: {A: None, B: A, C: A, D: B}    
+    #
+    # Now we pop the first node from the queue, D, and we examine its connections. It's connected to B(2) and C(8). In this specific case, we
+    #  know that we already explored the connections to B and C, so we can ignore them, but in reality the algorithm should still examine D's
+    #  connections, since there might be connections to a new node that we haven't explored yet, thus leading to pottentionally shorter paths.
+    #
+    # In the end we explore the connections and confirm the shortest path from A to D is A --(5)--> B --(2)--> D = 7
+    # And we can trace back the path from the shortest path table, consider the final result: {A: None, B: A, C: A, D: B}  
+    # If we want to get the path from A to D, we start from D, and we can see the previous node is B, so we add B to the path, and then we see that
+    #  B previous node is A.
+    # The final path is D -> B -> A   Which can be easily reversed to A -> B -> D
+#-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 def add_edge(graph_dict, node1, node2, distance):
     #graph_dict is a dictionary of dictionaries
