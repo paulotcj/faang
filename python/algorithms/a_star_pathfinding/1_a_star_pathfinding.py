@@ -92,7 +92,6 @@ class A_Star_Pathfinding:
                 heapq.heappush(queue, (temp, new_distance, neighbor))
 
                 if neighbor == end_node: 
-                    print('hi')
                     return
                 
        
@@ -345,7 +344,33 @@ x.add_edge("D", "F")
 
 
 print(x.shortest_path("A", "J"))       
+    
+
+print('----------------------------------')
+
+graph = {}
+element_locations = { 'A': [1,1], 'B': [3,1] , 'C' : [5,1], 'D': [6,3], 'E': [7,1], 'F' : [8,3], 
+                     'G': [9,1], 'H': [10,4], 'I':[11,1], 'J':[12,4], 'K':[13,1],
+                      'L':[6,5], 'M':[13,5] }
+x = A_Star_Pathfinding(graph=graph, element_locations=element_locations)    
+
+x.add_edge("A", "B")
+x.add_edge("B", "C")
+x.add_edge("C", "D")
+x.add_edge("D", "E")
+x.add_edge("E", "F")
+x.add_edge("F", "G")
+x.add_edge("G", "H")
+x.add_edge("H", "I")
+x.add_edge("I", "J")
+x.add_edge("J", "K")
+
+x.add_edge("A", "L")
+x.add_edge("L", "M")
+x.add_edge("M", "K")
+
+print(x.shortest_path("A", "K"))   
 
 
-print('hi')
+print('END')
 
