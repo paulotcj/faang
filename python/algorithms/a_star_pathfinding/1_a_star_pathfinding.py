@@ -72,7 +72,7 @@ class A_Star_Pathfinding:
         # the current distance is calculated from the perspective of the start node
         connections_to_curr_node = graph[inspecting_node]
         for neighbor, neighbor_distances in connections_to_curr_node.items(): #from the perspective of the current node, we connect the current shortest distance of this node to its neighbors, and check if we found a new shorter path
-            new_distance = inspecting_node_distance + neighbor_distances[1]  #new distance to the neighbor, perhapes we found a new shorter path?
+            new_distance = inspecting_node_distance + self.heuristic_distances[inspecting_node]  #new distance to the neighbor, perhapes we found a new shorter path?
             if new_distance < distances[neighbor]:
                 distances[neighbor] = new_distance
                 path_table[neighbor] = inspecting_node
