@@ -21,12 +21,6 @@ class A_Star_Pathfinding:
             distance = self.__calc_distance(e, end)
             self.heuristic_distances[e] = distance
     #-------------------------------------------------------------------------    
-    # #-------------------------------------------------------------------------
-    # def add_edge(self, from_node, to_node):
-    #     if from_node not in self.graph:
-    #         self.graph[from_node] = {}
-    #     self.graph[from_node][to_node] = self.__calc_distance(from_node, to_node)
-    # #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def add_edge(self,from_node, to_node):
         #graph_dict is a dictionary of dictionaries
