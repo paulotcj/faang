@@ -226,6 +226,7 @@ class A_Star_Pathfinding:
 # x.add_edge("G", "I")
 # x.add_edge("I", "J")
     
+# print(x.shortest_path("A", "J"))      
 
 # print('----------------------------------')
 

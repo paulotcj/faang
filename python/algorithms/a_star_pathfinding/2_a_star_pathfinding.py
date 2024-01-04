@@ -42,7 +42,6 @@ class A_Star_Pathfinding:
     #-------------------------------------------------------------------------            
     #-------------------------------------------------------------------------
     def a_star_search(self, start, end):
-        # self.__find_heuristic(end)
         priority_queue = []
         #---
         heapq.heappush(priority_queue, (0, start))
@@ -56,11 +55,12 @@ class A_Star_Pathfinding:
                 break
 
             for next_node in self.graph[current]:
-                new_cost = dist_so_far[current] + self.graph[current][next_node]
-                if next_node not in dist_so_far or new_cost < dist_so_far[next_node]:
-                    dist_so_far[next_node] = new_cost
-                    curr_dist = new_cost + self.__calc_distance(end, next_node)
-                    heapq.heappush(priority_queue, (curr_dist, next_node))
+                new_distance = dist_so_far[current] + self.graph[current][next_node]
+                if next_node not in dist_so_far or new_distance < dist_so_far[next_node]:
+                    dist_so_far[next_node] = new_distance
+                    heuristic = self.__calc_distance(next_node, end)
+                    temp = new_distance + heuristic
+                    heapq.heappush(priority_queue, (temp, next_node))
                     came_from[next_node] = current
 
         return came_from, dist_so_far
@@ -76,20 +76,166 @@ class A_Star_Pathfinding:
     #-------------------------------------------------------------------------    
 #-------------------------------------------------------------------------
     
-graph = {}
-element_locations = { 'A': [1,1], 'B': [1,7] , 'C' : [7,7] }
+# print('----------------------------------')    
+# graph = {}
+# element_locations = { 'A': [1,1], 'B': [1,7] , 'C' : [7,7] }
 
 
-x = A_Star_Pathfinding(graph=graph, element_locations=element_locations)
-x.add_edge("A", "B")
-x.add_edge("A", "C")
-x.add_edge("B", "C")
+# x = A_Star_Pathfinding(graph=graph, element_locations=element_locations)
+# x.add_edge("A", "B")
+# x.add_edge("A", "C")
+# x.add_edge("B", "C")
 
-print(x.shortest_path("A", "C"))    
+# print(x.shortest_path("A", "C"))    
+
+# print('----------------------------------')    
+# graph = {}
+# element_locations = { 'A': [1,1], 'B': [1,7] , 'C' : [7,7], 'D': [1,8] }
+
+
+# x = A_Star_Pathfinding(graph=graph, element_locations=element_locations)
+
+# x.add_edge("A", "D")
+# x.add_edge("A", "B")
+# x.add_edge("B", "C")
+# x.add_edge("D", "C")
+
+# print(x.shortest_path("A", "C"))
+    
+
+# print('----------------------------------')
+
+# graph = {}
+# element_locations = { 'A': [1,1], 'B': [1,7] , 'C' : [7,7], 'D': [1,8] }
+
+
+# x = A_Star_Pathfinding(graph=graph, element_locations=element_locations)
+
+# x.add_edge("A", "D")
+# x.add_edge("A", "B")
+# x.add_edge("A", "C")
+# x.add_edge("B", "C")
+# x.add_edge("D", "C")
+
+# print(x.shortest_path("A", "C"))   
     
 # print('----------------------------------')
 
+# graph = {}
+# element_locations = { 'A': [1,1], 'B': [1,7] , 'C' : [7,7], 'D': [1,8], 'E': [4,4] }
 
+
+# x = A_Star_Pathfinding(graph=graph, element_locations=element_locations)
+
+# x.add_edge("A", "D")
+# x.add_edge("A", "B")
+
+# x.add_edge("A", "E")
+# x.add_edge("E", "C")
+
+# x.add_edge("B", "C")
+# x.add_edge("D", "C")
+
+# print(x.shortest_path("A", "C"))        
+
+
+# print('----------------------------------')
+
+# graph = {}
+# element_locations = { 'A': [1,1], 'B': [2,7] , 'C' : [3,5], 'D': [4,8], 'E': [3,1], 'F' : [5,3], 
+#                      'G': [6,6], 'H': [8,3], 'I':[8,6], 'J':[11,4] }
+
+
+# x = A_Star_Pathfinding(graph=graph, element_locations=element_locations)
+
+# x.add_edge("A", "E")
+# x.add_edge("A", "B")
+
+# x.add_edge("B", "C")
+
+# x.add_edge("E", "C")
+
+# x.add_edge("C", "F")
+# x.add_edge("C", "D")
+
+# x.add_edge("F", "H")
+
+# x.add_edge("D", "G")
+
+# x.add_edge("H", "J")
+# x.add_edge("G", "I")
+# x.add_edge("I", "J")
+
+
+
+# print(x.shortest_path("A", "J"))  
+    
+# print('----------------------------------')
+
+# graph = {}
+# element_locations = { 'A': [1,1], 'B': [2,7] , 'C' : [3,5], 'D': [4,8], 'E': [3,1], 'F' : [5,3], 
+#                      'G': [6,6], 'H': [8,3], 'I':[8,6], 'J':[11,4] }
+
+
+# x = A_Star_Pathfinding(graph=graph, element_locations=element_locations)
+
+# x.add_edge("A", "E")
+# x.add_edge("A", "B")
+
+# x.add_edge("A", "C")
+
+# x.add_edge("B", "C")
+
+# x.add_edge("E", "C")
+
+# x.add_edge("C", "F")
+# x.add_edge("C", "D")
+
+# x.add_edge("F", "H")
+
+# x.add_edge("D", "G")
+
+# x.add_edge("H", "J")
+# x.add_edge("G", "I")
+# x.add_edge("I", "J")    
+
+# print(x.shortest_path("A", "J"))  
+    
+# print('----------------------------------')
+
+# graph = {}
+# element_locations = { 'A': [1,1], 'B': [2,7] , 'C' : [3,5], 'D': [4,8], 'E': [3,1], 'F' : [5,3], 
+#                      'G': [6,6], 'H': [8,3], 'I':[8,6], 'J':[11,4] }
+
+
+# x = A_Star_Pathfinding(graph=graph, element_locations=element_locations)
+
+# x.add_edge("A", "E")
+# x.add_edge("A", "B")
+
+# x.add_edge("A", "C")
+
+# x.add_edge("B", "C")
+
+# x.add_edge("E", "C")
+
+# x.add_edge("C", "F")
+# x.add_edge("C", "D")
+
+# x.add_edge("F", "H")
+
+# x.add_edge("D", "G")
+
+# x.add_edge("H", "J")
+# x.add_edge("G", "I")
+# x.add_edge("I", "J")
+# #--
+# x.add_edge("G", "H")
+
+
+# print(x.shortest_path("A", "J"))      
+
+# print('----------------------------------')    
 
 # graph = {}
 # element_locations = { 'A': [1,1], 'B': [2,7] , 'C' : [3,5], 'D': [4,8], 'E': [3,1], 'F' : [5,3], 
@@ -120,43 +266,78 @@ print(x.shortest_path("A", "C"))
 # #--
 # x.add_edge("G", "H")
 # x.add_edge("E", "F")
-# #--
-
-# x.add_edge("B", "D")
-# x.add_edge("F", "G")
-# x.add_edge("H", "I")
-# x.add_edge("D", "F")
 
 
-
-
-# print(x.shortest_path("A", "J"))       
+# print(x.shortest_path("A", "J"))   
     
+print('----------------------------------')
 
-# print('----------------------------------')
+graph = {}
+element_locations = { 'A': [1,1], 'B': [2,7] , 'C' : [3,5], 'D': [4,8], 'E': [3,1], 'F' : [5,3], 
+                     'G': [6,6], 'H': [8,3], 'I':[8,6], 'J':[11,4] }
+
+
+x = A_Star_Pathfinding(graph=graph, element_locations=element_locations)
+
+x.add_edge("A", "E")
+x.add_edge("A", "B")
+
+x.add_edge("A", "C")
+
+x.add_edge("B", "C")
+
+x.add_edge("E", "C")
+
+x.add_edge("C", "F")
+x.add_edge("C", "D")
+
+x.add_edge("F", "H")
+
+x.add_edge("D", "G")
+
+x.add_edge("H", "J")
+x.add_edge("G", "I")
+x.add_edge("I", "J")
+#--
+x.add_edge("G", "H")
+x.add_edge("E", "F")
+#--
+
+x.add_edge("B", "D")
+x.add_edge("F", "G")
+x.add_edge("H", "I")
+x.add_edge("D", "F")
 
 
 
 
-# graph = {}
-# element_locations = { 'A': [1,1], 'B': [3,1] , 'C' : [5,1], 'D': [6,3], 'E': [7,1], 'F' : [8,3], 
-#                      'G': [9,1], 'H': [10,4], 'I':[11,1], 'J':[12,4], 'K':[13,1],
-#                       'L':[6,5], 'M':[13,5] }
-# x = A_Star_Pathfinding(graph=graph, element_locations=element_locations)    
+print(x.shortest_path("A", "J"))       
+        
 
-# x.add_edge("A", "B")
-# x.add_edge("B", "C")
-# x.add_edge("C", "D")
-# x.add_edge("D", "E")
-# x.add_edge("E", "F")
-# x.add_edge("F", "G")
-# x.add_edge("G", "H")
-# x.add_edge("H", "I")
-# x.add_edge("I", "J")
-# x.add_edge("J", "K")
+print('----------------------------------')
 
-# x.add_edge("A", "L")
-# x.add_edge("L", "M")
-# x.add_edge("M", "K")
+graph = {}
+element_locations = { 'A': [1,1], 'B': [3,1] , 'C' : [5,1], 'D': [6,3], 'E': [7,1], 'F' : [8,3], 
+                     'G': [9,1], 'H': [10,4], 'I':[11,1], 'J':[12,4], 'K':[13,1],
+                      'L':[6,5], 'M':[13,5] }
+x = A_Star_Pathfinding(graph=graph, element_locations=element_locations)    
 
-# print(x.shortest_path("A", "K"))   
+x.add_edge("A", "B")
+x.add_edge("B", "C")
+x.add_edge("C", "D")
+x.add_edge("D", "E")
+x.add_edge("E", "F")
+x.add_edge("F", "G")
+x.add_edge("G", "H")
+x.add_edge("H", "I")
+x.add_edge("I", "J")
+x.add_edge("J", "K")
+
+x.add_edge("A", "L")
+x.add_edge("L", "M")
+x.add_edge("M", "K")
+
+print(x.shortest_path("A", "K"))   
+
+
+print('END')        
