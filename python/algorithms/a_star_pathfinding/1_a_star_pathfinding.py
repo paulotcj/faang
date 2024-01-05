@@ -27,11 +27,8 @@ class A_Star_Pathfinding:
 
         distance = self.__calc_distance(self.element_locations[node1], self.element_locations[node2])
 
-        # self.graph[node1][node2] = {'edge': distance, 'heuristic': float('infinity')}
-        # self.graph[node2][node1] = {'edge': distance, 'heuristic': float('infinity')}
         self.graph[node1][node2] = distance
         self.graph[node2][node1] = distance
-        # print(graph_dict)
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def __find_heuristic(self, end):
@@ -40,9 +37,6 @@ class A_Star_Pathfinding:
             node1 = self.element_locations[e]
             distance = self.__calc_distance(node1, node2)
             self.heuristic_distances[e] = distance
-            
-
-
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def dijkstra(self, start, end):
@@ -232,6 +226,7 @@ class A_Star_Pathfinding:
 # x.add_edge("G", "I")
 # x.add_edge("I", "J")
     
+# print(x.shortest_path("A", "J"))      
 
 # print('----------------------------------')
 
