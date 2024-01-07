@@ -1,5 +1,5 @@
 from typing import List, Dict
-
+#original problem: https://leetcode.com/problems/two-sum/
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
