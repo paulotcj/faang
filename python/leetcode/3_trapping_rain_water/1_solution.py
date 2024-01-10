@@ -76,22 +76,22 @@ class Solution:
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def trap(self, height: List[int]) -> int:
-        left,right = 0, len(height) -1
+        left_i, right_i = 0, len(height) -1
 
         total_water = 0
-        maxLeft = height[left]
-        maxRight = height[right]
+        maxLeft = height[left_i]
+        maxRight = height[right_i]
 
-        while left < right:
+        while left_i < right_i:
             #---
             if maxLeft < maxRight:
-                left += 1
-                maxLeft = max(maxLeft, height[left])
-                total_water += maxLeft - height[left]
+                left_i += 1
+                maxLeft = max(maxLeft, height[left_i])
+                total_water += maxLeft - height[left_i]
             else:
-                right -= 1
-                maxRight = max(maxRight, height[right])
-                total_water += maxRight - height[right]
+                right_i -= 1
+                maxRight = max(maxRight, height[right_i])
+                total_water += maxRight - height[right_i]
             #---
         #---
               
@@ -100,12 +100,13 @@ class Solution:
 #-------------------------------------------------------------------------
 
 sol = Solution()
-input = [0,1]
-expected = 6
+input = [0,1,2,1]
+expected = 0
 result = sol.trap(input)
 print(f'result: {result}')
 print(f'Is the result correct? { result == expected}')
 print('------------------')
+exit(0)
     
 sol = Solution()
 input = [0,1,0,2,1,0,1,3,2,1,2,1]
