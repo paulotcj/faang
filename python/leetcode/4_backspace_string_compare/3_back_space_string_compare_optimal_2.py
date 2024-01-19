@@ -1,3 +1,4 @@
+#problem: https://leetcode.com/problems/backspace-string-compare/description/
 class Solution:
     #-------------------------------------------------------------------------
     def get_next_idx(self, s:str, idx: int) -> int:

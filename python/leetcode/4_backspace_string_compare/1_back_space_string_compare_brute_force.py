@@ -1,3 +1,4 @@
+#problem: https://leetcode.com/problems/backspace-string-compare/description/
 class Solution:
     #-------------------------------------------------------------------------
     def buildString(self, s:str) -> str:
