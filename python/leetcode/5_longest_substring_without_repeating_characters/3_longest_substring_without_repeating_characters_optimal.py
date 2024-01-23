@@ -12,6 +12,9 @@ class Solution:
 
         for high_idx, high_v in enumerate(s):
 
+            # If what we are accessing with high_v is in the dictionary and the index of this value
+            #  is greater or equal to the low_idx, this means the char is repeated in the sequence.
+            # Move low_idx to the next index of the repeated char, and start counting again.
             if seen.get(high_v, -1) >= low_idx:  # -1 is the default value if 'high_v' is not found
                 low_idx = seen[high_v] + 1
 
