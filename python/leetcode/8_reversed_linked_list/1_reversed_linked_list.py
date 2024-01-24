@@ -43,7 +43,6 @@ class Solution:
             curr = curr.next
 
         # this means loop from the (len - 1) to 0, with a step of -1.
-        
         for i in range( (len(list_arr) -1) , -1, -1):
             if i == 0:
                 list_arr[i].next = None
