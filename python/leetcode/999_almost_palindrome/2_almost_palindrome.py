@@ -1,50 +1,40 @@
 #problem: https://leetcode.com/problems/valid-palindrome-ii/description/
 
 
-        
-        
+#-------------------------------------------------------------------------   
 class Solution:
-    
-    #-------------------------------------------------------------------------
-    def isPalindrome(self, s: str, low_idx: int, high_idx: int) -> bool:
-        while( low_idx < high_idx ):
-            
-            low_char = s[low_idx]
-            high_char = s[high_idx]
-
-            if low_char != high_char:
-                return False
-            
-            low_idx += 1
-            high_idx -= 1
-        #-------------
-        return True
-    #-------------------------------------------------------------------------  
-    
     #-------------------------------------------------------------------------
     def validPalindrome(self, s: str) -> bool:
-        low_idx: int = 0
-        high_idx: int = len(s) - 1
+        if s == s[::-1]: #valid palindrome
+            return True
+        else: #check for almost palindrome
+            low_idx:int = 0
+            high_idx:int = len(s) - 1
 
-        while( low_idx < high_idx ):
-            low_char = s[low_idx]
-            high_char = s[high_idx]
+            while low_idx < high_idx:
+                
+                #---
+                if s[low_idx] != s[high_idx]: #not matching
+                    
 
-            #---
-            if low_char != high_char:
-                test_low = self.isPalindrome(s, low_idx + 1, high_idx)
-                if test_low: return True
+                    str_skipping_low:str = s[0:low_idx] + s[low_idx+1:] #copies the entire string but skip the char at low_idx
+                    str_skipping_high:str = s[0:high_idx] + s[high_idx+1:] #copies the entire string but skip the char at low_idx
+                    
+                    #now with 2 possible strings to check if they are palindromes we do the same procedure
+                    # we compare the string with its reverse
+                    if str_skipping_low == str_skipping_low[::-1] or str_skipping_high == str_skipping_high[::-1]: 
+                        return True
+                    else: 
+                        return False
+                #---
                 
-                test_high = self.isPalindrome(s, low_idx, high_idx - 1)
-                if test_high: return True
-                
-                return False
-            #---
-            low_idx += 1
-            high_idx -= 1
-        #-------------
-        return True
+                #chars match, move to the next pair
+                low_idx += 1
+                high_idx -= 1 
+            # end while
+        # end if   
     #-------------------------------------------------------------------------
+
     
 #-------------------------------------------------------------------------
 
