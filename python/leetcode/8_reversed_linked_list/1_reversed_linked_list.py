@@ -34,7 +34,7 @@ class Solution:
         return list 
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def reverseList(self, head: Node) -> Node:
+    def reverseList2(self, head: Node) -> Node:
         list_arr : List[Node] = []
         curr: Node = head
 
@@ -51,9 +51,20 @@ class Solution:
 
         head = list_arr[-1]
         return head
-
-        
     #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def reverseList(self, head: Node) -> Node:
+        curr: Node = head
+        prev:Node = None
+        temp:Node = None
+
+        while curr != None:
+            temp = curr.next
+            curr.next = prev
+            prev = curr
+            curr = temp
+        return prev
+    #-------------------------------------------------------------------------    
 #-------------------------------------------------------------------------
 
 print('----------------------------')
