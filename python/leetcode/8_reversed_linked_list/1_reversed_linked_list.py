@@ -1,30 +1,30 @@
 from typing import Optional, List
 #-------------------------------------------------------------------------
-class Node:
+class ListNode:
     #-------------------------------------------------------------------------
-    def __init__(self, value: int, next: Optional['Node'] = None) -> None:
+    def __init__(self, value: int, next: Optional['ListNode'] = None) -> None:
         self.value = value
         self.next = next
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def create_linked_list(self, arr : List[int]) -> Node:
-        head : Node = None
-        curr : Node = None
+    def create_linked_list(self, arr : List[int]) -> ListNode:
+        head : ListNode = None
+        curr : ListNode = None
 
         for i , v in enumerate(arr):
             if i == 0:
-                head = Node(v)
+                head = ListNode(v)
                 curr = head
             else:
-                curr.next = Node(v)
+                curr.next = ListNode(v)
                 curr = curr.next
         return head
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def print_linked_list(self, head: Node) -> List[int]:
-        curr : Node = head
+    def print_linked_list(self, head: ListNode) -> List[int]:
+        curr : ListNode = head
         list : List[int] = []
         while curr != None:
             list.append(curr.value)
@@ -34,9 +34,9 @@ class Solution:
         return list 
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def reverseList2(self, head: Node) -> Node:
-        list_arr : List[Node] = []
-        curr: Node = head
+    def reverseList2(self, head: ListNode) -> ListNode:
+        list_arr : List[ListNode] = []
+        curr: ListNode = head
 
         while curr != None:
             list_arr.append(curr)
@@ -49,14 +49,16 @@ class Solution:
             else:
                 list_arr[i].next = list_arr[i-1]
 
-        head = list_arr[-1]
-        return head
+        if list_arr:
+            head = list_arr[-1]
+            return head
+        else: return None
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def reverseList(self, head: Node) -> Node:
-        curr: Node = head
-        prev:Node = None
-        temp:Node = None
+    def reverseList3(self, head: ListNode) -> ListNode:
+        curr: ListNode = head
+        prev:ListNode = None
+        temp:ListNode = None
 
         while curr != None:
             temp = curr.next
@@ -64,7 +66,17 @@ class Solution:
             prev = curr
             curr = temp
         return prev
-    #-------------------------------------------------------------------------    
+    #-------------------------------------------------------------------------
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        prev:ListNode = None
+        curr:ListNode = head
+        while curr:
+            curr.next, prev, curr = prev, curr, curr.next
+        
+        return prev
+    #-------------------------------------------------------------------------
+
+    #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
 print('----------------------------')
