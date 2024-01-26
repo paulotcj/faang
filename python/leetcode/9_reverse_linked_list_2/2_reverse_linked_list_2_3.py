@@ -36,55 +36,6 @@ class Solution:
         return list 
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def preProcessList(self, head: ListNode, left: int, right: int) -> None:
-        list_arr : List[ListNode] = []
-
-        curr: ListNode = head
-        i = 0
-        while curr != None:
-            list_arr.append(curr)
-
-            curr = curr.next
-            i += 1
-
-        return left - 1 , right - 1, list_arr
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def reverseList(self, head: ListNode, idx_left: int, idx_right: int, list_arr: List[ListNode]) -> ListNode:
-        curr: ListNode = list_arr[idx_left]
-        prev: ListNode = None
-        temp: ListNode = None
-
-        left_end : ListNode = None
-        right_end : ListNode = None
-
-        if idx_left is not None and idx_left > 0:
-            left_end = list_arr[idx_left - 1]
-            
-        
-        if idx_right is not None and idx_right < len(list_arr) - 1:
-            right_end = list_arr[idx_right + 1]
-            prev = right_end
-
-        while curr != None and curr != right_end:
-            temp = curr.next
-            curr.next = prev
-            prev = curr
-            curr = temp
-
-        if left_end:
-            left_end.next = prev
-        else: head = prev
-
-        return head
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def reverseBetween2(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
-        idx_left, idx_right, list_arr = self.preProcessList(head, left, right)
-        head = self.reverseList(head, idx_left, idx_right, list_arr)
-        return head
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
     def get_in_position(self, head: ListNode, left: int) -> (ListNode, ListNode):
         #-----------
         #Get in position - curr is always one node to the right of the left_end, even if it's None
