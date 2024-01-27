@@ -39,41 +39,45 @@ class Solution:
         #-----------
         #Get in position - curr is always one node to the right of the left_end, even if it's None
         curr : ListNode = head
-        left_end : ListNode = None #this will always be one node to the left of curr, or in other words, (left - 1)
+        prev : ListNode = None #this will always be one node to the left of curr, or in other words, (left - 1)
 
         for x in range(left-1):
-            left_end = curr
+            prev = curr
             curr = curr.next
         #-----------
 
-        return curr, left_end        
+        return prev, curr     
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def revert(self, left: int, right: int, curr: ListNode)-> (ListNode, ListNode):
-        prev : ListNode = curr
-        curr = curr.next
-        temp : ListNode = None
+        if curr == None: return None, None
+        prev : ListNode = None
+        next : ListNode = None if curr == None else curr.next
+        
         #---
-        for x in range(right - left):
-            temp = curr.next
+        cnt_loop = right - left
+        for x in range(cnt_loop):
             curr.next = prev
             prev = curr
-            curr = temp
+            curr = next
+            if next: 
+                next = next.next            
+
         #---
         return prev, curr
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
         #-----------
-        curr, left_end = self.get_in_position(head, left)
+        left_end, curr = self.get_in_position(head, left)
         start : ListNode = curr #used to fix the final connection
         #-----------
         prev , curr = self.revert(left, right, curr)
         #-----------
         if left_end:
-            left_end.next = prev
+            left_end.next = curr
         else:
-            head = prev
+            head = curr
 
         start.next = curr
         #-----------
