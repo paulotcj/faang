@@ -63,10 +63,13 @@ class Solution:
             if next: 
                 next = next.next
         
+        #----------
+        # we need to take care of the possible left_end connection, that preceeds the head node
         if left_end:    
             left_end.next = prev
         else:
             left_end = prev
+        #----------
             
         head.next = curr
         
