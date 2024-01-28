@@ -1,3 +1,4 @@
+#problem: https://leetcode.com/problems/reverse-linked-list-ii/description/
 from typing import Optional, List, Tuple
 #-------------------------------------------------------------------------
 class ListNode:
@@ -49,22 +50,28 @@ class Solution:
         return prev, curr     
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def revert(self, left: int, right: int, curr: ListNode)-> (ListNode, ListNode):
-        if curr == None: return None, None
+    def revert(self, left: int, right: int, left_end: ListNode, head: ListNode)-> (ListNode, ListNode):
+ 
         prev : ListNode = None
-        next : ListNode = None if curr == None else curr.next
-        
-        #---
-        cnt_loop = right - left
-        for x in range(cnt_loop):
+        curr : ListNode = head
+        next : ListNode = curr.next
+
+        for x in range(right - left + 1):
             curr.next = prev
             prev = curr
             curr = next
             if next: 
-                next = next.next            
-
+                next = next.next
+        
+        if left_end:    
+            left_end.next = prev
+        else:
+            left_end = prev
+            
+        head.next = curr
+        
         #---
-        return prev, curr
+        return left_end, head
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
@@ -72,15 +79,11 @@ class Solution:
         left_end, curr = self.get_in_position(head, left)
         start : ListNode = curr #used to fix the final connection
         #-----------
-        prev , curr = self.revert(left, right, curr)
+        new_left_end, curr = self.revert(left, right, left_end, curr)
         #-----------
-        if left_end:
-            left_end.next = curr
-        else:
-            head = curr
-
-        start.next = curr
-        #-----------
+        if new_left_end != left_end:
+            return new_left_end
+        
         return head
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
@@ -102,21 +105,21 @@ class Solution:
 # print(f'Is the result correct? { result == expected}')
 # exit()
 
-print('----------------------------')
-sol = Solution()
-arr = [1,2,3,4,5]
-left = 2
-right = 4
-expected = [1,4,3,2,5]    
+# print('----------------------------')
+# sol = Solution()
+# arr = [1,2,3,4,5]
+# left = 2
+# right = 4
+# expected = [1,4,3,2,5]    
 
 
-head = sol.create_linked_list(arr)
-_ = sol.print_linked_list(head)
-result = sol.reverseBetween(head, left, right)
-result = sol.print_linked_list(result)
-# print(f'result: {result}')
-print(f'Is the result correct? { result == expected}')
-exit()
+# head = sol.create_linked_list(arr)
+# _ = sol.print_linked_list(head)
+# result = sol.reverseBetween(head, left, right)
+# result = sol.print_linked_list(result)
+# # print(f'result: {result}')
+# print(f'Is the result correct? { result == expected}')
+# exit()
 
 print('----------------------------')
 sol = Solution()

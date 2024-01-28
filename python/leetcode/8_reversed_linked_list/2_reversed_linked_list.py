@@ -1,3 +1,4 @@
+#problem: https://leetcode.com/problems/reverse-linked-list/
 from typing import Optional, List
 #-------------------------------------------------------------------------
 class ListNode:
@@ -89,8 +90,8 @@ class Solution:
             if next: 
                 next = next.next
             
-        header = prev
-        return header
+        head = prev
+        return head
     #-------------------------------------------------------------------------
 
     #-------------------------------------------------------------------------
