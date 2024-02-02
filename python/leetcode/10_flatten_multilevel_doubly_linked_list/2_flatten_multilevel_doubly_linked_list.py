@@ -89,26 +89,24 @@ class Solution:
 
             if curr.child: #if the node has a child start processing the child's list
                 stack_pending_nodes.append(curr.next)
-                curr = curr.child
-                continue
+                #---
+                curr.child.prev = curr
+                curr.next = curr.child
+                curr.child = None
+                #---
+                # curr = curr.next
+                # continue
 
             curr = curr.next
             while curr is None and len(stack_pending_nodes) > 0:
                 curr = stack_pending_nodes.pop()
+                list_nodes[-1].next = curr
+                if curr:
+                    curr.prev = list_nodes[-1]
+
         #-------------
+
                 
-        #-------------
-        for i, v in enumerate(list_nodes):
-            #curr - no need to change
-            #prev
-            if i > 0:
-                list_nodes[i].prev = list_nodes[i-1]
-            #next
-            if i < (len(list_nodes) - 1): #must be less: eg: len = 10, len -1 = 9, so i must be less or equal to 8
-                list_nodes[i].next = list_nodes[i+1]
-            #child
-            list_nodes[i].child = None
-        #-------------
 
         return head
     #-------------------------------------------------------------------------
