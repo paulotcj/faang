@@ -63,14 +63,15 @@ class ProcessList:
         return nodes_list[0] if len(nodes_list) > 0 else None
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def print_linked_list (head: Node) -> List[int]:
+    def print_linked_list (head: Node, outputToScreen = False) -> List[int]:
         curr : Node = head
         list : List[int] = []
         while curr != None:
             list.append(curr.val)
             curr = curr.next
 
-        print(list)
+        if outputToScreen:
+            print(list)
         return list 
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
@@ -79,13 +80,11 @@ class Solution:
     #-------------------------------------------------------------------------
     def flatten(self, head: 'Optional[Node]') -> 'Optional[Node]':
         curr: Node = head
-        list_nodes : List[Node] = []
         stack_pending_nodes : List[Node] = []
 
+        prev : Node = None
         #-------------
         while curr:
-
-            list_nodes.append(curr)
 
             if curr.child: #if the node has a child start processing the child's list
                 stack_pending_nodes.append(curr.next)
@@ -97,16 +96,15 @@ class Solution:
                 # curr = curr.next
                 # continue
 
+            prev = curr
             curr = curr.next
             while curr is None and len(stack_pending_nodes) > 0:
                 curr = stack_pending_nodes.pop()
-                list_nodes[-1].next = curr
+                prev.next = curr
                 if curr:
-                    curr.prev = list_nodes[-1]
+                    curr.prev = prev
 
         #-------------
-
-                
 
         return head
     #-------------------------------------------------------------------------
@@ -126,10 +124,10 @@ head = ProcessList.CreateFromArray(arr)
 
 head = sol.flatten(head)
 result = ProcessList.print_linked_list(head)
-print(f'result  : {result}')
-print(f'expected: {expected}')
+# print(f'result  : {result}')
+# print(f'expected: {expected}')
 print(f'Is the result correct? { result == expected}')
-exit()
+# exit()
 
 print('----------------------------')
 sol = Solution()
@@ -141,10 +139,9 @@ head = ProcessList.CreateFromArray(arr)
 
 head = sol.flatten(head)
 result = ProcessList.print_linked_list(head)
-print(f'result  : {result}')
-print(f'expected: {expected}')
+# print(f'result  : {result}')
+# print(f'expected: {expected}')
 print(f'Is the result correct? { result == expected}')
 # exit()
 
 
-print('hi')
