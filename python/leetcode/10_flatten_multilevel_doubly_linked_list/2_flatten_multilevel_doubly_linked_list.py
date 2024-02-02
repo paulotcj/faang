@@ -88,13 +88,13 @@ class Solution:
             list_nodes.append(curr)
 
             if curr.child: #if the node has a child start processing the child's list
-                stack_pending_nodes.append(curr)
+                stack_pending_nodes.append(curr.next)
                 curr = curr.child
                 continue
 
             curr = curr.next
             while curr is None and len(stack_pending_nodes) > 0:
-                curr = stack_pending_nodes.pop().next
+                curr = stack_pending_nodes.pop()
         #-------------
                 
         #-------------
