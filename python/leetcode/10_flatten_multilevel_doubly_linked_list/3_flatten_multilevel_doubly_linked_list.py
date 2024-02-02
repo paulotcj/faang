@@ -93,8 +93,7 @@ class Solution:
                 curr.next = curr.child
                 curr.child = None
                 #---
-                # curr = curr.next
-                # continue
+
 
             prev = curr
             curr = curr.next
