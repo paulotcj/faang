@@ -5,24 +5,21 @@ from typing import List, Dict
 class Solution:
     #-------------------------------------------------------------------------
     def minRemoveToMakeValid(self, s: str) -> str:
+        s = list(s) #convert to list to be able to modify it
         stack = []
-        scheduled_for_removal = []
         for i, v in enumerate(s):
-            if v == '(': #we don't know anything yet
+            if v == '(':
                 stack.append(i)
-            elif v == ')': #when closing we need to check whether the stack is empty and if not try to close it
+            elif v == ')':
                 if stack:
                     stack.pop()
                 else:
-                    scheduled_for_removal.append(i)
-
-        #we need to remove the remaining elements in the stack
-        scheduled_for_removal.extend(stack)
-        while scheduled_for_removal:
-            i = scheduled_for_removal.pop()
-            s = s[:i] + s[i+1:] #this is: get the string from 0 to i (being i not included) and then from i+1 until the end
+                    s[i] = ''
+        while stack:
+            i = stack.pop()
+            s[i] = ''
             
-        return s
+        return ''.join(s)
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
     
