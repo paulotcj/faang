@@ -12,10 +12,10 @@ class TreeNode:
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def maxDepth1(self, root: TreeNode) -> int:
+    def maxDepth_recursive(self, root: TreeNode) -> int:
         
         if root is None: return 0
-        return 1 + max( self.maxDepth(root = root.left), self.maxDepth(root = root.right) )
+        return 1 + max( self.maxDepth_recursive(root = root.left), self.maxDepth_recursive(root = root.right) )
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def maxDepth_beadth_first(self, root: TreeNode) -> int:
@@ -44,13 +44,15 @@ class Solution:
         return max_depth
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def maxDepth(self, root: TreeNode) -> int:
+    def maxDepth_depth_first(self, root: TreeNode) -> int:
         if root is None: return 0
+        #----
         max_depth : int = 0
-        current = root
-        depth_level = 0
+        depth_level: int = 0
+        current: TreeNode = root
         stack : List[TreeNode] = [] #backtrack my path
         visited : Dict[TreeNode, bool] = {} #i also need to know which ones I visited
+        #----
         while current:
 
             if current not in visited: # new node never visited
@@ -68,12 +70,9 @@ class Solution:
             else:
                 current = stack.pop() if stack else None
                 depth_level -= 1
-            
 
-
-            
-
-
-
+        #----
+                
+        return max_depth
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
