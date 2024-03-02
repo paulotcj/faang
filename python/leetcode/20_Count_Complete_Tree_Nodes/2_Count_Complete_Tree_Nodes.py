@@ -39,7 +39,13 @@ class Solution:
         return height
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def exists(self, root: TreeNode, bottom_index : int, potential_total_nodes: int) -> bool:
+    def exists(self, root: TreeNode, target : int) -> bool:
+        current : TreeNode = root
+        current_count : int = 1
+        
+        while current:
+            
+            
         
 
     #-------------------------------------------------------------------------
@@ -57,7 +63,19 @@ class Solution:
         while left <= right:
             mid : int = left + (right - left) // 2
 
-            
+            # 0 + (7 - 0) // 2 = 3
+            # nodes go: 0, 1, 2, 3, 4, 5, 6, 7
+            #           1, 2, 3, 4, 5, 6, 7, 8
+            #                    ^
+            # so from a tree level 4 and total number of nodes = 15 
+            # the last row is 15 - 4 = 11
+            #           1
+            #     2           3
+            #  4    5      6      7
+            # 8 9 10 11  12 13  14 15
+            # 1 2 3  4   5  6   7  8
+
+            target_node_num : int = potential_total_nodes - (mid + 1)
 
 
 
