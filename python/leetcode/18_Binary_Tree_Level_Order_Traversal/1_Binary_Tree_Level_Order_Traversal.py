@@ -1,4 +1,5 @@
 #problem: https://leetcode.com/problems/binary-tree-level-order-traversal
+from collections import deque
 from typing import List, Optional, Dict
 # Definition for a binary tree node.
 
@@ -30,7 +31,7 @@ class TreeNode:
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def levelOrder_original(self, root: Optional[TreeNode]) -> List[List[int]]:
+    def levelOrder_1(self, root: Optional[TreeNode]) -> List[List[int]]:
         if root is None: return []
 
         stack : List[ List[TreeNode, int] ] = [ [root,1] ]
@@ -62,16 +63,16 @@ class Solution:
         return return_list
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+    def levelOrder_2(self, root: Optional[TreeNode]) -> List[List[int]]:
         if root is None: return []
 
         queue : List[int] = [root]
-        count_down_level = 1
+        count_down_level : int = 1
         return_list : List[ List[int] ] = [[]]
 
         #-------------
         while queue:
-            current = queue.pop(0)
+            current : TreeNode = queue.pop(0)
             count_down_level -= 1
             return_list[-1].append(current.val)
 
@@ -90,8 +91,33 @@ class Solution:
         return_list.pop() #remove the last empty list
                 
         return return_list
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def levelOrder3(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root: return []
+        
+        result : List[List[int]] = []
+        queue : deque = deque([root])
 
-    #-------------------------------------------------------------------------    
+        #-------------
+        while queue:
+            size_queue : int = len(queue)
+            curr_level : List[int] = []
+            #-------------
+            for i in range(size_queue):
+                node : TreeNode = queue.popleft() #dequeue
+                curr_level.append(node.val)
+
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            #-------------
+            result.append(curr_level)
+        #-------------
+
+        return result
+    #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
     
 sol = Solution()
