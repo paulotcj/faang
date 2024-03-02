@@ -93,6 +93,27 @@ class Solution:
         return return_list
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root : return []
+        result : List[ List[int] ] = []
+        queue : List[TreeNode] = [root]
+        
+        while queue:
+            current_level : List[int] = []
+            #-------------
+            for _ in range(len(queue)):
+                current : TreeNode = queue.pop(0)
+                current_level.append(current.val)
+
+                if current.left: queue.append(current.left)
+                if current.right: queue.append(current.right)
+            #-------------
+            result.append(current_level)
+        #-------------
+        return result
+    #-------------------------------------------------------------------------    
+    #-------------------------------------------------------------------------
     def levelOrder3(self, root: Optional[TreeNode]) -> List[List[int]]:
         if not root: return []
         
