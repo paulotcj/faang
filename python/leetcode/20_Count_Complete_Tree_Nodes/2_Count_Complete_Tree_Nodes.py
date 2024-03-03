@@ -3,7 +3,7 @@ from typing import Optional, List, Dict
 #-------------------------------------------------------------------------
 class CreateTree:
     #-------------------------------------------------------------------------
-    def create_tree():
+    def create_tree_1():
         root = TreeNode(3)
         
         root.left = TreeNode(9)
@@ -16,6 +16,38 @@ class CreateTree:
         
         return root
     #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def create_tree():
+        #---
+        #level 1
+        root = TreeNode(1)
+        #---
+        #level 2
+        root.left = TreeNode(2)
+        root.right = TreeNode(3)
+        #---
+        #level 3
+        root.left.left = TreeNode(4)
+        root.left.right = TreeNode(5)
+
+        root.right.left = TreeNode(6)
+        root.right.right = TreeNode(7)
+        #---
+        #level 4
+        root.left.left.left = TreeNode(8)
+        root.left.left.right = TreeNode(9)
+
+        root.left.right.left = TreeNode(10)
+        # root.left.right.right = TreeNode(11)
+
+        # root.right.left.left = TreeNode(12)
+        # root.right.left.right = TreeNode(13)
+
+        # root.right.right.left = TreeNode(14)
+        # root.right.right.right = TreeNode(15)
+        
+        return root
+    #-------------------------------------------------------------------------    
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 class TreeNode:
@@ -40,11 +72,26 @@ class Solution:
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def exists(self, root: TreeNode, target : int) -> bool:
-        current : TreeNode = root
-        current_count : int = 1
-        
-        while current:
-            
+        path : List[str] = []
+        while target > 1:
+            if target % 2 == 0: path.append('L')
+            else: path.append('R')
+
+            target = target // 2
+
+        path.reverse()
+
+        curr : TreeNode = root
+
+        for direction in path:
+            if direction == 'L' and curr.left: 
+                curr = curr.left
+            elif direction == 'R' and curr.right: 
+                curr = curr.right
+            else: return False
+
+        return True
+
             
         
 
@@ -83,3 +130,7 @@ class Solution:
 
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
+            
+tree = CreateTree.create_tree()
+sol = Solution()
+sol.exists(tree, 11)
