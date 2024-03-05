@@ -61,59 +61,63 @@ class TreeNode:
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def get_height(self, root: TreeNode) -> int:
-        height : int = 0
-        current : TreeNode = root
-        while current:
+    def getLeftHeight(self, root : TreeNode) -> int:
+        height: int = 1
+        while root.left:
             height += 1
-            current = current.left
+            if root.left: root = root.left
+            else: root = root.right
 
         return height
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def exists(self, root: TreeNode, target : int) -> bool:
-        path : List[str] = []
-        while target > 1:
-            if target % 2 == 0: path.append('L')
-            else: path.append('R')
+    def getRightHeight(self, root: TreeNode) -> int:
+        height : int = 1
+        while root.right:
+            height += 1
+            if root.right: root = root.right
+            else: root = root.left
 
-            target = target // 2
-
-        path.reverse()
-
-        curr : TreeNode = root
-
-        for direction in path:
-            if direction == 'L' and curr.left: 
-                curr = curr.left
-            elif direction == 'R' and curr.right: 
-                curr = curr.right
-            else: return False
-
-        return True
+        return height
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def countNodes(self, root: Optional[TreeNode]) -> int:
-        if root is None: return 0
+        if not root: return 0
 
-        tree_height : int = self.get_height(root)
-        potential_total_nodes : int = 2 ** tree_height - 1
+        queue : List[List[TreeNode, TreeNode, bool]] = [[root, None, False]] 
+        result : Dict[TreeNode, List[TreeNode, int]] = {}
+        #---------------
+        while queue:
+            temp : List[TreeNode, TreeNode] = queue.pop(0)
+            current : TreeNode = temp[0]
+            parent : TreeNode = temp[1]
+            already_processed : int = temp[2]
 
-        #now let's try to play with binary search
-        last_level_possible_nodes : int = 2 ** (tree_height - 1) 
-        
-        left : int = potential_total_nodes - last_level_possible_nodes + 1 #plus 1 because we know that at least the left most node must exists
-        right : int = potential_total_nodes
-        if self.exists(root, right): return potential_total_nodes
+            if already_processed:
+                while parent:
+                    result[parent][1] += result[current][1]
+                    current = parent
+                    parent = result[parent][0]
+                continue
 
-        while left <= right:
-            mid : int = left + (right - left) // 2
-            if self.exists(root, mid):
-                left = mid + 1
+
+            left_hei = self.getLeftHeight(current)
+            right_hei = self.getRightHeight(current)
+
+            if left_hei != right_hei:
+                result[current] = [parent, 1]
+                if current.left: queue.append([current.left, current, False]) # false = not processed
+                if current.right: queue.append([current.right, current, False])
+                queue.append([current, parent, True]) # True = processed
             else:
-                right = mid - 1
+                subtree_count: int = 2**left_hei - 1
+                result[parent][1] += subtree_count
+        #---------------
 
-        return left - 1
+                
+        ret_val : int = result[root][1]
+
+        return ret_val
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
             
