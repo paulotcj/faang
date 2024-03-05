@@ -18,6 +18,7 @@ class CreateTree:
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def create_tree():
+        root : TreeNode = None
         #---
         #level 1
         root = TreeNode(1)
@@ -41,10 +42,10 @@ class CreateTree:
         root.left.right.right = TreeNode(11)
 
         root.right.left.left = TreeNode(12)
-        # root.right.left.right = TreeNode(13)
+        root.right.left.right = TreeNode(13)
 
-        # root.right.right.left = TreeNode(14)
-        # root.right.right.right = TreeNode(15)
+        root.right.right.left = TreeNode(14)
+        root.right.right.right = TreeNode(15)
         
         return root
     #-------------------------------------------------------------------------    
@@ -58,6 +59,23 @@ class TreeNode:
         self.right = right
         #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
+class Res_Tracker:
+    #-------------------------------------------------------------------------
+    def __init__(self,  node: TreeNode, parent: TreeNode, subtree_count: int = 0):
+        self.node = node
+        self.parent = parent
+        self.subtree_count = subtree_count
+    #-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
+class Q_Tracker:
+    #-------------------------------------------------------------------------
+    def __init__(self,  node: TreeNode, parent: TreeNode):
+        self.node = node
+        self.parent = parent
+    #-------------------------------------------------------------------------
+#-------------------------------------------------------------------------        
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
@@ -81,41 +99,40 @@ class Solution:
         return height
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
+    def update_upstream(self, result: Dict[TreeNode, Res_Tracker], current_node: TreeNode) -> None:
+        current : Res_Tracker = result[current_node]
+        added_subtree_count : int = current.subtree_count
+        while current.parent:
+            parent: Res_Tracker = result[current.parent]
+            parent.subtree_count += added_subtree_count
+            current = parent
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
     def countNodes(self, root: Optional[TreeNode]) -> int:
         if not root: return 0
 
-        queue : List[List[TreeNode, TreeNode, bool]] = [[root, None, False]] 
-        result : Dict[TreeNode, List[TreeNode, int]] = {}
+        queue : List[Q_Tracker] = [ Q_Tracker(node=root, parent=None)] 
+        result : Dict[TreeNode, Res_Tracker] = {}
         #---------------
         while queue:
-            temp : List[TreeNode, TreeNode] = queue.pop(0)
-            current : TreeNode = temp[0]
-            parent : TreeNode = temp[1]
-            already_processed : int = temp[2]
+            current : Q_Tracker = queue.pop(0)
+            if not current.node: continue
 
-            if already_processed:
-                while parent:
-                    result[parent][1] += result[current][1]
-                    current = parent
-                    parent = result[parent][0]
-                continue
+            left_hei : int = self.getLeftHeight(current.node)
+            right_hei : int = self.getRightHeight(current.node)
 
-
-            left_hei = self.getLeftHeight(current)
-            right_hei = self.getRightHeight(current)
-
-            if left_hei != right_hei:
-                result[current] = [parent, 1]
-                if current.left: queue.append([current.left, current, False]) # false = not processed
-                if current.right: queue.append([current.right, current, False])
-                queue.append([current, parent, True]) # True = processed
+            if left_hei == right_hei:
+                result[current.node] = Res_Tracker(node = current.node, parent = current.parent, subtree_count = 2**left_hei - 1)
+                self.update_upstream(result = result, current_node = current.node) #update upstream
             else:
-                subtree_count: int = 2**left_hei - 1
-                result[parent][1] += subtree_count
+                result[current.node] = Res_Tracker(node = current.node, parent = current.parent, subtree_count = 1)
+                self.update_upstream(result = result, current_node = current.node) #update upstream
+                if current.node.left: queue.append(Q_Tracker(node = current.node.left, parent = current.node))
+                if current.node.right: queue.append(Q_Tracker(node = current.node.right, parent = current.node))
         #---------------
 
-                
-        ret_val : int = result[root][1]
+        tracker_root : Res_Tracker = result[root]        
+        ret_val : int = tracker_root.subtree_count
 
         return ret_val
     #-------------------------------------------------------------------------
