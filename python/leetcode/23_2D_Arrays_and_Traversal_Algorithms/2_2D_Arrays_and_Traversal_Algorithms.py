@@ -38,23 +38,46 @@ class MatrixDFS:
     def traversal_dfs(self, matrix, row = 0, col = 0):
         self.seen = self.create_seen_matrix(matrix) #this is dependent of the matrix
 
-        self.DFS(matrix, row, col)
+        # self.DFS(matrix, row, col)
+        row += 1 #fix the starting point
+        i : int = 0
+        while i < len(self.directions):
+            direction = self.directions[i]
+            valid_new_entry = self.check_bounds(matrix, row + direction[0], col + direction[1])
+            if valid_new_entry: 
+                i = 0 #reset the direction
+                row += direction[0] #update the row
+                col += direction[1] #update the col
+            else:
+                i += 1 #explore the next direction, while row and col remain the same
 
         return self.path_explored
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def DFS(self, matrix, row, col):
-        if row < 0 or row >= len(matrix): return 
-        if col < 0 or col >= len(matrix[0]): return 
-        if self.seen[row][col]: return
+    def check_bounds(self, matrix, row, col):
+        if row < 0 or row >= len(matrix): return False
+        if col < 0 or col >= len(matrix[0]): return False
+        if self.seen[row][col]: return False
 
         self.seen[row][col] = True
         self.path_explored.append(matrix[row][col])
 
-        for dir in self.directions:
-            self.DFS(matrix, row + dir[0], col + dir[1])
+        return True
 
     #-------------------------------------------------------------------------
+    # #-------------------------------------------------------------------------
+    # def DFS(self, matrix, row, col):
+    #     if row < 0 or row >= len(matrix): return 
+    #     if col < 0 or col >= len(matrix[0]): return 
+    #     if self.seen[row][col]: return
+
+    #     self.seen[row][col] = True
+    #     self.path_explored.append(matrix[row][col])
+
+    #     for dir in self.directions:
+    #         self.DFS(matrix, row + dir[0], col + dir[1])
+
+    # #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
 #expected result: (20) [1, 2, 3, 4, 5, 10, 15, 20, 19, 14, 9, 8, 13, 18, 17, 12, 7, 6, 11, 16]
