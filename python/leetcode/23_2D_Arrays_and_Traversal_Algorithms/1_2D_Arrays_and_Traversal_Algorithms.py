@@ -46,6 +46,7 @@ class MatrixDFS:
     def DFS(self, matrix, row, col):
         if row < 0 or row >= len(matrix): return 
         if col < 0 or col >= len(matrix[0]): return 
+        if self.seen[row][col]: return
 
         self.seen[row][col] = True
         self.path_explored.append(matrix[row][col])

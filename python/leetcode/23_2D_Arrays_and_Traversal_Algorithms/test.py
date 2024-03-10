@@ -1,32 +1,70 @@
-test_matrix = [
-    [1, 2, 3, 4, 5],
-    [6, 7, 8, 9, 10],
-    [11, 12, 13, 14, 15],
-    [16, 17, 18, 19, 20]
-]
+#-------------------------------------------------------------------------
+class create_data_structures:
+    #-------------------------------------------------------------------------
+    def create_matrix():
+        matrix = [
+            [ 1,  2,  3,  4,  5  ],
+            [ 6,  7,  8,  9,  10 ],
+            [ 11, 12, 13, 14, 15 ],
+            [ 16, 17, 18, 19, 20 ]
+        ]
+        return matrix
+    #-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
+class MatrixDFS:
+    #-------------------------------------------------------------------------
+    def __init__(self) -> None:
+        self.directions = self.get_directions()
+        self.path_explored = []
+    #-------------------------------------------------------------------------    
+    #-------------------------------------------------------------------------
+    def get_directions(self):
+        directions = [
+            [ -1,  0 ],#up
+            [  0,  1 ],#right
+            [  1,  0 ],#down
+            [  0, -1 ] #left
+        ]
+        return directions
+    #-------------------------------------------------------------------------  
+    #-------------------------------------------------------------------------
+    def create_seen_matrix(self, matrix):
+        seen = [ [False for col in row] for row in matrix ]
+        return seen
+    #-------------------------------------------------------------------------      
+    #-------------------------------------------------------------------------
+    def traversal_dfs(self, matrix):
+        seen = self.create_seen_matrix(matrix)
+        path_explored = []
 
-directions = [
-    [-1, 0],  # up
-    [0, 1],   # right
-    [1, 0],   # down
-    [0, -1]   # left
-]
+        def dfs(row, col):
+            # if row < 0 or col < 0 or row >= len(matrix) or col >= len(matrix[0]) or seen[row][col]:
+            #     return
 
-def traversal_dfs(matrix):
-    seen = [[False for _ in range(len(matrix[0]))] for _ in range(len(matrix))]
-    values = []
+            if row < 0 or row >= len(matrix): return 
+            if col < 0 or col >= len(matrix[0]): return             
+            
+            seen[row][col] = True
+            path_explored.append(matrix[row][col])
 
-    def dfs(row, col):
-        if row < 0 or col < 0 or row >= len(matrix) or col >= len(matrix[0]) or seen[row][col]:
-            return
-        
-        seen[row][col] = True
-        values.append(matrix[row][col])
+            for direction in self.directions:
+                dfs(row + direction[0], col + direction[1])
 
-        for direction in directions:
-            dfs(row + direction[0], col + direction[1])
+        dfs(0, 0)
+        return path_explored
+    #-------------------------------------------------------------------------
 
-    dfs(0, 0)
-    return values
+#-------------------------------------------------------------------------
 
-print(traversal_dfs(test_matrix))
+
+# print(traversal_dfs(test_matrix))
+#-------------
+#expected result: (20) [1, 2, 3, 4, 5, 10, 15, 20, 19, 14, 9, 8, 13, 18, 17, 12, 7, 6, 11, 16]
+x = MatrixDFS()
+matrix = create_data_structures.create_matrix()
+result = x.traversal_dfs(matrix)
+expected = [1, 2, 3, 4, 5, 10, 15, 20, 19, 14, 9, 8, 13, 18, 17, 12, 7, 6, 11, 16]
+print(f'result: {result}')
+print(f'expected: {expected}')
+print(f'Is the result what was expected?: {result == expected}')
