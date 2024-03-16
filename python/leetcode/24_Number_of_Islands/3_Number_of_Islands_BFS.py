@@ -16,6 +16,7 @@ class Solution:
                     grid[row][col] = '*'
                     island_cnt += 1
                     self.bfs(grid, row, col)
+                    # print(f'grid: {grid}')
                 #----
         #----------------
         
@@ -28,12 +29,15 @@ class Solution:
 
         queue : List[List[int]] = [[row,col]]
 
+        # print(f'start of BFS - queue: {queue}')
+
         new_row : int = 0
         new_col : int = 0
 
         #----------------
         while queue:
             r, c = queue.pop(0)
+            # print(f'popped: (r,c) {r,c}')
 
             #note: you only need to check the variable that you are changing, so if you do row - 1, check if
             # (row - 1) >= 0, if you do row + 1, check if (row + 1) < row_len
@@ -42,23 +46,26 @@ class Solution:
             new_row , new_col = r - 1 , c
             if new_row >= 0 and grid[new_row][new_col] == '1': #up (-1,0)
                 grid[new_row][new_col] = '*'
-                queue.append([r-1,c])
+                queue.append([new_row,new_col])
 
             new_row , new_col = r  , c + 1
             if new_col < col_len and grid[new_row][new_col] == '1': #right (0,+1)
                 grid[new_row][new_col] = '*'
-                queue.append([r,c+1])
+                queue.append([new_row,new_col])
 
             new_row , new_col = r + 1  , c 
             if new_row < row_len and grid[new_row][new_col] == '1': #down (+1,0)
                 grid[new_row][new_col] = '*'
-                queue.append([r+1,c])
+                queue.append([new_row,new_col])
 
             new_row , new_col = r  , c - 1
             if new_col >= 0 and grid[new_row][new_col] == '1': #left (0,-1)
                 grid[new_row][new_col] = '*'
-                queue.append([r,c-1])
+                queue.append([new_row,new_col])
+
+            # print(f'queue: {queue}')
         #---------------- end of while
+        # print(f'end of BFS')
     #-------------------------------------------------------------------------    
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
