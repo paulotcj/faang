@@ -6,23 +6,23 @@ class Solution:
     #-------------------------------------------------------------------------
     def numIslands(self, grid: List[List[str]]) -> int:
         
-        seen : List[List[bool]] = [[False for c in row ] for row in grid]
+
         island_cnt : int = 0
         #----------------
         for row in range(len(grid)):
             for col in range(len(grid[0])):
                 #----
-                if grid[row][col] == '1' and seen[row][col] == False:
-                    seen[row][col] = True
+                if grid[row][col] == '1':
+                    grid[row][col] = '*'
                     island_cnt += 1
-                    self.bfs(grid, seen, row, col)
+                    self.bfs(grid, row, col)
                 #----
         #----------------
         
         return island_cnt
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def bfs(self,grid : List[List[int]], seen : List[List[bool]], row:int,col:int) -> None:
+    def bfs(self,grid : List[List[int]], row:int,col:int) -> None:
         row_len : int = len(grid)
         col_len : int = len(grid[0])
 
@@ -40,23 +40,23 @@ class Solution:
 
             #searching pattern is: up, down, left, right
             new_row , new_col = r - 1 , c
-            if (new_row >= 0 and grid[new_row][new_col] == '1' and not seen[new_row][new_col]): #up (-1,0)
-                seen[r-1][c] = True
+            if new_row >= 0 and grid[new_row][new_col] == '1': #up (-1,0)
+                grid[new_row][new_col] = '*'
                 queue.append([r-1,c])
 
             new_row , new_col = r  , c + 1
-            if (new_col < col_len and grid[new_row][new_col] == '1' and not seen[new_row][new_col]): #right (0,+1)
-                seen[r][c+1] = True
+            if new_col < col_len and grid[new_row][new_col] == '1': #right (0,+1)
+                grid[new_row][new_col] = '*'
                 queue.append([r,c+1])
 
             new_row , new_col = r + 1  , c 
-            if (new_row < row_len and grid[new_row][new_col] == '1' and not seen[new_row][new_col]): #down (+1,0)
-                seen[r+1][c] = True
+            if new_row < row_len and grid[new_row][new_col] == '1': #down (+1,0)
+                grid[new_row][new_col] = '*'
                 queue.append([r+1,c])
 
             new_row , new_col = r  , c - 1
-            if (new_col >= 0 and grid[new_row][new_col] == '1' and not seen[new_row][new_col]): #left (0,-1)
-                seen[r][c-1] = True
+            if new_col >= 0 and grid[new_row][new_col] == '1': #left (0,-1)
+                grid[new_row][new_col] = '*'
                 queue.append([r,c-1])
         #---------------- end of while
     #-------------------------------------------------------------------------    
