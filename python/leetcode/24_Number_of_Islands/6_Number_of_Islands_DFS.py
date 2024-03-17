@@ -6,33 +6,31 @@ class Solution:
     #-------------------------------------------------------------------------
     def numIslands(self, grid: List[List[str]]) -> int:
 
-        rows = len(grid)
-        cols = len(grid[0])
+        rows_len : int = len(grid)
+        cols_len : int = len(grid[0])
 
+        island_count : int = 0
+        for row in range(rows_len):
+            for col in range(cols_len):
+                if grid[row][col] == "1":
+                    island_count += 1
+                    self.dfs(grid,row, col)
 
-
-        count = 0
-        for x in range(rows):
-            for y in range(cols):
-                if grid[x][y] == "1":
-                    count += 1
-                    self.dfs(grid,x, y)
-
-        return count
+        return island_count
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def dfs(self,grid,x, y):
+    def dfs(self,grid : List[List[int]], row : int, col : int) -> None:
 
-        rows = len(grid)
-        cols = len(grid[0])
+        rows_len = len(grid)
+        cols_len = len(grid[0])
 
-        if 0 <= x < rows and 0 <= y < cols and grid[x][y] != "0":
+        if 0 <= row < rows_len and 0 <= col < cols_len and grid[row][col] == "1":
 
-            grid[x][y] = "0"
-            self.dfs(grid, x + 1, y)
-            self.dfs(grid, x - 1, y)
-            self.dfs(grid, x, y + 1)
-            self.dfs(grid, x, y - 1)
+            grid[row][col] = "*"
+            self.dfs(grid, row + 1, col) #down
+            self.dfs(grid, row - 1, col) #up
+            self.dfs(grid, row, col + 1) #right
+            self.dfs(grid, row, col - 1) #left
 
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
