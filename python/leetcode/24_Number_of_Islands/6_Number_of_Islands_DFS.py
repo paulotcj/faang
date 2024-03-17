@@ -21,8 +21,8 @@ class Solution:
     #-------------------------------------------------------------------------
     def dfs(self,grid : List[List[int]], row : int, col : int) -> None:
 
-        rows_len = len(grid)
-        cols_len = len(grid[0])
+        rows_len : int = len(grid)
+        cols_len : int = len(grid[0])
 
         if 0 <= row < rows_len and 0 <= col < cols_len and grid[row][col] == "1":
 
