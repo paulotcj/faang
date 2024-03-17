@@ -6,38 +6,47 @@ class Solution:
     #-------------------------------------------------------------------------
     def numIslands(self, grid: List[List[str]]) -> int:
 
-        count = 0
+        island_count : int = 0
 
         for row in range(len(grid)):
             for col in range(len(grid[0])):
                 if grid[row][col] == '1':
-                    count += 1
+                    island_count += 1
+                    grid[row][col] = '*'
                     self.dfs(grid, row, col)
         
-        return count
+        return island_count
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def dfs(self, grid, row, col):
-        grid[row][col] = '*'
+    def dfs(self, grid: List[List[str]], row : int, col : int) -> None:
+        stack : List[List[int]] = [[row,col]]
 
         new_row: int = 0
         new_col: int = 0
-        
-        new_row , new_col = row - 1, col
-        if new_row >= 0 and grid[new_row][new_col] == '1': # up (-1, 0)
-            self.dfs(grid, new_row, new_col)
 
-        new_row , new_col = row + 1, col
-        if new_row < len(grid) and grid[new_row][new_col] == '1': #down (+1, 0)
-            self.dfs(grid, new_row, new_col)
-
-        new_row , new_col = row, col - 1
-        if new_col >= 0 and grid[new_row][new_col] == '1': #left (0, -1)
-            self.dfs(grid, new_row, new_col)
-
-        new_row, new_col = row, col + 1
-        if new_col < len(grid[0]) and grid[new_row][new_col] == '1': #right (0, +1)
-            self.dfs(grid, new_row, new_col)    
+        while stack:
+            row, col = stack.pop()
+            #----------------
+            new_row , new_col = row, col - 1 #left (0, -1)
+            if new_col >= 0 and grid[new_row][new_col] == '1':
+                grid[new_row][new_col] = '*'
+                stack.append([new_row, new_col])
+            #----------------
+            new_row , new_col = row + 1, col #down (+1, 0)
+            if new_row < len(grid) and grid[new_row][new_col] == '1':
+                grid[new_row][new_col] = '*'
+                stack.append([new_row, new_col])
+            #----------------
+            new_row, new_col = row, col + 1 #right (0, +1)
+            if new_col < len(grid[0]) and grid[new_row][new_col] == '1':
+                grid[new_row][new_col] = '*'
+                stack.append([new_row, new_col])
+            #----------------            
+            new_row , new_col = row - 1, col #up (-1, 0)
+            if new_row >= 0 and grid[new_row][new_col] == '1':
+                grid[new_row][new_col] = '*'
+                stack.append([new_row, new_col])
+            #---------------- 
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
