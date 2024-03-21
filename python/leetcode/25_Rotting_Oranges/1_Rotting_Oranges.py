@@ -31,25 +31,25 @@ class Solution:
         next_col : int = 0
         
         #------
+        # the idea here is: figure out what oranges are rotting in the current minute, then rot all possible
+        #  oranges around them, while scheduling these new rotten oranges to be processed in the next minute
         while self.queue:
-            if current_q_size == 0:
+            #---
+            if current_q_size == 0: #processed all the oranges in the current minute
                 current_q_size = len(self.queue)
                 self.minutes += 1
+            #---
                 
-            rotting_orange : List[int] = self.queue.pop(0)
+            row, col = self.queue.pop(0)
             current_q_size -= 1
-            row, col = rotting_orange
-            
-            if row == 2 and col == 3:
-                print('hi')
+
             #------
-            #try to rot the oranges around the current one
+            #try to rot the oranges around the current (rotten) one - each rotten orange will rot 
+            # 1 unit of lenght in all 4 directions
             for dir in self.get_directions():
                 next_row = row + dir[0]
                 next_col = col + dir[1]
-
-                if next_row == 2 and next_col == 3:
-                    print('hi')                
+             
                 
                 if 0 <= next_row < self.rows_len and 0 <= next_col < self.col_len: #valid coordinates
                     if self.grid[next_row][next_col] == FRESH:
