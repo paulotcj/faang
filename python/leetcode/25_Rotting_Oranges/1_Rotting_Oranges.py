@@ -4,7 +4,7 @@ from typing import List
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def count_rotten_and_fresh(self) -> int:
+    def count_rotten_and_fresh(self) -> None:
         ROTTEN, FRESH, EMPTY = 2, 1, 0
         self.fresh_count : int = 0
         self.queue : List[List[int]] = []
@@ -21,14 +21,42 @@ class Solution:
                     self.fresh_count += 1
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
+    def rot_oranges(self) -> None:
+        minutes : int = 0
+        current_q_size : int = len(self.queue)
+        row : int = 0
+        col : int = 0
+        next_row : int = 0
+        next_col : int = 0
+        
+        while self.queue:
+            if current_q_size == 0:
+                current_q_size = len(self.queue)
+                minutes += 1
+                
+            current_orange : List[int] = self.queue.pop(0)
+            current_q_size -= 1
+            row, col = current_orange
+            
+            for dir in self.get_directions():
+                next_row = row + dir[0]
+                next_col = col + dir[1]
+                
+                if 0 <= next_row < self.rows_len and 0 <= next_col < self.rows_len:
+                    pass
+                    
+            
+            
+        
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
     def orangesRotting(self, grid: List[List[int]]) -> int:
         if not grid: return 0
         self.grid = grid
         self.count_rotten_and_fresh()
 
         #----------------
-        minutes : int = 0
-        current_q_size : int = len(self.queue)
+
 
 
 
