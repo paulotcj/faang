@@ -39,15 +39,16 @@ class Solution:
             #-----
             for _ in range(len(self.queue)): #process all the oranges in the current minute
                 row, col = self.queue.popleft()
-                
+
                 for dx, dy in directions:
                     new_row, new_col = row + dx, col + dy
+
                     if 0 <= new_row < self.rows_len and 0 <= new_col < self.cols_len and self.grid[new_row][new_col] == FRESH:
                         self.grid[new_row][new_col] = ROTTEN
                         self.fresh_count -= 1
                         self.queue.append((new_row, new_col))
             #-----
-            if self.queue:  # If there are still oranges to rot, increment the time
+            if self.queue:  # you only count time, if there's another batch of apples to rot
                 self.time_elapsed += 1        
         
     #-------------------------------------------------------------------------    
@@ -66,6 +67,16 @@ class Aux:
     #-------------------------------------------------------------------------
     def create_grid_1():
         grid = [
+            [2, 1, 1],
+            [1, 1, 1],
+            [1, 1, 1]
+            
+        ]
+        return grid, 4
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def create_grid_2():
+        grid = [
             [2, 1, 1, 0, 0],
             [1, 1, 1, 0, 0],
             [0, 1, 1, 1, 1],
@@ -80,6 +91,12 @@ class Aux:
         result = x.orangesRotting(grid)
         print(f'expected: {expected} - result: {result} - pass: {expected == result}')
         print('-------')
+
+        x = Solution()
+        grid, expected = Aux.create_grid_2()
+        result = x.orangesRotting(grid)
+        print(f'expected: {expected} - result: {result} - pass: {expected == result}')
+        print('-------')        
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 Aux.test()
