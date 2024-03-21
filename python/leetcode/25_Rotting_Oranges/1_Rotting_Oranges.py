@@ -33,6 +33,7 @@ class Solution:
         #------
         # the idea here is: figure out what oranges are rotting in the current minute, then rot all possible
         #  oranges around them, while scheduling these new rotten oranges to be processed in the next minute
+        # BFS style
         while self.queue:
             #---
             if current_q_size == 0: #processed all the oranges in the current minute
