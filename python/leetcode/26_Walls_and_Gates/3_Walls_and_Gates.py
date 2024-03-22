@@ -28,8 +28,6 @@ class Solution:
                     queue.append((new_row, new_col))
             #-------
 
-
-        print('hi')
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def find_gates(self, rooms: List[List[int]]) -> List[List[int]]:
@@ -93,7 +91,9 @@ class Aux:
         x = Solution()
         grid, expected = Aux.create_grid_1()
         result = x.wallsAndGates(grid)
-        print(f'expected: {expected} - result: {result} - pass: {expected == result}')
+        print(f'expected: {expected}')
+        print(f'result  : {result}')
+        print(f'pass: {expected == result}')
         print('-------')
 
 
