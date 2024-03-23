@@ -4,17 +4,15 @@ from typing import List
 class Solution:
     #-------------------------------------------------------------------------
     def transpose(self, matrix: List[List[int]]) -> List[List[int]]:
-        rows_len, cols_len = len(matrix), len(matrix[0])
+        ret : List[List[int]] = []
 
-        result : List[List[int]] = [ [0 for row in range(rows_len)] for col in range(cols_len) ]
+        for col in range(len(matrix[0])):
+            temp = []
+            for row in range(len(matrix)):
+                temp.append(matrix[row][col])
+            ret.append(temp)
 
-        #we don't need to switch the order of the loops. all we got to do is swap the row and col
-        # as pointed out in (A) below
-        for row in range(rows_len):
-            for col in range(cols_len):
-                result[col][row] = matrix[row][col] #(A)
-
-        return result
+        return ret
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
