@@ -4,15 +4,19 @@ from typing import List
 class Solution:
     #-------------------------------------------------------------------------
     def transpose(self, matrix: List[List[int]]) -> List[List[int]]:
-        ret : List[List[int]] = []
-
-        for col in range(len(matrix[0])):
-            temp = []
-            for row in range(len(matrix)):
-                temp.append(matrix[row][col])
-            ret.append(temp)
-
-        return ret
+        result : List[List[int]] = []
+        rows_len : int = len(matrix)
+        cols_len: int = len(matrix[0])
+        
+        for col in range(cols_len):
+            temp : List[int] = [] #create a new row based on the number of columns
+            for row in range(rows_len):
+                temp.append( matrix[row][col] )
+            
+            result.append(temp) #insert the row into the result matrix
+            
+        return result
+                
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
