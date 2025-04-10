@@ -10,16 +10,19 @@ const adjacencyList = [
   [2]             // 8
 ];
 
+//-------------------------------------------------------------------------
 const traversalBFS = function(graph) {
   const queue = [0];
   const values = [];
   const seen = {};
 
+  //---------------------------
   while (queue.length) {
     const vertex = queue.shift();
     values.push(vertex);
     seen[vertex] = true;
     
+    //---------------------------
     const connections = graph[vertex];
     for (let i = 0; i < connections.length; i++) {
       const connection = connections[i];
@@ -27,10 +30,13 @@ const traversalBFS = function(graph) {
         queue.push(connection);
       }
     }
+    //---------------------------
   }
+  //---------------------------
 
   return values;
 }
+//-------------------------------------------------------------------------
 
 
 const values = traversalBFS(adjacencyList)
