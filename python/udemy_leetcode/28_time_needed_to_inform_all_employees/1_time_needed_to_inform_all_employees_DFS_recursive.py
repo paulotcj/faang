@@ -3,16 +3,19 @@
 class Solution:
     #-------------------------------------------------------------------------
     def numOfMinutes(self, n, head_id, managers, inform_time):
-        adj_list = [[] for _ in range(n)]
+        subordinates = [[] for _ in range(n)] # creates the adjacency list
         
+        #---------------------------
         for employee in range(n):
-            manager = managers[employee]
-            if manager == -1:
+            manager = managers[employee] # who is the manager of that employee
+            
+            if manager == -1: # no manager, root node
                 continue
-            adj_list[manager].append(employee)
+            
+            subordinates[manager].append(employee) # adjacency list, adds employees IDs under the manager
+        #---------------------------
         
-        return self.dfs(head_id, adj_list, inform_time)
-
+        return self.dfs(head_id, subordinates, inform_time)
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def dfs(self, current_id, adj_list, inform_time):
