@@ -4,19 +4,19 @@ from collections import defaultdict
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def numOfMinutes(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:
+    def numOfMinutes(self, num_employees: int, headID: int, manager: List[int], informTime: List[int]) -> int:
         # Build an adjacency list to represent the tree structure
         self.informTime : List[int] = informTime
-        self.subordinates: Dict[int, List[int]] = defaultdict(list)
+        self.subordinates: Dict[int, List[int]] = defaultdict(list) # if the key is not present the default value is an empty list
         
         #---------------------------
-        for employee, mgr in enumerate(manager):
-            if mgr != -1:
-                self.subordinates[mgr].append(employee)
+        for employee_idx, mgr_idx in enumerate(manager): # let's build the adjacency list
+            if mgr_idx != -1: # -1 equals no manager, it's the root node
+                self.subordinates[mgr_idx].append(employee_idx)
         #---------------------------
         
         # Start DFS from the head of the company
-        return self.dfs(headID)
+        return self.dfs(employee = headID) #at this point the adjency list self.subordinates is read to be processed
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     # DFS function to calculate the time to inform all subordinates
