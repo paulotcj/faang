@@ -11,8 +11,8 @@ class Solution:
         
         #---------------------------
         for i in range(n):
-            if manager[i] != -1:
-                subordinates[manager[i]].append(i)
+            if manager[i] == -1: continue
+            subordinates[manager[i]].append(i)
         #---------------------------
         
         # Perform BFS to calculate the total time needed
@@ -21,13 +21,30 @@ class Solution:
         
         #---------------------------
         while queue:
-            current, time_taken = queue.popleft()
-            max_time = max(max_time, time_taken)
+            '''the major difference between a DFS and a BFS is that the DFS uses a stack, and the
+            the BFS is more like a queue, in other other words, the immediate child nodes of a
+            a node are processed first, and the accumulate any other nodes we come across to be
+            processed later. '''
+            current, time_taken_upstream = queue.popleft() 
+            max_time = max(max_time, time_taken_upstream)
             
-            for subordinate in subordinates[current]:
-                queue.append((subordinate, time_taken + informTime[current]))
+            for subordinate_id in subordinates[current]:
+                manager_inform_time : int = informTime[current]
+                queue.append((subordinate_id, time_taken_upstream + manager_inform_time))
         #---------------------------
         
         return max_time
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
+
+
+managers_array    = [2, 2, 4, 6, -1, 4, 4, 5]
+inform_time_array = [0, 0, 4, 0, 7, 3, 6, 0]
+
+sol = Solution()
+
+
+print(sol.numOfMinutes(8, 4, managers_array, inform_time_array))
+
+
+#13
