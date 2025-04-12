@@ -1,18 +1,34 @@
 from collections import defaultdict, deque
-from typing import List
+from typing import List, Deque, Tuple
 
 
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
     def numOfMinutes(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:
+        subordinates = defaultdict(list)
+
+        #---------------------------
+        for employee_id in range(n):
+            emp_manager = manager[employee_id]
+            if emp_manager == -1: continue
+
+            subordinates[emp_manager].append( employee_id )
+        #---------------------------
+
+        queue : Deque[Tuple[int,int]] = deque([(headID, 0)])
+        max_time = 0
+
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def numOfMinutes(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:
         # Build an adjacency list to represent the tree structure
         subordinates = defaultdict(list)
         
         #---------------------------
-        for i in range(n):
-            if manager[i] == -1: continue
-            subordinates[manager[i]].append(i)
+        for employee_id in range(n):
+            if manager[employee_id] == -1: continue
+            subordinates[manager[employee_id]].append(employee_id)
         #---------------------------
         
         # Perform BFS to calculate the total time needed
@@ -37,7 +53,7 @@ class Solution:
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
-
+#                    0  1  2  3   4  5  6  7
 managers_array    = [2, 2, 4, 6, -1, 4, 4, 5]
 inform_time_array = [0, 0, 4, 0, 7, 3, 6, 0]
 
