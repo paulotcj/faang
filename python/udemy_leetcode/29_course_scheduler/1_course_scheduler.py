@@ -104,4 +104,4 @@ class Solution:
 p = [[1, 0], [2, 1], [2, 5], [0, 3], [4, 3], [3, 5], [4, 5]]
 sol = Solution()
 
-print(sol.can_finish(6, p))
+print(sol.canFinish(6, p))
