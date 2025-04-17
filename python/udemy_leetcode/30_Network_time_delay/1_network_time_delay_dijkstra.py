@@ -143,5 +143,8 @@ class Solution_old:
 
 sol = Solution()
 # Test case
+# times[i] = (ui, vi, wi), where ui is the source node, vi is the target node, and wi is the time it takes
+#  in other words: [1, 2, 9] -> from node 1 to node 2 takes 9 units of time
+#  [1, 4, 2] -> from node 1 to node 4 takes 2 units of time
 t = [[1, 2, 9], [1, 4, 2], [2, 5, 1], [4, 2, 4], [4, 5, 6], [3, 2, 3], [5, 3, 7], [3, 1, 5]]
 print(sol.networkDelayTime(t, 5, 1))
