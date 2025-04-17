@@ -1,7 +1,53 @@
+# https://leetcode.com/problems/network-delay-time/description/
+
+
 import heapq
 from math import inf
 
+import heapq
+from math import inf
 from typing import List
+
+
+
+#-------------------------------------------------------------------------
+class Solution:
+    #-------------------------------------------------------------------------
+    def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
+        distances = [inf] * n
+        adj_list = [[] for _ in range(n)]
+        distances[k - 1] = 0
+
+        # Use heapq (min-heap) storing tuples (distance, node_index)
+        heap = [(0, k - 1)]
+
+        for source, target, weight in times:
+            adj_list[source - 1].append((target - 1, weight))
+
+        while heap:
+            # Pop the node with the smallest distance
+            current_distance, current_vertex = heapq.heappop(heap)
+
+            # If we found a shorter path already, skip
+            if current_distance > distances[current_vertex]:
+                continue
+
+            for neighboring_vertex, weight in adj_list[current_vertex]:
+                new_dist = distances[current_vertex] + weight
+                if new_dist < distances[neighboring_vertex]:
+                    distances[neighboring_vertex] = new_dist
+                    # Push the updated distance and neighbor to the heap
+                    heapq.heappush(heap, (new_dist, neighboring_vertex))
+
+        ans = max(distances)
+        return -1 if ans == inf else ans
+    #-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
+
+sol = Solution()
+# Test case
+t = [[1, 2, 9], [1, 4, 2], [2, 5, 1], [4, 2, 4], [4, 5, 6], [3, 2, 3], [5, 3, 7], [3, 1, 5]]
+print(sol.networkDelayTime(t, 5, 1))
 
 #-------------------------------------------------------------------------
 # Priority Queue implementation
@@ -69,7 +115,7 @@ class PriorityQueue:
             node_idx = greater_child_idx
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
-class Solution:
+class Solution_old:
     #-------------------------------------------------------------------------
     def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
         distances = [inf] * n

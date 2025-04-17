@@ -1,3 +1,5 @@
+# https://leetcode.com/problems/network-delay-time/description/
+
 from heapq import heappop, heappush
 from collections import defaultdict
 from typing import List

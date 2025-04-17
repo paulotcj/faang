@@ -1,4 +1,5 @@
 
+# https://leetcode.com/problems/network-delay-time/description/
 import heapq
 from math import inf
 

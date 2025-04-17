@@ -1,3 +1,5 @@
+# https://leetcode.com/problems/course-schedule/description/
+
 # Topological Sort with adjacency list
 
 from typing import List, Dict, Deque, Tuple

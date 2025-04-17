@@ -1,3 +1,5 @@
+# https://leetcode.com/problems/course-schedule/description/
+
 from collections import defaultdict, deque
 from typing import List, DefaultDict
 
