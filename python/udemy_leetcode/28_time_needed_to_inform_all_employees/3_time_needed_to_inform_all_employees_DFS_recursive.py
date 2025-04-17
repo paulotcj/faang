@@ -1,3 +1,4 @@
+# https://leetcode.com/problems/time-needed-to-inform-all-employees/description/
 
 from typing import List, Dict
 from collections import defaultdict

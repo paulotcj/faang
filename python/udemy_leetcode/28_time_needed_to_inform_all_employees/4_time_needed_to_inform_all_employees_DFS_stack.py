@@ -1,3 +1,5 @@
+# https://leetcode.com/problems/time-needed-to-inform-all-employees/description/
+
 from typing import List, Dict, Deque, Tuple
 from collections import defaultdict, deque
 
