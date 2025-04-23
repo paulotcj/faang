@@ -12,6 +12,13 @@ from typing import List
 
 #-------------------------------------------------------------------------
 class Solution:
+    # n - from 1 to 10 (the number of nodes in the system)
+    # times - an array containing a list of list, the internal list is of size 3, the first number is 
+    #   the source node, the second the destination node, and the third is the time cost to traverse
+    # k - source signal node
+    # now return the time necessary to inform all nodes. If not possible to inform all nodes return -1
+    #   that means we have to traverse to all nodes, and find the shortest path to that node, and also
+    #   keep track if we visited all nodes, otherwise the answer should be -1
     #-------------------------------------------------------------------------
     def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
         distances = [inf] * n
@@ -48,6 +55,8 @@ sol = Solution()
 # Test case
 t = [[1, 2, 9], [1, 4, 2], [2, 5, 1], [4, 2, 4], [4, 5, 6], [3, 2, 3], [5, 3, 7], [3, 1, 5]]
 print(sol.networkDelayTime(t, 5, 1))
+
+exit()
 
 #-------------------------------------------------------------------------
 # Priority Queue implementation
@@ -116,11 +125,18 @@ class PriorityQueue:
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 class Solution_old:
+    # n - from 1 to 10 (the number of nodes in the system)
+    # times - an array containing a list of list, the internal list is of size 3, the first number is 
+    #   the source node, the second the destination node, and the third is the time cost to traverse
+    # k - source signal node
+    # now return the time necessary to inform all nodes. If not possible to inform all nodes return -1
+    #   that means we have to traverse to all nodes, and find the shortest path to that node, and also
+    #   keep track if we visited all nodes, otherwise the answer should be -1
     #-------------------------------------------------------------------------
     def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
-        distances = [inf] * n
-        adj_list = [[] for _ in range(n)]
-        distances[k - 1] = 0
+        distances = [inf] * n # an array where each idx represent the min distance (so far) to that node
+        adj_list = [[] for _ in range(n)] # an array where at idx n there's a list of all children nodes to n
+        distances[k - 1] = 0 # offset by 1 - this is our node k, the min dist/time to itself is zero
 
         heap = PriorityQueue(lambda a, b: distances[a] < distances[b])
         heap.push(k - 1)
