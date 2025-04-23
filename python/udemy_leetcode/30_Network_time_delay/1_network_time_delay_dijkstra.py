@@ -21,15 +21,17 @@ class Solution:
     #   keep track if we visited all nodes, otherwise the answer should be -1
     #-------------------------------------------------------------------------
     def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
-        distances = [inf] * n
-        adj_list = [[] for _ in range(n)]
-        distances[k - 1] = 0
+        distances = [inf] * n # an array where each idx represent the min distance (so far) to that node
+        adj_list = [[] for _ in range(n)] # an array where at idx n there's a list of all children nodes to n
+        distances[k - 1] = 0 # offset by 1 - this is our node k, the min dist/time to itself is zero
 
         # Use heapq (min-heap) storing tuples (distance, node_index)
-        heap = [(0, k - 1)]
+        heap = [(0, k - 1)] # the first value is node k at distance of 0
 
+        #-----------------------------------
         for source, target, weight in times:
             adj_list[source - 1].append((target - 1, weight))
+        #-----------------------------------
 
         while heap:
             # Pop the node with the smallest distance
