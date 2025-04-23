@@ -21,34 +21,38 @@ class Solution:
     #   keep track if we visited all nodes, otherwise the answer should be -1
     #-------------------------------------------------------------------------
     def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
-        distances = [inf] * n # an array where each idx represent the min distance (so far) to that node
+        time_req_list = [inf] * n # an array where each idx represent the min distance (so far) to that node
         adj_list = [[] for _ in range(n)] # an array where at idx n there's a list of all children nodes to n
-        distances[k - 1] = 0 # offset by 1 - this is our node k, the min dist/time to itself is zero
+        time_req_list[k - 1] = 0 # offset by 1 - this is our node k, the min dist/time to itself is zero
 
         # Use heapq (min-heap) storing tuples (distance, node_index)
         heap = [(0, k - 1)] # the first value is node k at distance of 0
 
         #-----------------------------------
-        for source, target, weight in times:
-            adj_list[source - 1].append((target - 1, weight))
+        for source, target, time in times: #create the adjacency list with times per node
+            adj_list[source - 1].append((target - 1, time))
         #-----------------------------------
 
+        #-----------------------------------
         while heap:
             # Pop the node with the smallest distance
-            current_distance, current_vertex = heapq.heappop(heap)
+            current_time, current_vertex = heapq.heappop(heap)
 
             # If we found a shorter path already, skip
-            if current_distance > distances[current_vertex]:
+            if current_time > time_req_list[current_vertex]:
                 continue
 
-            for neighboring_vertex, weight in adj_list[current_vertex]:
-                new_dist = distances[current_vertex] + weight
-                if new_dist < distances[neighboring_vertex]:
-                    distances[neighboring_vertex] = new_dist
+            #-----------------------------------
+            for neighboring_vertex, time in adj_list[current_vertex]:
+                new_dist = time_req_list[current_vertex] + time
+                if new_dist < time_req_list[neighboring_vertex]:
+                    time_req_list[neighboring_vertex] = new_dist
                     # Push the updated distance and neighbor to the heap
                     heapq.heappush(heap, (new_dist, neighboring_vertex))
+            #-----------------------------------
+        #-----------------------------------
 
-        ans = max(distances)
+        ans = max(time_req_list)
         return -1 if ans == inf else ans
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
