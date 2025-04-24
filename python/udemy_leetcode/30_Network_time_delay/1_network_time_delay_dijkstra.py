@@ -6,7 +6,7 @@ from math import inf
 
 import heapq
 from math import inf
-from typing import List
+from typing import List, Tuple
 
 
 
@@ -21,12 +21,36 @@ class Solution:
     #   keep track if we visited all nodes, otherwise the answer should be -1
     #-------------------------------------------------------------------------
     def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
-        time_req_list = [inf] * n # an array where each idx represent the min distance (so far) to that node
-        adj_list = [[] for _ in range(n)] # an array where at idx n there's a list of all children nodes to n
+        time_req_list : List[int] = [inf] * n # all vertices are set to inf time, if we don't reach any of these nodes then we will know
+        adj_list : List[List[int]] = [ [] for _ in range(n) ]
+        
+        time_req_list[k-1] = 0 # set root vertex time to reach itself to zero
+        
+        #-----------------------------------
+        for from_vertex, to_vertex, time_needed in times:
+            adj_list[from_vertex -1].append( ( to_vertex, time_needed ) ) # from_vertex -1 -> remember we need to offset the idx
+        #-----------------------------------
+        
+        heap : List[Tuple[int,int]] = [(0,k-1)]
+        #-----------------------------------
+        while heap:
+            current_time, current_vertex  = heapq.heappop(heap)
+            
+            if current_time > time_req_list[current_vertex]: continue # we alread have a lower time, then skip this - but should we check its children?
+            
+            
+        #-----------------------------------
+        
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def networkDelayTime_old(self, times: List[List[int]], n: int, k: int) -> int:
+        time_req_list : List[int] = [inf] * n # an array where each idx represent the min distance (so far) to that node
+        adj_list : List[List[int]] = [[] for _ in range(n)] # an array where at idx n there's a list of all children nodes to n
+        
         time_req_list[k - 1] = 0 # offset by 1 - this is our node k, the min dist/time to itself is zero
 
         # Use heapq (min-heap) storing tuples (distance, node_index)
-        heap = [(0, k - 1)] # the first value is node k at distance of 0
+        heap : List[Tuple[int,int]] = [(0, k - 1)] # the first value is node k at distance of 0
         
         ''' one important note about the algo is that we will eventually store all the nodes in
         the heap, that is all the nodes that have a connection. And we will pop the nodes with
@@ -34,8 +58,8 @@ class Solution:
         we update the shortest path.'''
 
         #-----------------------------------
-        for source, target, neighbour_time in times: #create the adjacency list with times per node
-            adj_list[source - 1].append((target - 1, neighbour_time))
+        for from_vertex, to_vertex, time_needed in times: #create the adjacency list with times per node
+            adj_list[from_vertex - 1].append((to_vertex - 1, time_needed))
         #-----------------------------------
 
         #-----------------------------------
@@ -49,9 +73,9 @@ class Solution:
 
             #-----------------------------------
             # now let's look at the nodes connection this vertex
-            for neighbour_vertex, neighbour_time in adj_list[current_vertex]:
+            for neighbour_vertex, time_needed in adj_list[current_vertex]:
                 
-                new_time = time_req_list[current_vertex] + neighbour_time
+                new_time = time_req_list[current_vertex] + time_needed
                 
                 #-----------------------------------
                 if new_time < time_req_list[neighbour_vertex]: # important
@@ -63,7 +87,12 @@ class Solution:
             #-----------------------------------
         #-----------------------------------
 
-        ans = max(time_req_list)
+        ans = max(time_req_list) # any node - what is the max amount to time to reach any node
+        
+        '''this is the part where we need to check if we reached all the nodes. The logic is
+        since we started all nodes with time as 'inf' any node not reached would have
+        a inf as time, and therefore the return of the maximum time should be -1.
+        Otherwise, return the maximum time'''
         return -1 if ans == inf else ans
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
