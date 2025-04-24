@@ -27,28 +27,39 @@ class Solution:
 
         # Use heapq (min-heap) storing tuples (distance, node_index)
         heap = [(0, k - 1)] # the first value is node k at distance of 0
+        
+        ''' one important note about the algo is that we will eventually store all the nodes in
+        the heap, that is all the nodes that have a connection. And we will pop the nodes with
+        the smallest distance and we will check if this new node has a shorter path. If it does
+        we update the shortest path.'''
 
         #-----------------------------------
-        for source, target, time in times: #create the adjacency list with times per node
-            adj_list[source - 1].append((target - 1, time))
+        for source, target, neighbour_time in times: #create the adjacency list with times per node
+            adj_list[source - 1].append((target - 1, neighbour_time))
         #-----------------------------------
 
         #-----------------------------------
         while heap:
             # Pop the node with the smallest distance
-            current_time, current_vertex = heapq.heappop(heap)
+            current_time, current_vertex = heapq.heappop(heap) # pop the smallest distance/time
 
-            # If we found a shorter path already, skip
+            # if current time is bigger than we already have, just ignore it
             if current_time > time_req_list[current_vertex]:
                 continue
 
             #-----------------------------------
-            for neighboring_vertex, time in adj_list[current_vertex]:
-                new_dist = time_req_list[current_vertex] + time
-                if new_dist < time_req_list[neighboring_vertex]:
-                    time_req_list[neighboring_vertex] = new_dist
+            # now let's look at the nodes connection this vertex
+            for neighbour_vertex, neighbour_time in adj_list[current_vertex]:
+                
+                new_time = time_req_list[current_vertex] + neighbour_time
+                
+                #-----------------------------------
+                if new_time < time_req_list[neighbour_vertex]: # important
+                    time_req_list[neighbour_vertex] = new_time
+                    
                     # Push the updated distance and neighbor to the heap
-                    heapq.heappush(heap, (new_dist, neighboring_vertex))
+                    heapq.heappush(heap, (new_time, neighbour_vertex))
+                #-----------------------------------
             #-----------------------------------
         #-----------------------------------
 
