@@ -36,11 +36,30 @@ class Solution:
         while heap:
             current_time, current_vertex  = heapq.heappop(heap)
             
+            # note that all values at time_req_list start with inf, so we will look at every node at least once
             if current_time > time_req_list[current_vertex]: continue # we alread have a lower time, then skip this - but should we check its children?
             
+            # then current time must be less or equal to time_req_list[current_vertex]
+            time_req_list[current_vertex] = current_time
             
+            #-----------------------------------
+            for neigh_vertex, neigh_time_needed in adj_list[current_vertex]:
+                
+                new_time : int = neigh_time_needed + current_time
+                
+                #-----------------------------------
+                if new_time < time_req_list[neigh_vertex]: #found a new shorter path
+                    time_req_list[neigh_vertex] = new_time
+                    
+                    heapq.push(heap, (new_time, neigh_vertex))
+                #-----------------------------------
+            #-----------------------------------
         #-----------------------------------
         
+        #return the answer
+        max_time = max(time_req_list)
+        
+        return -1 if max_time == inf else max_time
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def networkDelayTime_old(self, times: List[List[int]], n: int, k: int) -> int:
@@ -67,15 +86,19 @@ class Solution:
             # Pop the node with the smallest distance
             current_time, current_vertex = heapq.heappop(heap) # pop the smallest distance/time
 
-            # if current time is bigger than we already have, just ignore it
+            ''' if current time is bigger than we already have, just ignore it. please note
+            that since all edges start with 'inf' they will be put in the heap and we will
+            investigate its connections at least once. '''
             if current_time > time_req_list[current_vertex]:
                 continue
+            
+            time_req_list[current_vertex] = current_time
 
             #-----------------------------------
             # now let's look at the nodes connection this vertex
             for neighbour_vertex, time_needed in adj_list[current_vertex]:
                 
-                new_time = time_req_list[current_vertex] + time_needed
+                new_time : int = time_req_list[current_vertex] + time_needed
                 
                 #-----------------------------------
                 if new_time < time_req_list[neighbour_vertex]: # important
@@ -87,13 +110,13 @@ class Solution:
             #-----------------------------------
         #-----------------------------------
 
-        ans = max(time_req_list) # any node - what is the max amount to time to reach any node
+        max_time : int = max(time_req_list) # any node - what is the max amount to time to reach any node
         
         '''this is the part where we need to check if we reached all the nodes. The logic is
         since we started all nodes with time as 'inf' any node not reached would have
         a inf as time, and therefore the return of the maximum time should be -1.
         Otherwise, return the maximum time'''
-        return -1 if ans == inf else ans
+        return -1 if max_time == inf else max_time
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
@@ -182,6 +205,7 @@ class Solution_old:
     def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
         distances = [inf] * n # an array where each idx represent the min distance (so far) to that node
         adj_list = [[] for _ in range(n)] # an array where at idx n there's a list of all children nodes to n
+        
         distances[k - 1] = 0 # offset by 1 - this is our node k, the min dist/time to itself is zero
 
         heap = PriorityQueue(lambda a, b: distances[a] < distances[b])
