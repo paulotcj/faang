@@ -24,17 +24,17 @@ class Solution:
         time_req_list : List[int] = [inf] * n # all vertices are set to inf time, if we don't reach any of these nodes then we will know
         adj_list : List[List[int]] = [ [] for _ in range(n) ]
         
-        time_req_list[k-1] = 0 # set root vertex time to reach itself to zero
+        time_req_list[k - 1] = 0 # set root vertex time to reach itself to zero
         
         #-----------------------------------
         for from_vertex, to_vertex, time_needed in times:
-            adj_list[from_vertex -1].append( ( to_vertex, time_needed ) ) # from_vertex -1 -> remember we need to offset the idx
+            adj_list[from_vertex - 1].append( ( to_vertex - 1, time_needed ) ) # from_vertex -1 -> remember we need to offset the idx
         #-----------------------------------
-        
-        heap : List[Tuple[int,int]] = [(0,k-1)]
+
+        heap : List[Tuple[int,int]] = [(0, k - 1)]
         #-----------------------------------
         while heap:
-            current_time, current_vertex  = heapq.heappop(heap)
+            current_time, current_vertex = heapq.heappop(heap)
             
             # note that all values at time_req_list start with inf, so we will look at every node at least once
             if current_time > time_req_list[current_vertex]: continue # we alread have a lower time, then skip this - but should we check its children?
@@ -51,13 +51,13 @@ class Solution:
                 if new_time < time_req_list[neigh_vertex]: #found a new shorter path
                     time_req_list[neigh_vertex] = new_time
                     
-                    heapq.push(heap, (new_time, neigh_vertex))
+                    heapq.heappush(heap, (new_time, neigh_vertex))
                 #-----------------------------------
             #-----------------------------------
         #-----------------------------------
         
         #return the answer
-        max_time = max(time_req_list)
+        max_time : int = max(time_req_list)
         
         return -1 if max_time == inf else max_time
     #-------------------------------------------------------------------------
@@ -233,4 +233,4 @@ sol = Solution()
 #  in other words: [1, 2, 9] -> from node 1 to node 2 takes 9 units of time
 #  [1, 4, 2] -> from node 1 to node 4 takes 2 units of time
 t = [[1, 2, 9], [1, 4, 2], [2, 5, 1], [4, 2, 4], [4, 5, 6], [3, 2, 3], [5, 3, 7], [3, 1, 5]]
-print(sol.networkDelayTime(t, 5, 1))
+print(sol.networkDelayTime_old(t, 5, 1))
