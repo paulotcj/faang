@@ -9,7 +9,7 @@ from typing import List
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
+    def networkDelayTime_old(self, times: List[List[int]], n: int, k: int) -> int:
         distances = [float('inf')] * n
         
         distances[k - 1] = 0
@@ -29,6 +29,29 @@ class Solution:
         
         ans = max(distances)
         return -1 if ans == float('inf') else ans
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
+        # Initialize distances with "infinity" except for the starting node k
+        dist = [float('inf')] * (n + 1) # n+1 because if we had a n = 3 we would have [inf, inf, inf], and we want to simply not have to deal with issues at index zero, so we want [inf, inf, inf, inf]
+        dist[k] = 0 # start node gets distance 0
+
+        # Relax all edges up to n-1 times
+        for _ in range(n - 1):
+            for u, v, w in times:
+                if dist[u] != float('inf') and dist[u] + w < dist[v]:
+                    dist[v] = dist[u] + w
+                    
+        # Bellman-Ford sets impossible paths to inf, so we check if any node was never updated
+        answer = max(dist[1:])  # ignore index 0
+        return -1 if answer == float('inf') else answer
+
+        """
+        Explanation:
+        - Bellman-Ford systematically relaxes all edges in the graph up to n-1 times.
+        - Each relaxation tries to improve the best known distance to each node.
+        - If after n-1 iterations a node's distance remains infinity, it means it's unreachable.
+        """
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
