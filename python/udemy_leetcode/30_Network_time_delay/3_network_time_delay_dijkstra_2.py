@@ -21,7 +21,7 @@ class Solution:
             graph[from_node].append((to_node, time_needed))
         
         # Min-heap to store (time, node)
-        heap : List[ Tuple[int,int] ] = [(0, k)]
+        heap : List[ Tuple[int,int] ] = [(0, k)] # put in the first element, root vertex with distance of zero
         
         # Dictionary to store the shortest time to reach each node
         shortest_time : Dict[int, int] = {}
@@ -40,8 +40,10 @@ class Solution:
             #-----------------------------------
             # Explore neighbors
             for neigh_vertex, neigh_time_needed in graph[current_vertex]:
+                
                 if neigh_vertex not in shortest_time:
-                    heapq.heappush(heap, (current_time + neigh_time_needed, neigh_vertex))
+                    new_time = current_time + neigh_time_needed
+                    heapq.heappush(heap, (new_time, neigh_vertex))
             #-----------------------------------
         #-----------------------------------
         
