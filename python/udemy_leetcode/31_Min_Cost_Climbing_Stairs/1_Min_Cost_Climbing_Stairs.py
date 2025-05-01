@@ -19,7 +19,7 @@ class Solution:
             sum_cost[idx] = cost[idx] + min(sum_cost[idx-1], sum_cost[idx-2])
         #-----------------------------------
         
-        result = sum_cost[-1]
+        result : int = sum_cost[-1]
         
         return result
     #-------------------------------------------------------------------------
