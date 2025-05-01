@@ -9,12 +9,39 @@ from typing import List, Tuple, Dict
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    
-    #-------------------------------------------------------------------------
-    def networkDelayTime2(self, times: List[List[int]], n: int, k: int) -> int:
-        pass
-    #-------------------------------------------------------------------------
     def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
+        adj_list : defaultdict[int, List[Tuple[int,int]]] = defaultdict(list)
+        
+        #-----------------------------------
+        for from_node, to_node, time_needed in times:
+            adj_list[from_node].append((to_node, time_needed))
+        #-----------------------------------
+        
+        heap : List[ Tuple[int,int] ] = [(0,k)]
+        
+        shortest_time : Dict[int,int] = {}
+        
+        #-----------------------------------
+        while heap:
+            current_time, current_vertex = heapq.heappop(heap)
+            
+            if current_vertex in shortest_time: continue
+            
+            shortest_time[current_vertex] = current_time
+            
+            #-----------------------------------
+            for neigh_vertex, neigh_time in adj_list[current_vertex]:
+                if neigh_vertex not in shortest_time:
+                    new_time = current_time + neigh_time
+                    heapq.heappush(heap, (new_time, neigh_vertex))
+            #-----------------------------------
+        #-----------------------------------
+        
+        max_time = max(shortest_time.values())
+        return max_time if len(shortest_time) == n else -1
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def networkDelayTime_old(self, times: List[List[int]], n: int, k: int) -> int:
         # Build the graph as an adjacency list
         adj_list : defaultdict[ int, List[ Tuple[int,int] ] ] = defaultdict(list) # any key not present, the default value is a list
         for from_node, to_node, time_needed in times:
@@ -65,4 +92,11 @@ sol = Solution()
 #  in other words: [1, 2, 9] -> from node 1 to node 2 takes 9 units of time
 #  [1, 4, 2] -> from node 1 to node 4 takes 2 units of time
 t = [[1, 2, 9], [1, 4, 2], [2, 5, 1], [4, 2, 4], [4, 5, 6], [3, 2, 3], [5, 3, 7], [3, 1, 5]]
-print(sol.networkDelayTime(t, 5, 1))
+# print(sol.networkDelayTime(t, 5, 1))
+
+t = [ [1,2,10], [1,3,1], [3,2,1] ]
+# print(sol.networkDelayTime(t, 3, 1))
+
+
+t = [ [1,2,10], [1,2,10], [1,2,10], [1,3,1], [3,2,1] ]
+print(sol.networkDelayTime(t, 3, 1))
