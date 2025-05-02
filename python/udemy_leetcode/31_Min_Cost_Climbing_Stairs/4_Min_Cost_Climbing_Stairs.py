@@ -12,7 +12,7 @@ class Solution:
         return min( self.min_cost(n-1) , self.min_cost(n-2) )
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def min_cost(self,i : int):
+    def min_cost(self,i : int) -> int:
         if i < 0 : return 0
         if i == 0 or i == 1: return cost[i]
         
