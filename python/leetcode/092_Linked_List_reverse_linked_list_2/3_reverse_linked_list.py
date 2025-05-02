@@ -53,7 +53,7 @@ class Solution:
         # Edge case: if the list is empty or no need to reverse
         if not head or left_idx == right_idx:
             return head
-        
+    
         
         one_before_left_target  : ListNode = None
         left_target             : ListNode = None
