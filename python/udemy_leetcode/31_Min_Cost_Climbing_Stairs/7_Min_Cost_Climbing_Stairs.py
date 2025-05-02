@@ -6,34 +6,43 @@ class Solution:
     #-------------------------------------------------------------------------
     def minCostClimbingStairs(self, cost: List[int]) -> int:
         n : int = len(cost)
-        memo : List[int] = [0] * n
+
+        dp : List[int] = [ cost[0] , cost[1] ]
+        
         #-----------------------------------
-        for i in range(n):
-            if i < 2 : 
-                memo[i] = cost[i]
-                continue
-            
-            memo[i] = cost[i] + min( memo[i-1] , memo[i-2] )
+        for i in range(2, n):
+            current : int = cost[i] + min(dp[0] , dp[1])
+            dp[0] = dp[1]
+            dp[1] = current
         #-----------------------------------
         
-        return min( memo[n-1], memo[n-2] )
-        
+    
+        return min( dp[0] , dp[1] )
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    # Approach 2: Iteration w/ Bottom Up Approach
     def minCostClimbingStairs2(self, cost: List[int]) -> int:
+        """
+        :param cost: List[int]
+        :return: int
+        Approach 2: Optimized Iteration with Bottom-Up
+        """
         n = len(cost)
-        memo = [0] * n
+        if n == 0:
+            return 0
+        if n == 1:
+            return cost[0]
 
-        for i in range(n):
-            if i < 2:
-                memo[i] = cost[i]
-            else:
-                memo[i] = cost[i] + min(memo[i - 1], memo[i - 2])
+        dp = [cost[0], cost[1]]
 
-        return min(memo[n - 1], memo[n - 2])
+        for i in range(2, n):
+            current = cost[i] + min(dp[0], dp[1])
+            dp[0] = dp[1]
+            dp[1] = current
+
+        return min(dp[0], dp[1])
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
+
 
 
 
