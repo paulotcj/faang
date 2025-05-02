@@ -5,8 +5,8 @@ from typing import List
 class Solution:
     #-------------------------------------------------------------------------
     def minCostClimbingStairs(self, cost: List[int]) -> int:
-        n = len(cost)
-        self.cost = cost
+        n : int = len(cost)
+        self.cost : List[int] = cost
         
         #final condition of the step N. From here the real lifting is done by min_cost
         return min( self.min_cost(n-1) , self.min_cost(n-2) )
