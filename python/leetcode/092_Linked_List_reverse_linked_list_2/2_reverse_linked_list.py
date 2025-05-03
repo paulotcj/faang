@@ -71,6 +71,7 @@ class Solution:
             left_target.next = one_after_right_target
         else:
             left_target.next = None
+            
         return head
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
