@@ -73,6 +73,7 @@ class Solution:
             left_target.next = None
             
         return head
+    
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def get_obj_markers( self , head : ListNode , left_idx : int , right_idx : int ) -> List[ListNode] :
