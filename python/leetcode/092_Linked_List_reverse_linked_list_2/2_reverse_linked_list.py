@@ -128,7 +128,7 @@ class Solution:
         we do care for what 3.next points to. So effectively node 3 is indeed 'curr' and
         node 2 will be 'prev'
         '''
-    
+
         #-----------------------------------
         for _ in range(right_idx - left_idx):
             temp_next = curr.next
