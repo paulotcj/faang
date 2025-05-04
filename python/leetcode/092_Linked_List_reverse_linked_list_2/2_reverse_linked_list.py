@@ -82,7 +82,7 @@ class Solution:
         one_after_right_target  : ListNode = None
         curr                    : ListNode = head
         prev                    : ListNode = None
-        
+    
         #-----------------------------------
         for loop_idx in range(right_idx + 1) : # plus 1 so we will make right_idx inclusive in the loop
             #-----
