@@ -61,7 +61,7 @@ class Solution:
         #-----------
         self.revert( left_idx = left_idx, right_idx = right_idx , left_target = left_target )
         #-----------
-        
+    
         if one_before_left_target : 
             one_before_left_target.next = right_target
         else:
