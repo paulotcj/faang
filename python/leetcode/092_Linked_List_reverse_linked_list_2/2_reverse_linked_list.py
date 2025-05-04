@@ -114,7 +114,7 @@ class Solution:
         temp_next   : ListNode = None
         
         ''' the question here is why prev = left_target as opposed to curr = left_target
-        
+    
         consider the list:             1 -> 2 -> 3 -> 4 -> 5 -> 6
         and we want it to become this: 1 -> 5 -> 4 -> 3 -> 2 -> 6
         
