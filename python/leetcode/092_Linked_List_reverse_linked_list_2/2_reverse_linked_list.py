@@ -49,7 +49,7 @@ class Solution:
         # correct base 1 indexing to base 0
         left_idx : int = left - 1
         right_idx : int = right - 1
-        
+    
         #-----------
         temp_result : List[ListNode] = self.get_obj_markers( 
             head = head , left_idx = left_idx, right_idx = right_idx )
