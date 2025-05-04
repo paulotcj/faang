@@ -120,7 +120,7 @@ class Solution:
         
         and this is the list we will work with: 2 -> 3 -> 4 -> 5
         and this is the list we will produce:   5 -> 4 -> 3 -> 2
-        
+    
         left_target = 2 and right_target = 5 (1BLT = 1, 1ART= 6)
         so prev = 2 and curr = 3
         
