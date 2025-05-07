@@ -16,39 +16,42 @@ DIRECTIONS = [
 class Solution:
     #-------------------------------------------------------------------------
     def knightProbability(self, n: int, k: int, row: int, column: int) -> float:
-        # create an 3d matrix, of shape [k+1, n, n]
-        #-----------------------------------
-        self.memo : List[List[List[float]]] = [
+
+        # Init memo
+        memo = [
             [
-                [None] * n for x in range(n)
+                [
+                    0 
+                    for _ in range(n)
+                ] 
+                for _ in range(n)
             ] 
             for _ in range(k + 1)
         ]
-        #-----------------------------------
-        
-        return self.recurse(n = n, k = k, row = row, column = column)
-    
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def recurse(self, n : int, k : int, row : int, column : int) -> float:
-        
-        if row < 0 or row >= n or column < 0 or column >= n: return 0
-        
-        if k == 0 : return 1
-        
-        if self.memo[k][row][column] is not None: # if we've been at this position before...
-            return self.memo[k][row][column] # ... return what we had alredy calculated
+        memo[0][row][column] = 1
 
-        prob : float = 0.0
         #-----------------------------------
-        for dir_row, dir_col in DIRECTIONS:
-            new_row : int = row + dir_row
-            new_col : int = column + dir_col
-            prob += self.recurse( n=n, k = k-1, row=new_row, column=new_col ) / 8
+        for step in range(1, k + 1):
+            #-----------------------------------
+            for r in range(n):
+                #-----------------------------------
+                for c in range(n):
+                    #-----------------------------------
+                    for dr, dc in DIRECTIONS:
+                        prev_r = r + dr
+                        prev_c = c + dc
+                        if 0 <= prev_r < n and 0 <= prev_c < n:
+                            memo[step][r][c] += memo[step - 1][prev_r][prev_c] / 8
+                    #-----------------------------------
+                #-----------------------------------
+            #-----------------------------------
         #-----------------------------------
-        
-        self.memo[k][row][column] = prob
-        return prob
+
+        res = 0
+        for i in range(n):
+            for j in range(n):
+                res += memo[k][i][j]
+        return res
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
