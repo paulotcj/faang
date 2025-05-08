@@ -18,6 +18,42 @@ DIRECTIONS = [
 class Solution:
     #-------------------------------------------------------------------------
     def knightProbability(self, n: int, k: int, row: int, column: int) -> float:
+        prev_memo : List[List[float]] = [ [0.0] * n for _ in range(n) ]
+        curr_memo : List[List[float]] = [ [0.0] * n for _ in range(n) ]
+        prev_memo[row][column] = 1.0
+        
+        #-----------------------------------
+        for step in range(k):
+            
+            #-----------------------------------
+            for for_row in range(n):
+                for for_col in range(n):
+                    
+                    prev_prob : float = prev_memo[for_row][for_col]
+                    
+                    if prev_prob == 0 : continue
+                    
+                    #-----------------------------------
+                    for dir_row, dir_col in DIRECTIONS:
+                        new_row : int = for_row + dir_row
+                        new_col : int = for_col + dir_col
+                        
+                        if 0 <= new_row < n and 0 <= new_col < n:
+                            curr_memo[new_row][new_col] += (prev_prob/8.0)
+                    #-----------------------------------   
+            #-----------------------------------
+            prev_memo = curr_memo
+            curr_memo : List[List[float]] = [ [0.0] * n for _ in range(n) ]            
+        #-----------------------------------
+        
+        result : float = sum(
+            sum(row_vals) for row_vals in prev_memo
+        )
+        
+        return result
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def knightProbability2(self, n: int, k: int, row: int, column: int) -> float:
 
 
         # Initialize memo arrays
@@ -33,9 +69,6 @@ class Solution:
         directly derived from the DIRECTIONS list. '''
         #-----------------------------------
         for _ in range(k):
-            # Reset current probabilities
-            curr_memo: List[List[float]] = [[0.0] * n for _ in range(n)]
-
             #-----------------------------------
             for for_row in range(n):
                 for for_col in range(n):
@@ -43,18 +76,19 @@ class Solution:
                     prev_prob : float = prev_memo[for_row][for_col]
                     
                     #-----------------------------------
-                    if prev_prob > 0: # if the previous are zero, all its children will be zero, in other words, this path is closed
-                        for dir_row, dir_col in DIRECTIONS:
-                            new_row = for_row + dir_row
-                            new_col = for_col + dir_col
-                            
-                            if 0 <= new_row < n and 0 <= new_col < n:
-                                curr_memo[new_row][new_col] += (prev_prob / 8.0)
+                    if prev_prob == 0: continue # if the previous are zero, all its children will be zero, in other words, this path is closed
+                    for dir_row, dir_col in DIRECTIONS:
+                        new_row = for_row + dir_row
+                        new_col = for_col + dir_col
+                        
+                        if 0 <= new_row < n and 0 <= new_col < n:
+                            curr_memo[new_row][new_col] += (prev_prob / 8.0)
                     #-----------------------------------
             #-----------------------------------
 
             # Swap references for the next iteration - note that curr_memo will be reset at the begining of the next loop
-            prev_memo, curr_memo = curr_memo, prev_memo
+            prev_memo = curr_memo
+            curr_memo : List[List[float]] = [ [0.0] * n for _ in range(n) ]     
         #-----------------------------------
 
         # Sum probabilities that remain on the board - we use prev_memo as it was swapped in the previous step
