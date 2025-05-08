@@ -18,44 +18,50 @@ DIRECTIONS = [
 class Solution:
     #-------------------------------------------------------------------------
     def knightProbability(self, n: int, k: int, row: int, column: int) -> float:
-        # Precompute possible knight moves
-        directions: List[Tuple[int, int]] = [
-            (-2, -1), (-2, 1),
-            (-1, -2), (-1, 2),
-            (1, -2),  (1, 2),
-            (2, -1),  (2, 1),
-        ]
+
 
         # Initialize memo arrays
-        prevMemo: List[List[float]] = [[0.0] * n for _ in range(n)]
-        currMemo: List[List[float]] = [[0.0] * n for _ in range(n)]
+        prev_memo: List[List[float]] = [[0.0] * n for _ in range(n)]
+        curr_memo: List[List[float]] = [[0.0] * n for _ in range(n)]
 
         # The knight starts at (row, column) with probability 1
-        prevMemo[row][column] = 1.0
+        prev_memo[row][column] = 1.0
 
-        # Perform k moves
+
+        ''' this approach is different as it considers the prev_memo with the coordinates from 'for_row'
+        and 'for_col', and the curr_memo is identified with the 'new_row' and 'new_col' which are
+        directly derived from the DIRECTIONS list. '''
+        #-----------------------------------
         for _ in range(k):
             # Reset current probabilities
-            for r in range(n):
-                for c in range(n):
-                    currMemo[r][c] = 0.0
+            curr_memo: List[List[float]] = [[0.0] * n for _ in range(n)]
 
-            # Update probabilities for each cell
-            for r in range(n):
-                for c in range(n):
-                    prob = prevMemo[r][c]
-                    if prob > 0:
-                        for dr, dc in directions:
-                            nr = r + dr
-                            nc = c + dc
-                            if 0 <= nr < n and 0 <= nc < n:
-                                currMemo[nr][nc] += prob / 8.0
+            #-----------------------------------
+            for for_row in range(n):
+                for for_col in range(n):
+                    
+                    prev_prob : float = prev_memo[for_row][for_col]
+                    
+                    #-----------------------------------
+                    if prev_prob > 0: # if the previous are zero, all its children will be zero, in other words, this path is closed
+                        for dir_row, dir_col in DIRECTIONS:
+                            new_row = for_row + dir_row
+                            new_col = for_col + dir_col
+                            
+                            if 0 <= new_row < n and 0 <= new_col < n:
+                                curr_memo[new_row][new_col] += (prev_prob / 8.0)
+                    #-----------------------------------
+            #-----------------------------------
 
-            # Swap references for the next iteration
-            prevMemo, currMemo = currMemo, prevMemo
+            # Swap references for the next iteration - note that curr_memo will be reset at the begining of the next loop
+            prev_memo, curr_memo = curr_memo, prev_memo
+        #-----------------------------------
 
-        # Sum probabilities that remain on the board
-        return sum(sum(rowVals) for rowVals in prevMemo)
+        # Sum probabilities that remain on the board - we use prev_memo as it was swapped in the previous step
+        result : float = sum( 
+            sum(row_vals) for row_vals in prev_memo
+        )
+        return result
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
