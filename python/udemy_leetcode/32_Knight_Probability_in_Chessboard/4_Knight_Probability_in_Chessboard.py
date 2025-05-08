@@ -16,41 +16,35 @@ DIRECTIONS = [
 class Solution:
     #-------------------------------------------------------------------------
     def knightProbability(self, n: int, k: int, row: int, column: int) -> float:
-
-        # Init memo
-        memo = [
+        #-----------------------------------
+        memo : List[List[List[float]]] = [ # 3d matrix with shape [k+1, n, n] where x and y are used as cood x and y
             [
-                [
-                    0 
-                    for _ in range(n)
-                ] 
-                for _ in range(n)
+                [0] * n                  # y range
+                for x_range in range(n)  # x range
             ] 
-            for _ in range(k + 1)
+            for k_range in range(k+1)    # k range
         ]
-        memo[0][row][column] = 1
-
         #-----------------------------------
-        for step in range(1, k + 1):
-            #-----------------------------------
-            for r in range(n):
-                #-----------------------------------
-                for c in range(n):
-                    #-----------------------------------
-                    for dr, dc in DIRECTIONS:
-                        prev_r = r + dr
-                        prev_c = c + dc
-                        if 0 <= prev_r < n and 0 <= prev_c < n:
-                            memo[step][r][c] += memo[step - 1][prev_r][prev_c] / 8
-                    #-----------------------------------
-                #-----------------------------------
-            #-----------------------------------
+        memo[0][row][column] = 1.0 # knight at position row and col has 100% chance of being withing board bounds
+        
         #-----------------------------------
-
-        res = 0
+        for step in range(1, k+1): # start at step 1 and go until K+1 as k is not inclusive in the look, keep the k_base 1 to make it easy
+            for for_row in range(n):
+                for for_col in range(n):
+                    #-----------------------------------
+                    for dir_row, dir_col in DIRECTIONS:
+                        prev_row : int = for_row + dir_row
+                        prev_col : int = for_col + dir_col
+                        if 0 <= prev_row < n and 0 <= prev_col < n:
+                            memo[step][for_row][for_col] += memo[step - 1][prev_row][prev_col] / 8
+                    #-----------------------------------
+        #-----------------------------------
+        
+        res : float = 0.0
         for i in range(n):
             for j in range(n):
                 res += memo[k][i][j]
+                
         return res
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
@@ -61,7 +55,3 @@ result = sol.knightProbability(n = 3, k = 2, row = 0, column = 0)
 expected = 0.06250
 print(f'result: {result}, expected: {expected}, are they equal?: {abs(result - expected) < 1e-5}')
 
-# print()
-# result = sol.knightProbability(n = 8, k = 30, row = 6, column = 4)
-# expected = 0.0 # at this point the solution takes too long and we don't know the answer
-# print(f'result: {result}, expected: {expected}, are they equal?: {abs(result - expected) < 1e-5}')
