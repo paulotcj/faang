@@ -27,8 +27,12 @@ class Solution:
         #-----------------------------------
         memo[0][row][column] = 1.0 # knight at position row and col has 100% chance of being withing board bounds
         
+        ''' we start by defining that at memo[0][row][column] the probability of the knight being withing
+        the board bounds is 100% and this was at move 0 (t0) - now we are going to explore what happens when
+        the knight starts moving.
+        The memo 3D matrix is initialized with all values pointing to 0. '''
         #-----------------------------------
-        for step in range(1, k+1): # start at step 1 and go until K+1 as k is not inclusive in the look, keep the k_base 1 to make it easy
+        for step in range(1, k+1): 
             for for_row in range(n):
                 for for_col in range(n):
                     #-----------------------------------
