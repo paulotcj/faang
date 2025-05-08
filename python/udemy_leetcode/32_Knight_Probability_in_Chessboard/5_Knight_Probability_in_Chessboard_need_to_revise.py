@@ -17,33 +17,37 @@ class Solution:
     #-------------------------------------------------------------------------
     def knightProbability(self, n: int, k: int, row: int, column: int) -> float:
 
-        # Initialize memo
-        prevMemo = [[0] * n for _ in range(n)]
-        currMemo = [[0] * n for _ in range(n)]
+        ''' Initialize memo - X and Y coord. Instead of a 3D matrix with K steps [k,n,n], we can make  it
+        work with 2 matrices of [n,n]'''
+        prev_memo = [[0] * n for _ in range(n)]
+        curr_memo = [[0] * n for _ in range(n)]
 
-        prevMemo[row][column] = 1
+        prev_memo[row][column] = 1 # knight is sitting at this position, so 100% probability
 
         #-----------------------------------
         for step in range(1, k + 1):
             #-----------------------------------
-            for r in range(n):
-                for c in range(n):
+            for for_row in range(n):
+                for for_col in range(n):
                     #-----------------------------------
-                    for dr, dc in DIRECTIONS:
-                        prevRow, prevCol = r + dr, c + dc
-                        if 0 <= prevRow < n and 0 <= prevCol < n:
-                            currMemo[r][c] += prevMemo[prevRow][prevCol] / 8
+                    for dir_row, dir_col in DIRECTIONS:
+                        
+                        prev_row = for_row + dir_row
+                        prev_col = for_col + dir_col
+                        
+                        if 0 <= prev_row < n and 0 <= prev_col < n:
+                            curr_memo[for_row][for_col] += prev_memo[prev_row][prev_col] / 8
                     #-----------------------------------
             #-----------------------------------         
-            prevMemo = currMemo
-            currMemo = [[0] * n for _ in range(n)]
+            prev_memo = curr_memo # swap the matrices, the previous one assumes the spot of the current
+            curr_memo = [[0] * n for _ in range(n)] # clear up the curr matrice so we can start fresh on the next loop
         #-----------------------------------
 
         res = 0
 
         for i in range(n):
             for j in range(n):
-                res += prevMemo[i][j]
+                res += prev_memo[i][j]
 
         return res
     #-------------------------------------------------------------------------
