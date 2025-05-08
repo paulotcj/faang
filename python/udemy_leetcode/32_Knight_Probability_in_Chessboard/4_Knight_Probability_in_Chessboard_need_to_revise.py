@@ -30,7 +30,13 @@ class Solution:
         ''' we start by defining that at memo[0][row][column] the probability of the knight being withing
         the board bounds is 100% and this was at move 0 (t0) - now we are going to explore what happens when
         the knight starts moving.
-        The memo 3D matrix is initialized with all values pointing to 0. '''
+        The memo 3D matrix is initialized with all values pointing to 0 except where the knight is which is
+        1.0 (100%). Then we go about scanning each X and Y coordinates, and from each coordinate we check
+        against each of the 8 possible moves from the knight but from the previous time step. If we find a
+        positive probability there, then this current step takes 1/8 from the previous probability. Note
+        that we need to sum up the current probability and not only assign, as more positions from the
+        previous step might have influenced the current coordinates. Think about it as if this was bubbling
+        up to final step k'''
         #-----------------------------------
         for step in range(1, k+1): 
             for for_row in range(n):
@@ -40,11 +46,19 @@ class Solution:
                         prev_row : int = for_row + dir_row
                         prev_col : int = for_col + dir_col
                         if 0 <= prev_row < n and 0 <= prev_col < n:
+
+                            # if memo[step][for_row][for_col] != 0 and memo[step - 1][prev_row][prev_col] != 0:
+                            #     print(f'memo[step][for_row][for_col]:{memo[step][for_row][for_col]}')
+                            #     print(f'memo[step - 1][prev_row][prev_col]: {memo[step - 1][prev_row][prev_col]}')
+                            
                             memo[step][for_row][for_col] += memo[step - 1][prev_row][prev_col] / 8
                     #-----------------------------------
         #-----------------------------------
-        
+     
+        ''' now we go about every X and Y coordinates, for every K step. We sum up all probabilities of
+        each cell. We only look to final step K as all probabilities should have bubbled up to K-step '''   
         res : float = 0.0
+        
         for i in range(n):
             for j in range(n):
                 res += memo[k][i][j]
