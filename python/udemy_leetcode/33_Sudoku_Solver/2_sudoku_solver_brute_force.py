@@ -5,15 +5,9 @@ from typing import List
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def solveSudoku2(self, board: List[List[str]]) -> None:
+    def solveSudoku(self, board: List[List[str]]) -> None:
         self.board : List[List[str]] = board
         self.board_width : int = len(board)
-        self.dfs()
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def solveSudoku2(self, board: List[List[str]]) -> None:
-        self.board_width : int = len(board)
-        self.board = board
         self.dfs()
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
@@ -23,40 +17,34 @@ class Solution:
         #-----------------------------------
         for for_row in range(self.board_width):
             for for_col in range(self.board_width):
+                if self.board[for_row][for_col] != "." : continue # a number is already placed there
                 
+                # try every number from 0 to 9
                 #-----------------------------------
-                # if it's not empty
-                if self.board[for_row][for_col] != ".": continue
-                
-                #-----------------------------------
-                # try every number 1-9
-                for i in range(1, 10):
-                    c = str(i) # convert to string as the board is string based
+                for i in range(1, 10): # 10 is not inclusive
+                    c : str = str(i)
                     
                     #-----------------------------------
-                    # if that number is valid
-                    if self.isValid(row = for_row, col = for_col, c = c):
-                        
+                    if self.is_valid( row = for_row, col = for_col, c = c) == True:
                         self.board[for_row][for_col] = c
-                        # continue search for that board, return True if solution is reached
-                        if self.dfs():
-                            return True
+                        
+                        # now we have to continue to look for next steps in the solution
+                        if self.dfs() == True : return True
                     #-----------------------------------
+                    # we can't return false here just because the self.is_valid returned false
+                    # as we havent explored all the possibilities with all the numbers
                 #-----------------------------------
                 
-                # solution wasn't found for any num 1-9 here, must be a dead end...
-                # set the current cell back to empty
                 self.board[for_row][for_col] = "."
-                # return False to signal dead end
-                return False
-                #-----------------------------------
+                return False # now after the for loop we can dafely return false as we explored all numbers      
         #-----------------------------------
         
-        # all cells filled, must be a solution
+        # now after all rows and cols were explored, if we havent run into a invalid situation
+        #   then we found a valid solution
         return True
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def isValid(self, row: int, col: int, c: str) -> bool:
+    def is_valid(self, row: int, col: int, c: str) -> bool:
         ''' blocks:
             | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
             -------------------------------------
