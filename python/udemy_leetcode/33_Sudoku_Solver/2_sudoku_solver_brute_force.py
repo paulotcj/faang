@@ -5,15 +5,21 @@ from typing import List
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def solveSudoku(self, board: List[List[str]]) -> None:
+    def solveSudoku2(self, board: List[List[str]]) -> None:
+        self.board : List[List[str]] = board
+        self.board_width : int = len(board)
+        self.dfs()
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def solveSudoku2(self, board: List[List[str]]) -> None:
         self.board_width : int = len(board)
         self.board = board
         self.dfs()
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def dfs(self) -> bool:
-        # for every cell in the sudoku
         
+        # we go for every cell on the board, taking row first and then column
         #-----------------------------------
         for for_row in range(self.board_width):
             for for_col in range(self.board_width):
@@ -25,13 +31,17 @@ class Solution:
                 #-----------------------------------
                 # try every number 1-9
                 for i in range(1, 10):
-                    c = str(i)
+                    c = str(i) # convert to string as the board is string based
+                    
+                    #-----------------------------------
                     # if that number is valid
                     if self.isValid(row = for_row, col = for_col, c = c):
+                        
                         self.board[for_row][for_col] = c
                         # continue search for that board, return True if solution is reached
                         if self.dfs():
                             return True
+                    #-----------------------------------
                 #-----------------------------------
                 
                 # solution wasn't found for any num 1-9 here, must be a dead end...
