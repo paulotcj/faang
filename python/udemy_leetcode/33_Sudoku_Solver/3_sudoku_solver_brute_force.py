@@ -1,15 +1,16 @@
 # https://leetcode.com/problems/sudoku-solver/
 
 from typing import List
+from typing import List, Dict
 
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
     def solveSudoku(self, board: List[List[str]]) -> None:
-        n : int = len(board)
-        boxes = [{} for _ in range(n)]
-        rows = [{} for _ in range(n)]
-        cols = [{} for _ in range(n)]
+        n: int = len(board)
+        boxes: list[dict[str, bool]] = [{} for _ in range(n)]
+        rows: list[dict[str, bool]] = [{} for _ in range(n)]
+        cols: list[dict[str, bool]] = [{} for _ in range(n)]
 
         for r in range(n):
             for c in range(n):
@@ -23,9 +24,9 @@ class Solution:
         self.solveBacktrack(board, boxes, rows, cols, 0, 0)
     #-------------------------------------------------------------------------    
     #-------------------------------------------------------------------------
-    def getBoxId(self, row, col):
-        rowVal = (row // 3) * 3
-        colVal = (col // 3)
+    def getBoxId(self, row: int, col: int) -> int:
+        rowVal: int = (row // 3) * 3
+        colVal: int = (col // 3)
         return rowVal + colVal
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
@@ -36,49 +37,46 @@ class Solution:
             return True
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def solveBacktrack(self, board, boxes, rows, cols, r, c):
-        if r == len(board) or c == len(board[0]):
+    def solveBacktrack(self, board: List[List[str]], boxes: List[Dict[str, bool]],
+        rows: List[Dict[str, bool]], cols: List[Dict[str, bool]], r: int, c: int) -> bool:
+        n: int = len(board)
+        m: int = len(board[0])
+
+        if r == n or c == m:
             return True
+
+        if board[r][c] == ".":
+            for num in range(1, 10):
+                num_val: str = str(num)
+                board[r][c] = num_val
+
+                box_id: int = self.getBoxId(r, c)
+                box: Dict[str, bool] = boxes[box_id]
+                row_map: Dict[str, bool] = rows[r]
+                col_map: Dict[str, bool] = cols[c]
+
+                if self.isValid(box, row_map, col_map, num_val):
+                    box[num_val] = True
+                    row_map[num_val] = True
+                    col_map[num_val] = True
+
+                    next_r, next_c = (r + 1, 0) if c == m - 1 else (r, c + 1)
+                    if self.solveBacktrack(board, boxes, rows, cols, next_r, next_c):
+                        return True
+
+                    del box[num_val]
+                    del row_map[num_val]
+                    del col_map[num_val]
+
+                board[r][c] = "."
+
         else:
-            if board[r][c] == ".":
-                for num in range(1, 10):
-                    numVal = str(num)
-                    board[r][c] = numVal
-
-                    boxId = self.getBoxId(r, c)
-                    box = boxes[boxId]
-                    row = rows[r]
-                    col = cols[c]
-
-                    if self.isValid(box, row, col, numVal):
-                        box[numVal] = True
-                        row[numVal] = True
-                        col[numVal] = True
-
-                        if c == len(board[0]) - 1:
-                            if self.solveBacktrack(board, boxes, rows, cols, r + 1, 0):
-                                return True
-                        else:
-                            if self.solveBacktrack(board, boxes, rows, cols, r, c + 1):
-                                return True
-
-                        del box[numVal]
-                        del row[numVal]
-                        del col[numVal]
-
-                    board[r][c] = "."
-            else:
-                if c == len(board[0]) - 1:
-                    if self.solveBacktrack(board, boxes, rows, cols, r + 1, 0):
-                        return True
-                else:
-                    if self.solveBacktrack(board, boxes, rows, cols, r, c + 1):
-                        return True
+            next_r, next_c = (r + 1, 0) if c == m - 1 else (r, c + 1)
+            if self.solveBacktrack(board, boxes, rows, cols, next_r, next_c):
+                return True
 
         return False
     #-------------------------------------------------------------------------
-
-
 #-------------------------------------------------------------------------
 
 
