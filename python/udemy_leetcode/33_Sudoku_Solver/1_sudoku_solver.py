@@ -1,3 +1,5 @@
+# https://leetcode.com/problems/sudoku-solver/
+
 from typing import List
 
 #-------------------------------------------------------------------------
@@ -45,15 +47,50 @@ class Solution:
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def isValid(self, row: int, col: int, c: str) -> bool:
-        blockRow = (row // 3) * 3
-        blockCol = (col // 3) * 3
+        ''' blocks:
+            | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+            -------------------------------------
+          0 |   |   |   |   |   |   |   |   |   |
+          1 |   |   |   |   |   |   |   |   |   |
+          2 |   |   |   |   |   |   |   |   |   |
+          3 |   |   |   |   |   |   |   |   |   |
+          4 |   |   |   |   |   |   |   |   |   |
+          5 |   |   |   |   |   |   |   |   |   |
+          6 |   |   |   |   |   |   |   |   |   |
+          7 |   |   |   |   |   |   |   |   |   |
+          8 |   |   |   |   |   |   |   |   |   |
+          
+            | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+            -------------------------------------
+          0 |           |           |           |
+          1 |     0     |     1     |     2     |
+          2 |____________________________________
+          3 |           |           |           |
+          4 |     3     |     4     |     5     |
+          5 |____________________________________
+          6 |           |           |           |
+          7 |     6     |     7     |      8    |
+          8 |____________________________________
+        
+        consider row 4 col 5 i supposed to be block 4, and block 4 starts at row 3 col 3
+        so (3,3)
+        '''
+        
+        blockRow = (row // 3) * 3 # e.g.: 4 // 3 = 1 -> 1 * 3 = 3
+        blockCol = (col // 3) * 3 # e.g.: 5 // 3 = 1 -> 1 * 3 = 3
+        # blockCol = (col // 3)
         
         #-----------------------------------
-        for i in range(self.board_width):
-            if self.board[row][i] == c or self.board[i][col] == c:
+        for i in range(self.board_width): # from 0 to 8
+            
+            # check if this number exists in the row or col
+            if self.board[row][i] == c or self.board[i][col] == c: 
                 return False
+            
+            ''' remember that i goes from 0 to 9 and that the row = 4 and col = 5 '''
+            
             curRow = blockRow + (i // 3)
-            curCol = blockCol + (i % 3)
+            curCol = blockCol + (i % 3)   
             if self.board[curRow][curCol] == c:
                 return False
         #-----------------------------------
