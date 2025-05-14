@@ -86,8 +86,10 @@ class Solution:
         probing_box : int = temp_block_row + temp_block_col
         
         #-----------------------------------
-        for digit in map(str, range(1, 10)):
+        for digit in map(str, range(1, 10)): # converts the output from range into a 'string'. map applies the output of range into the str function
             
+            # this digit must not exist in probing row, col, or block
+            #-----------------------------------
             if digit not in self.rows[probing_row] and \
                digit not in self.cols[probing_col] and \
                digit not in self.boxes[probing_box]:
@@ -95,6 +97,7 @@ class Solution:
                 # Place digit
                 self.board[probing_row][probing_col] = digit
                 
+                # let's keep track of this digit with our aux data structures
                 #-----
                 self.rows[probing_row].add(digit)
                 self.cols[probing_col].add(digit)
@@ -102,14 +105,17 @@ class Solution:
                 #-----
 
                 # Recurse to next cell
-                if self.backtrack(idx + 1):
+                if self.backtrack(idx + 1) == True:
                     return True
 
-                # Undo placement (backtrack)
+                '''if this point is reached the step ahead could not find a solution
+                  with our current config. Meaning this current digit cannot be a
+                  viable solution. We must backtrack '''
                 self.board[probing_row][probing_col] = '.'
                 self.rows[probing_row].remove(digit)
                 self.cols[probing_col].remove(digit)
                 self.boxes[probing_box].remove(digit)
+            #-----------------------------------
         #-----------------------------------
         return False
     #-------------------------------------------------------------------------
