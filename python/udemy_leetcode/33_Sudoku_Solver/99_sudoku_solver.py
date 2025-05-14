@@ -71,7 +71,7 @@ class Solution:
                 #-----------------------------------
         #-----------------------------------
         
-        self.backtrack(idx = 0) # let's start at idx 0
+        self.backtrack(idx = 0)
 
     #-------------------------------------------------------------------------
     def backtrack(self, idx: int) -> bool:
@@ -79,25 +79,38 @@ class Solution:
         if idx == len(self.empty_cells):
             return True
 
-        r, c = self.empty_cells[idx]
-        box_idx: int = (r // 3) * 3 + (c // 3)
+        probing_row, probing_col = self.empty_cells[idx]
+        
+        temp_block_row : int = (probing_row // 3) * 3
+        temp_block_col : int = (probing_col // 3)
+        probing_box : int = temp_block_row + temp_block_col
+        
+        #-----------------------------------
         for digit in map(str, range(1, 10)):
-            if digit not in self.rows[r] and digit not in self.cols[c] and digit not in self.boxes[box_idx]:
+            
+            if digit not in self.rows[probing_row] and \
+               digit not in self.cols[probing_col] and \
+               digit not in self.boxes[probing_box]:
+                
                 # Place digit
-                self.board[r][c] = digit
-                self.rows[r].add(digit)
-                self.cols[c].add(digit)
-                self.boxes[box_idx].add(digit)
+                self.board[probing_row][probing_col] = digit
+                
+                #-----
+                self.rows[probing_row].add(digit)
+                self.cols[probing_col].add(digit)
+                self.boxes[probing_box].add(digit)
+                #-----
 
                 # Recurse to next cell
                 if self.backtrack(idx + 1):
                     return True
 
                 # Undo placement (backtrack)
-                self.board[r][c] = '.'
-                self.rows[r].remove(digit)
-                self.cols[c].remove(digit)
-                self.boxes[box_idx].remove(digit)
+                self.board[probing_row][probing_col] = '.'
+                self.rows[probing_row].remove(digit)
+                self.cols[probing_col].remove(digit)
+                self.boxes[probing_box].remove(digit)
+        #-----------------------------------
         return False
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
