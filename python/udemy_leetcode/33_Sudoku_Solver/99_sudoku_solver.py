@@ -9,62 +9,64 @@ from typing import List, Set, Tuple
 class Solution:
     #-------------------------------------------------------------------------
     def solveSudoku(self, board: List[List[str]]) -> None:
-        
-        board_len : int = len(board) # always 9, but for no reason we are using a variable
+        self.board = board
+        self.board_len : int = len(self.board) # always 9, but for no reason we are using a variable
 
         # Helper structures to keep track of constraints
-        rows: List[Set[str]] = [set() for _ in range(9)]   # Digits in each row
-        cols: List[Set[str]] = [set() for _ in range(9)]   # Digits in each column
-        boxes: List[Set[str]] = [set() for _ in range(9)]  # Digits in each 3x3 box
+        self.rows : List[Set[str]]  = [set() for _ in range(9)]  # digits in each row
+        self.cols : List[Set[str]]  = [set() for _ in range(9)]  # digits in each column
+        self.boxes : List[Set[str]] = [set() for _ in range(9)]  # digits in each 3x3 box
 
-        # Pre-fill the sets with the initial board state
-        empty_cells: List[Tuple[int, int]] = []
+        # fill in the coordinates of the empty cells in the board
+        self.empty_cells : List[Tuple[int, int]] = []
         
+        # loop through every position, starting from the row and moving through each col
         #-----------------------------------
-        for for_row in range(board_len):
-            for for_col in range(board_len):
+        for for_row in range(self.board_len):
+            for for_col in range(self.board_len):
                 
                 #-----------------------------------
-                val: str = board[for_row][for_col]
+                val : str = self.board[for_row][for_col]
+                
                 if val == '.':
-                    empty_cells.append((for_row, for_col))
+                    self.empty_cells.append((for_row, for_col)) # keep track of this position, we will manipulate those on the board
                 else:
-                    rows[for_row].add(val)
-                    cols[for_col].add(val)
+                    self.rows[for_row].add(val)
+                    self.cols[for_col].add(val)
                     box_idx: int = (for_row // 3) * 3 + (for_col // 3)
-                    boxes[box_idx].add(val)
+                    self.boxes[box_idx].add(val)
                 #-----------------------------------
         #-----------------------------------
+        
+        self.backtrack(idx = 0)
 
-        #-------------------------------------------------------------------------
-        def backtrack(idx: int) -> bool:
-            # If all empty cells are filled, puzzle is solved
-            if idx == len(empty_cells):
-                return True
+    #-------------------------------------------------------------------------
+    def backtrack(self, idx: int) -> bool:
+        # If all empty cells are filled, puzzle is solved
+        if idx == len(self.empty_cells):
+            return True
 
-            r, c = empty_cells[idx]
-            box_idx: int = (r // 3) * 3 + (c // 3)
-            for digit in map(str, range(1, 10)):
-                if digit not in rows[r] and digit not in cols[c] and digit not in boxes[box_idx]:
-                    # Place digit
-                    board[r][c] = digit
-                    rows[r].add(digit)
-                    cols[c].add(digit)
-                    boxes[box_idx].add(digit)
+        r, c = self.empty_cells[idx]
+        box_idx: int = (r // 3) * 3 + (c // 3)
+        for digit in map(str, range(1, 10)):
+            if digit not in self.rows[r] and digit not in self.cols[c] and digit not in self.boxes[box_idx]:
+                # Place digit
+                self.board[r][c] = digit
+                self.rows[r].add(digit)
+                self.cols[c].add(digit)
+                self.boxes[box_idx].add(digit)
 
-                    # Recurse to next cell
-                    if backtrack(idx + 1):
-                        return True
+                # Recurse to next cell
+                if self.backtrack(idx + 1):
+                    return True
 
-                    # Undo placement (backtrack)
-                    board[r][c] = '.'
-                    rows[r].remove(digit)
-                    cols[c].remove(digit)
-                    boxes[box_idx].remove(digit)
-            return False
-        #-------------------------------------------------------------------------
-
-        backtrack(0)
+                # Undo placement (backtrack)
+                self.board[r][c] = '.'
+                self.rows[r].remove(digit)
+                self.cols[c].remove(digit)
+                self.boxes[box_idx].remove(digit)
+        return False
+    #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
 
