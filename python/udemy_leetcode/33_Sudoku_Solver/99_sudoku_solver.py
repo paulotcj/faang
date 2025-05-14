@@ -30,15 +30,48 @@ class Solution:
                 
                 if val == '.':
                     self.empty_cells.append((for_row, for_col)) # keep track of this position, we will manipulate those on the board
+                    
                 else:
-                    self.rows[for_row].add(val)
-                    self.cols[for_col].add(val)
-                    box_idx: int = (for_row // 3) * 3 + (for_col // 3)
-                    self.boxes[box_idx].add(val)
+                    self.rows[for_row].add(val) # keep track of this value found at this row
+                    self.cols[for_col].add(val) # keep track of this value found at this col
+                    
+                    ''' blocks:
+                      | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+                      -------------------------------------
+                    0 |   |   |   |   |   |   |   |   |   |
+                    1 |   |   |   |   |   |   |   |   |   |
+                    2 |   |   |   |   |   |   |   |   |   |
+                    3 |   |   |   |   |   |   |   |   |   |
+                    4 |   |   |   |   |   |   |   |   |   |
+                    5 |   |   |   |   |   |   |   |   |   |
+                    6 |   |   |   |   |   |   |   |   |   |
+                    7 |   |   |   |   |   |   |   |   |   |
+                    8 |   |   |   |   |   |   |   |   |   |
+                    
+                      | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+                      -------------------------------------
+                    0 |           |           |           |
+                    1 |     0     |     1     |     2     |
+                    2 |____________________________________
+                    3 |           |           |           |
+                    4 |     3     |     4     |     5     |
+                    5 |____________________________________
+                    6 |           |           |           |
+                    7 |     6     |     7     |      8    |
+                    8 |____________________________________
+                    
+                    consider row 4 col 5 i supposed to be block 4, and block 4 starts at row 3 col 3
+                    so (3,3)
+                    '''
+                    temp_block_row : int = (for_row // 3) * 3  # (4//3) * 3 = 1 * 3 = 3
+                    temp_block_col : int = (for_col // 3)      # (5//3) = 1
+                    box_idx: int = temp_block_row + temp_block_col
+                    
+                    self.boxes[box_idx].add(val) # keep track of this value found at this box
                 #-----------------------------------
         #-----------------------------------
         
-        self.backtrack(idx = 0)
+        self.backtrack(idx = 0) # let's start at idx 0
 
     #-------------------------------------------------------------------------
     def backtrack(self, idx: int) -> bool:
