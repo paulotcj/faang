@@ -9,26 +9,32 @@ from typing import List, Set, Tuple
 class Solution:
     #-------------------------------------------------------------------------
     def solveSudoku(self, board: List[List[str]]) -> None:
-        """
-        Solves the Sudoku puzzle in-place using backtracking with constraint propagation.
-        """
+        
+        board_len : int = len(board) # always 9, but for no reason we are using a variable
+
         # Helper structures to keep track of constraints
-        rows: List[Set[str]] = [set() for _ in range(9)]      # Digits in each row
-        cols: List[Set[str]] = [set() for _ in range(9)]      # Digits in each column
-        boxes: List[Set[str]] = [set() for _ in range(9)]     # Digits in each 3x3 box
+        rows: List[Set[str]] = [set() for _ in range(9)]   # Digits in each row
+        cols: List[Set[str]] = [set() for _ in range(9)]   # Digits in each column
+        boxes: List[Set[str]] = [set() for _ in range(9)]  # Digits in each 3x3 box
 
         # Pre-fill the sets with the initial board state
         empty_cells: List[Tuple[int, int]] = []
-        for r in range(9):
-            for c in range(9):
-                val: str = board[r][c]
+        
+        #-----------------------------------
+        for for_row in range(board_len):
+            for for_col in range(board_len):
+                
+                #-----------------------------------
+                val: str = board[for_row][for_col]
                 if val == '.':
-                    empty_cells.append((r, c))
+                    empty_cells.append((for_row, for_col))
                 else:
-                    rows[r].add(val)
-                    cols[c].add(val)
-                    box_idx: int = (r // 3) * 3 + (c // 3)
+                    rows[for_row].add(val)
+                    cols[for_col].add(val)
+                    box_idx: int = (for_row // 3) * 3 + (for_col // 3)
                     boxes[box_idx].add(val)
+                #-----------------------------------
+        #-----------------------------------
 
         #-------------------------------------------------------------------------
         def backtrack(idx: int) -> bool:
