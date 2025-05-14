@@ -1,8 +1,6 @@
 # https://leetcode.com/problems/sudoku-solver/
 
-
 from typing import List, Set, Tuple
-
 
 
 #-------------------------------------------------------------------------
@@ -71,15 +69,17 @@ class Solution:
                 #-----------------------------------
         #-----------------------------------
         
-        self.backtrack(idx = 0)
+        # explore the empty cells and try to find a solution for each element (which contains a tuple
+        #   with the cell's coordiantes )
+        self.backtrack(empty_cell_idx = 0)
 
     #-------------------------------------------------------------------------
-    def backtrack(self, idx: int) -> bool:
+    def backtrack(self, empty_cell_idx: int) -> bool:
         # If all empty cells are filled, puzzle is solved
-        if idx == len(self.empty_cells):
+        if empty_cell_idx == len(self.empty_cells):
             return True
 
-        probing_row, probing_col = self.empty_cells[idx]
+        probing_row, probing_col = self.empty_cells[empty_cell_idx]
         
         temp_block_row : int = (probing_row // 3) * 3
         temp_block_col : int = (probing_col // 3)
@@ -105,7 +105,7 @@ class Solution:
                 #-----
 
                 # Recurse to next cell
-                if self.backtrack(idx + 1) == True:
+                if self.backtrack(empty_cell_idx + 1) == True:
                     return True
 
                 '''if this point is reached the step ahead could not find a solution
