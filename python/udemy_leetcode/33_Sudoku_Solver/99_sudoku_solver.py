@@ -1,7 +1,7 @@
 # https://leetcode.com/problems/sudoku-solver/
 
 
-from typing import List, Dict
+from typing import List, Set, Tuple
 
 
 
@@ -13,21 +13,21 @@ class Solution:
         Solves the Sudoku puzzle in-place using backtracking with constraint propagation.
         """
         # Helper structures to keep track of constraints
-        rows = [set() for _ in range(9)]      # Digits in each row
-        cols = [set() for _ in range(9)]      # Digits in each column
-        boxes = [set() for _ in range(9)]     # Digits in each 3x3 box
+        rows: List[Set[str]] = [set() for _ in range(9)]      # Digits in each row
+        cols: List[Set[str]] = [set() for _ in range(9)]      # Digits in each column
+        boxes: List[Set[str]] = [set() for _ in range(9)]     # Digits in each 3x3 box
 
         # Pre-fill the sets with the initial board state
-        empty_cells = []
+        empty_cells: List[Tuple[int, int]] = []
         for r in range(9):
             for c in range(9):
-                val = board[r][c]
+                val: str = board[r][c]
                 if val == '.':
                     empty_cells.append((r, c))
                 else:
                     rows[r].add(val)
                     cols[c].add(val)
-                    box_idx = (r // 3) * 3 + (c // 3)
+                    box_idx: int = (r // 3) * 3 + (c // 3)
                     boxes[box_idx].add(val)
 
         #-------------------------------------------------------------------------
@@ -37,7 +37,7 @@ class Solution:
                 return True
 
             r, c = empty_cells[idx]
-            box_idx = (r // 3) * 3 + (c // 3)
+            box_idx: int = (r // 3) * 3 + (c // 3)
             for digit in map(str, range(1, 10)):
                 if digit not in rows[r] and digit not in cols[c] and digit not in boxes[box_idx]:
                     # Place digit
