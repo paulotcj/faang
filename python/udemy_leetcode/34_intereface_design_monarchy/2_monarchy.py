@@ -1,26 +1,26 @@
 # https://leetcode.com/discuss/post/302164/google-phone-screen-monarchy-by-anonymou-odum/
 
-from typing import List, Dict, Tuple, Set
+from typing import List, Dict, Set
 
 #-------------------------------------------------------------------------
-class Monarchy:
+class Monarchy : 
     #-------------------------------------------------------------------------
     def __init__(self, king_name : str) -> None:
-        self.king : str = king_name
+        self.most_senior_member : str = king_name
         
-        # adjacency list
-        self.family : Dict[str, List[str]] = {king_name: []}  # parent -> list of children
+        # adjacency list. parent -> list of children
+        self.family_adj_list : Dict[str, List[str]] = {king_name : []}
         
         ''' we need to wrap 'king_name' in a list because we want to access it as
           a whole string. If we were to do : self.alive = set( king_name )  the
           result would be a set with individual chars, as in: {'H', 'e', 'n', 'r', 'y'} '''
-        self.alive : Set[str] = set([king_name])  # set of alive people
+        self.alive : Set[str] = set([king_name])
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def birth(self, child : str, parent : str) -> None:  
                   
-        self.family[parent].append(child)
-        self.family[child] = [] # add a new member to the adjacency list
+        self.family_adj_list[parent].append(child)
+        self.family_adj_list[child] = [] # add a new member to the adjacency list
         
         self.alive.add(child)
     #-------------------------------------------------------------------------
@@ -32,7 +32,7 @@ class Monarchy:
     def getOrderOfSuccession(self) -> List[str]:
         self.order_of_succession : List[str] = []
         
-        self.__dfs(person = self.king)
+        self.__dfs(person = self.most_senior_member)
         return self.order_of_succession
     #-------------------------------------------------------------------------
     #----------------------
@@ -40,7 +40,7 @@ class Monarchy:
         if person in self.alive:
             self.order_of_succession.append(person)
             
-        for child in self.family[person]:
+        for child in self.family_adj_list[person]:
             self.__dfs(person = child)
     #----------------------    
 #-------------------------------------------------------------------------
