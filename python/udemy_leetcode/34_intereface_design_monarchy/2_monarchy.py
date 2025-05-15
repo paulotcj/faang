@@ -23,7 +23,7 @@ class Monarchy :
         self.alive.add(child)
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def death(self, name) -> None:
+    def death(self, name : str) -> None:
         self.alive.remove(name) #you can use discard if you are not sure the name is present in the set
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
@@ -31,16 +31,17 @@ class Monarchy :
         self.order_of_succession : List[str] = []
         
         self.__dfs(person = self.monarch)
+        
         return self.order_of_succession
     #-------------------------------------------------------------------------
-    #----------------------
+    #-------------------------------------------------------------------------
     def __dfs(self, person : str):
         if person in self.alive:
             self.order_of_succession.append(person)
             
         for child in self.family_adj_list[person]:
             self.__dfs(person = child)
-    #----------------------    
+    #------------------------------------------------------------------------- 
 #-------------------------------------------------------------------------
 
 
