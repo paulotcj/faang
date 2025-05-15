@@ -5,23 +5,21 @@ from typing import List, Dict, Set
 #-------------------------------------------------------------------------
 class Monarchy : 
     #-------------------------------------------------------------------------
-    def __init__(self, king_name : str) -> None:
-        self.most_senior_member : str = king_name
+    def __init__(self, monarch : str) -> None:
+        self.monarch : str = monarch
         
         # adjacency list. parent -> list of children
-        self.family_adj_list : Dict[str, List[str]] = {king_name : []}
+        self.family_adj_list : Dict[str, List[str]] = {monarch : []}
         
         ''' we need to wrap 'king_name' in a list because we want to access it as
           a whole string. If we were to do : self.alive = set( king_name )  the
           result would be a set with individual chars, as in: {'H', 'e', 'n', 'r', 'y'} '''
-        self.alive : Set[str] = set([king_name])
+        self.alive : Set[str] = set([monarch])
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def birth(self, child : str, parent : str) -> None:  
-                  
+    def birth(self, child : str , parent : str) -> None:
         self.family_adj_list[parent].append(child)
         self.family_adj_list[child] = [] # add a new member to the adjacency list
-        
         self.alive.add(child)
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
@@ -32,7 +30,7 @@ class Monarchy :
     def getOrderOfSuccession(self) -> List[str]:
         self.order_of_succession : List[str] = []
         
-        self.__dfs(person = self.most_senior_member)
+        self.__dfs(person = self.monarch)
         return self.order_of_succession
     #-------------------------------------------------------------------------
     #----------------------
