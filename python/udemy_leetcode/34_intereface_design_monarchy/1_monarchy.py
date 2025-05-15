@@ -46,7 +46,7 @@ def test1():
     m.birth("Asha", "Bob")
     expected_result = ['King', 'Andy', 'Matthew', 'Bob', 'Alex', 'Asha', 'Catherine']
     result = m.getOrderOfSuccession()
-    print(f'Test 1     :{result}')
+    print(f'Test 1     : {result}')
     print(f'  expected : {expected_result}')
     print(f'  Is the result the expected outcome? {result == expected_result}')
     print('----------')
@@ -63,7 +63,7 @@ def test2():
     m.death("Bob")
     expected_result = ['King', 'Andy', 'Matthew', 'Alex', 'Asha', 'Catherine']
     result = m.getOrderOfSuccession()
-    print(f'Test 2     :{result}')
+    print(f'Test 2     : {result}')
     print(f'  expected : {expected_result}')
     print(f'  Is the result the expected outcome? {result == expected_result}')
     print('----------')
@@ -83,13 +83,15 @@ def test3():
     m.death("Andy")
     expected_result = ['King', 'Ken', 'William', 'Bob', 'Alex', 'Asha', 'Catherine']
     result = m.getOrderOfSuccession()
-    print(f'Test 3     :{result}')
+    print(f'Test 3     : {result}')
     print(f'  expected : {expected_result}')
     print(f'  Is the result the expected outcome? {result == expected_result}')
     print('----------')
     # Expected: ['King', 'Ken', 'William', 'Bob', 'Alex', 'Asha', 'Catherine']
 #-------------------------------------------------------------------------
 
+print('\n\n')
+print('----------')
 test1()
 test2()
 test3()
