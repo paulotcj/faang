@@ -12,6 +12,7 @@ class Monarchy:
     def birth(self, child, parent):
         if parent not in self.family:
             self.family[parent] = []
+            
         self.family[parent].append(child)
         self.family[child] = []
         self.alive.add(child)
