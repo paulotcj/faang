@@ -30,18 +30,18 @@ class Monarchy :
     def getOrderOfSuccession(self) -> List[str]:
         self.order_of_succession : List[str] = []
         
-        self.__dfs(person = self.monarch)
+        self.__dfs(name = self.monarch)
         
         return self.order_of_succession
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def __dfs(self, person : str):
-        if person in self.alive:
-            self.order_of_succession.append(person)
+    def __dfs(self, name : str) -> None:
+        if name in self.alive:
+            self.order_of_succession.append(name)
             
-        for child in self.family_adj_list[person]:
-            self.__dfs(person = child)
-    #------------------------------------------------------------------------- 
+        for child in self.family_adj_list[name]:
+            self.__dfs(name = child)
+    #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
 
