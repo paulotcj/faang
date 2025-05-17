@@ -50,8 +50,41 @@ class HashTable:
         raise KeyError(f'Key {key} not found.')
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
+    def remove(self, key : str) -> None:
+        index : int = self._hash(key = key)
+        bucket : List[Tuple[int, Any]] = self.buckets[index]
+        
+        #-----------------------------------
+        for i, (k,v) in enumerate(bucket):
+            if k == key:
+                del bucket[i]
+                return
+        #-----------------------------------
+        raise KeyError(f'Key {key} not found')
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
     def __str__(self) -> str:
         # for easy visualization
+        
+        ''' here's the picture: You have self.buckets as in:
+        0 = [('apple', 5)]
+        1 = []
+        2 = []
+        3 = []
+        4 = []
+        5 = []
+        6 = []
+        7 = []
+        8 = []
+        9 = [('banana', 3), ('ananab', 11)] 
+        
+        and then you put them into a list:
+        [('apple', 5), ('banana', 3), ('ananab', 11)]
+        
+        but we want to show the key/value pairing so we convert them to a dict:
+        "{'apple': 5, 'banana': 3, 'ananab': 11}"
+        and then finally into a string
+        '''
         items : List[Tuple[str, Any]] = []
         #-----------------------------------
         for bucket in self.buckets:
@@ -60,17 +93,6 @@ class HashTable:
         return_obj : str = str( dict(items) )
         return return_obj
         
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def remove(self, key: str) -> None:
-        # Remove a key-value pair
-        index: int = self._hash(key)
-        bucket: List[Tuple[str, Any]] = self.buckets[index]
-        for i, (k, v) in enumerate(bucket):
-            if k == key:
-                del bucket[i]
-                return
-        raise KeyError(f"Key '{key}' not found.")
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
