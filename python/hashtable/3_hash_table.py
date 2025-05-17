@@ -5,9 +5,9 @@ from typing import List, Tuple, Any
 class HashTable:
     #-------------------------------------------------------------------------
     def __init__(self, size : int = 10) -> None:
-        # Initialize the hash table with empty buckets
+        # initialize the hash table with empty buckets
         self.size : int = size
-        self.buckets : List[list[Tuple[str, int]]] = [ [] for _ in range(size) ]
+        self.buckets : List[list[Tuple[str, Any]]] = [ [] for _ in range(size) ]
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def _hash(self, key : str) -> int :
@@ -19,33 +19,47 @@ class HashTable:
         return return_val
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def set(self, key: str, value: Any) -> None:
-        # Insert or update the key-value pair
-        index: int = self._hash(key)
-        bucket: List[Tuple[str, Any]] = self.buckets[index]
-        for i, (k, v) in enumerate(bucket):
-            if k == key:
-                bucket[i] = (key, value)  # Update existing key
+    def set(self, key : str , value : Any) -> None:
+        # insert or update the key-value pair
+        index : int = self._hash(key)
+        
+        # note that we are only extracting a single elements from self.buckets, and this element
+        #   is a spot that contains a list, which can store 1 key/value pair or a list of key/value
+        #   pairs in this index in case of hash collision
+        bucket_single_spot : List[ Tuple[str, Any] ] = self.buckets[index]
+        
+        #-----------------------------------
+        for i, (k,v) in enumerate(bucket_single_spot):
+            if k == key: # we are updating an existing key
+                bucket_single_spot[k] = value
                 return
-        bucket.append((key, value))  # Insert new key
+        #-----------------------------------
+        
+        # else, this is a new item with hash collision. Add to the list
+        bucket_single_spot.append( (key, value) )
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def get(self, key: str) -> Any:
-        # Retrieve value by key
-        index: int = self._hash(key)
-        bucket: List[Tuple[str, Any]] = self.buckets[index]
-        for k, v in bucket:
-            if k == key:
-                return v
-        raise KeyError(f"Key '{key}' not found.")
+    def get(self, key : str) -> Any:
+        # retrieve value by key
+        index : int = self._hash(key = key)
+        bucket : List[Tuple[str, Any]] = self.buckets[index]
+        #-----------------------------------
+        for i, (k,v) in enumerate(bucket):
+            if key == k: return v
+        #-----------------------------------
+        raise KeyError(f'Key {key} not found.')
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def __str__(self) -> str:
-        # For easy visualization
-        items: List[Tuple[str, Any]] = []
+        # for easy visualization
+        items : List[Tuple[str, Any]] = []
+        #-----------------------------------
         for bucket in self.buckets:
-            items.extend(bucket)
-        return str(dict(items))
+            items.extend( bucket )
+        #-----------------------------------
+        return_obj : str = str( dict(items) )
+        return return_obj
+        
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def remove(self, key: str) -> None:
