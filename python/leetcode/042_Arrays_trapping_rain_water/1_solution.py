@@ -1,5 +1,22 @@
 # https://leetcode.com/problems/trapping-rain-water/
 from typing import List
+
+''' Here's how this problem logic works. You need to know how much water a specific
+position can hold, and then repeat this procedure to every single position.
+We are approaching from the principle that at each position we should calculate 
+the water column above the whatever ground level is at spot 'i'.
+And in order to calculate how much water location 'i' can hold above its 'ground level' 
+we need to know the max gound level to the left and the max ground level to the right
+and then identify the min between these 2. And then discont the ground level at spot 'i'
+
+So for instance, spot 'i' is at height 5, the max level to the left is 10, the max level
+to the right is 15, then we have that position 'i' can hold:
+  min(10,15) = 10 (potential water units for spot 'i')
+  10 - 5 (this is the ground level) = 5.
+
+So location 'i' can hold 5 units of water
+'''
+
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
