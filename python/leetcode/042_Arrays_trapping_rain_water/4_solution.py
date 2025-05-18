@@ -33,6 +33,7 @@ class Solution:
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
+
 sol = Solution()
 input = [0,1,2,1]
 expected = 0
@@ -53,6 +54,22 @@ print('------------------')
 sol = Solution()
 input = [4,2,0,3,2,5]
 expected = 9
+result = sol.trap(input)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
+print('------------------')
+
+sol = Solution()
+input = [5,5,1,7,1,1,5,2,7,6]
+expected = 23
+result = sol.trap(input)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
+print('------------------')
+
+sol = Solution()
+input = [9,2,1,1,6,4,0,4,4]
+expected = 18
 result = sol.trap(input)
 print(f'result: {result}')
 print(f'Is the result correct? { result == expected}')
