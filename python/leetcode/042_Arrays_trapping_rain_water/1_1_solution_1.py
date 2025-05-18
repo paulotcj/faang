@@ -83,3 +83,10 @@ print(f'result: {result}')
 print(f'Is the result correct? { result == expected}')
 print('------------------')
 
+
+input = [5,5,1,7,1,1,5,2,7,6]
+expected = 23
+result = sol.trap(input)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
+print('------------------')

@@ -20,11 +20,43 @@ So location 'i' can hold 5 units of water
 
 #-------------------------------------------------------------------------
 class Solution:
-
+    #-------------------------------------------------------------------------
+    def _find_max_left2(self, index : int) -> int:
+        if index <= 0 or index >= len(self.height): 
+            print('*** returned zero 0 ***')
+            return 0
+        
+        # if index == 4 or index == 3:
+        #     print('debug')
+        
+        if index >= self.memo_left[0] and self.height[index] < self.memo_left[1]:
+            print(f'index: {index} - max_val: {self.memo_left[1]  }')
+            return self.memo_left[1]  
+             
+    
+        self.memo_left : Tuple[int,int] = (index, self.height[index])
+        print(f'index: {index} - max_val: {self.height[index]}')
+        return self.height[index]
+    #-------------------------------------------------------------------------  
     #-------------------------------------------------------------------------
     def _find_max_left(self, index : int) -> int:
-        if index <= 0 or index >= len(self.height) : return 0        
+        if index <= 0 or index >= len(self.height): 
+            print('*** returned zero 0 ***')
+            return 0        
         max_val : int = max(self.height[:index])
+        
+        print(f'index: {index} - max_val: {max_val}')
+        return max_val
+    #-------------------------------------------------------------------------           
+    #-------------------------------------------------------------------------
+    def _find_max_right2(self, index : int) -> int:
+        index += 1 # to offset the non-inclusive nature of slicing
+        if index <= 0 or index >= len(self.height) : return 0
+        if index <= self.memo_right[0] and self.height[index] < self.memo_right[1]:
+            return self.memo_right[1]
+
+        max_val : int = max(self.height[index:])
+        self.memo_right : Tuple[int,int] = (index , max_val)
         return max_val
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
@@ -34,10 +66,14 @@ class Solution:
 
         max_val : int = max(self.height[index:])
         return max_val
-    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------    
     #-------------------------------------------------------------------------
     def trap(self, height: List[int]) -> int:
         if len(height) <= 2: return 0
+        
+        self.memo_left : Tuple[int,int] = (0,height[0]) # index, val
+        self.memo_right : Tuple[int,int] = (len(height)-1, height[-1]) # index, val
+        
         
         total_water : int = 0
         self.height : List[int] = height
@@ -58,26 +94,44 @@ class Solution:
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
-sol = Solution()
-input = [0,1,2,1]
-expected = 0
-result = sol.trap(input)
-print(f'result: {result}')
-print(f'Is the result correct? { result == expected}')
-print('------------------')
-# exit(0)
+# sol = Solution()
+# input = [0,1,2,1]
+# expected = 0
+# result = sol.trap(input)
+# print(f'result: {result}')
+# print(f'Is the result correct? { result == expected}')
+# print('------------------')
+# # exit(0)
     
-sol = Solution()
-input = [0,1,0,2,1,0,1,3,2,1,2,1]
-expected = 6
-result = sol.trap(input)
-print(f'result: {result}')
-print(f'Is the result correct? { result == expected}')
-print('------------------')
+# sol = Solution()
+# input = [0,1,0,2,1,0,1,3,2,1,2,1]
+# expected = 6
+# result = sol.trap(input)
+# print(f'result: {result}')
+# print(f'Is the result correct? { result == expected}')
+# print('------------------')
+
+# sol = Solution()
+# input = [4,2,0,3,2,5]
+# expected = 9
+# result = sol.trap(input)
+# print(f'result: {result}')
+# print(f'Is the result correct? { result == expected}')
+# print('------------------')
+
+# sol = Solution()
+# input = [5,5,1,7,1,1,5,2,7,6]
+# expected = 23
+# result = sol.trap(input)
+# print(f'result: {result}')
+# print(f'Is the result correct? { result == expected}')
+# print('------------------')
+
+
 
 sol = Solution()
-input = [4,2,0,3,2,5]
-expected = 9
+input = [9,2,1,1,6,4,0,4,4]
+expected = 18
 result = sol.trap(input)
 print(f'result: {result}')
 print(f'Is the result correct? { result == expected}')
