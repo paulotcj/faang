@@ -3,19 +3,19 @@ from typing import List
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def __find_first_left(self, height: List[int]) -> List[int]:
-        for i , v in enumerate(height):
+    def __find_first_left(self) -> List[int]:
+        for i , v in enumerate(self.height):
             if v > 0:
                 return i, v
     #-------------------------------------------------------------------------
-    def __find_first_right(self, height: List[int]) -> List[int]:
-        for i, v in enumerate(height[::-1]):
+    def __find_first_right(self) -> List[int]:
+        for i, v in enumerate(self.height[::-1]):
             if v > 0:
-                return (len(height) - 1) - i , v
+                return (len(self.height) - 1) - i , v
     #-------------------------------------------------------------------------
-    def __handle_values(self,height: List[int], left_i: int, right_i: int) -> List[int]:
-            left_v = height[left_i]
-            right_v = height[right_i]
+    def __handle_values(self, left_i: int, right_i: int) -> List[int]:
+            left_v = self.height[left_i]
+            right_v = self.height[right_i]
             self.max_left = max(self.max_left, left_v)
             self.max_right = max(self.max_right, right_v)
             return left_v , right_v
@@ -32,20 +32,24 @@ class Solution:
     #-------------------------------------------------------------------------
     def trap(self, height: list[int]) -> int:
         if len(height) <= 2: return 0
+        
+        self.height : List[int] = height
         self.total_water: int = 0
-        left_i, self.max_left = self.__find_first_left(height)
-        right_i , self.max_right = self.__find_first_right(height)
+        left_i, self.max_left = self.__find_first_left()
+        right_i , self.max_right = self.__find_first_right()
+        
+        #-----------------------------------
         while left_i < right_i:
-            left_v , right_v = self.__handle_values(height, left_i, right_i)
-            #---
+            left_v , right_v = self.__handle_values(left_i, right_i)
+            
             if left_v <= right_v:
                 self.__handle_left(left_v = left_v)
                 left_i += 1
             else:
                 self.__handle_right(right_v = right_v)
                 right_i -= 1
-            #---
-        #---
+            
+        #-----------------------------------
         return self.total_water
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------

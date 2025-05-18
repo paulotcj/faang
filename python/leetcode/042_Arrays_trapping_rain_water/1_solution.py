@@ -37,6 +37,8 @@ class Solution:
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def trap(self, height: List[int]) -> int:
+        if len(height) <= 2: return 0
+        
         total_water : int = 0
         self.height : List[int] = height
         
