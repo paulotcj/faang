@@ -2,32 +2,35 @@
 
 from typing import List
 
+# 2 pointer array
 
 #-------------------------------------------------------------------------
 class Solution:
 #-------------------------------------------------------------------------
     def maxArea(self, height: List[int]) -> int:
 
-        left: int = 0  # Start pointer at the beginning of the list
-        right: int = len(height) - 1  # End pointer at the end of the list
+        left_border_idx: int = 0  # Start pointer at the beginning of the list
+        right_border_idx: int = len(height) - 1  # End pointer at the end of the list
         max_area: int = 0  # Variable to keep track of the maximum area found
 
         #-----------------------------------
-        while left < right:
-            # Calculate the height and width for the current container
-            current_height: int = min(height[left], height[right])
-            current_width: int = right - left
-            current_area: int = current_height * current_width
+        while left_border_idx < right_border_idx:
+            left_border_v : int = height[left_border_idx]
+            right_border_v : int = height[right_border_idx]
+            
+            
+            current_height: int = min(left_border_v, right_border_v)
+            distance: int = right_border_idx - left_border_idx
+            loop_area: int = current_height * distance
 
-            # Update max_area if the current area is larger
-            if current_area > max_area:
-                max_area = current_area
+
+            max_area : int = max(max_area, loop_area)
 
             # Move the pointer pointing to the shorter line inward
-            if height[left] < height[right]:
-                left += 1
+            if left_border_v < right_border_v:
+                left_border_idx += 1
             else:
-                right -= 1
+                right_border_idx -= 1
         #-----------------------------------
 
         return max_area
