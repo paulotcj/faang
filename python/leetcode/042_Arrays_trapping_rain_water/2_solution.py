@@ -8,10 +8,12 @@ class Solution:
             if v > 0:
                 return i, v
     #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
     def __find_first_right(self) -> List[int]:
         for i, v in enumerate(self.height[::-1]):
             if v > 0:
                 return (len(self.height) - 1) - i , v
+    #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def __handle_values(self, left_i: int, right_i: int) -> List[int]:
             left_v = self.height[left_i]
@@ -20,15 +22,18 @@ class Solution:
             self.max_right = max(self.max_right, right_v)
             return left_v , right_v
     #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
     def __handle_left(self, left_v: int) -> None:
         if left_v < self.max_left:
             current_water = min(self.max_left, self.max_right) - left_v
             self.total_water += current_water
-    #-------------------------------------------------------------------------        
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------     
     def __handle_right(self, right_v: int) -> None:
         if right_v < self.max_right:
             current_water = min(self.max_left, self.max_right) - right_v
             self.total_water += current_water
+    #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def trap(self, height: list[int]) -> int:
         if len(height) <= 2: return 0
@@ -48,8 +53,8 @@ class Solution:
             else:
                 self.__handle_right(right_v = right_v)
                 right_i -= 1
-            
         #-----------------------------------
+        
         return self.total_water
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
