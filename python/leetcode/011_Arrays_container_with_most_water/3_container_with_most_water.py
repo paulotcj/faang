@@ -5,55 +5,37 @@ from typing import List
 
 #-------------------------------------------------------------------------
 class Solution:
-    #-------------------------------------------------------------------------
-    def maxArea1(self, height: List[int]) -> int: # return max area found
-        #sub optimal solution - we should start from the extremeties and close up
-        
-        max_area : int = 0
-        #-----------------------------------
-        for outer_i, outer_v in enumerate(height):
-            for inner_i in range(outer_i+1, len(height)):
-                inner_v : int = height[inner_i]
-                
-                min_height : int = min(outer_v, inner_v)
-                dist : int = inner_i - outer_i
-                loop_area : int = min_height * dist
-                max_area = max(loop_area, max_area)
-        #-----------------------------------
-        
-        return max_area
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def maxArea(self, height: List[int]) -> int:
-        # smarter approach, we start from the extremeties
-        max_area : int = 0
-        
-        left_border_idx : int = 0
-        right_border_idx = len(height)-1
-
-        # left needs to be smaller than right because at min if they were the same 
-        #   the area would be zero
-        #-----------------------------------
-        while left_border_idx < right_border_idx : 
-            left_border_v : int = height[left_border_idx]
-            right_border_v : int = height[right_border_idx]
-            
-            min_height : int = min(left_border_v, right_border_v)
-            distance : int = right_border_idx - left_border_idx
-            
-            loop_area : int = min_height * distance
-            max_area : int = max(max_area, loop_area)
-            
-            # now let's move one border. We move whichever is the smallest, and if they are both equal we move left
-            if left_border_v < right_border_v: left_border_idx += 1
-            else: right_border_idx -= 1
-                
-        #-----------------------------------
-        
-        return max_area
-    #-------------------------------------------------------------------------
-
 #-------------------------------------------------------------------------
+    def maxArea(self, height: List[int]) -> int:
+
+        left: int = 0  # Start pointer at the beginning of the list
+        right: int = len(height) - 1  # End pointer at the end of the list
+        max_area: int = 0  # Variable to keep track of the maximum area found
+
+        #-----------------------------------
+        while left < right:
+            # Calculate the height and width for the current container
+            current_height: int = min(height[left], height[right])
+            current_width: int = right - left
+            current_area: int = current_height * current_width
+
+            # Update max_area if the current area is larger
+            if current_area > max_area:
+                max_area = current_area
+
+            # Move the pointer pointing to the shorter line inward
+            if height[left] < height[right]:
+                left += 1
+            else:
+                right -= 1
+        #-----------------------------------
+
+        return max_area
+    #-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
+
+
+
 
 sol = Solution()
 input = [1,8,6,2,5,4,8,3,7]
