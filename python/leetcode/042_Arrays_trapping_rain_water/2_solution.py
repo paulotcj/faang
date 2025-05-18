@@ -1,35 +1,35 @@
 # https://leetcode.com/problems/trapping-rain-water/
-from typing import List
+from typing import List, Tuple
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def __find_first_left(self) -> List[int]:
+    def _find_first_left(self) -> Tuple[int,int]:
         for i , v in enumerate(self.height):
             if v > 0:
-                return i, v
+                return (i, v)
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def __find_first_right(self) -> List[int]:
+    def _find_first_right(self) -> Tuple[int,int]:
         for i, v in enumerate(self.height[::-1]):
             if v > 0:
-                return (len(self.height) - 1) - i , v
+                return ((len(self.height) - 1) - i , v)
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def __handle_values(self, left_i: int, right_i: int) -> List[int]:
+    def _handle_values(self, left_i: int, right_i: int) -> Tuple[int,int]:
             left_v = self.height[left_i]
             right_v = self.height[right_i]
             self.max_left = max(self.max_left, left_v)
             self.max_right = max(self.max_right, right_v)
-            return left_v , right_v
+            return (left_v , right_v)
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def __handle_left(self, left_v: int) -> None:
+    def _handle_left(self, left_v: int) -> None:
         if left_v < self.max_left:
             current_water = min(self.max_left, self.max_right) - left_v
             self.total_water += current_water
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------     
-    def __handle_right(self, right_v: int) -> None:
+    def _handle_right(self, right_v: int) -> None:
         if right_v < self.max_right:
             current_water = min(self.max_left, self.max_right) - right_v
             self.total_water += current_water
@@ -40,18 +40,18 @@ class Solution:
         
         self.height : List[int] = height
         self.total_water: int = 0
-        left_i, self.max_left = self.__find_first_left()
-        right_i , self.max_right = self.__find_first_right()
+        left_i, self.max_left = self._find_first_left()
+        right_i , self.max_right = self._find_first_right()
         
         #-----------------------------------
         while left_i < right_i:
-            left_v , right_v = self.__handle_values(left_i, right_i)
+            left_v , right_v = self._handle_values(left_i, right_i)
             
             if left_v <= right_v:
-                self.__handle_left(left_v = left_v)
+                self._handle_left(left_v = left_v)
                 left_i += 1
             else:
-                self.__handle_right(right_v = right_v)
+                self._handle_right(right_v = right_v)
                 right_i -= 1
         #-----------------------------------
         
