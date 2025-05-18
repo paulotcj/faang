@@ -1,32 +1,35 @@
 # https://leetcode.com/problems/trapping-rain-water/
 from typing import List
+
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def __find_max_left(self, height: List[int], index: int) -> int:
-        if index <= 0 or index >= len(height): return 0
-        return max(height[:index])
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def __find_max_right(self, height: List[int], index: int) -> int:
-        index += 1
-        if index < 0 or index >= len(height): return 0
-        return max(height[index:])
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
     def trap(self, height: List[int]) -> int:
-        total_water = 0
+        n: int = len(height)
+        if n == 0:
+            return 0
 
-        for i, v in enumerate(height):
-            max_left = self.__find_max_left(height, i)
-            max_right = self.__find_max_right(height, i)
+        left: int = 0
+        right: int = n - 1
+        left_max: int = 0
+        right_max: int = 0
+        trapped_water: int = 0
 
-            current_water = min(max_left, max_right) - v
+        while left < right:
+            if height[left] < height[right]:
+                if height[left] >= left_max:
+                    left_max = height[left]
+                else:
+                    trapped_water += left_max - height[left]
+                left += 1
+            else:
+                if height[right] >= right_max:
+                    right_max = height[right]
+                else:
+                    trapped_water += right_max - height[right]
+                right -= 1
 
-            if current_water > 0:
-                total_water += current_water
-
-        return total_water
+        return trapped_water
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
