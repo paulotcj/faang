@@ -2,12 +2,12 @@
 from typing import List
 
 ''' Here's how this problem logic works. You need to know how much water a specific
-position can hold, and then repeat this procedure to every single position.
+position can hold, and then repeat this procedure for every single position.
 We are approaching from the principle that at each position we should calculate 
 the water column above the whatever ground level is at spot 'i'.
 And in order to calculate how much water location 'i' can hold above its 'ground level' 
-we need to know the max gound level to the left and the max ground level to the right
-and then identify the min between these 2. And then discont the ground level at spot 'i'
+we need to know the max ground level to the left and the max ground level to the right
+and then identify the min between these 2. And then discount the ground level at spot 'i'
 
 So for instance, spot 'i' is at height 5, the max level to the left is 10, the max level
 to the right is 15, then we have that position 'i' can hold:
@@ -20,30 +20,34 @@ So location 'i' can hold 5 units of water
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def __find_max_left(self, height: List[int], index: int) -> int:
-        if index <= 0 or index >= len(height): return 0
-        return max(height[:index])
+    def _find_max_left(self, index: int) -> int:
+        if index <= 0 or index >= len(self.height): return 0
+        return max(self.height[:index])
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def __find_max_right(self, height: List[int], index: int) -> int:
+    def _find_max_right(self, index: int) -> int:
         index += 1
-        if index < 0 or index >= len(height): return 0
-        return max(height[index:])
+        if index < 0 or index >= len(self.height): return 0
+        return max(self.height[index:])
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def trap(self, height: List[int]) -> int:
-        total_water = 0
-
-        for i, v in enumerate(height):
-            max_left = self.__find_max_left(height, i)
-            max_right = self.__find_max_right(height, i)
-
-            current_water = min(max_left, max_right) - v
-
-            if current_water > 0:
-                total_water += current_water
-
+        total_water : int = 0
+        self.height : List[int] = height
+        
+        #-----------------------------------
+        for for_i, pos_gound_level in enumerate(self.height):
+            max_hei_left : int = self._find_max_left( index = for_i)
+            max_hei_right : int = self._find_max_right( index = for_i )
+            
+            position_height : int = min(max_hei_left, max_hei_right)
+            current_water_level : int = position_height - pos_gound_level
+            
+            if current_water_level > 0 : total_water += current_water_level
+        #-----------------------------------
+        
         return total_water
+    
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
