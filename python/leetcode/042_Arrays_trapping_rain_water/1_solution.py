@@ -1,5 +1,5 @@
 # https://leetcode.com/problems/trapping-rain-water/
-from typing import List
+from typing import List , Tuple
 
 ''' Here's how this problem logic works. You need to know how much water a specific
 position can hold, and then repeat this procedure for every single position.
@@ -17,18 +17,23 @@ to the right is 15, then we have that position 'i' can hold:
 So location 'i' can hold 5 units of water
 '''
 
+
 #-------------------------------------------------------------------------
 class Solution:
+
     #-------------------------------------------------------------------------
-    def _find_max_left(self, index: int) -> int:
-        if index <= 0 or index >= len(self.height): return 0
-        return max(self.height[:index])
+    def _find_max_left(self, index : int) -> int:
+        if index <= 0 or index >= len(self.height) : return 0        
+        max_val : int = max(self.height[:index])
+        return max_val
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def _find_max_right(self, index: int) -> int:
-        index += 1
-        if index < 0 or index >= len(self.height): return 0
-        return max(self.height[index:])
+    def _find_max_right(self, index : int) -> int:
+        index += 1 # to offset the non-inclusive nature of slicing
+        if index <= 0 or index >= len(self.height) : return 0
+
+        max_val : int = max(self.height[index:])
+        return max_val
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def trap(self, height: List[int]) -> int:
