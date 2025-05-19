@@ -28,19 +28,16 @@ class Solution:
         return (left_v, right_v)
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def _handle_left(self, left_v : int) -> None:
-        if left_v < self.max_left:
+    def _calculate_water_level(self, terrain_height : int, left_side : bool = False, 
+      right_side : bool = False) -> None:
+        
+        if (left_side == True and terrain_height < self.max_left ) or \
+          (right_side == True and terrain_height < self.max_right ):
+              
             potential_water_level : int = min(self.max_left, self.max_right)
-            current_water_level : int = potential_water_level - left_v
+            current_water_level : int = potential_water_level - terrain_height
             self.total_water += current_water_level
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def _handle_right(self, right_v : int) -> None:
-        if right_v < self.max_right:
-            potential_water_level : int = min(self.max_left, self.max_right)
-            current_water_level : int = potential_water_level - right_v
-            self.total_water += current_water_level
-    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------    
     #-------------------------------------------------------------------------
     def trap(self, height: list[int]) -> int:
         if len(height) < 3 : return 0 # you need at least a wall, a well, and a wall
@@ -50,7 +47,7 @@ class Solution:
         
         left_i , self.max_left = self._find_first_left() # find the first occurence of a non zero height
         right_i, self.max_right = self._find_first_right() # number of backwards steps from the non-zero value, and the height value
-        
+        var_bs = 0
         #-----------------------------------
         while left_i < right_i:
             # get the values for left and right, but at the same time update max_left and
@@ -58,10 +55,12 @@ class Solution:
             left_v , right_v = self._update_max_and_get_values(left_i = left_i, right_i = right_i)
             
             if left_v <= right_v:
-                self._handle_left(left_v = left_v)
+                # self._process_left_bar(left_v = left_v)
+                self._calculate_water_level(terrain_height=left_v, left_side=True)
                 left_i += 1
             else:
-                self._handle_right(right_v = right_v)
+                # self._process_right_bar(right_v = right_v)
+                self._calculate_water_level(terrain_height=right_v, right_side=True)
                 right_i -= 1
         #-----------------------------------
         return self.total_water
