@@ -16,7 +16,7 @@ class Solution:
                 return ret_val
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def _handle_values(self, left_i : int, right_i : int) -> Tuple[int,int]:
+    def _update_max_and_get_values(self, left_i : int, right_i : int) -> Tuple[int,int]:
         ''' get the values for left_i and right_i, and try to update the max
         values for self.max_left and self.max_right'''
         left_v : int = self.height[left_i]
@@ -28,19 +28,21 @@ class Solution:
         return (left_v, right_v)
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def _handle_left(self, left_v: int) -> None:
+    def _handle_left(self, left_v : int) -> None:
         if left_v < self.max_left:
-            current_water = min(self.max_left, self.max_right) - left_v
-            self.total_water += current_water
+            potential_water_level : int = min(self.max_left, self.max_right)
+            current_water_level : int = potential_water_level - left_v
+            self.total_water += current_water_level
     #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------     
-    def _handle_right(self, right_v: int) -> None:
+    #-------------------------------------------------------------------------
+    def _handle_right(self, right_v : int) -> None:
         if right_v < self.max_right:
-            current_water = min(self.max_left, self.max_right) - right_v
-            self.total_water += current_water
+            potential_water_level : int = min(self.max_left, self.max_right)
+            current_water_level : int = potential_water_level - right_v
+            self.total_water += current_water_level
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def trap2(self, height: list[int]) -> int:
+    def trap(self, height: list[int]) -> int:
         if len(height) < 3 : return 0 # you need at least a wall, a well, and a wall
         
         self.height : List[int] = height
@@ -53,22 +55,7 @@ class Solution:
         while left_i < right_i:
             # get the values for left and right, but at the same time update max_left and
             #   max_right if a new max value is found
-            left_v , right_v = self._handle_values(left_i = left_i, right_i = right_i)
-        #-----------------------------------
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def trap(self, height: list[int]) -> int:
-        if len(height) < 3: return 0 # you need at least a wall, a well, and a wall
-        
-        self.height : List[int] = height
-        self.total_water: int = 0
-        
-        left_i, self.max_left = self._find_first_left()
-        right_i , self.max_right = self._find_first_right()
-        
-        #-----------------------------------
-        while left_i < right_i:
-            left_v , right_v = self._handle_values(left_i, right_i)
+            left_v , right_v = self._update_max_and_get_values(left_i = left_i, right_i = right_i)
             
             if left_v <= right_v:
                 self._handle_left(left_v = left_v)
@@ -77,7 +64,6 @@ class Solution:
                 self._handle_right(right_v = right_v)
                 right_i -= 1
         #-----------------------------------
-        
         return self.total_water
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
