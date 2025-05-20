@@ -1,5 +1,36 @@
 # https://leetcode.com/problems/trapping-rain-water/
 from typing import List, Tuple
+
+''' let's explore the logic here: suppose we have the array as [0,0,4,2,6,7,5,0,0]
+the edges where we have 0 doesn't mean anything to us. So we need to check the first edges
+with some 'height' which from the left will be idx=2 v=4, and right idx=6 v=5. And initially we
+record these 2 as our max values to each side respectively. max_left=4, max_right=5
+Since these 2 are our first edges, we can't calculate the water level with them so we need to move 
+one pointer.
+We will move the smallest pointer, in this case idx=2 v=2, which now will assume idx=3 v=2.
+We now compare if this new value is smaller than the max_left. It is. That means we can calculate
+the water level. We do min(max_left,max_right) -> min(4,5) -> 4 and this is because the water level
+is limited by the lowest wall.
+Now knowing the potential for water storage at idx=2 is 4 (as we saw in the previous step), we need
+to discount the terrain level, so: potential_water - terrain_level = 4 - 2 = 2. And then we add 2
+to the tally of total water accumulated. Note that no other walls can interfere with the amount of
+water storage at idx=3, it doesn't matter how tall or how low the other walls are, at idx=3 we are
+bounded by the left wall being the smallest.
+
+Now if we were to have an array like this: [1,2,3,4,3,2,1], we obviously woudn't be able to store any
+water, as the values keep increasing towards the center and there's no dip to form a 'pool'
+
+If we were to have an array like this: [1,2,3,1,3,2,1], then it gets more interesting but still
+straightforward, left and right pointers would move towards the center always increasing their
+max_left and max_right, until: 
+  left_idx  = 2 , left_v  = 3 , max_left  = 3 
+  right_idx = 4 , right_v = 3 , max_right = 3
+At which point one index has the move, and typically when the values are the same we move left for
+simplicity and convenience. Now: left_idx  = 3 , left_v  = 1 , max_left  = 3
+We do the potential water level: min(max_left, max_right) -> min(3,3) -> 3
+And then: Water_level = potential_water_level - current_terrain_level = 3 - 1 = 2 (water level at idx 3)
+
+'''
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
@@ -30,7 +61,7 @@ class Solution:
             potential_water_level : int = min(self.max_left, self.max_right)
             current_water_level : int = potential_water_level - terrain_height
             self.total_water += current_water_level
-    #-------------------------------------------------------------------------    
+    #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def trap(self, height: list[int]) -> int:
         #---------------------
