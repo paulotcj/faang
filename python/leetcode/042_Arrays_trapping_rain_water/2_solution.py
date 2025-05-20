@@ -10,15 +10,12 @@ class Solution:
                 return ret_val
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def _find_first_right(self) -> Tuple[int,int]:
-        # for idx, val in enumerate(self.height[::-1]): # loop backwards
-        #     if val > 0: #found the first non zero, so... a wall
-        #         idx_aux : int = (len(self.height) - 1) - idx # is this how many steps from the last idx?
-        #         ret_val : Tuple[int,int] = (idx_aux, val)
-        #         return ret_val
-            
-        start_idx : int = len(self.height)-1
-        for idx, val in enumerate(self.height[::-1], start = start_idx):
+    def _find_first_right(self) -> Tuple[int,int]:    
+        
+        # you need eto convert the output of enumerate to a list as enumerate is not reversible
+        #  so the logic is, get the idx and val from self.height via enumerate. convert it
+        #  to a list as it's necessary, then reverse it.
+        for idx, val in reversed(list(enumerate(self.height))):
             if val > 0:
                 ret_val : Tuple[int,int] = (idx, val)
                 return ret_val
@@ -128,3 +125,12 @@ print(f'result: {result}')
 print(f'Is the result correct? { result == expected}')
 print('------------------')
 
+
+sol = Solution()
+input = [9,2,1,1,6,4,0,4,4,0,0,0]
+expected = 18
+result = sol.trap(input)
+# print(input)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
+print('------------------')
