@@ -39,6 +39,9 @@ class Solution:
             if val > 0 : 
                 ret_val : Tuple[int,int] = (idx,val)
                 return ret_val
+           
+        # when all values are zero, this will skip any calculation effectively returning total water = 0 
+        return (0,0) 
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def _find_first_right(self) -> Tuple[int,int]: # find the first occurence of a non zero height from the right side 
@@ -50,6 +53,9 @@ class Solution:
             if val > 0:
                 ret_val : Tuple[int,int] = (idx, val)
                 return ret_val
+        
+        # when all values are zero, this will skip any calculation effectively returning total water = 0   
+        return (0,0)
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def _calculate_water_level(self, terrain_height : int, left_side : bool = False, 
@@ -148,6 +154,16 @@ print('------------------')
 sol = Solution()
 input = [9,2,1,1,6,4,0,4,4,0,0,0]
 expected = 18
+result = sol.trap(input)
+# print(input)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
+print('------------------')
+
+
+sol = Solution()
+input = [0,0,0]
+expected = 0
 result = sol.trap(input)
 # print(input)
 print(f'result: {result}')
