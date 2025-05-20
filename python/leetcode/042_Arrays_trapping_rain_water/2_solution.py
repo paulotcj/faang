@@ -10,7 +10,7 @@ class Solution:
                 return ret_val
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def _find_first_right(self) -> Tuple[int,int]:    
+    def _find_first_right(self) -> Tuple[int,int]: # find the first occurence of a non zero height from the right side 
         
         # you need eto convert the output of enumerate to a list as enumerate is not reversible
         #  so the logic is, get the idx and val from self.height via enumerate. convert it
@@ -19,18 +19,6 @@ class Solution:
             if val > 0:
                 ret_val : Tuple[int,int] = (idx, val)
                 return ret_val
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def _update_max_and_get_values(self, left_i : int, right_i : int) -> Tuple[int,int]:
-        ''' get the values for left_i and right_i, and try to update the max
-        values for self.max_left and self.max_right'''
-        left_v : int = self.height[left_i]
-        right_v : int = self.height[right_i]
-        
-        self.max_left : int = max(self.max_left, left_v)    # i don't get it why we use those
-        self.max_right : int = max(self.max_right, right_v)
-        
-        return (left_v, right_v)
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def _calculate_water_level(self, terrain_height : int, left_side : bool = False, 
@@ -52,17 +40,17 @@ class Solution:
         self.total_water : int = 0
         #---------------------
         # we are just looking to find the first non zero value of the left and right walls , and that's it
-        left_i , self.max_left = self._find_first_left() # find the first occurence of a non zero height
-        right_i, self.max_right = self._find_first_right() # number of backwards steps from the non-zero value, and the height value
-        # print(f'left_i  : {left_i}\t self.max_left: {self.max_left}')
-        # print(f'right_i : {right_i}\t self.max_right: {self.max_right}')
+        left_i , self.max_left = self._find_first_left() # find the first occurence of a non zero height from the left side
+        right_i, self.max_right = self._find_first_right() # find the first occurence of a non zero height from the right side
         #---------------------
-        var_bs = 0
+        
         #-----------------------------------
         while left_i < right_i:
-            # get the values for left and right, but at the same time update max_left and
-            #   max_right if a new max value is found
-            left_v , right_v = self._update_max_and_get_values(left_i = left_i, right_i = right_i)
+            left_v  : int = self.height[left_i]
+            right_v : int = self.height[right_i]
+            
+            self.max_left  : int = max(self.max_left, left_v)
+            self.max_right : int = max(self.max_right, right_v)            
             
             if left_v <= right_v:
                 # self._process_left_bar(left_v = left_v)
