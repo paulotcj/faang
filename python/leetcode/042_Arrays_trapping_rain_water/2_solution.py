@@ -5,14 +5,22 @@ class Solution:
     #-------------------------------------------------------------------------
     def _find_first_left(self) -> Tuple[int,int]: # find the first occurence of a non zero height
         for idx, val in enumerate(self.height):
-            if val > 0 : return (idx,val)
+            if val > 0 : 
+                ret_val : Tuple[int,int] = (idx,val)
+                return ret_val
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def _find_first_right(self) -> Tuple[int,int]:
-        for idx, val in enumerate(self.height[::-1]): # loop backwards
-            if val > 0: #found the first non zero, so... a wall
-                idx_aux : int = (len(self.height) - 1) - idx # is this how many steps from the last idx?
-                ret_val : Tuple[int,int] = (idx_aux, val)
+        # for idx, val in enumerate(self.height[::-1]): # loop backwards
+        #     if val > 0: #found the first non zero, so... a wall
+        #         idx_aux : int = (len(self.height) - 1) - idx # is this how many steps from the last idx?
+        #         ret_val : Tuple[int,int] = (idx_aux, val)
+        #         return ret_val
+            
+        start_idx : int = len(self.height)-1
+        for idx, val in enumerate(self.height[::-1], start = start_idx):
+            if val > 0:
+                ret_val : Tuple[int,int] = (idx, val)
                 return ret_val
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
@@ -40,13 +48,18 @@ class Solution:
     #-------------------------------------------------------------------------    
     #-------------------------------------------------------------------------
     def trap(self, height: list[int]) -> int:
+        #---------------------
+        # basic house keeping and setting up vars
         if len(height) < 3 : return 0 # you need at least a wall, a well, and a wall
-        
         self.height : List[int] = height
         self.total_water : int = 0
-        
+        #---------------------
+        # we are just looking to find the first non zero value of the left and right walls , and that's it
         left_i , self.max_left = self._find_first_left() # find the first occurence of a non zero height
         right_i, self.max_right = self._find_first_right() # number of backwards steps from the non-zero value, and the height value
+        # print(f'left_i  : {left_i}\t self.max_left: {self.max_left}')
+        # print(f'right_i : {right_i}\t self.max_right: {self.max_right}')
+        #---------------------
         var_bs = 0
         #-----------------------------------
         while left_i < right_i:
@@ -71,6 +84,7 @@ sol = Solution()
 input = [0,1,2,1]
 expected = 0
 result = sol.trap(input)
+# print(input)
 print(f'result: {result}')
 print(f'Is the result correct? { result == expected}')
 print('------------------')
@@ -80,6 +94,7 @@ sol = Solution()
 input = [0,1,0,2,1,0,1,3,2,1,2,1]
 expected = 6
 result = sol.trap(input)
+# print(input)
 print(f'result: {result}')
 print(f'Is the result correct? { result == expected}')
 print('------------------')
@@ -88,6 +103,7 @@ sol = Solution()
 input = [4,2,0,3,2,5]
 expected = 9
 result = sol.trap(input)
+# print(input)
 print(f'result: {result}')
 print(f'Is the result correct? { result == expected}')
 print('------------------')
@@ -96,6 +112,7 @@ sol = Solution()
 input = [5,5,1,7,1,1,5,2,7,6]
 expected = 23
 result = sol.trap(input)
+# print(input)
 print(f'result: {result}')
 print(f'Is the result correct? { result == expected}')
 print('------------------')
@@ -106,6 +123,7 @@ sol = Solution()
 input = [9,2,1,1,6,4,0,4,4]
 expected = 18
 result = sol.trap(input)
+# print(input)
 print(f'result: {result}')
 print(f'Is the result correct? { result == expected}')
 print('------------------')
