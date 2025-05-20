@@ -90,11 +90,9 @@ class Solution:
             self.max_right : int = max(self.max_right, right_v)            
             
             if left_v <= right_v:
-                # self._process_left_bar(left_v = left_v)
                 self._calculate_water_level(terrain_height=left_v, left_side=True)
                 left_i += 1
             else:
-                # self._process_right_bar(right_v = right_v)
                 self._calculate_water_level(terrain_height=right_v, right_side=True)
                 right_i -= 1
         #-----------------------------------
