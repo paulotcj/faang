@@ -8,20 +8,20 @@ class Solution:
         right_i : int = len(height) - 1
 
         total_water : int = 0
-        max_left  : int = height[left_i] # We can start from the edges and consider them max values
-        max_right : int = height[right_i]
+        max_left  : int = height[left_i]  # We can start from the edges and consider them max values
+        max_right : int = height[right_i] #  regardless of the values (being 0 or nor) the logic will work
 
         #-----------------------------------
         while left_i < right_i:
             if max_left <= max_right: 
                 left_i += 1 #note: we can do this from the start, because either the first index does form a wall and therefore we don't need to worry, or does not and again, we don't need to worry
-                max_left = max(max_left, height[left_i]) #the current value ay or may not be the new wall
-                curr_water = max_left - height[left_i] #now if Max_Left is bigger than our current value, that means water would be trapped
+                max_left : int = max(max_left, height[left_i]) #the current value ay or may not be the new wall
+                curr_water : int = max_left - height[left_i] #now if Max_Left is bigger than our current value, that means water would be trapped
                 total_water += curr_water
-            else:
+            else: # max_left > max_right
                 right_i -= 1
-                max_right = max(max_right, height[right_i])
-                curr_water = max_right - height[right_i]
+                max_right : int = max(max_right, height[right_i])
+                curr_water : int = max_right - height[right_i]
                 total_water += curr_water
         #-----------------------------------
               

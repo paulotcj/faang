@@ -6,28 +6,29 @@ class Solution:
     #-------------------------------------------------------------------------
     def trap(self, height: List[int]) -> int:
         n: int = len(height)
-        if n == 0:
-            return 0
+        if n == 0: return 0
 
-        left: int = 0
-        right: int = n - 1
-        left_max: int = 0
-        right_max: int = 0
-        trapped_water: int = 0
+        left  : int = 0
+        right : int = n - 1
+        left_max  : int = 0
+        right_max : int = 0
+        trapped_water : int = 0
 
+        #-----------------------------------
         while left < right:
             if height[left] < height[right]:
                 if height[left] >= left_max:
-                    left_max = height[left]
+                    left_max : int = height[left]
                 else:
                     trapped_water += left_max - height[left]
                 left += 1
             else:
                 if height[right] >= right_max:
-                    right_max = height[right]
+                    right_max : int = height[right]
                 else:
                     trapped_water += right_max - height[right]
                 right -= 1
+        #-----------------------------------
 
         return trapped_water
     #-------------------------------------------------------------------------
