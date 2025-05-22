@@ -5,14 +5,15 @@ from typing import List
 class Solution:
     #-------------------------------------------------------------------------
     def trap(self, height: List[int]) -> int:
-        n: int = len(height)
-        if n == 0: return 0
+        len_hei: int = len(height)
+        
+        if len_hei == 0: return 0
 
         left  : int = 0
-        right : int = n - 1
+        right : int = len_hei - 1
         left_max  : int = 0
         right_max : int = 0
-        trapped_water : int = 0
+        total_trapped_water : int = 0
 
         #-----------------------------------
         while left < right:
@@ -20,17 +21,17 @@ class Solution:
                 if height[left] >= left_max:
                     left_max : int = height[left]
                 else:
-                    trapped_water += left_max - height[left]
+                    total_trapped_water += left_max - height[left]
                 left += 1
             else:
                 if height[right] >= right_max:
                     right_max : int = height[right]
                 else:
-                    trapped_water += right_max - height[right]
+                    total_trapped_water += right_max - height[right]
                 right -= 1
         #-----------------------------------
 
-        return trapped_water
+        return total_trapped_water
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
