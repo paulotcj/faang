@@ -1,7 +1,10 @@
 #problem: https://leetcode.com/problems/backspace-string-compare/description/
+
+
+#-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def get_next_char(self, s:str, idx:int) -> (int, str):
+    def get_next_char(self, s: str, idx: int) -> tuple[int, str]:
         back_space_count = 1
         last_seen_char = None
         while back_space_count > 0 and idx >= 0:
@@ -15,7 +18,6 @@ class Solution:
 
         return idx, last_seen_char
     #-------------------------------------------------------------------------
-
     #-------------------------------------------------------------------------
     def backspaceCompare(self, s: str, t: str) -> bool:
         idx_s = len(s) - 1
