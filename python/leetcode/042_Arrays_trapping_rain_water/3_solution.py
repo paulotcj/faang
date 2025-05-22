@@ -1,27 +1,49 @@
 # https://leetcode.com/problems/trapping-rain-water/
 from typing import List
+
+''' start with house keeping, set 'total_water' to zero, seet the left_index to 0 set the right_index
+to len(height) - 1 (e.g.: 10 - 1 = 9 which is the idx of the last element in the array). And from there
+we set the 'v_max_left' and 'v_max_right' according to their indexes. The difference here from the
+previous approach is that we realized we don't need to care for the values of left or right, the
+algorithm will sort it out if the extremeties have values of 0, or even the entire array is zero.
+
+Now the loop will execute until the traditional condition is true: left_idx < right_idx.
+
+Once inside the loop we look at which value is smaller: left of right - and from there we will
+calculate the water level, which I will detail the steps later. But at this point the interesting
+part is to analyse how 
+
+'''
+
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
     def trap(self, height: List[int]) -> int:
-        left_i  : int = 0
-        right_i : int = len(height) - 1
-
         total_water : int = 0
-        max_left  : int = height[left_i]  # We can start from the edges and consider them max values
-        max_right : int = height[right_i] #  regardless of the values (being 0 or nor) the logic will work
+        
+        left_idx    : int = 0
+        right_idx   : int = len(height) - 1
+
+        v_max_left  : int = height[left_idx]  # We can start from the edges and consider them max values
+        v_max_right : int = height[right_idx] #  regardless of the values (being 0 or nor) the logic will work
 
         #-----------------------------------
-        while left_i < right_i:
-            if max_left <= max_right: 
-                left_i += 1 #note: we can do this from the start, because either the first index does form a wall and therefore we don't need to worry, or does not and again, we don't need to worry
-                max_left : int = max(max_left, height[left_i]) #the current value ay or may not be the new wall
-                curr_water : int = max_left - height[left_i] #now if Max_Left is bigger than our current value, that means water would be trapped
+        while left_idx < right_idx:
+            if v_max_left <= v_max_right: 
+                left_idx += 1
+                
+                # usual way to calculate water level
+                v_left : int = height[left_idx]
+                v_max_left : int = max(v_max_left, v_left) 
+                curr_water : int = v_max_left - v_left 
                 total_water += curr_water
             else: # max_left > max_right
-                right_i -= 1
-                max_right : int = max(max_right, height[right_i])
-                curr_water : int = max_right - height[right_i]
+                right_idx -= 1
+                
+                # usual way to calculate water level
+                v_right : int = height[right_idx]
+                v_max_right : int = max(v_max_right, v_right)
+                curr_water : int = v_max_right - v_right
                 total_water += curr_water
         #-----------------------------------
               
