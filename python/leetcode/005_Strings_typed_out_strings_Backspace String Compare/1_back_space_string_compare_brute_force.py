@@ -32,64 +32,64 @@ class Solution:
 
 
 
-# print('----------------------------')
-# sol = Solution()
-# s = "nzp#o#g"
-# t = "b#nzp#o#g"
-# expected = True
-# result = sol.backspaceCompare(s,t)
-# print(f'result: {result}')
-# print(f'Is the result correct? { result == expected}')  
+print('----------------------------')
+sol = Solution()
+s = "nzp#o#g"
+t = "b#nzp#o#g"
+expected = True
+result = sol.backspaceCompare(s,t)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')  
 
 
-# print('----------------------------')
-# sol = Solution()
-# s = "bbbextm"
-# t = "bbb#extm"
-# expected = False
-# result = sol.backspaceCompare(s,t)
-# print(f'result: {result}')
-# print(f'Is the result correct? { result == expected}')  
-
-
-
-# print('----------------------------')
-# sol = Solution()
-# s = "ab##"
-# t = "c#d#"
-# expected = True
-# result = sol.backspaceCompare(s,t)
-# print(f'result: {result}')
-# print(f'Is the result correct? { result == expected}')  
-
-# print('----------------------------')
-# sol = Solution()
-# s = "ab#c"
-# t = "ad#c"
-# expected = True
-# result = sol.backspaceCompare(s,t)
-# print(f'result: {result}')
-# print(f'Is the result correct? { result == expected}')    
-
-# print('----------------------------')
-# sol = Solution()
-# s = "a#c"
-# t = "b"
-# expected = False
-# result = sol.backspaceCompare(s,t)
-# print(f'result: {result}')
-# print(f'Is the result correct? { result == expected}')
+print('----------------------------')
+sol = Solution()
+s = "bbbextm"
+t = "bbb#extm"
+expected = False
+result = sol.backspaceCompare(s,t)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')  
 
 
 
-# print('----------------------------')
-# sol = Solution()
-# s = "a##c"
-# t = "#a#c"
-# expected = True
-# result = sol.backspaceCompare(s,t)
-# print(f'result: {result}')
-# print(f'Is the result correct? { result == expected}')
+print('----------------------------')
+sol = Solution()
+s = "ab##"
+t = "c#d#"
+expected = True
+result = sol.backspaceCompare(s,t)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')  
+
+print('----------------------------')
+sol = Solution()
+s = "ab#c"
+t = "ad#c"
+expected = True
+result = sol.backspaceCompare(s,t)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')    
+
+print('----------------------------')
+sol = Solution()
+s = "a#c"
+t = "b"
+expected = False
+result = sol.backspaceCompare(s,t)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
+
+
+
+print('----------------------------')
+sol = Solution()
+s = "a##c"
+t = "#a#c"
+expected = True
+result = sol.backspaceCompare(s,t)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
 
 
 print('----------------------------')
@@ -101,7 +101,3 @@ result = sol.backspaceCompare(s,t)
 print(f'result: {result}')
 print(f'Is the result correct? { result == expected}')
 
-
-
-s = "f"
-t = "f"
