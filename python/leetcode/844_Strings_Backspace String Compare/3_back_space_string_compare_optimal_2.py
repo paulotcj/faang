@@ -3,36 +3,48 @@
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def backspaceCompare(self, s: str, t: str) -> bool:
-        s_idx, t_idx = len(s) - 1, len(t) - 1
-
+    def backspaceCompare(self, s : str , t : str) -> bool :
+        s_idx : int = len(s) - 1
+        t_idx : int = len(t) - 1
+        
+        #-----------------------------------
         while s_idx >= 0 or t_idx >= 0:
             #-----
-            s_idx = self.get_next_idx(s, s_idx)
-            t_idx = self.get_next_idx(t, t_idx)
+            s_idx : int = self.get_next_idx(input_str = s , idx = s_idx)
+            t_idx : int = self.get_next_idx(input_str = t , idx = t_idx)
+            s_char : str = '' if s_idx < 0 else s[s_idx]
+            t_char : str = '' if t_idx < 0 else t[t_idx]
             #-----
-                
-            if s_idx == -1 or t_idx == -1:
-                return s_idx == -1 and t_idx == -1
-            elif s[s_idx] != t[t_idx]:
-                return False
+            
+            if s_char != t_char : return False
             
             s_idx -= 1
             t_idx -= 1
-        #--------------
+        #-----------------------------------
         
+        # we compared everything so far and no mismatch was found, return True
         return True
+            
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def get_next_idx(self, s:str, idx: int) -> int:
-        #-----
-        backspaces = 0
-        while idx >= 0 and (s[idx] == '#' or backspaces > 0):
-            backspaces += 1 if s[idx] == '#' else -1
-            idx -= 1
-        #-----        
-        return idx
-    #-------------------------------------------------------------------------    
+    def get_next_idx(self, input_str : str, idx : int) -> int:
+        backspaces : int = 1
+        
+        #-----------------------------------
+        while idx >= 0 and backspaces > 0:
+            #-----------------------------------
+            if input_str[idx] == '#' : 
+                backspaces += 1
+            else: #regular char
+                backspaces -= 1
+                if backspaces == 0: return idx
+            #-----------------------------------
+            
+            idx -= 1 
+        #-----------------------------------
+                
+        return idx # at this point we haven't found a valid char, return the idx (-1)
+    #-------------------------------------------------------------------------  
 #-------------------------------------------------------------------------
 
 
