@@ -1,15 +1,7 @@
 #problem: https://leetcode.com/problems/backspace-string-compare/description/
+
+#-------------------------------------------------------------------------
 class Solution:
-    #-------------------------------------------------------------------------
-    def get_next_idx(self, s:str, idx: int) -> int:
-        #-----
-        backspaces = 0
-        while idx >= 0 and (s[idx] == '#' or backspaces > 0):
-            backspaces += 1 if s[idx] == '#' else -1
-            idx -= 1
-        #-----        
-        return idx
-    #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def backspaceCompare(self, s: str, t: str) -> bool:
         s_idx, t_idx = len(s) - 1, len(t) - 1
@@ -30,7 +22,28 @@ class Solution:
         #--------------
         
         return True
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def get_next_idx(self, s:str, idx: int) -> int:
+        #-----
+        backspaces = 0
+        while idx >= 0 and (s[idx] == '#' or backspaces > 0):
+            backspaces += 1 if s[idx] == '#' else -1
+            idx -= 1
+        #-----        
+        return idx
+    #-------------------------------------------------------------------------    
 #-------------------------------------------------------------------------
+
+
+print('----------------------------')
+sol = Solution()
+s = "a"
+t = "aa#a"
+expected = False
+result = sol.backspaceCompare(s,t)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
 
 
 print('----------------------------')
@@ -80,3 +93,28 @@ expected = False
 result = sol.backspaceCompare(s,t)
 print(f'result: {result}')
 print(f'Is the result correct? { result == expected}')
+
+
+
+print('----------------------------')
+sol = Solution()
+s = "a##c"
+t = "#a#c"
+expected = True
+result = sol.backspaceCompare(s,t)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
+
+
+print('----------------------------')
+sol = Solution()
+s = "y#fo##f"
+t = "y#f#o##f"
+expected = True
+result = sol.backspaceCompare(s,t)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
+
+
+
+

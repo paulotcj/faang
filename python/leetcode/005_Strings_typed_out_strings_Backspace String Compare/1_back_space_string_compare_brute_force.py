@@ -34,6 +34,16 @@ class Solution:
 
 print('----------------------------')
 sol = Solution()
+s = "a"
+t = "aa#a"
+expected = False
+result = sol.backspaceCompare(s,t)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
+
+
+print('----------------------------')
+sol = Solution()
 s = "nzp#o#g"
 t = "b#nzp#o#g"
 expected = True
@@ -100,4 +110,7 @@ expected = True
 result = sol.backspaceCompare(s,t)
 print(f'result: {result}')
 print(f'Is the result correct? { result == expected}')
+
+
+
 
