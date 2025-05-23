@@ -1,4 +1,4 @@
-#problem: https://leetcode.com/problems/backspace-string-compare/description/
+# https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
 
 class Solution:
     #-------------------------------------------------------------------------
@@ -6,6 +6,7 @@ class Solution:
         max_len = 0
         string_dict = {}
 
+        #-----------------------------------
         i = 0
         while i < len(s):
             v = s[i]
@@ -20,7 +21,7 @@ class Solution:
             else:
                 string_dict[v] = i
                 i += 1
-        #-------
+        #-----------------------------------
                 
         return max(max_len, len(string_dict))
     #-------------------------------------------------------------------------
