@@ -2,24 +2,28 @@
 
 from typing import List, Dict, Tuple
 
+#-------------------------------------------------------------------------
 class Solution:
 
     #-------------------------------------------------------------------------
     def lengthOfLongestSubstring(self, s: str) -> int:
 
-        low_idx = max_len = 0
-        seen = {}
+        begin_substr_idx : int = 0
+        max_len : int = 0
+        seen : Dict[str, int] = {}
 
-        for high_idx, high_v in enumerate(s):
+        #-----------------------------------
+        for curr_idx, curr_char in enumerate(s):
 
             # If what we are accessing with high_v is in the dictionary and the index of this value
             #  is greater or equal to the low_idx, this means the char is repeated in the sequence.
             # Move low_idx to the next index of the repeated char, and start counting again.
-            if seen.get(high_v, -1) >= low_idx:  # -1 is the default value if 'high_v' is not found
-                low_idx = seen[high_v] + 1
+            if seen.get(curr_char, -1) >= begin_substr_idx:  # -1 is the default value if 'high_v' is not found
+                begin_substr_idx = seen[curr_char] + 1
 
-            max_len = max(max_len, high_idx - low_idx + 1)
-            seen[high_v] = high_idx
+            max_len = max(max_len, curr_idx - begin_substr_idx + 1)
+            seen[curr_char] = curr_idx
+        #-----------------------------------
 
         return max_len
     #-------------------------------------------------------------------------
