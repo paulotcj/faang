@@ -30,15 +30,15 @@ class Solution:
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
   
+  
+
 print('----------------------------')
 sol = Solution()
 s = "dvdf"
 expected = 3
 result = sol.lengthOfLongestSubstring(s)
 print(f'result: {result}')
-print(f'Is the result correct? { result == expected}')    
-
-    
+print(f'Is the result correct? { result == expected}') 
     
 print('----------------------------')
 sol = Solution()
