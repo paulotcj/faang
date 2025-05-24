@@ -5,36 +5,53 @@ from typing import Dict
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def lengthOfLongestSubstring(self, s : str) -> int:
-        self.input_str : str = s
-        self.string_dict : Dict[str, int] = {}
-
-        self.max_len : int = 0
-        self.low_idx : int = 0
-        #-----------------------------------
-        for high_idx, _ in enumerate(self.input_str):
-            self.have_we_seen_this_char(hight_idx = high_idx)
-        #-----------------------------------
-        return self.max_len
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def have_we_seen_this_char(self, high_idx: int) -> None:
+    def lengthOfLongestSubstring(self, s : str) -> int :
+        input_str : str = s
+        str_dict : Dict[str, int] = {}
+        max_len : int = 0
+        begin_substr_idx : int = 0
         
-        high_char : str = self.input_str[high_idx]
+        #-----------------------------------
+        for curr_idx , curr_char in enumerate(input_str):
 
-        #--------------
-        if high_char in self.string_dict and self.string_dict[high_char] >= self.low_idx:
-
-            self.low_idx : int = max(self.low_idx, self.string_dict[high_char] + 1)
-            self.string_dict[high_char] = high_idx
+            # breaking the substring condition - have we seen this char? and if so, is its index after
+            #   our substring started?
+            #--------------
+            if curr_char in str_dict and str_dict[curr_char] >= begin_substr_idx:
+                
+                begin_substr_idx : int = max( begin_substr_idx, str_dict[curr_char] + 1 )
+                
+                if begin_substr_idx != curr_idx:
+                    print('debug')
+                
+                # begin_substr_idx : int = curr_idx
+                str_dict[curr_char] = curr_idx
+                
             
-        else:
-            self.string_dict[high_char] = high_idx
-            self.max_len : int = max(self.max_len, high_idx - self.low_idx + 1)
-        #--------------
-
+            else: # first time seein this char
+                str_dict[curr_char] = curr_idx
+                
+                # if we have a subsstring that is from low_idx = 2 and higher_idx = 4, we want to
+                #   include indexes: 2, 3, 4. But using the subtraction we would have: 4 - 2 = 2
+                #   therefore we need to add + 1
+                curr_len : int = curr_idx - begin_substr_idx + 1
+                max_len : int = max(max_len, curr_len)
+        #--------------            
+        #-----------------------------------
+        
+        return max_len
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
+
+print('----------------------------')
+sol = Solution()
+s = "dvdf"
+expected = 3
+result = sol.lengthOfLongestSubstring(s)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')    
+exit() 
+    
     
 print('----------------------------')
 sol = Solution()
