@@ -1,38 +1,39 @@
 # https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
 
-from typing import List, Dict, Tuple
+from typing import Dict
 
+#-------------------------------------------------------------------------
 class Solution:
-
     #-------------------------------------------------------------------------
-    def have_we_seen_this_char(self, s:str, string_dict: Dict[str, int], 
-                               low_idx: int, high_idx: int, max_len: int)-> Tuple[int, int, int]:
-        low_v, high_v = s[low_idx], s[high_idx]
+    def lengthOfLongestSubstring(self, s : str) -> int:
+        self.input_str : str = s
+        self.string_dict : Dict[str, int] = {}
 
-        if high_v in string_dict and string_dict[high_v] >= low_idx:
+        self.max_len : int = 0
+        self.low_idx : int = 0
+        #-----------------------------------
+        for high_idx, _ in enumerate(self.input_str):
+            self.have_we_seen_this_char(hight_idx = high_idx)
+        #-----------------------------------
+        return self.max_len
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def have_we_seen_this_char(self, high_idx: int) -> None:
+        
+        high_char : str = self.input_str[high_idx]
 
-            low_idx = max(low_idx, string_dict[high_v] + 1)
-            string_dict[high_v] = high_idx
+        #--------------
+        if high_char in self.string_dict and self.string_dict[high_char] >= self.low_idx:
+
+            self.low_idx : int = max(self.low_idx, self.string_dict[high_char] + 1)
+            self.string_dict[high_char] = high_idx
             
         else:
-            string_dict[high_v] = high_idx
-            max_len = max(max_len, high_idx - low_idx + 1)
+            self.string_dict[high_char] = high_idx
+            self.max_len : int = max(self.max_len, high_idx - self.low_idx + 1)
+        #--------------
 
-        return low_idx, high_idx, max_len
     #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def lengthOfLongestSubstring(self, s: str) -> int:
-        max_len = 0
-        string_dict = {}
-        low_idx = 0
-
-        #-------
-        for high_idx, _ in enumerate(s):
-            low_idx, high_idx, max_len = self.have_we_seen_this_char(s, string_dict, low_idx, high_idx, max_len)
-        #-------
-        return max_len
-    #-------------------------------------------------------------------------
-
 #-------------------------------------------------------------------------
     
 print('----------------------------')
@@ -44,31 +45,31 @@ print(f'result: {result}')
 print(f'Is the result correct? { result == expected}')
 
 
-# print('----------------------------')
-# sol = Solution()
-# s = "abcabcbb"
-# expected = 3
-# result = sol.lengthOfLongestSubstring(s)
-# print(f'result: {result}')
-# print(f'Is the result correct? { result == expected}')
+print('----------------------------')
+sol = Solution()
+s = "abcabcbb"
+expected = 3
+result = sol.lengthOfLongestSubstring(s)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
 
 
-# print('----------------------------')
-# sol = Solution()
-# s = "bbbbb"
-# expected = 1
-# result = sol.lengthOfLongestSubstring(s)
-# print(f'result: {result}')
-# print(f'Is the result correct? { result == expected}')
+print('----------------------------')
+sol = Solution()
+s = "bbbbb"
+expected = 1
+result = sol.lengthOfLongestSubstring(s)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
 
 
-# print('----------------------------')
-# sol = Solution()
-# s = "pwwkew"
-# expected = 3
-# result = sol.lengthOfLongestSubstring(s)
-# print(f'result: {result}')
-# print(f'Is the result correct? { result == expected}')
+print('----------------------------')
+sol = Solution()
+s = "pwwkew"
+expected = 3
+result = sol.lengthOfLongestSubstring(s)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
 
 
 
