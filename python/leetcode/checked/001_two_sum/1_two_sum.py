@@ -11,7 +11,7 @@ class Solution:
             for inner_i in range(outer_i+1,len(nums)):
                 if nums[outer_i] + nums[inner_i] == target:
                     return [outer_i, inner_i]
-        #-----------------------------------    
+        #-----------------------------------
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def twoSum(self, nums: List[int], target: int) -> List[int]:

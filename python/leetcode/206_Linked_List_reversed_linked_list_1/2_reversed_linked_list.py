@@ -100,25 +100,40 @@ class Solution:
 
 print('----------------------------')
 sol = Solution()
-arr = [1,2,3]
-expected = [3,2,1]
-linked_list_head = sol.create_linked_list(arr)
+input_arr = [1,2,3,4,5,6,7,8,9]
+expected = [9,8,7,6,5,4,3,2,1]
+
+linked_list_head = sol.create_linked_list(input_arr)
+
 sol.print_linked_list(linked_list_head)
+
 result = sol.reverseList(linked_list_head)
 result = sol.print_linked_list(result)
-# print(f'result: {result}')
 print(f'Is the result correct? { result == expected}')
+
+
 
 print('----------------------------')
 sol = Solution()
-arr = [1,2,3,4,5,6,7,8,9]
-expected = [9,8,7,6,5,4,3,2,1]
-linked_list_head = sol.create_linked_list(arr)
+input_arr = [1,2,3,4,5]
+expected = [5,4,3,2,1]
+
+linked_list_head = sol.create_linked_list(input_arr)
+
 sol.print_linked_list(linked_list_head)
+
 result = sol.reverseList(linked_list_head)
 result = sol.print_linked_list(result)
-# print(f'result: {result}')
 print(f'Is the result correct? { result == expected}')
+
+
+
+
+
+
+
+
+
 
 
 
