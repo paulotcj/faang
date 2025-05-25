@@ -2,7 +2,6 @@
 
 #-------------------------------------------------------------------------
 class Solution:
-
     #-------------------------------------------------------------------------
     def isPalindrome(self, s: str) -> bool:
         low_idx: int = 0
@@ -30,8 +29,6 @@ class Solution:
         #-------------
         return True
     #-------------------------------------------------------------------------
-
-
 #-------------------------------------------------------------------------
     
 
@@ -40,6 +37,25 @@ class Solution:
 print('----------------------------')
 sol = Solution()
 s = "A man, a plan, a canal: Panama"
+expected = True
+result = sol.isPalindrome(s)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
+
+
+
+print('----------------------------')
+sol = Solution()
+s = "race a car"
+expected = False
+result = sol.isPalindrome(s)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
+
+
+print('----------------------------')
+sol = Solution()
+s = " "
 expected = True
 result = sol.isPalindrome(s)
 print(f'result: {result}')
