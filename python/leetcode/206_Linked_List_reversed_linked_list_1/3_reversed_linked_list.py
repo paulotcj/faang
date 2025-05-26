@@ -45,25 +45,13 @@ class Solution:
         return return_list
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def reverseList(self, head: ListNode) -> ListNode:
-        list_arr : List[ListNode] = []
-        curr: ListNode = head
-
-        while curr != None:
-            list_arr.append(curr)
-            curr = curr.next
-
-        # this means loop from the (len - 1) to 0, with a step of -1.
-        for i in range( (len(list_arr) -1) , -1, -1):
-            if i == 0:
-                list_arr[i].next = None
-            else:
-                list_arr[i].next = list_arr[i-1]
-
-        if list_arr:
-            head = list_arr[-1]
-            return head
-        else: return None
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        prev:ListNode = None
+        curr:ListNode = head
+        while curr:
+            curr.next, prev, curr = prev, curr, curr.next
+        
+        return prev
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
