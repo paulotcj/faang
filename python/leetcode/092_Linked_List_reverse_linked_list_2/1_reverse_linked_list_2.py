@@ -3,88 +3,104 @@ from typing import Optional, List, Tuple
 #-------------------------------------------------------------------------
 class ListNode:
     #-------------------------------------------------------------------------
-    def __init__(self, val=0, next=None):
+    def __init__( self, val : int = 0, next : 'ListNode' = None ):
         self.val = val
-        self.next = next
+        self.next : 'ListNode' = next
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def create_linked_list(self, arr : List[int]) -> ListNode:
-        head : ListNode = None
-        curr : ListNode = None
-
-        for i , v in enumerate(arr):
-            if i == 0:
-                head = ListNode(v)
-                curr = head
-            else:
-                curr.next = ListNode(v)
-                curr = curr.next
-        return head
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def print_linked_list(self, head: ListNode) -> List[int]:
-        curr : ListNode = head
-        list : List[int] = []
-        while curr != None:
-            list.append(curr.val)
-            curr = curr.next
-
-        print(list)
-        return list 
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def preProcessList(self, head: ListNode, left: int, right: int) -> None:
-        list_arr : List[ListNode] = []
-
-        curr: ListNode = head
-        i = 0
-        while curr != None:
-            list_arr.append(curr)
-
-            curr = curr.next
-            i += 1
-
-        return left - 1 , right - 1, list_arr
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def reverseList(self, head: ListNode, idx_left: int, idx_right: int, list_arr: List[ListNode]) -> ListNode:
-        curr: ListNode = list_arr[idx_left]
-        prev: ListNode = None
-        temp: ListNode = None
-
-        left_end : ListNode = None
-        right_end : ListNode = None
-
-        if idx_left is not None and idx_left > 0:
-            left_end = list_arr[idx_left - 1]
-            
+    def create_linked_list(self, arr : List[int] ) -> Optional[ListNode] : 
+        head : Optional[ListNode] = None
+        curr : Optional[ListNode] = None
+        prev : Optional[ListNode] = None
         
-        if idx_right is not None and idx_right < len(list_arr) - 1:
-            right_end = list_arr[idx_right + 1]
-            prev = right_end
-
-        while curr != None and curr != right_end:
-            temp = curr.next
-            curr.next = prev
-            prev = curr
-            curr = temp
-
-        if left_end:
-            left_end.next = prev
+        #-----------------------------------
+        for idx, val in enumerate(arr):
+            curr = ListNode(val = val)
+            if idx == 0 : # setting up the root node - there's no prev
+                head  = curr
+                prev = curr
+            else:
+            
+            # curr is the current node, this is the newest node and we don't point next
+            #   to anything, but we should keep track of the previous node, so it's next
+            #   pointer can point to curr
+                prev.next = curr
+                prev = curr
+        #-----------------------------------
+        return head      
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def print_linked_list( self , head : Optional[ListNode] ) -> List[int] :
+        curr : Optional[ListNode] = head
+        return_list : List[int] = []
+        #-----------------------------------
+        while curr != None:
+            return_list.append(curr.val)
+            curr = curr.next
+        #-----------------------------------
+            
+        return return_list
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def reverseBetween( self , head : Optional[ListNode] , left : int , right : int ) -> Optional[ListNode] :
+        self.list_arr = self.pre_process_list(head = head)
+        # correction from base 1 index to base 0 index:
+        left -= 1
+        right -= 1
+        
+        head = self.reverse_list(head = head, idx_left = left, idx_right = right)
+        return head
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def pre_process_list( self , head : ListNode) -> List[ListNode] :
+        list_arr : List[ListNode] = []
+        curr : ListNode = head
+        #-----------------------------------
+        while curr:
+            list_arr.append(curr)
+            curr = curr.next
+        #-----------------------------------
+        return list_arr
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def reverse_list( self, head : ListNode, idx_left : int , idx_right : int ) -> ListNode :
+        curr : ListNode = self.list_arr[idx_left]
+        prev : ListNode = None
+        temp_next : ListNode = None
+        
+        # the idea here is that you need to take 1 elements outside the target nodes in
+        #   order to fix the links later
+        node_left_minus_1 : ListNode = None
+        node_right_plus_1 : ListNode = None
+        
+        if idx_left > 0 :
+            node_left_minus_1 = self.list_arr[idx_left - 1]
+            
+        if idx_right < len( self.list_arr ) - 1 :
+            node_right_plus_1 = self.list_arr[ idx_right + 1 ]
+            prev = node_right_plus_1 # almost forgot - remember if we are going to flip this must be placed here
+        
+        #-----------------------------------
+        while curr is not None and curr is not node_right_plus_1:
+            temp_next = curr.next # save this relationship, it will be necessary later
+            curr.next = prev # intuitively that's what we want to do
+            
+            # now we start to reposition the pointers. think of it as moving
+            #  everything 1 step to the right, prev assumes the value of curr
+            #  curr assumes the value of temp_next
+            prev = curr 
+            curr = temp_next
+        #-----------------------------------
+        
+        if node_left_minus_1:
+            node_left_minus_1.next = prev
         else: head = prev
-
+            
         return head
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
-        idx_left, idx_right, list_arr = self.preProcessList(head, left, right)
-        head = self.reverseList(head, idx_left, idx_right, list_arr)
-        return head
-    #-------------------------------------------------------------------------
-
+    #------------------------------------------------------------------------- 
 #-------------------------------------------------------------------------
 
 
