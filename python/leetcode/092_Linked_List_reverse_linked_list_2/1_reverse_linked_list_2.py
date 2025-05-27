@@ -8,7 +8,6 @@ class ListNode:
         self.next = next
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
-
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
@@ -89,20 +88,20 @@ class Solution:
 #-------------------------------------------------------------------------
 
 
-# print('----------------------------')
-# sol = Solution()
-# arr = [3,5]
-# left = 1
-# right = 2
-# expected = [5,3]  
+print('----------------------------')
+sol = Solution()
+arr = [3,5]
+left = 1
+right = 2
+expected = [5,3]  
 
 
-# head = sol.create_linked_list(arr)
-# _ = sol.print_linked_list(head)
-# result = sol.reverseBetween(head, left, right)
-# result = sol.print_linked_list(result)
-# # print(f'result: {result}')
-# print(f'Is the result correct? { result == expected}')
+head = sol.create_linked_list(arr)
+_ = sol.print_linked_list(head)
+result = sol.reverseBetween(head, left, right)
+result = sol.print_linked_list(result)
+# print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
 # exit()
 
 print('----------------------------')
