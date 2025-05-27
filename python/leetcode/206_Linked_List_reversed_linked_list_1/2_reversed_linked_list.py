@@ -45,17 +45,26 @@ class Solution:
         return return_list
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def reverseList3(self, head: ListNode) -> ListNode:
-        curr: ListNode = head
-        prev:ListNode = None
-        temp:ListNode = None
-
+    def reverseList( self, head : Optional[ListNode] ) -> Optional[ListNode] :
+        curr : ListNode = head
+        prev : ListNode = None
+        temp_curr : ListNode = None
+        
+            
+        #-----------------------------------
         while curr != None:
-            temp = curr.next
-            curr.next = prev
-            prev = curr
-            curr = temp
+            temp_curr = curr.next # temp var
+            
+            curr.next = prev # point your next node to the obj you saved from the last loop as previous
+            
+            prev = curr # update previous, which now assumes the object at curr
+            
+            curr = temp_curr # update curr, curr now assumes the object which was pointing to the original next pointer
+        #-----------------------------------
+        
+        # at this point curr is None, meaning the actual pointer was last set to prev
         return prev
+            
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 

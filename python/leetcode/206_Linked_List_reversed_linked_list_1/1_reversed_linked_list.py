@@ -45,7 +45,10 @@ class Solution:
         return return_list
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def reverseList2( self, head: Optional[ListNode] ) -> Optional[ListNode]:
+    def reverseList( self, head: Optional[ListNode] ) -> Optional[ListNode]:
+        
+        if head == None : return None
+        
         list_arr : List[ListNode] = []
         curr : ListNode = head
         
@@ -55,35 +58,20 @@ class Solution:
             curr = curr.next
         #-----------------------------------
         
+        #-----------------------------------
         # range: start = len(list_arr) - 1
         #        stop = -1 (non inclusive)
         #        step = -1
         # so from an list array of 4 elements: start = 3 , stop = -1 , step = -1
-        for i in range( len(list_arr) - 1 , -1 , -1 ) : 
-            pass
-        
-        
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def reverseList(self, head: ListNode) -> ListNode:
-        list_arr : List[ListNode] = []
-        curr: ListNode = head
-
-        while curr != None:
-            list_arr.append(curr)
-            curr = curr.next
-
-        # this means loop from the (len - 1) to 0, with a step of -1.
-        for i in range( (len(list_arr) -1) , -1, -1):
-            if i == 0:
-                list_arr[i].next = None
+        for idx in range( len(list_arr) - 1 , -1 , -1 ) : 
+            if idx == 0 : 
+                list_arr[idx].next = None
             else:
-                list_arr[i].next = list_arr[i-1]
-
-        if list_arr:
-            head = list_arr[-1]
-            return head
-        else: return None
+                list_arr[idx].next = list_arr[idx-1]
+        #-----------------------------------
+        
+        head : Optional[ListNode] = list_arr[-1]
+        return head
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
