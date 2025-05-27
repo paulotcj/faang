@@ -45,12 +45,19 @@ class Solution:
         return return_list
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        prev:ListNode = None
-        curr:ListNode = head
-        while curr:
-            curr.next, prev, curr = prev, curr, curr.next
+    def reverseList( self, head : Optional[ListNode] ) -> Optional[ListNode] :
+        prev : ListNode = None
+        curr : ListNode = head
         
+        # curr.next is updated with prev
+        # prev is updated with curr
+        # curr is updated with curr.next
+        #-----------------------------------
+        while curr : 
+            curr.next , prev , curr = prev , curr , curr.next
+        #-----------------------------------
+        
+        # at this point curr is None, meaning the actual pointer was last set to prev
         return prev
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
