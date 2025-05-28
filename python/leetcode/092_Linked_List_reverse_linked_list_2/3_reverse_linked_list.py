@@ -3,37 +3,46 @@ from typing import Optional, List, Tuple
 #-------------------------------------------------------------------------
 class ListNode:
     #-------------------------------------------------------------------------
-    def __init__(self, val=0, next=None):
+    def __init__( self, val : int = 0, next : 'ListNode' = None ):
         self.val = val
-        self.next = next
+        self.next : 'ListNode' = next
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def create_linked_list(self, arr : List[int]) -> ListNode:
-        head : ListNode = None
-        curr : ListNode = None
-
-        for i , v in enumerate(arr):
-            if i == 0:
-                head = ListNode(v)
-                curr = head
+    def create_linked_list(self, arr : List[int] ) -> Optional[ListNode] : 
+        head : Optional[ListNode] = None
+        curr : Optional[ListNode] = None
+        prev : Optional[ListNode] = None
+        
+        #-----------------------------------
+        for idx, val in enumerate(arr):
+            curr = ListNode(val = val)
+            if idx == 0 : # setting up the root node - there's no prev
+                head  = curr
+                prev = curr
             else:
-                curr.next = ListNode(v)
-                curr = curr.next
-        return head
+            
+            # curr is the current node, this is the newest node and we don't point next
+            #   to anything, but we should keep track of the previous node, so it's next
+            #   pointer can point to curr
+                prev.next = curr
+                prev = curr
+        #-----------------------------------
+        return head      
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def print_linked_list(self, head: ListNode) -> List[int]:
-        curr : ListNode = head
-        list : List[int] = []
+    def print_linked_list( self , head : Optional[ListNode] ) -> List[int] :
+        curr : Optional[ListNode] = head
+        return_list : List[int] = []
+        #-----------------------------------
         while curr != None:
-            list.append(curr.val)
+            return_list.append(curr.val)
             curr = curr.next
-
-        print(list)
-        return list 
+        #-----------------------------------
+            
+        return return_list
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def get_in_position(self, head: ListNode, left: int) -> (ListNode, ListNode):
