@@ -11,94 +11,37 @@ class ListNode:
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def create_linked_list(self, arr : List[int] ) -> Optional[ListNode] : 
-        head : Optional[ListNode] = None
-        curr : Optional[ListNode] = None
-        prev : Optional[ListNode] = None
-        
-        #-----------------------------------
-        for idx, val in enumerate(arr):
-            curr = ListNode(val = val)
-            if idx == 0 : # setting up the root node - there's no prev
-                head  = curr
-                prev = curr
-            else:
-            
-            # curr is the current node, this is the newest node and we don't point next
-            #   to anything, but we should keep track of the previous node, so it's next
-            #   pointer can point to curr
-                prev.next = curr
-                prev = curr
-        #-----------------------------------
-        return head      
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def print_linked_list( self , head : Optional[ListNode] ) -> List[int] :
-        curr : Optional[ListNode] = head
-        return_list : List[int] = []
-        #-----------------------------------
-        while curr != None:
-            return_list.append(curr.val)
-            curr = curr.next
-        #-----------------------------------
-            
-        return return_list
-    #-------------------------------------------------------------------------
-
-    #-------------------------------------------------------------------------
     def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
-        #-----------
-        left_end, curr = self.get_in_position(head, left)
-        start : ListNode = curr #used to fix the final connection
-        #-----------
-        new_left_end, curr = self.revert(left, right, left_end, curr)
-        #-----------
-        if new_left_end != left_end:
-            return new_left_end
-        
-        return head
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def get_in_position(self, head: ListNode, left: int) -> Tuple[ListNode, ListNode]:
-        #-----------
-        #Get in position - curr is always one node to the right of the left_end, even if it's None
-        curr : ListNode = head
-        prev : ListNode = None #this will always be one node to the left of curr, or in other words, (left - 1)
+        # Edge case: if the list is empty or no need to reverse
+        if not head or left == right:
+            return head
 
-        for x in range(left-1):
-            prev = curr
-            curr = curr.next
-        #-----------
+        # Create a dummy node to simplify edge cases (e.g., reversing from head)
+        dummy: ListNode = ListNode(0, head)
+        prev: ListNode = dummy
 
-        return prev, curr     
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def revert(self, left: int, right: int, left_end: ListNode, head: ListNode)-> Tuple[ListNode, ListNode]:
- 
-        prev : ListNode = None
-        curr : ListNode = head
-        next : ListNode = curr.next
+        # Move prev to the node before the 'left' position
+        for _ in range(left - 1):
+            prev = prev.next
 
-        for x in range(right - left + 1):
-            curr.next = prev
-            prev = curr
-            curr = next
-            if next: 
-                next = next.next
-        
-        #----------
-        # we need to take care of the possible left_end connection, that preceeds the head node
-        if left_end:    
-            left_end.next = prev
-        else:
-            left_end = prev
-        #----------
-            
-        head.next = curr
-        
-        #---
-        return left_end, head
-    #-------------------------------------------------------------------------    
+        # Start reversing from 'left' to 'right'
+        reverse_prev: ListNode = prev
+        curr: ListNode = prev.next
+        prev_node: Optional[ListNode] = None
+
+        # Reverse the sublist
+        for _ in range(right - left + 1):
+            next_node: Optional[ListNode] = curr.next
+            curr.next = prev_node
+            prev_node = curr
+            curr = next_node
+
+        # Connect the reversed sublist back to the list
+        reverse_prev.next.next = curr  # Tail of reversed sublist points to the node after 'right'
+        reverse_prev.next = prev_node  # Node before 'left' points to new head of reversed sublist
+
+        return dummy.next
+    #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
 
