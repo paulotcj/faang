@@ -45,13 +45,18 @@ class Solution:
         return return_list
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
+    def reverseBetween( self, head : Optional[ListNode] ,  )
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
     def reverseBetween( self , head : Optional[ListNode] , left : int , right : int ) -> Optional[ListNode] :
         self.list_arr = self.pre_process_list(head = head)
         # correction from base 1 index to base 0 index:
         left -= 1
         right -= 1
+        left_idx : int = left
+        right_idx : int = right
         
-        head = self.reverse_list(head = head, idx_left = left, idx_right = right)
+        head = self.reverse_list(head = head, left_idx = left_idx, right_idx = right_idx)
         return head
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
@@ -66,8 +71,8 @@ class Solution:
         return list_arr
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def reverse_list( self, head : ListNode, idx_left : int , idx_right : int ) -> ListNode :
-        curr : ListNode = self.list_arr[idx_left]
+    def reverse_list( self, head : ListNode, left_idx : int , right_idx : int ) -> ListNode :
+        curr : ListNode = self.list_arr[left_idx]
         prev : ListNode = None
         temp_next : ListNode = None
         
@@ -76,11 +81,11 @@ class Solution:
         one_before_left : ListNode = None
         one_after_right : ListNode = None
         
-        if idx_left > 0 :
-            one_before_left = self.list_arr[idx_left - 1]
+        if left_idx > 0 :
+            one_before_left = self.list_arr[left_idx - 1]
             
-        if idx_right < len( self.list_arr ) - 1 :
-            one_after_right = self.list_arr[ idx_right + 1 ]
+        if right_idx < len( self.list_arr ) - 1 :
+            one_after_right = self.list_arr[ right_idx + 1 ]
             prev = one_after_right # almost forgot - remember if we are going to flip this must be placed here
         
         #-----------------------------------
