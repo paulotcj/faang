@@ -45,10 +45,6 @@ class Solution:
         return return_list
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def reverseBetween2( self , head : Optional[ListNode] , left : int , right : int ) -> Optional[ListNode] :
-        pass
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
     def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
         # correct base 1 indexing to base 0
         left -= 1

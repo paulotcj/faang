@@ -45,68 +45,90 @@ class Solution:
         return return_list
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def reverseBetween( self, head : Optional[ListNode] ,  )
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
     def reverseBetween( self , head : Optional[ListNode] , left : int , right : int ) -> Optional[ListNode] :
-        self.list_arr = self.pre_process_list(head = head)
-        # correction from base 1 index to base 0 index:
-        left -= 1
-        right -= 1
-        left_idx : int = left
-        right_idx : int = right
+        # correction from base 1 index to base 0 index
+        left_idx : int = left - 1
+        right_idx : int = right - 1
         
-        head = self.reverse_list(head = head, left_idx = left_idx, right_idx = right_idx)
+        self.list_arr : List[ListNode] = []
+        curr : ListNode = head
+        #-----------------------------------
+        while curr :
+            self.list_arr.append(curr)
+            curr = curr.next
+        #-----------------------------------        
+        
+        # this is a tad more complicated, let's have this logic placed into a separate method
+        head = self.reverse_list( head = head , left_idx = left_idx , right_idx = right_idx )
+        
         return head
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def pre_process_list( self , head : ListNode) -> List[ListNode] :
-        list_arr : List[ListNode] = []
-        curr : ListNode = head
-        #-----------------------------------
-        while curr:
-            list_arr.append(curr)
-            curr = curr.next
-        #-----------------------------------
-        return list_arr
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def reverse_list( self, head : ListNode, left_idx : int , right_idx : int ) -> ListNode :
-        curr : ListNode = self.list_arr[left_idx]
-        prev : ListNode = None
-        temp_next : ListNode = None
-        
+    def reverse_list( self, head : ListNode , left_idx : int , right_idx : int ) -> ListNode :
+
         # the idea here is that you need to take 1 elements outside the target nodes in
         #   order to fix the links later
-        one_before_left : ListNode = None
-        one_after_right : ListNode = None
-        
-        if left_idx > 0 :
-            one_before_left = self.list_arr[left_idx - 1]
-            
-        if right_idx < len( self.list_arr ) - 1 :
-            one_after_right = self.list_arr[ right_idx + 1 ]
-            prev = one_after_right # almost forgot - remember if we are going to flip this must be placed here
+        one_before_left : ListNode = self.list_arr[left_idx -1]   if left_idx > 0 else None
+        one_after_right : ListNode = self.list_arr[right_idx + 1] if right_idx < len(self.list_arr) - 1 else None
+        left_target  : ListNode = self.list_arr[left_idx]
+        right_target : ListNode = self.list_arr[right_idx]
+                    
+        curr        : ListNode = self.list_arr[left_idx]
+        prev        : ListNode = one_after_right
+        temp_next   : ListNode = None
         
         #-----------------------------------
-        while curr is not None and curr is not one_after_right:
+        while curr is not None and curr is not one_after_right : 
             temp_next = curr.next # save this relationship, it will be necessary later
             curr.next = prev # intuitively that's what we want to do
             
             # now we start to reposition the pointers. think of it as moving
             #  everything 1 step to the right, prev assumes the value of curr
             #  curr assumes the value of temp_next
-            prev = curr 
+            prev = curr
             curr = temp_next
         #-----------------------------------
         
-        if one_before_left:
-            one_before_left.next = prev
-        else: head = prev
+        if one_before_left : 
+            one_before_left.next = right_target
+        else:
+            head = right_target
             
         return head
-    #------------------------------------------------------------------------- 
+    #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
+
+
+print('----------------------------')
+sol = Solution()
+arr = [3,5]
+left = 1
+right = 1
+expected = [3,5] 
+
+head = sol.create_linked_list(arr)
+_ = sol.print_linked_list(head)
+result = sol.reverseBetween(head, left, right)
+result = sol.print_linked_list(result)
+# print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
+
+
+
+print('----------------------------')
+sol = Solution()
+arr = [5]
+left = 1
+right = 1
+expected = [5]  
+
+head = sol.create_linked_list(arr)
+_ = sol.print_linked_list(head)
+result = sol.reverseBetween(head, left, right)
+result = sol.print_linked_list(result)
+# print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
+
 
 
 print('----------------------------')
@@ -116,14 +138,14 @@ left = 1
 right = 2
 expected = [5,3]  
 
-
 head = sol.create_linked_list(arr)
 _ = sol.print_linked_list(head)
 result = sol.reverseBetween(head, left, right)
 result = sol.print_linked_list(result)
 # print(f'result: {result}')
 print(f'Is the result correct? { result == expected}')
-# exit()
+
+
 
 print('----------------------------')
 sol = Solution()
@@ -132,6 +154,21 @@ left = 2
 right = 4
 expected = [1,4,3,2,5]    
 
+head = sol.create_linked_list(arr)
+_ = sol.print_linked_list(head)
+result = sol.reverseBetween(head, left, right)
+result = sol.print_linked_list(result)
+# print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
+
+
+
+print('----------------------------')
+sol = Solution()
+arr = [1,2,3,4,5]
+left = 1
+right = 4
+expected = [4,3,2,1,5]    
 
 head = sol.create_linked_list(arr)
 _ = sol.print_linked_list(head)
@@ -139,15 +176,15 @@ result = sol.reverseBetween(head, left, right)
 result = sol.print_linked_list(result)
 # print(f'result: {result}')
 print(f'Is the result correct? { result == expected}')
-exit()
+
+
 
 print('----------------------------')
 sol = Solution()
-arr = [5]
+arr = [1,2,3,4,5]
 left = 1
-right = 1
-expected = [5]  
-
+right = 5
+expected = [5,4,3,2,1]    
 
 head = sol.create_linked_list(arr)
 _ = sol.print_linked_list(head)
