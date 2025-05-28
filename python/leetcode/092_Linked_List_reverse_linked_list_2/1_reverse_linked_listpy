@@ -73,18 +73,18 @@ class Solution:
         
         # the idea here is that you need to take 1 elements outside the target nodes in
         #   order to fix the links later
-        node_left_minus_1 : ListNode = None
-        node_right_plus_1 : ListNode = None
+        one_before_left : ListNode = None
+        one_after_right : ListNode = None
         
         if idx_left > 0 :
-            node_left_minus_1 = self.list_arr[idx_left - 1]
+            one_before_left = self.list_arr[idx_left - 1]
             
         if idx_right < len( self.list_arr ) - 1 :
-            node_right_plus_1 = self.list_arr[ idx_right + 1 ]
-            prev = node_right_plus_1 # almost forgot - remember if we are going to flip this must be placed here
+            one_after_right = self.list_arr[ idx_right + 1 ]
+            prev = one_after_right # almost forgot - remember if we are going to flip this must be placed here
         
         #-----------------------------------
-        while curr is not None and curr is not node_right_plus_1:
+        while curr is not None and curr is not one_after_right:
             temp_next = curr.next # save this relationship, it will be necessary later
             curr.next = prev # intuitively that's what we want to do
             
@@ -95,8 +95,8 @@ class Solution:
             curr = temp_next
         #-----------------------------------
         
-        if node_left_minus_1:
-            node_left_minus_1.next = prev
+        if one_before_left:
+            one_before_left.next = prev
         else: head = prev
             
         return head
