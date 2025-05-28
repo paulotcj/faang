@@ -107,25 +107,8 @@ print('----------------------------')
 sol = Solution()
 arr = [3,5]
 left = 1
-right = 2
-expected = [5,3]  
-
-
-head = sol.create_linked_list(arr)
-_ = sol.print_linked_list(head)
-result = sol.reverseBetween(head, left, right)
-result = sol.print_linked_list(result)
-# print(f'result: {result}')
-print(f'Is the result correct? { result == expected}')
-# exit()
-
-print('----------------------------')
-sol = Solution()
-arr = [1,2,3,4,5]
-left = 2
-right = 4
-expected = [1,4,3,2,5]    
-
+right = 1
+expected = [3,5] 
 
 head = sol.create_linked_list(arr)
 _ = sol.print_linked_list(head)
@@ -133,7 +116,8 @@ result = sol.reverseBetween(head, left, right)
 result = sol.print_linked_list(result)
 # print(f'result: {result}')
 print(f'Is the result correct? { result == expected}')
-# exit()
+
+
 
 print('----------------------------')
 sol = Solution()
@@ -142,6 +126,69 @@ left = 1
 right = 1
 expected = [5]  
 
+head = sol.create_linked_list(arr)
+_ = sol.print_linked_list(head)
+result = sol.reverseBetween(head, left, right)
+result = sol.print_linked_list(result)
+# print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
+
+
+
+print('----------------------------')
+sol = Solution()
+arr = [3,5]
+left = 1
+right = 2
+expected = [5,3]  
+
+head = sol.create_linked_list(arr)
+_ = sol.print_linked_list(head)
+result = sol.reverseBetween(head, left, right)
+result = sol.print_linked_list(result)
+# print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
+
+
+
+print('----------------------------')
+sol = Solution()
+arr = [1,2,3,4,5]
+left = 2
+right = 4
+expected = [1,4,3,2,5]    
+
+head = sol.create_linked_list(arr)
+_ = sol.print_linked_list(head)
+result = sol.reverseBetween(head, left, right)
+result = sol.print_linked_list(result)
+# print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
+
+
+
+print('----------------------------')
+sol = Solution()
+arr = [1,2,3,4,5]
+left = 1
+right = 4
+expected = [4,3,2,1,5]    
+
+head = sol.create_linked_list(arr)
+_ = sol.print_linked_list(head)
+result = sol.reverseBetween(head, left, right)
+result = sol.print_linked_list(result)
+# print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
+
+
+
+print('----------------------------')
+sol = Solution()
+arr = [1,2,3,4,5]
+left = 1
+right = 5
+expected = [5,4,3,2,1]    
 
 head = sol.create_linked_list(arr)
 _ = sol.print_linked_list(head)
