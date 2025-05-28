@@ -44,8 +44,22 @@ class Solution:
             
         return return_list
     #-------------------------------------------------------------------------
+
     #-------------------------------------------------------------------------
-    def get_in_position(self, head: ListNode, left: int) -> (ListNode, ListNode):
+    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
+        #-----------
+        left_end, curr = self.get_in_position(head, left)
+        start : ListNode = curr #used to fix the final connection
+        #-----------
+        new_left_end, curr = self.revert(left, right, left_end, curr)
+        #-----------
+        if new_left_end != left_end:
+            return new_left_end
+        
+        return head
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def get_in_position(self, head: ListNode, left: int) -> Tuple[ListNode, ListNode]:
         #-----------
         #Get in position - curr is always one node to the right of the left_end, even if it's None
         curr : ListNode = head
@@ -59,7 +73,7 @@ class Solution:
         return prev, curr     
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def revert(self, left: int, right: int, left_end: ListNode, head: ListNode)-> (ListNode, ListNode):
+    def revert(self, left: int, right: int, left_end: ListNode, head: ListNode)-> Tuple[ListNode, ListNode]:
  
         prev : ListNode = None
         curr : ListNode = head
@@ -84,20 +98,7 @@ class Solution:
         
         #---
         return left_end, head
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
-        #-----------
-        left_end, curr = self.get_in_position(head, left)
-        start : ListNode = curr #used to fix the final connection
-        #-----------
-        new_left_end, curr = self.revert(left, right, left_end, curr)
-        #-----------
-        if new_left_end != left_end:
-            return new_left_end
-        
-        return head
-    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------    
 #-------------------------------------------------------------------------
 
 

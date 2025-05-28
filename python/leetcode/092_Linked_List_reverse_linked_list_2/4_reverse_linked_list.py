@@ -45,7 +45,20 @@ class Solution:
         return return_list
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def get_in_position(self, head: ListNode, left: int) -> (ListNode, ListNode):
+    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
+        #-----------
+        left_end, starting_node = self.get_in_position(head, left)
+        #-----------
+        new_left_end = self.revert(left, right, left_end, starting_node)
+        #-----------
+        #left_end is none when the left side of the selection start at the very beginning of the list
+        if not left_end:
+            head = new_left_end
+        
+        return head
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def get_in_position(self, head: ListNode, left: int) -> Tuple[ListNode, ListNode]:
         #-----------
         #Get in position - curr is always one node to the right of the left_end, even if it's None
         curr : ListNode = head
@@ -60,7 +73,7 @@ class Solution:
         return left_end, starting_node  
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def revert(self, left: int, right: int, left_end: ListNode, starting_node: ListNode)-> ListNode:
+    def revert(self, left: int, right: int, left_end: ListNode, starting_node: ListNode) -> ListNode:
  
         prev : ListNode = None
         curr : ListNode = starting_node
@@ -95,19 +108,6 @@ class Solution:
         #----------
             
         return left_end
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
-        #-----------
-        left_end, starting_node = self.get_in_position(head, left)
-        #-----------
-        new_left_end = self.revert(left, right, left_end, starting_node)
-        #-----------
-        #left_end is none when the left side of the selection start at the very beginning of the list
-        if not left_end:
-            head = new_left_end
-        
-        return head
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
