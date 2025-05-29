@@ -43,43 +43,7 @@ class Solution:
         #-----------------------------------
             
         return return_list
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def reverseBetween2( self , head : Optional[ListNode] , left : int , right : int) -> Optional[ListNode] :
-        # correct base 1 indexing to base 0
-        left_idx  : int = left  - 1
-        right_idx : int = right - 1
-        
-        # edge case, if the list is empty or no need to reverse
-        if left_idx == right_idx or head == None :
-            return head
-        
-        # dummy node to simplify edge cases as in reversing from head
-        dummy_head : ListNode = ListNode(val = None , next = head)
-        
-        #-------
-        one_before_left_target : ListNode = dummy_head # we will manipulate prev, but we need to keep track of dummy_head
-        
-        '''move one_before_left_target to the node before the 'left' position. if left_idx = 0, 
-         then one_before_left_target is not updated. If left_idx = 1 then one_before_left_target
-         moves 1 spot.
-         remember that at this moment one_before_left_target is pointing at technically 
-         position -1. So if left target is at idx 1, by moving 1 spot it will place 
-         one_before_left_target at index 0'''
-        
-        for _ in range(left_idx) : 
-            one_before_left_target = one_before_left_target.next
-        #-------
-        
-        # start reversing from 'left_idx' to 'right_idx'
-        temp_next : ListNode = None
-        curr : ListNode = one_before_left_target.next
-        prev : ListNode = one_before_left_target  #potentially this should be called one_before_left
-        
-        
-        # for _ in range( right_idx - left_idx + 1 ) :
-        #     temp_next : ListNode = 
-    #-------------------------------------------------------------------------    
+    #-------------------------------------------------------------------------  
     #-------------------------------------------------------------------------
     def reverseBetween( self , head : Optional[ListNode] , left : int , right : int) -> Optional[ListNode] :
         # correct base 1 indexing to base 0
@@ -89,41 +53,74 @@ class Solution:
         # Edge case: if the list is empty or no need to reverse
         if not head or left_idx == right_idx:
             return head
-
-        # Create a dummy node to simplify edge cases (e.g., reversing from head)
-        dummy_head: ListNode = ListNode(None, head)
-        #-------
+                
         
-        one_before_left_target: ListNode = dummy_head
-        # Move prev to the node before the 'left' position
-        for _ in range(left_idx):
-            one_before_left_target = one_before_left_target.next
-            
-
-        # Start reversing from 'left' to 'right_idx'
-        prev: ListNode = one_before_left_target
-        curr: ListNode = one_before_left_target.next
-        prev_node: Optional[ListNode] = None
-        temp_next : ListNode = None
-
+        one_before_left_target  : ListNode = None
+        left_target             : ListNode = None
+        right_target            : ListNode = None
+        one_after_right_target  : ListNode = None
+        curr                    : ListNode = head
+        prev                    : ListNode = None
         #-----------------------------------
-        # Reverse the sublist
-        for _ in range(right_idx - left_idx + 1):
-            temp_next: Optional[ListNode] = curr.next # temporatily save this relationship
-            curr.next = prev_node # that's what we want to do
+        for loop_idx in range(right_idx + 1) : # plus 1 so we will make right_idx inclusive in the loop
+            #-----
+            if left_idx == loop_idx :
+                one_before_left_target = prev
+                left_target = curr
+            elif right_idx == loop_idx : 
+                right_target = curr
+                one_after_right_target = curr.next
+            #-----
             
-            # now move 1 step to the right, prev receive curr, curr receives next
-            prev_node = curr
+            prev = curr
+            curr = curr.next # final loop command
+        #-----------------------------------
+                
+
+        prev      = left_target
+        curr      = left_target.next
+        temp_next = None
+        #-----------------------------------
+        for _ in range(right_idx - left_idx):
+            temp_next = curr.next
+            curr.next = prev # that's what intuitively we want to do
+            
+            # now we need to ajust the pointers, it's easy if we think we are shifting things 1 step to the right
+            #   so prev will be curr, curr will be next
+            prev = curr
             curr = temp_next
         #-----------------------------------
 
-        # Connect the reversed sublist back to the list
-        prev.next.next = curr  # Tail of reversed sublist points to the node after 'right_idx'
-        prev.next = prev_node  # Node before 'left' points to new head of reversed sublist
-
-        return dummy_head.next
+        if one_before_left_target : 
+            one_before_left_target.next = right_target
+        else:
+            head = right_target
+            
+        if one_after_right_target :
+            left_target.next = one_after_right_target
+        else:
+            left_target.next = None
+            
+        return head
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
+
+
+
+
+print('----------------------------')
+sol = Solution()
+arr = [3,5]
+left = 1
+right = 2
+expected = [5,3]  
+
+head = sol.create_linked_list(arr)
+_ = sol.print_linked_list(head)
+result = sol.reverseBetween(head, left, right)
+result = sol.print_linked_list(result)
+# print(f'result: {result}')
+print(f'Is the result correct? { result == expected}')
 
 
 print('----------------------------')
@@ -165,22 +162,6 @@ arr = [5]
 left = 1
 right = 1
 expected = [5]  
-
-head = sol.create_linked_list(arr)
-_ = sol.print_linked_list(head)
-result = sol.reverseBetween(head, left, right)
-result = sol.print_linked_list(result)
-# print(f'result: {result}')
-print(f'Is the result correct? { result == expected}')
-
-
-
-print('----------------------------')
-sol = Solution()
-arr = [3,5]
-left = 1
-right = 2
-expected = [5,3]  
 
 head = sol.create_linked_list(arr)
 _ = sol.print_linked_list(head)
