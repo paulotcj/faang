@@ -76,7 +76,6 @@ class Solution:
             curr = curr.next # final loop command
         #-----------------------------------
                 
-
         prev      = left_target
         curr      = left_target.next
         temp_next = None
