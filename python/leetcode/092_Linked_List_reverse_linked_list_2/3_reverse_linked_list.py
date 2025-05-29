@@ -73,7 +73,7 @@ class Solution:
         
         # start reversing from 'left_idx' to 'right_idx'
         temp_next : ListNode = None
-        curr : ListNode = None
+        curr : ListNode = one_before_left_target.next
         prev : ListNode = one_before_left_target  #potentially this should be called one_before_left
         
         
@@ -104,13 +104,18 @@ class Solution:
         prev: ListNode = one_before_left_target
         curr: ListNode = one_before_left_target.next
         prev_node: Optional[ListNode] = None
+        temp_next : ListNode = None
 
+        #-----------------------------------
         # Reverse the sublist
         for _ in range(right_idx - left_idx + 1):
-            next_node: Optional[ListNode] = curr.next
-            curr.next = prev_node
+            temp_next: Optional[ListNode] = curr.next # temporatily save this relationship
+            curr.next = prev_node # that's what we want to do
+            
+            # now move 1 step to the right, prev receive curr, curr receives next
             prev_node = curr
-            curr = next_node
+            curr = temp_next
+        #-----------------------------------
 
         # Connect the reversed sublist back to the list
         prev.next.next = curr  # Tail of reversed sublist points to the node after 'right_idx'
