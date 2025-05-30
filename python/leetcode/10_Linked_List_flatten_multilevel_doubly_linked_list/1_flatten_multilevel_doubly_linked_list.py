@@ -14,7 +14,7 @@ class Node:
 class ProcessList:
     #-------------------------------------------------------------------------
     def CreateFromArray(arr: List[int]):
-        nodes_list : List(Node) = []
+        nodes_list : List[Node] = []
         #---------------
         for i,v in enumerate(arr):
             if v :
