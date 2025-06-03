@@ -100,42 +100,48 @@ class ProcessList:
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def flatten(self, head: 'Optional[Node]') -> 'Optional[Node]':
-        curr: Node = head
-        list_nodes : List[Node] = []
+    def flatten( self , head : 'Optional[Node]' ) -> 'Optional[Node]' :
+        curr : Node = head
+        list_node : List[Node] = []
         stack_pending_nodes : List[Node] = []
-
+        
         #-----------------------------------
         while curr:
-
-            list_nodes.append(curr)
-
+            list_node.append(curr)
+            
+            #-------
             if curr.child: #if the node has a child start processing the child's list
-                stack_pending_nodes.append(curr)
-                curr = curr.child
+                stack_pending_nodes.append(curr) # stack saving point from where the operation will resume from
+                curr = curr.child # take the fork path
+                # at this point loop with current being a valid node, so none of the logic 
+                #  below applies
                 continue
-
-            curr = curr.next
-            #-----------------------------------
-            while curr is None and len(stack_pending_nodes) > 0:
-                curr = stack_pending_nodes.pop().next
-            #-----------------------------------
-        #-----------------------------------
+            #-------
                 
+            curr = curr.next
+            # might've reached the end of this list, now it's necessary to check if the stack
+            #  has any elements on it, if so, resume processing from there
+            while curr is None and stack_pending_nodes:
+                curr = stack_pending_nodes.pop().next
         #-----------------------------------
-        for i, v in enumerate(list_nodes):
-            #curr - no need to change
-            #prev
-            if i > 0:
-                list_nodes[i].prev = list_nodes[i-1]
-            #next
-            if i < (len(list_nodes) - 1): #must be less: eg: len = 10, len -1 = 9, so i must be less or equal to 8
-                list_nodes[i].next = list_nodes[i+1]
-            #child
-            list_nodes[i].child = None
+        
         #-----------------------------------
-
-        return head
+        for loop_idx, loop_val in enumerate(list_node):
+            
+            # fix prev - note: skip fix prev for the first node
+            if loop_idx > 0 : 
+                list_node[loop_idx].prev = list_node[loop_idx - 1]
+                
+            # fix next - skip the last one
+            if loop_idx < len(list_node) - 1 :
+                list_node[loop_idx].next = list_node[loop_idx + 1]
+                
+            # don't know if this is necessary
+            loop_val.child = None
+        #-----------------------------------
+        
+        return head # head will always be the head
+        
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
