@@ -102,36 +102,49 @@ class ProcessList:
 class Solution:
     #-------------------------------------------------------------------------
     def flatten(self, head: 'Optional[Node]') -> 'Optional[Node]':
-        curr: Node = head
-        stack_pending_nodes : List[Node] = []
 
-        prev : Node = None
-        #-----------------------------------
-        while curr:
-
-            if curr.child: #if the node has a child start processing the child's list
-                stack_pending_nodes.append(curr.next)
-                #---
-                curr.child.prev = curr
-                curr.next = curr.child
-                curr.child = None
-                #---
+        if not head:
+            return head
 
 
-            prev = curr
-            curr = curr.next
-            #-----------------------------------
-            while curr is None and len(stack_pending_nodes) > 0:
-                curr = stack_pending_nodes.pop()
-                prev.next = curr
-                if curr:
-                    curr.prev = prev
-            #-----------------------------------
-
-        #-----------------------------------
-
+        self.flatten_dfs(head)
         return head
     #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def flatten_dfs(self, node: 'Node') -> 'Node':
+        curr: Optional[Node] = node
+        last: Optional[Node] = node
+
+        #-----------------------------------
+        while curr:
+            next_node: Optional[Node] = curr.next
+            # If the current node has a child, recursively flatten the child list
+            if curr.child:
+                # Flatten the child and get the tail
+                child_head: Node = curr.child
+                child_tail: Node = self.flatten_dfs(child_head)
+
+                # Connect current node to child
+                curr.next = child_head
+                child_head.prev = curr
+
+                # Connect child's tail to next_node
+                if next_node:
+                    child_tail.next = next_node
+                    next_node.prev = child_tail
+
+                # Set child to None as required
+                curr.child = None
+
+                # Move last pointer to child_tail
+                last = child_tail
+                curr = child_tail.next
+            else:
+                last = curr
+                curr = curr.next
+        #-----------------------------------
+        return last
+    #-------------------------------------------------------------------------    
 #-------------------------------------------------------------------------
 
 
