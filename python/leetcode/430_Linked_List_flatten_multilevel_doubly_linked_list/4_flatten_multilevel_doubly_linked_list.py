@@ -101,50 +101,41 @@ class ProcessList:
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def flatten(self, head: 'Optional[Node]') -> 'Optional[Node]':
-
-        if not head:
-            return head
-
-
-        self.flatten_dfs(head)
-        return head
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def flatten_dfs(self, node: 'Node') -> 'Node':
-        curr: Optional[Node] = node
-        last: Optional[Node] = node
-
+    def flatten( self , head : 'Optional[Node]' ) -> 'Optional[Node]' :
+        if not head : return head # basic edge case
+        
+        stack : List[Node] = []
+        curr : Node = head
+        
         #-----------------------------------
         while curr:
-            next_node: Optional[Node] = curr.next
-            # If the current node has a child, recursively flatten the child list
-            if curr.child:
-                # Flatten the child and get the tail
-                child_head: Node = curr.child
-                child_tail: Node = self.flatten_dfs(child_head)
-
-                # Connect current node to child
-                curr.next = child_head
-                child_head.prev = curr
-
-                # Connect child's tail to next_node
-                if next_node:
-                    child_tail.next = next_node
-                    next_node.prev = child_tail
-
-                # Set child to None as required
+            
+            #----
+            if curr.child :
+                if curr.next :
+                    stack.append(curr.next) # use this as a savepoint
+                    
+                # insert the child as the next in line
+                curr.next = curr.child 
+                curr.child.prev = curr
                 curr.child = None
-
-                # Move last pointer to child_tail
-                last = child_tail
-                curr = child_tail.next
-            else:
-                last = curr
-                curr = curr.next
+            #----
+            
+            # at this point the main or any of the sub linked list might've ended, now it's the time
+            #  to check if we have any saved checkpoints from the stack to resume from
+            #----
+            if curr.next is None and stack:
+                temp_node : Node = stack.pop() 
+                curr.next = temp_node # in thia case temp_node is always something as it was checked before
+                temp_node.prev = curr
+            #----
+                
+            curr = curr.next
+            
+                    
         #-----------------------------------
-        return last
-    #-------------------------------------------------------------------------    
+        return head
+    #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
 
