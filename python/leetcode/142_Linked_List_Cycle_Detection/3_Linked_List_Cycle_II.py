@@ -79,7 +79,33 @@ class Solution:
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
+#-------------------------------------------------------------------------
+class Solution:
+    #-------------------------------------------------------------------------
+    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        slow: Optional[ListNode] = head
+        fast: Optional[ListNode] = head
 
+        # First step: Determine if a cycle exists
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if slow == fast:
+                # Cycle detected
+                break
+        else:
+            # No cycle found
+            return None
+
+        # Second step: Find the start node of the cycle
+        slow = head
+        while slow != fast:
+            slow = slow.next
+            fast = fast.next
+
+        return slow
+    #-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
 
 print('----------------------------')
 arr = [3,2,0,-4]
