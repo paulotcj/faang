@@ -37,49 +37,34 @@ class ProcessList :
                 
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
+
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    # Using Floy's Tortoise and Hare algorithm - Cycle Detection
     def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        meeting_point : ListNode = self.find_meeting_point(head)
-        if meeting_point is None:
+        slow: Optional[ListNode] = head
+        fast: Optional[ListNode] = head
+
+        # First step: Determine if a cycle exists
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if slow == fast:
+                # Cycle detected
+                break
+        else:
+            # No cycle found
             return None
 
-        start_of_cycle : ListNode = self.find_start_of_cycle(head, meeting_point)
+        # Second step: Find the start node of the cycle
+        slow = head
+        while slow != fast:
+            slow = slow.next
+            fast = fast.next
 
-        return start_of_cycle
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def find_start_of_cycle(self, head: ListNode, meeting_point: ListNode) -> ListNode:
-        start : ListNode = head
-        mp_temp : ListNode = meeting_point
-        while True:
-            if start == mp_temp:
-                return start
-            start = start.next
-            mp_temp = mp_temp.next
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def find_meeting_point(self, head: ListNode) -> ListNode:
-        if head is None or head.next is None or head.next.next is None:
-            return None
-        
-        tortoise : ListNode = head.next
-        hare : ListNode = head.next.next
-
-        while hare and hare.next and hare.next.next:
-            if tortoise == hare:
-                return tortoise
-
-            tortoise = tortoise.next
-            hare = hare.next.next
-
-        return None
+        return slow
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
-
-
 
 print('----------------------------')
 arr = [3,2,0,-4]
