@@ -1,6 +1,7 @@
 #problem: https://leetcode.com/problems/linked-list-cycle-ii/
 
-from typing import Optional, List
+from typing import Optional, List, Dict
+
 
 #-------------------------------------------------------------------------
 class ListNode:
@@ -40,18 +41,20 @@ class ProcessList :
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        di_temp : List[ListNode] = {}
-        temp : ListNode = head
-
-        while temp:
-            if temp in di_temp:
-                return temp
+    def detectCycle( self, head : Optional[ListNode] ) -> Optional[ListNode] :
+        dict_nodes : Dict[ListNode] = {}
+        curr : ListNode = head
+        
+        #-----------------------------------
+        while curr :
+            if curr in dict_nodes : 
+                return curr
             else:
-                di_temp[temp] = True
-
-            temp = temp.next
-
+                dict_nodes[curr] = True
+            
+            curr = curr.next
+        #-----------------------------------
+            
         return None
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
