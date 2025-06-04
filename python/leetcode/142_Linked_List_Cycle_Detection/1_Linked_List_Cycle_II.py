@@ -13,25 +13,28 @@ class ListNode:
 #-------------------------------------------------------------------------
 class ProcessList : 
     #-------------------------------------------------------------------------
-    
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def create_from_array(arr, pos_to_link):
+    def create_from_array(arr, pos_to_link) : 
         head = None
         prev = None
         list = []
-        for i, v in enumerate(arr):
-            curr = ListNode(v)
+        
+        #-----------------------------------
+        for loop_idx , loop_val in enumerate(arr):
+            curr = ListNode(x = loop_val)
             list.append(curr)
-            if head is None:
+            if head is None :
                 head = curr
-            if prev:
+            if prev : 
                 prev.next = curr
-
+                
             prev = curr
-
+        #-----------------------------------
+        
+        # link the nodes that need to be linked
         list[-1].next = list[pos_to_link]
-        return head , list[pos_to_link] , list
+        
+        return head, list[pos_to_link] , list
+                
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
