@@ -101,35 +101,37 @@ class ProcessList:
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def flatten(self, head: 'Optional[Node]') -> 'Optional[Node]':
-        curr: Node = head
-        stack_pending_nodes : List[Node] = []
-
+    def flatten(self, head : 'Optional[Node]' ) -> 'Optional[Node]' :
+        curr : Node = head
         prev : Node = None
+        stack_pending_nodes : List[Node] = []
+        
+        # let's try to do this time without a list
         #-----------------------------------
         while curr:
-
-            if curr.child: #if the node has a child start processing the child's list
+            
+            #-----
+            if curr.child:
                 stack_pending_nodes.append(curr.next)
-                #---
+                
                 curr.child.prev = curr
                 curr.next = curr.child
                 curr.child = None
-                #---
-
-
+            #-----
+            
+            # move each pointer 1 step
             prev = curr
             curr = curr.next
+            
             #-----------------------------------
-            while curr is None and len(stack_pending_nodes) > 0:
+            while curr is None and stack_pending_nodes : 
                 curr = stack_pending_nodes.pop()
-                prev.next = curr
-                if curr:
-                    curr.prev = prev
+                prev.next = curr # remember that curr can be None
+                if curr: curr.prev = prev
+                
             #-----------------------------------
-
         #-----------------------------------
-
+        
         return head
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------

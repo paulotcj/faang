@@ -98,35 +98,41 @@ class ProcessList:
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def flatten(self, head: 'Optional[Node]') -> 'Optional[Node]':
-        curr: Node = head
+    def flatten(self, head : 'Optional[Node]' ) -> 'Optional[Node]' :
+        curr : Node = head
         list_nodes : List[Node] = []
         stack_pending_nodes : List[Node] = []
-
+        
         #-----------------------------------
         while curr:
-
             list_nodes.append(curr)
-
+            
+            #-------
             if curr.child: #if the node has a child start processing the child's list
-                stack_pending_nodes.append(curr.next)
-                #---
+                stack_pending_nodes.append(curr.next) # puts the next node in the 'schedule' stack
+
+                # set the curr child previous. As per the problem's def, curr will be the prev node of
+                #   cur's child
                 curr.child.prev = curr
-                curr.next = curr.child
-                curr.child = None
-                #---
-
+                
+                curr.next = curr.child # and per definition, curr's child will be it's next node
+                curr.child = None # remove this relationship
+            #-------
+            
             curr = curr.next
+            
+            # at this point, curr can be 'None'. If so pop the last checkpoint from the stack_pending_nodes
+            #  and resume from there
             #-----------------------------------
-            while curr is None and len(stack_pending_nodes) > 0:
+            while curr is None and stack_pending_nodes : 
                 curr = stack_pending_nodes.pop()
-                list_nodes[-1].next = curr
-                if curr:
-                    curr.prev = list_nodes[-1]
+                
+                list_nodes[-1].next = curr # fix the next relationship of the last element on the list
+                if curr: # curr can be None as it was saved on the stack as curr.next and curr.next can be None
+                    curr.prev = list_nodes[-1] # fix the prev relationship of curr
             #-----------------------------------
-
         #-----------------------------------
-
+        
         return head
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
