@@ -11,7 +11,10 @@ class ListNode:
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
-class ProcessList:
+class ProcessList : 
+    #-------------------------------------------------------------------------
+    
+    #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def create_from_array(arr, pos_to_link):
         head = None
@@ -28,7 +31,7 @@ class ProcessList:
             prev = curr
 
         list[-1].next = list[pos_to_link]
-        return head
+        return head , list[pos_to_link] , list
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
@@ -54,7 +57,38 @@ class Solution:
 print('----------------------------')
 arr = [3,2,0,-4]
 pos = 1
-head = ProcessList.create_from_array(arr, pos)
+head , expected_link , list = ProcessList.create_from_array(arr = arr, pos_to_link=pos)
 
-print('hi')
+sol = Solution()
+result = sol.detectCycle( head = head )
+
+print(f'result: {result.val if result else result}')
+print(f'is this the expected result: {result == expected_link}')
+
+
+
+print('----------------------------')
+arr = [1,2]
+pos = 0
+head , expected_link , list = ProcessList.create_from_array(arr = arr, pos_to_link=pos)
+
+sol = Solution()
+result = sol.detectCycle( head = head )
+
+print(f'result: {result.val if result else result}')
+print(f'is this the expected result: {result == expected_link}')
+
+
+print('----------------------------')
+arr = [1]
+pos = -1
+head , expected_link , list = ProcessList.create_from_array(arr = arr, pos_to_link=pos)
+
+sol = Solution()
+result = sol.detectCycle( head = head )
+
+print(f'result: {result.val if result else result}')
+print(f'is this the expected result: {result == expected_link}')
+
+
 
