@@ -1,33 +1,34 @@
 #problem: https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/description/
-from typing import List, Dict
 
 #-------------------------------------------------------------------------
-class Solution:
+class Solution :
     #-------------------------------------------------------------------------
-    def minRemoveToMakeValid(self, s: str) -> str:
-        s = list(s) #convert to list to be able to modify it
-        stack = []
+    def minRemoveToMakeValid( self , s : str ) -> str :
+        list_char : list[str] = list(s) #convert to list to be able to modify it
+        stack : list[str] = []
         
         #-----------------------------------
-        for i, v in enumerate(s):
+        for loop_idx, loop_val in enumerate(list_char) :
             #-----
-            if v == '(':
-                stack.append(i)
-            elif v == ')':
-                if stack:
-                    stack.pop()
-                else:
-                    s[i] = ''
+            if loop_val == '(' : stack.append(loop_idx)
+            elif loop_val == ')':
+                #-----
+                if stack : stack.pop()
+                else : # invalid closing parenthesis
+                    list_char[loop_idx] = '' # no need to use lists to remember where to remove from, just remove it
+                #-----
+            # else : regular char, nothing to do
             #-----
         #-----------------------------------
         
         #-----------------------------------
         while stack:
             i = stack.pop()
-            s[i] = ''
+            list_char[i] = ''
         #-----------------------------------
-            
-        return ''.join(s)
+        
+        return_string : str = ''.join(list_char)
+        return return_string
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 

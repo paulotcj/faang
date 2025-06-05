@@ -30,11 +30,11 @@ class Solution:
         #-----------------------------------
         while scheduled_for_removal:
             remove_idx : int = scheduled_for_removal.pop()
-            char_list[remove_idx] = None
+            char_list[remove_idx] = ''
         #-----------------------------------        
         
         # string is now clean
-        result : str = ''.join( c for c in char_list if c is not None )
+        result : str = ''.join( char_list )
         print(result)
         return result
     #-------------------------------------------------------------------------

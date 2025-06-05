@@ -1,10 +1,51 @@
 #problem: https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/description/
-from typing import List, Dict
+
 
 #-------------------------------------------------------------------------
-class Solution:
+class Solution : 
     #-------------------------------------------------------------------------
-    def minRemoveToMakeValid(self, s: str) -> str:
+    def minRemoveToMakeValid( self , s : str ) -> str :
+        result : list[str] = []
+        open_count : int = 0
+        
+        # First pass: Remove invalid ')'
+        #-----------------------------------
+        for char in s:
+            #-----
+            if char == '(' :
+                open_count += 1
+                result.append(char)
+            elif char == ')' :
+                #-----
+                if open_count > 0 : 
+                    open_count -= 1
+                    result.append(char)
+                # else: skip this ')'
+                #-----
+            else: # regular char
+                result.append(char)
+            #-----
+        #-----------------------------------
+        
+        # Second pass: Remove extra '(' from the end
+        final_result : list[str] = []
+        open_to_remove : int = 0
+        #-----------------------------------
+        for char in reversed(result) : 
+            #-----
+            if char == '(' and open_count > 0 :
+                open_count -= 1 # Remove this unmatched '('
+                continue
+            #-----
+            
+            final_result.append(char)
+        #-----------------------------------
+        # The result is built in reverse order, so reverse it back
+        return ''.join( reversed(final_result) )
+        
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def minRemoveToMakeValid2(self, s: str) -> str:
 
         # First pass: Remove invalid ')'
         result: list[str] = []
@@ -18,7 +59,7 @@ class Solution:
             elif char == ')':
                 #-----
                 if open_count > 0:
-                    open_count -= 1
+                    open_count -= 1 
                     result.append(char)
                 # else: skip this ')'
                 #-----
