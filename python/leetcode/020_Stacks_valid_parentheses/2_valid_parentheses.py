@@ -34,31 +34,6 @@ class Solution:
         return_result : bool = False if char_stack else True
         return return_result
     #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def isValid2(self, s: str) -> bool:
-        char_stack : List[str] = []
-        dict_opening : Dict[str:str] = { '(': ')', '{': '}', '[': ']'  }
-        dict_closing : Dict[str:str] = { ')': '(', '}': '{', ']': '['  }
-
-        #-----------------------------------
-        for c in s:
-            if c in dict_opening.keys():
-                char_stack.append(c)
-                continue
-            
-            elif not char_stack: #closing bracket without an opening bracket
-                return False
-                
-            temp:str = char_stack[-1] #potentially (, {, or [
-            if temp == dict_closing[c]:
-                char_stack.pop()
-            else:
-                return False
-        #-----------------------------------
-
-        
-        return True if not char_stack else False
-    #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
     
 print('----------------------------')
