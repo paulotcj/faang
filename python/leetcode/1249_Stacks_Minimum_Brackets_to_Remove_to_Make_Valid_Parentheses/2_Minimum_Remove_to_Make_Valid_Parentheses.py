@@ -4,32 +4,42 @@ from typing import List, Dict
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def minRemoveToMakeValid(self, s: str) -> str:
-        s = list(s) #convert to list to be able to modify it
-        stack = []
-        
+    def minRemoveToMakeValid( self , s : str ) -> str :
+        stack_opening : list[str] = []
+        scheduled_for_removal : list[str] = []
         #-----------------------------------
-        for i, v in enumerate(s):
+        for loop_idx , loop_val in enumerate(s) :
             #-----
-            if v == '(':
-                stack.append(i)
-            elif v == ')':
-                if stack:
-                    stack.pop()
-                else:
-                    s[i] = ''
-            #-----
+            if loop_val == '(' : # we don't know anything yet, just push the char idx to the stack
+                stack_opening.append(loop_idx)
+            elif loop_val == ')' : # trying to close, check the stack
+                #-----
+                if stack_opening: stack_opening.pop()
+                else: scheduled_for_removal.append(loop_idx)
+                #-----
+            #-----  
         #-----------------------------------
+        '''at this point the scheduled_for_removal might be: '' , ( , or ((...
+        And the stack_opening might be: '' , ) , or ))...
+        All of these occurences are mismatching. And it's necessary to remove the least number of 
+        parenthesis to make the string valid, so: remove them all'''
         
+        scheduled_for_removal.extend(stack_opening) # merge them for easier manipulation
+        
+        char_list : list[str] = list(s)
         #-----------------------------------
-        while stack:
-            i = stack.pop()
-            s[i] = ''
-        #-----------------------------------
-            
-        return ''.join(s)
+        while scheduled_for_removal:
+            remove_idx : int = scheduled_for_removal.pop()
+            char_list[remove_idx] = None
+        #-----------------------------------        
+        
+        # string is now clean
+        result : str = ''.join( c for c in char_list if c is not None )
+        print(result)
+        return result
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
+
 
  
 print('----------------------------')
