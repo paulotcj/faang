@@ -5,8 +5,24 @@ from typing import List, Dict
 class Solution:
     #-------------------------------------------------------------------------
     def minRemoveToMakeValid( self , s : str ) -> str :
-        stack : str = []
-        schedule_for_removal : str = []
+        stack : list[str] = []
+        schedule_for_removal : list[str] = []
+        #-----------------------------------
+        for loop_idx , loop_val in enumerate(s) :
+            #-----
+            if loop_val == '(' : # we don't know anything yet, just push the char idx to the stack
+                stack.append(loop_idx)
+            elif loop_val == ')' : # trying to close, check the stack
+                #-----
+                if stack: stack.pop()
+                else: schedule_for_removal.append(loop_idx)
+                #-----
+            #-----  
+        #-----------------------------------
+        '''at this point the schedule_for_removal might be: empty, or with one or more closing
+        parenthesis. And the stack might be: empty, or contain one or more opening parenthesis
+        '''
+        
         
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
@@ -20,10 +36,8 @@ class Solution:
                 stack.append(i)
             elif v == ')': #when closing we need to check whether the stack is empty and if not try to close it
                 #-----
-                if stack:
-                    stack.pop()
-                else:
-                    scheduled_for_removal.append(i)
+                if stack: stack.pop()
+                else: scheduled_for_removal.append(i)
                 #-----
             #-----
         #-----------------------------------
