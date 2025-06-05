@@ -1,28 +1,28 @@
 #problem: https://leetcode.com/problems/valid-parentheses/description/
 
-from typing import List, Dict
+from typing import List
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
     def isValid(self, s: str) -> bool:
         char_stack : List[str] = []
-        dict_opening : Dict[str:str] = { '(': ')', '{': '}', '[': ']'  }
-        dict_closing : Dict[str:str] = { ')': '(', '}': '{', ']': '['  }
-
+        
+        #-----------------------------------
         for c in s:
-            if c in dict_opening.keys():
+            if c == '(' or c == '{' or c == '[':
                 char_stack.append(c)
-                continue
-            
-            if not char_stack: #closing bracket without an opening bracket
-                return False
-                
-            temp:str = char_stack[-1] #potentially (, {, or [
-            if temp == dict_closing[c]:
-                char_stack.pop()
             else:
-                return False
-
+                if not char_stack:
+                    return False
+                elif c == ')' and char_stack[-1] != '(':
+                    return False
+                elif c == '}' and char_stack[-1] != '{':
+                    return False
+                elif c == ']' and char_stack[-1] != '[':
+                    return False
+                else:
+                    char_stack.pop()
+        #-----------------------------------
         
         return True if not char_stack else False
     #-------------------------------------------------------------------------
