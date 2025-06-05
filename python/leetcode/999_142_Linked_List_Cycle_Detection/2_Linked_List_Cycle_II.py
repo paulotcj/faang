@@ -37,32 +37,41 @@ class ProcessList :
                 
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
-
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        slow: Optional[ListNode] = head
-        fast: Optional[ListNode] = head
-
-        # First step: Determine if a cycle exists
-        while fast and fast.next:
-            slow = slow.next
+    def detectCycle( self, head : Optional[ListNode] ) -> Optional[ListNode] :
+        # Floyd’s Tortoise and Hare Algorithm        
+        slow : Optional[ListNode] = head # at this point they are the same so we need
+        fast : Optional[ListNode] = head #  to start the cycle detection loop by moving them
+        
+        # First step: Determine if a cycle exists. If a cycle doesn't exist this loop will eventually end
+        #-----------------------------------
+        while fast and fast.next: # don't check for slow as either it was behind fast of at least the same
+            slow = slow.next       # first thing - move the pointers
             fast = fast.next.next
-            if slow == fast:
-                # Cycle detected
-                break
-        else:
-            # No cycle found
-            return None
-
+            
+            if slow == fast: break # cycle detected
+        else: # unsual - python feature
+            return None # no cycle, head was None    
+        #-----------------------------------
+        
+        
         # Second step: Find the start node of the cycle
-        slow = head
-        while slow != fast:
-            slow = slow.next
-            fast = fast.next
-
-        return slow
+        ''' now we set one pointer at the head and we keep one pointer at the meeting point found
+        previously. both pointers will move 1 step at the time, and eventually when they meet this
+        will be the begining of the cycle. Check for the proof of Floyd's Hare and Tortoise algorithm
+        (probably in this file)'''
+        
+        pointer_a : ListNode = head
+        pointer_b : ListNode = slow
+        #-----------------------------------
+        while pointer_a is not pointer_b:
+            pointer_a = pointer_a.next
+            pointer_b = pointer_b.next
+        #-----------------------------------
+        # by exiting the loop the begining of the cycle was found
+        return pointer_a
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
