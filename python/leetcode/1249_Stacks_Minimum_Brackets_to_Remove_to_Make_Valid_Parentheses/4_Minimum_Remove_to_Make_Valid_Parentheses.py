@@ -5,7 +5,7 @@
 class Solution : 
     #-------------------------------------------------------------------------
     def minRemoveToMakeValid( self , s : str ) -> str :
-        temp_result_1 : list[str] = []
+        temp_result : list[str] = []
         open_count : int = 0
         
         # First pass: Remove invalid ')'
@@ -14,17 +14,17 @@ class Solution :
             #-----
             if char == '(' :                # opening parenthesis - can't assume anything right now
                 open_count += 1             # increase the counter and...
-                temp_result_1.append(char)  # add the char to the temporary result list
+                temp_result.append(char)  # add the char to the temporary result list
             elif char == ')' :                 # closing char - at this time we can figure out certain things
                 #-----
                 if open_count > 0 :            # if we had at least one open parenthesis before, subtract it
                     open_count -= 1            # subtract it
-                    temp_result_1.append(char) # and add the the list of valid chars
+                    temp_result.append(char) # and add the the list of valid chars
                 else: #this char is a mismatched ) - just ignore it
                     pass
                 #-----
             else: # regular chars - just append to the temporary solution
-                temp_result_1.append(char)
+                temp_result.append(char)
             #-----
         #-----------------------------------
         
@@ -35,14 +35,14 @@ class Solution :
         
         # Second pass: Remove extra '(' from the end        
         #-----------------------------------
-        for for_idx in range(len(temp_result_1) - 1, -1 , -1) : 
-            if temp_result_1[for_idx] == '(' and open_count > 0 :
-               temp_result_1[for_idx] = ''
+        for for_idx in range(len(temp_result) - 1, -1 , -1) : 
+            if temp_result[for_idx] == '(' and open_count > 0 :
+               temp_result[for_idx] = ''
                open_count -= 1
             elif open_count == 0: break 
         #-----------------------------------
         
-        return_result : str = ''.join(temp_result_1)
+        return_result : str = ''.join(temp_result)
         return return_result   
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
