@@ -5,7 +5,7 @@
 class Solution : 
     #-------------------------------------------------------------------------
     def minRemoveToMakeValid( self , s : str ) -> str :
-        result : list[str] = []
+        temp_result_1 : list[str] = []
         open_count : int = 0
         
         # First pass: Remove invalid ')'
@@ -14,34 +14,35 @@ class Solution :
             #-----
             if char == '(' :
                 open_count += 1
-                result.append(char)
+                temp_result_1.append(char)
             elif char == ')' :
                 #-----
                 if open_count > 0 : 
                     open_count -= 1
-                    result.append(char)
-                # else: skip this ')'
+                    temp_result_1.append(char)
+                else: #this char is a mismatched ) - just ignore it
+                    pass
                 #-----
             else: # regular char
-                result.append(char)
+                temp_result_1.append(char)
             #-----
         #-----------------------------------
         
         # Second pass: Remove extra '(' from the end
-        final_result : list[str] = []
+        temp_result_2 : list[str] = []
         open_to_remove : int = 0
         #-----------------------------------
-        for char in reversed(result) : 
+        for char in reversed(temp_result_1) : 
             #-----
             if char == '(' and open_count > 0 :
                 open_count -= 1 # Remove this unmatched '('
                 continue
             #-----
             
-            final_result.append(char)
+            temp_result_2.append(char)
         #-----------------------------------
         # The result is built in reverse order, so reverse it back
-        return ''.join( reversed(final_result) )
+        return ''.join( reversed(temp_result_2) )
         
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
