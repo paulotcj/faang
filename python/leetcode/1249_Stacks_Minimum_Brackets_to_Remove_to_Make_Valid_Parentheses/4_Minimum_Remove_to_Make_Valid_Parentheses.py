@@ -12,95 +12,55 @@ class Solution :
         #-----------------------------------
         for char in s:
             #-----
-            if char == '(' :
-                open_count += 1
-                temp_result_1.append(char)
-            elif char == ')' :
+            if char == '(' :                # opening parenthesis - can't assume anything right now
+                open_count += 1             # increase the counter and...
+                temp_result_1.append(char)  # add the char to the temporary result list
+            elif char == ')' :                 # closing char - at this time we can figure out certain things
                 #-----
-                if open_count > 0 : 
-                    open_count -= 1
-                    temp_result_1.append(char)
+                if open_count > 0 :            # if we had at least one open parenthesis before, subtract it
+                    open_count -= 1            # subtract it
+                    temp_result_1.append(char) # and add the the list of valid chars
                 else: #this char is a mismatched ) - just ignore it
                     pass
                 #-----
-            else: # regular char
+            else: # regular chars - just append to the temporary solution
                 temp_result_1.append(char)
             #-----
         #-----------------------------------
         
-        # Second pass: Remove extra '(' from the end
-        temp_result_2 : list[str] = []
-        open_to_remove : int = 0
-        #-----------------------------------
-        for char in reversed(temp_result_1) : 
-            #-----
-            if char == '(' and open_count > 0 :
-                open_count -= 1 # Remove this unmatched '('
-                continue
-            #-----
-            
-            temp_result_2.append(char)
-        #-----------------------------------
-        # The result is built in reverse order, so reverse it back
-        return ''.join( reversed(temp_result_2) )
+        ''' up to this point umatched closing parenthesis ')' were removed. but the temporary solution still
+        may contain unmatched opening parenthesis '(' .  Another important tidbit is that, since the 
+        parenthesis were being matched left to right, and at this point some opening parenthesis might still
+        be unmatched, that means they are to the right of the string.'''
         
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def minRemoveToMakeValid2(self, s: str) -> str:
-
-        # First pass: Remove invalid ')'
-        result: list[str] = []
-        open_count: int = 0
+        # Second pass: Remove extra '(' from the end        
         #-----------------------------------
-        for char in s:
-            #-----
-            if char == '(':
-                open_count += 1
-                result.append(char)
-            elif char == ')':
-                #-----
-                if open_count > 0:
-                    open_count -= 1 
-                    result.append(char)
-                # else: skip this ')'
-                #-----
-            else:
-                result.append(char)
-            #-----
+        for for_idx in range(len(temp_result_1) - 1, -1 , -1) : 
+            if temp_result_1[for_idx] == '(' and open_count > 0 :
+               temp_result_1[for_idx] = ''
+               open_count -= 1
+            elif open_count == 0: break 
         #-----------------------------------
-
-        # Second pass: Remove extra '(' from the end
-        final_result: list[str] = []
-        open_to_remove: int = 0
-        #-----------------------------------
-        for char in reversed(result):
-            #-----
-            if char == '(' and open_count > 0:
-                open_count -= 1  # Remove this unmatched '('
-                continue
-            #-----
-            final_result.append(char)
-        #-----------------------------------
-
-        # The result is built in reverse order, so reverse it back
-        return ''.join(reversed(final_result))
+        
+        return_result : str = ''.join(temp_result_1)
+        return return_result   
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
-
- 
-print('----------------------------')
-sol = Solution()
-input = ")ab(c)d"
-expected = "ab(c)d"
-result = sol.minRemoveToMakeValid(input)
-print(f'Expected: {expected}')
-print(f'Result  : {result}')
-print(f'Is the result correct? { result == expected}')
 
 print('----------------------------')
 sol = Solution()
 input = "))(("
 expected = ""
+result = sol.minRemoveToMakeValid(input)
+print(f'Expected: {expected}')
+print(f'Result  : {result}')
+print(f'Is the result correct? { result == expected}')
+
+
+print('----------------------------')
+sol = Solution()
+input = ")ab(c)d"
+expected = "ab(c)d"
 result = sol.minRemoveToMakeValid(input)
 print(f'Expected: {expected}')
 print(f'Result  : {result}')
