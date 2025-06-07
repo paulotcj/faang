@@ -1,39 +1,39 @@
 #problem: https://leetcode.com/problems/implement-queue-using-stacks/description/
-from typing import List, Dict
+
 
 #-------------------------------------------------------------------------
-class MyQueue:
+class MyQueue : 
     #-------------------------------------------------------------------------
-    def __init__(self):
-        self.s_in = []
-        self.s_out = []
+    def __init__( self ) :
+        self.stack_in  : list[int] = []
+        self.stack_out : list[int] = []
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def move_if_stack_out_is_empty(self):
-        if not self.s_out:
+    def push( self, x : int ) -> None :
+        self.stack_in.append( x )
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def move_if_stack_out_is_empty( self ) -> None :
+        if not self.stack_out :
             #-----------------------------------
-            while self.s_in:
-                self.s_out.append(self.s_in.pop())
+            while self.stack_in :
+                popped : int = self.stack_in.pop()
+                self.stack_out.append(popped)
             #-----------------------------------
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def push(self, x: int) -> None:
-        self.s_in.append(x)
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def pop(self) -> int:
+    def peek( self ) -> int :
         self.move_if_stack_out_is_empty()
-        return self.s_out.pop()
+        return self.stack_out[-1]
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def peek(self) -> int:
+    def pop( self ) -> int :
         self.move_if_stack_out_is_empty()
-        return self.s_out[-1]
+        return self.stack_out.pop()
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def empty(self) -> bool:
-        if self.s_in or self.s_out:
-            return False
-        return True
+    def empty( self ) -> bool :
+        self.move_if_stack_out_is_empty()
+        return not self.stack_out
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
