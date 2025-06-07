@@ -1,4 +1,4 @@
-#problem: https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/description/
+#problem: https://leetcode.com/problems/implement-queue-using-stacks/description/
 from typing import List, Dict
 
 #-------------------------------------------------------------------------
