@@ -2,38 +2,51 @@
 from typing import List, Dict
 
 #-------------------------------------------------------------------------
-class MyQueue:
+class MyQueue :
     #-------------------------------------------------------------------------
-    def __init__(self):
-        self.s_in = []
-        self.s_out = []
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def move_if_stack_out_is_empty(self):
-        if not self.s_out:
-            #-----------------------------------
-            while self.s_in:
-                self.s_out.append(self.s_in.pop())
-            #-----------------------------------
+    def __init__( self ) :
+        self.stack1 : list[int] = []
+        self.stack2 : list[int] = []
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def push(self, x: int) -> None:
-        self.s_in.append(x)
+    def empty( self ) -> bool :
+        return_result : bool = not ( self.stack1 or self.stack2 )
+        return return_result
+    #------------------------------------------------------------------------- 
     #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def pop(self) -> int:
-        self.move_if_stack_out_is_empty()
-        return self.s_out.pop()
+    def push( self , x : int ) -> None :
+        self.stack1.append(x)
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def peek(self) -> int:
-        self.move_if_stack_out_is_empty()
-        return self.s_out[-1]
+        if self.stack2:
+            return self.stack2[-1]
+        
+        if self.stack1:
+            self.__transfer()
+            return self.stack2[-1]
+    #-------------------------------------------------------------------------    
+    #-------------------------------------------------------------------------
+    def __transfer(self):
+        #-----------------------------------
+        while self.stack1:
+            temp : int = self.stack1.pop()
+            self.stack2.append(temp)
+        #-----------------------------------
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def empty(self) -> bool:
-        if self.s_in or self.s_out:
-            return False
-        return True
+    def pop(self) -> int:
+        if self.stack2:
+            return self.stack2.pop()
+        
+        if self.stack1:
+            #-----------------------------------
+            while self.stack1:
+                temp = self.stack1.pop()
+                self.stack2.append(temp)
+            #-----------------------------------
+            return_val : int = self.stack2.pop()
+            return return_val
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
+
