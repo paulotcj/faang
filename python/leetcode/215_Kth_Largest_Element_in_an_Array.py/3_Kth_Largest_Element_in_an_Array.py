@@ -10,13 +10,16 @@ class Solution:
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def quicksort_inplace(self, arr : list[int], low_idx : int = None , high_idx : int = None) -> list[int]:
-        if low_idx is None : low_idx = 0
+        if low_idx  is None : low_idx  = 0
         if high_idx is None : high_idx = len(arr) - 1
         
+        #-----
         if low_idx < high_idx:
-            pivot_idx : int = self.partition(arr, low_idx, high_idx)
-            self.quicksort_inplace(arr, low_idx, pivot_idx - 1)
-            self.quicksort_inplace(arr, pivot_idx + 1, high_idx)
+            pivot_idx : int = self.partition(arr = arr, low_idx = low_idx, high_idx = high_idx)
+            
+            self.quicksort_inplace(arr = arr, low_idx = low_idx       , high_idx = pivot_idx - 1)
+            self.quicksort_inplace(arr = arr, low_idx = pivot_idx + 1 , high_idx = high_idx)
+        #-----
             
         return arr
     #-------------------------------------------------------------------------

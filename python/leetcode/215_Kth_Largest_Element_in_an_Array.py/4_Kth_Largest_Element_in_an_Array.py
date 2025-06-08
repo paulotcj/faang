@@ -19,15 +19,17 @@ class Solution:
         # Loop until stack is empty
         #-----------------------------------
         while stack:
-            low, high = stack.pop()
+            low_idx, high_idx = stack.pop()
 
-            if low < high:
+            if low_idx < high_idx:
                 # Partition the array and get the pivot index
-                pivot_index = self.partition(arr, low, high)
+                pivot_index = self.partition(arr, low_idx, high_idx)
 
                 # Push subarrays to stack
-                stack.append((low, pivot_index - 1))   # left subarray
-                stack.append((pivot_index + 1, high))  # right subarray
+                left_subarray_range : tuple[int,int] = (low_idx, pivot_index - 1)
+                right_subarray_range : tuple[int,int] = (pivot_index + 1, high_idx)
+                stack.append(left_subarray_range)   # left subarray
+                stack.append(right_subarray_range)  # right subarray
         #-----------------------------------
         
         return arr
