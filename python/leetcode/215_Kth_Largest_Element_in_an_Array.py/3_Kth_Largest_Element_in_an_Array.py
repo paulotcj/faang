@@ -9,7 +9,10 @@ class Solution:
         return nums[-k]
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def quicksort_inplace(self, arr : list[int], low_idx : int , high_idx : int) -> list[int]:
+    def quicksort_inplace(self, arr : list[int], low_idx : int = None , high_idx : int = None) -> list[int]:
+        if low_idx is None : low_idx = 0
+        if high_idx is None : high_idx = len(arr) - 1
+        
         if low_idx < high_idx:
             pivot_idx : int = self.partition(arr, low_idx, high_idx)
             self.quicksort_inplace(arr, low_idx, pivot_idx - 1)
@@ -39,13 +42,13 @@ original_array = [3,2,3,1,2,4,5,5,6]
 
 expected = original_array.copy()
 expected.sort()
-result = sol.quicksort_inplace(arr = original_array , low_idx = 0 , high_idx = len(original_array) - 1)
+result = sol.quicksort_inplace(arr = original_array)
 print(f'expected: {expected}')
 print(f'result  : {result}')
 print(f'Is the result correct? { result == expected}')
 
 print('------------------')
-# exit()
+
 
 
 sol = Solution()
@@ -53,7 +56,7 @@ original_array = [2,6,5,3,8]
 
 expected = original_array.copy()
 expected.sort()
-result = sol.quicksort_inplace(arr = original_array , low_idx = 0 , high_idx = len(original_array) - 1)
+result = sol.quicksort_inplace(arr = original_array)
 print(f'expected: {expected}')
 print(f'result  : {result}')
 print(f'Is the result correct? { result == expected}')
@@ -61,13 +64,12 @@ print(f'Is the result correct? { result == expected}')
 print('------------------')
 
 
-
 sol = Solution()
 original_array = [37, 12, 85, 64, 23, 7, 91, 56, 48, 19, 73, 2, 41, 88, 30, 60, 15, 99, 53, 27]
 
 expected = original_array.copy()
 expected.sort()
-result = sol.quicksort_inplace(arr = original_array , low_idx = 0 , high_idx = len(original_array) - 1)
+result = sol.quicksort_inplace(arr = original_array)
 print(f'expected: {expected}')
 print(f'result  : {result}')
 print(f'Is the result correct? { result == expected}')
