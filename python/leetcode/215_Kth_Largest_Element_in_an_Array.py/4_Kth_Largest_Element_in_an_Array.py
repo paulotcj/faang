@@ -14,28 +14,58 @@ class Solution:
         stack : list[int] = []
 
         # Push initial bounds of the array
-        stack.append((0, len(arr) - 1))
+        stack.append((0, len(arr) - 1, len(arr) - 1)) # low_idx, high_idx, pivot_idx
 
         # Loop until stack is empty
         #-----------------------------------
         while stack:
-            low_idx, high_idx = stack.pop()
+            low_idx, high_idx, pivot_index = stack.pop() # only added pivot_index for educational purposes
 
-            if low_idx < high_idx:
+            ''' there could be a few reasons why low_idx is bigger than high_idx. One of them is if
+            the pivot's place is at the end of the array (or subarray), and then you want to slice a 
+            subarray to the right of that. So the operation would be: 
+            (low_idx, high_idx) = (pivot_index + 1 , high_idx)
+            as we can see, the low_idx would fall of the range, since pivot_index is at the end of the
+            array
+            
+            Another one would be if the pivot's place is at the beginning of the array (or subarray), 
+            in this case you are trying to slice an array to the left of the beginning, effectively the
+            low_idx would be: 
+            (low_idx, high_idx) = (low_idx, pivot_index - 1) -> (low_idx, - 1) 
+            in this case high_idx falls off the range, but still it would be smaller than low_idx 
+            '''
+            if low_idx < high_idx: 
                 # Partition the array and get the pivot index
                 pivot_index = self.partition(arr, low_idx, high_idx)
 
-                # Push subarrays to stack
-                left_subarray_range  : tuple[int,int] = (low_idx , pivot_index - 1)  # left subarray
-                right_subarray_range : tuple[int,int] = (pivot_index + 1 , high_idx) # right subarray
-                stack.append(left_subarray_range)   
-                stack.append(right_subarray_range)  
+                #-----
+                # pivot is already in place, now it's necessary to investigate the subarrays to the
+                #  left and to the right, while excluding pivot's place
+                pivots_left  : int = pivot_index - 1
+                pivots_right : int = pivot_index + 1
+                left_subarray_range  : tuple[int,int, int] = (low_idx, pivots_left, pivot_index)   
+                right_subarray_range : tuple[int,int, int] = (pivots_right, high_idx, pivot_index)
+                
+                stack.append(left_subarray_range)   # left subarray range
+                stack.append(right_subarray_range)  # right subarray range
+                
+                if low_idx > pivots_left:
+                    print(f'  low_idx: {low_idx}\tpivots_left:{pivots_left}\tpivot_index:{pivot_index}')
+                    print(f'  arr:{arr}')
+                    print('  *************')
+                    input("Press Enter to continue...")
+                if pivots_right > high_idx:
+                    print(f'  pivots_right:{pivots_right}\thigh_idx:{high_idx}\tpivot_index:{pivot_index}')
+                    print(f'  arr:{arr}')
+                    print('  *************')
+                    input("Press Enter to continue...")
+                #-----
+            # else:
+            #     print('debug')
         #-----------------------------------
         
         return arr
     #-------------------------------------------------------------------------
-    
-    
     ''' the logic here is that we are going to look at this array (or subarray) and try to put
     numbers smaller than our pivot to the left, numbers bigger than our pivot to the right.
     The goal is to find the right place for the pivot, the subarray to the left will be smaller
@@ -93,7 +123,7 @@ class Solution:
 #-------------------------------------------------------------------------
 
 sol = Solution()
-original_array = [1,4,5,2,3]
+original_array = [5,4,3,2,1]
 
 expected = original_array.copy()
 expected.sort()
@@ -116,11 +146,10 @@ print(f'result  : {result}')
 print(f'Is the result correct? { result == expected}')
 
 print('------------------')
-exit()
 
 
 sol = Solution()
-original_array = [5,4,3,2,1]
+original_array = [1,4,5,2,3]
 
 expected = original_array.copy()
 expected.sort()
@@ -130,7 +159,11 @@ print(f'result  : {result}')
 print(f'Is the result correct? { result == expected}')
 
 print('------------------')
-exit()
+
+
+
+
+
 
 sol = Solution()
 original_array = [2,6,5,3,8]
@@ -143,7 +176,7 @@ print(f'result  : {result}')
 print(f'Is the result correct? { result == expected}')
 
 print('------------------')
-exit()
+
 
 
 
@@ -158,10 +191,6 @@ print(f'result  : {result}')
 print(f'Is the result correct? { result == expected}')
 
 print('------------------')
-# exit()
-
-
-
 
 
 
