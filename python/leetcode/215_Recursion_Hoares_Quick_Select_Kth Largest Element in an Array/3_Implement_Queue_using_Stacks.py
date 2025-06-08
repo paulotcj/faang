@@ -9,19 +9,25 @@ class Solution:
         return nums[-k]
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def quicksort( self , arr : list[int] ) -> list[int] :
-        if len(arr) <= 1 : return arr # base case: already sorted
-        
-        pivot : int = arr[0]
-        
-        left   : list[int] = [ x for x in arr if x <  pivot ] # smaller than pivot
-        middle : list[int] = [ x for x in arr if x == pivot ] # for cases where there are move values equal to pivot
-        right  : list[int] = [ x for x in arr if x >  pivot ] # greater than pivot
-        
-        return_result : list[int] = self.quicksort( arr = left ) + middle + self.quicksort(arr = right)
-        
-        return return_result
-    #-------------------------------------------------------------------------   
+    def quicksort_inplace(self, arr, low, high):
+        if low < high:
+            pi = self.partition(arr, low, high)
+            self.quicksort_inplace(arr, low, pi - 1)
+            self.quicksort_inplace(arr, pi + 1, high)
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def partition(self, arr, low, high):
+        pivot = arr[high]  # pivot is the last element
+        i = low - 1  # index of smaller element
+
+        for j in range(low, high):
+            if arr[j] <= pivot:
+                i += 1
+                arr[i], arr[j] = arr[j], arr[i]  # swap
+
+        arr[i + 1], arr[high] = arr[high], arr[i + 1]  # swap pivot into correct position
+        return i + 1  
+    #-------------------------------------------------------------------------  
 #-------------------------------------------------------------------------
 
 sol = Solution()
@@ -29,12 +35,13 @@ original_array = [3,2,3,1,2,4,5,5,6]
 
 expected = original_array.copy()
 expected.sort()
-result = sol.quicksort(original_array)
+result = sol.quicksort_inplace(arr = original_array , low = 0 , high = len(original_array) - 1)
 # print(f'expected: {expected}')
 # print(f'result  : {result}')
 print(f'Is the result correct? { result == expected}')
 
 print('------------------')
+# exit()
 
 
 sol = Solution()
