@@ -2,9 +2,9 @@
 
 
 #-------------------------------------------------------------------------
-class Solution:
+class Solution : 
     #-------------------------------------------------------------------------
-    def findKthLargest(self, nums: list[int], k: int) -> int:
+    def findKthLargest( self , nums : list[int] , k : int ) -> int :
         nums : list[int] = self.quicksort( arr = nums )
         return nums[-k]
     #-------------------------------------------------------------------------
