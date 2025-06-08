@@ -3,29 +3,25 @@
 
 #-------------------------------------------------------------------------
 class Solution:
-    # #-------------------------------------------------------------------------
-    # def findKthLargest2(self, nums: list[int], k: int) -> int:
-    #     nums.sort()
-    #     return nums[-k] 
-    # #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def findKthLargest(self, nums: list[int], k: int) -> int:
         nums : list[int] = self.quicksort( arr = nums )
         return nums[-k]
-    #-------------------------------------------------------------------------    
     #-------------------------------------------------------------------------
-    def quicksort(self , arr) -> list[int]:
-        if len(arr) <= 1: 
-            return arr  # base case: already sorted
-
-        pivot : int = arr[0] # choose pivot - there are good strategies for this, but we will just select this
+    #-------------------------------------------------------------------------
+    def quicksort( self , arr : list[int] ) -> list[int] :
+        if len(arr) <= 1 : return arr # base case: already sorted
+        
+        pivot : int = arr[0]
         
         left   : list[int] = [ x for x in arr if x <  pivot ] # smaller than pivot
         middle : list[int] = [ x for x in arr if x == pivot ] # for cases where there are move values equal to pivot
         right  : list[int] = [ x for x in arr if x >  pivot ] # greater than pivot
-
-        return self.quicksort(left) + middle + self.quicksort(right)
-    #-------------------------------------------------------------------------    
+        
+        return_result : list[int] = self.quicksort( arr = left ) + middle + self.quicksort(arr = right)
+        
+        return return_result
+    #-------------------------------------------------------------------------   
 #-------------------------------------------------------------------------
 
 sol = Solution()
