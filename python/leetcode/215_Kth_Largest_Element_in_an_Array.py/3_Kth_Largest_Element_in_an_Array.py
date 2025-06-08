@@ -9,39 +9,43 @@ class Solution:
         return nums[-k]
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def quicksort_inplace(self, arr : list[int], low_idx : int = None , high_idx : int = None) -> list[int]:
-        if low_idx  is None : low_idx  = 0
-        if high_idx is None : high_idx = len(arr) - 1
+    def quicksort_inplace( self , arr : list[int] , low_idx : int = None , high_idx : int = None ) -> list[int] :
+        if low_idx  is None : low_idx = 0
+        if high_idx is None : high_idx = len(arr) -1
         
         #-----
-        if low_idx < high_idx:
-            pivot_idx : int = self.partition(arr = arr, low_idx = low_idx, high_idx = high_idx)
+        if low_idx < high_idx :
+            pivot_idx : int = self.partition( arr = arr , low_idx = low_idx , high_idx = high_idx )
             
-            self.quicksort_inplace(arr = arr, low_idx = low_idx       , high_idx = pivot_idx - 1)
-            self.quicksort_inplace(arr = arr, low_idx = pivot_idx + 1 , high_idx = high_idx)
+            self.quicksort_inplace( arr = arr , low_idx = low_idx , high_idx = pivot_idx - 1 ) # left subarray
+            self.quicksort_inplace( arr = arr , low_idx = pivot_idx + 1 , high_idx = high_idx ) # right subarray
         #-----
-            
+        
         return arr
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def partition(self, arr : list[int], low_idx : int , high_idx : int) -> int:
-        pivot : int = arr[high_idx]  # pivot is the last element
-        i : int = low_idx - 1  # index of smaller element
-
+    def partition( self , arr : list[int] , low_idx : int , high_idx : int ) -> int :
+        pivot : int = arr[high_idx] # pivot is the last element
+        idx_tracking_low_val : int = low_idx - 1 # index of smaller element
+        
         #-----------------------------------
-        for j in range(low_idx, high_idx):
-            if arr[j] <= pivot:
-                i += 1
-                arr[i], arr[j] = arr[j], arr[i]  # swap
+        for idx_scanner in range( low_idx , high_idx ) :
+            if arr[idx_scanner] < pivot :
+                idx_tracking_low_val += 1
+                arr[idx_tracking_low_val] , arr[idx_scanner] = arr[idx_scanner] , arr[idx_tracking_low_val]
         #-----------------------------------
-
-        arr[i + 1], arr[high_idx] = arr[high_idx], arr[i + 1]  # swap pivot into correct position
-        return i + 1  
-    #-------------------------------------------------------------------------  
+        
+        # swapping the pivot that is sitting at arr[high_idx] to arr[idx_tracking_low_val + 1]
+        idx_tracking_low_val += 1 # let's simplify things and just move this 1 step ahead
+        arr[idx_tracking_low_val] , arr[high_idx] = arr[high_idx] , arr[idx_tracking_low_val]
+        return idx_tracking_low_val
+    #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
+
+
 sol = Solution()
-original_array = [3,2,3,1,2,4,5,5,6]
+original_array = [5,4,3,2,1]
 
 expected = original_array.copy()
 expected.sort()
@@ -51,6 +55,35 @@ print(f'result  : {result}')
 print(f'Is the result correct? { result == expected}')
 
 print('------------------')
+
+
+sol = Solution()
+original_array = [1,2,3,4,5]
+
+expected = original_array.copy()
+expected.sort()
+result = sol.quicksort_inplace(arr = original_array)
+print(f'expected: {expected}')
+print(f'result  : {result}')
+print(f'Is the result correct? { result == expected}')
+
+print('------------------')
+
+
+sol = Solution()
+original_array = [1,4,5,2,3]
+
+expected = original_array.copy()
+expected.sort()
+result = sol.quicksort_inplace(arr = original_array)
+print(f'expected: {expected}')
+print(f'result  : {result}')
+print(f'Is the result correct? { result == expected}')
+
+print('------------------')
+
+
+
 
 
 
@@ -65,6 +98,22 @@ print(f'result  : {result}')
 print(f'Is the result correct? { result == expected}')
 
 print('------------------')
+
+
+
+
+sol = Solution()
+original_array = [3,2,3,1,2,4,5,5,6]
+
+expected = original_array.copy()
+expected.sort()
+result = sol.quicksort_inplace(arr = original_array)
+print(f'expected: {expected}')
+print(f'result  : {result}')
+print(f'Is the result correct? { result == expected}')
+
+print('------------------')
+
 
 
 sol = Solution()
