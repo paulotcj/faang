@@ -26,27 +26,27 @@ class Solution:
                 pivot_index = self.partition(arr, low_idx, high_idx)
 
                 # Push subarrays to stack
-                left_subarray_range : tuple[int,int] = (low_idx, pivot_index - 1)
-                right_subarray_range : tuple[int,int] = (pivot_index + 1, high_idx)
-                stack.append(left_subarray_range)   # left subarray
-                stack.append(right_subarray_range)  # right subarray
+                left_subarray_range  : tuple[int,int] = (low_idx , pivot_index - 1)  # left subarray
+                right_subarray_range : tuple[int,int] = (pivot_index + 1 , high_idx) # right subarray
+                stack.append(left_subarray_range)   
+                stack.append(right_subarray_range)  
         #-----------------------------------
         
         return arr
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def partition(self , arr : list[int] , low : int , high : int ):
-        pivot : int = arr[high]
-        i : int = low - 1
+    def partition(self , arr : list[int] , low_idx : int , high_idx : int ):
+        pivot : int = arr[high_idx]
+        i : int = low_idx - 1
 
         #-----------------------------------
-        for j in range(low, high):
+        for j in range(low_idx, high_idx):
             if arr[j] <= pivot:
                 i += 1
                 arr[i] , arr[j] = arr[j] , arr[i]  # Swap smaller element to left side
         #-----------------------------------
 
-        arr[i + 1] , arr[high] = arr[high] , arr[i + 1]  # Move pivot to its correct position
+        arr[i + 1] , arr[high_idx] = arr[high_idx] , arr[i + 1]  # Move pivot to its correct position
         return i + 1
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
