@@ -36,8 +36,8 @@ original_array = [3,2,3,1,2,4,5,5,6]
 expected = original_array.copy()
 expected.sort()
 result = sol.quicksort_inplace(arr = original_array , low = 0 , high = len(original_array) - 1)
-# print(f'expected: {expected}')
-# print(f'result  : {result}')
+print(f'expected: {expected}')
+print(f'result  : {result}')
 print(f'Is the result correct? { result == expected}')
 
 print('------------------')
@@ -49,7 +49,9 @@ original_array = [2,6,5,3,8]
 
 expected = original_array.copy()
 expected.sort()
-result = sol.quicksort(original_array)
+result = sol.quicksort_inplace(arr = original_array , low = 0 , high = len(original_array) - 1)
+print(f'expected: {expected}')
+print(f'result  : {result}')
 print(f'Is the result correct? { result == expected}')
 
 print('------------------')
@@ -61,7 +63,9 @@ original_array = [37, 12, 85, 64, 23, 7, 91, 56, 48, 19, 73, 2, 41, 88, 30, 60, 
 
 expected = original_array.copy()
 expected.sort()
-result = sol.quicksort(original_array)
+result = sol.quicksort_inplace(arr = original_array , low = 0 , high = len(original_array) - 1)
+print(f'expected: {expected}')
+print(f'result  : {result}')
 print(f'Is the result correct? { result == expected}')
 
 print('------------------')
