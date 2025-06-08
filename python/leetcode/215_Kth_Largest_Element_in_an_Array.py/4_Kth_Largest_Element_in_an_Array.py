@@ -80,16 +80,14 @@ class Solution:
 
         #-----------------------------------
         for idx_scanner in range(low_idx, high_idx): 
-            if arr[idx_scanner] <= pivot:
-                ''' found a value at arr[idx_scanner] that is smaller than our pivot. intuitively we 
-                know this value should be passed to the left side... but what is 'the left side' ?  
-                left side of idx_scanner and one spot ahead of where idx_tracking_low_val is currently 
-                pointing at '''
-                idx_tracking_low_val += 1
+            if arr[idx_scanner] <= pivot: # is this value meant to be swapped to the left?
+                
+                idx_tracking_low_val += 1 # move the pointer 1 step ahead
                 arr[idx_tracking_low_val] , arr[idx_scanner] = arr[idx_scanner] , arr[idx_tracking_low_val]  # Swap smaller element to left side
         #-----------------------------------
 
-        arr[idx_tracking_low_val + 1] , arr[high_idx] = arr[high_idx] , arr[idx_tracking_low_val + 1]  # Move pivot to its correct position
+        # Move pivot to its correct position
+        arr[idx_tracking_low_val + 1] , arr[high_idx] = arr[high_idx] , arr[idx_tracking_low_val + 1]  
         return idx_tracking_low_val + 1
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
