@@ -56,4 +56,4 @@ expected = 3
 sol = Solution()
 result = sol.maxDepth(root = binary_tree_root)
 print(f'result: {result}')
-print(f'Is the result correct? { set(result) == set(expected)}')
+print(f'Is the result correct? { result == expected }')
