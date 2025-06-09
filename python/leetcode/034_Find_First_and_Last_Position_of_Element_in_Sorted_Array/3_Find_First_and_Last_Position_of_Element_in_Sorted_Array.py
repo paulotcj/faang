@@ -4,24 +4,14 @@
 #-------------------------------------------------------------------------
 class Solution: 
     #-------------------------------------------------------------------------
-    def binary_search(self, nums:list[int], left: int, right: int, target: int) -> int:
-        # if nums[left] == target: return left
-        # if nums[right] == target: return right
+    def searchRange(self, nums: list[int], target: int) -> list[int]:
+        if not nums : return [-1,-1]
+        left : int = self.search_left(nums= nums, target = target, left = 0, right = len(nums) -1)
+        if left == -1 : return [-1, -1] #not found
+        right : int = self.search_right(nums = nums, target = target, left = left, right = len(nums)-1)
 
-        while left <= right:  
-            midpoint: int = (right - left) // 2 + left
-
-            midpoint_val = nums[midpoint]
-            if midpoint_val == target: 
-                return midpoint
-
-            if midpoint_val < target:
-                left = midpoint + 1
-            else:
-                right = midpoint - 1
-
-        return -1
-    #-------------------------------------------------------------------------
+        return [left,right]
+    #-------------------------------------------------------------------------    
     #-------------------------------------------------------------------------
     def search_left(self, nums: list[int], target: int, left: int, right: int) -> int:
         # print('hi')
@@ -50,13 +40,23 @@ class Solution:
                 return temp_idx
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def searchRange(self, nums: list[int], target: int) -> list[int]:
-        if not nums : return [-1,-1]
-        left : int = self.search_left(nums= nums, target = target, left = 0, right = len(nums) -1)
-        if left == -1 : return [-1, -1] #not found
-        right : int = self.search_right(nums = nums, target = target, left = left, right = len(nums)-1)
+    def binary_search(self, nums:list[int], left: int, right: int, target: int) -> int:
+        # if nums[left] == target: return left
+        # if nums[right] == target: return right
 
-        return [left,right]
+        while left <= right:  
+            midpoint: int = (right - left) // 2 + left
+
+            midpoint_val = nums[midpoint]
+            if midpoint_val == target: 
+                return midpoint
+
+            if midpoint_val < target:
+                left = midpoint + 1
+            else:
+                right = midpoint - 1
+
+        return -1
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
     
