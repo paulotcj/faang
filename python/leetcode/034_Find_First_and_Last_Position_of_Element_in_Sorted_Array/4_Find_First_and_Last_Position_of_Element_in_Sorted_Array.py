@@ -6,47 +6,39 @@ class Solution:
     #-------------------------------------------------------------------------
     def searchRange( self , nums : list[int] , target: int ) -> list[int] :
         if not nums : return [-1,-1]
-        len_nums : int = len(nums)
-        if len_nums == 1 and nums[0] == target: return [0,0]
         
-        val_found_at_idx = self.binary_search(arr = nums, target = target)
-        if val_found_at_idx == -1: return [-1,-1] # value not found
+        val_found_at_idx = self.binary_search(arr = nums, target = target )
+        if val_found_at_idx == -1 : return [-1,-1]
         
-        left_bound_idx : int = val_found_at_idx
-        right_bound_idx : int = val_found_at_idx
-        
+        left_idx  : int = val_found_at_idx
+        right_idx : int = val_found_at_idx
         #-----------------------------------
-        while left_bound_idx > 0 :
-            if nums[left_bound_idx-1] == target: left_bound_idx -= 1
-            else: break
+        while left_idx > 0 and nums[left_idx-1] == target :
+            left_idx -= 1
         #-----------------------------------
-        while right_bound_idx < len_nums - 1 :
-            if nums[right_bound_idx+1] == target : right_bound_idx += 1
-            else: break
+        while right_idx < len(nums) - 1 and nums[right_idx + 1] == target :
+            right_idx += 1
         #-----------------------------------
         
-        return [left_bound_idx, right_bound_idx] 
+        return [left_idx, right_idx]
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def binary_search(self, arr: list[int], target: int) -> int:
-        left_idx, right_idx = 0, len(arr) - 1
+    def binary_search( self , arr : list[int] , target : int ) -> int :
+        left_idx : int = 0
+        right_idx : int = len(arr) - 1
+        
         #-----------------------------------
-        while left_idx <= right_idx:
+        while left_idx <= right_idx :
             mid_idx : int = (left_idx + right_idx) // 2
             
             #-----
-            if arr[mid_idx] == target:
-                return mid_idx
-            
-            elif arr[mid_idx] < target:
-                left_idx = mid_idx + 1
-                
-            else:
-                right_idx = mid_idx - 1
+            if arr[mid_idx] == target : return mid_idx
+            elif arr[mid_idx] < target: left_idx += 1
+            else : right_idx -= 1
             #-----
         #-----------------------------------
-        return -1 
-    #-------------------------------------------------------------------------    
+        return -1
+    #-------------------------------------------------------------------------  
 #-------------------------------------------------------------------------
    
    
