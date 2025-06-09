@@ -10,12 +10,12 @@ class Solution:
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def quicksort_iterative( self , arr : list[int] ) -> list[int] :
-        self.arr = arr
+        self.arr : list[int] = arr
         len_arr : int = len(arr)
 
         if len_arr <= 1 : return arr # base case: already sorted
         
-        stack : list[int] = [] # Create an explicit stack for holding (low, high) index pairs        
+        stack : list[tuple[int, int]] = [] # Create an explicit stack for holding (low, high) index pairs        
         stack.append( (0, len_arr - 1) ) # Push initial bounds of the array - low_idx, high_idx
         
         # Loop until stack is empty
