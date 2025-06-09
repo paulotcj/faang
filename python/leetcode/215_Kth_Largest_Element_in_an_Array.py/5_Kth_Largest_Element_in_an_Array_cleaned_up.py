@@ -9,56 +9,57 @@ class Solution:
         return nums[-k]
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def quicksort_iterative(self , arr : list[int]):
-        # Create an explicit stack for holding (low, high) index pairs
-        stack : list[int] = []
+    def quicksort_iterative( self , arr : list[int] ) -> list[int] :
+        self.arr = arr
+        len_arr : int = len(arr)
 
-        # Push initial bounds of the array
-        stack.append((0, len(arr) - 1)) # low_idx, high_idx
-
+        if len_arr <= 1 : return arr # base case: already sorted
+        
+        stack : list[int] = [] # Create an explicit stack for holding (low, high) index pairs        
+        stack.append( (0, len_arr - 1) ) # Push initial bounds of the array - low_idx, high_idx
+        
         # Loop until stack is empty
         #-----------------------------------
-        while stack:
-            low_idx, high_idx = stack.pop() # only added pivot_index for educational purposes
-
-
-            if low_idx < high_idx: 
-                # Partition the array and get the pivot index
-                pivot_index = self.partition(arr, low_idx, high_idx)
-
-                #-----
-                # pivot is already in place, now it's necessary to investigate the subarrays to the
-                #  left and to the right, while excluding pivot's place
-                pivots_left  : int = pivot_index - 1
-                pivots_right : int = pivot_index + 1
-                left_subarray_range  : tuple[int,int] = (low_idx, pivots_left)   
-                right_subarray_range : tuple[int,int] = (pivots_right, high_idx)
+        while stack :
+            low_idx , high_idx = stack.pop()
+            
+            if low_idx < high_idx :
+                pivot_idx : int = self.partition(low_idx = low_idx , high_idx = high_idx ) # Partition the array and get the pivot index
                 
-                stack.append(left_subarray_range)   # left subarray range
-                stack.append(right_subarray_range)  # right subarray range
+                # at this point pivot is already in place, now it's necessary to investigate the 
+                #  subarrays to the left and to the right, while excluding pivot's place
+                pivots_left  : int = pivot_idx - 1
+                pivots_right : int = pivot_idx + 1
+                left_subarray_range  : tuple[int, int] = (low_idx, pivots_left)
+                right_subarray_range : tuple[int, int] = (pivots_right, high_idx)
                 
+                stack.append(left_subarray_range)
+                stack.append(right_subarray_range)
         #-----------------------------------
-        
         return arr
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def partition(self , arr : list[int] , low_idx : int , high_idx : int ):
+    def partition( self , low_idx : int , high_idx : int ) -> int :
+        arr : list[int] = self.arr
         pivot : int = arr[high_idx]
 
-        # idx i is meant to track and swap values to the left, values smaller than the pivot
-        idx_tracking_low_val : int = low_idx - 1  
-
+        idx_tracking_low_val : int = low_idx - 1 # this idx meant to track and swap values to the left, values smaller than the pivot
+        
         #-----------------------------------
-        for idx_scanner in range(low_idx, high_idx): 
-            if arr[idx_scanner] <= pivot: # is this value meant to be swapped to the left?
+        for idx_scanner in range(low_idx , high_idx) :
+            #-----
+            if arr[idx_scanner] <= pivot : # this value should be swapped to the left
                 
-                idx_tracking_low_val += 1 # move the pointer 1 step ahead
-                arr[idx_tracking_low_val] , arr[idx_scanner] = arr[idx_scanner] , arr[idx_tracking_low_val]  # Swap smaller element to left side
+                idx_tracking_low_val += 1
+                arr[idx_tracking_low_val] , arr[idx_scanner] = arr[idx_scanner] , arr[idx_tracking_low_val]
+            #-----
         #-----------------------------------
-
+        
         # Move pivot to its correct position
-        arr[idx_tracking_low_val + 1] , arr[high_idx] = arr[high_idx] , arr[idx_tracking_low_val + 1]  
-        return idx_tracking_low_val + 1
+        idx_tracking_low_val += 1 # this operation repeats a little here, let's make it simple
+        arr[idx_tracking_low_val] , arr[high_idx] = arr[high_idx] , arr[idx_tracking_low_val]
+        
+        return idx_tracking_low_val
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
