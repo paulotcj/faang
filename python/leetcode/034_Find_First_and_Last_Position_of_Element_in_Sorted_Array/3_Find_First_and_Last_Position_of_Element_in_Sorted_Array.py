@@ -1,44 +1,64 @@
 #problem: https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/description/
 
+
 #-------------------------------------------------------------------------
-class Solution:
+class Solution: 
+    #-------------------------------------------------------------------------
+    def binary_search(self, nums:list[int], left: int, right: int, target: int) -> int:
+        # if nums[left] == target: return left
+        # if nums[right] == target: return right
+
+        while left <= right:  
+            midpoint: int = (right - left) // 2 + left
+
+            midpoint_val = nums[midpoint]
+            if midpoint_val == target: 
+                return midpoint
+
+            if midpoint_val < target:
+                left = midpoint + 1
+            else:
+                right = midpoint - 1
+
+        return -1
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def search_left(self, nums: list[int], target: int, left: int, right: int) -> int:
+        # print('hi')
+        while right >= left:
+            temp_idx: int = self.binary_search(nums = nums, left = left, right = right, target = target)
+
+            if temp_idx == -1: return -1 #not found
+            if temp_idx == 0: return 0 #found at the beggining
+            
+            if nums[temp_idx - 1] == target: 
+                right = temp_idx - 1 #trim array
+            else:
+                return temp_idx
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def search_right(self, nums: list[int], target: int, left: int, right: int) -> int:
+        # print('hi')
+        while right >= left:
+            temp_idx = self.binary_search(nums = nums, left = left, right = right, target = target)
+            
+            #we don't need to worry about not found or beggining
+
+            if (temp_idx+1) <= right and nums[temp_idx + 1 ] == target:
+                left = temp_idx + 1
+            else: 
+                return temp_idx
+    #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def searchRange(self, nums: list[int], target: int) -> list[int]:
-        first = self.find_first(nums, target)
-        last = self.find_last(nums, target)
-        return [first, last] 
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def find_first(self , nums: list[int], target: int) -> int:
-        left, right = 0, len(nums) - 1
-        first_pos = -1
-        while left <= right:
-            mid = (left + right) // 2
-            if nums[mid] < target:
-                left = mid + 1
-            else:
-                if nums[mid] == target:
-                    first_pos = mid
-                right = mid - 1
-        return first_pos
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def find_last(self , nums: list[int], target: int) -> int:
-        left, right = 0, len(nums) - 1
-        last_pos = -1
-        while left <= right:
-            mid = (left + right) // 2
-            if nums[mid] > target:
-                right = mid - 1
-            else:
-                if nums[mid] == target:
-                    last_pos = mid
-                left = mid + 1
-        return last_pos
+        if not nums : return [-1,-1]
+        left : int = self.search_left(nums= nums, target = target, left = 0, right = len(nums) -1)
+        if left == -1 : return [-1, -1] #not found
+        right : int = self.search_right(nums = nums, target = target, left = left, right = len(nums)-1)
+
+        return [left,right]
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
-    
-    
     
 # print('----------------------------')
 # sol = Solution()

@@ -1,15 +1,44 @@
 #problem: https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/description/
 
-
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
     def searchRange(self, nums: list[int], target: int) -> list[int]:
-        if target not in nums:
-            return [-1, -1]
-        return [nums.index(target), len(nums) - 1 - nums[::-1].index(target)]
+        first = self.find_first(nums, target)
+        last = self.find_last(nums, target)
+        return [first, last] 
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def find_first(self , nums: list[int], target: int) -> int:
+        left, right = 0, len(nums) - 1
+        first_pos = -1
+        while left <= right:
+            mid = (left + right) // 2
+            if nums[mid] < target:
+                left = mid + 1
+            else:
+                if nums[mid] == target:
+                    first_pos = mid
+                right = mid - 1
+        return first_pos
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def find_last(self , nums: list[int], target: int) -> int:
+        left, right = 0, len(nums) - 1
+        last_pos = -1
+        while left <= right:
+            mid = (left + right) // 2
+            if nums[mid] > target:
+                right = mid - 1
+            else:
+                if nums[mid] == target:
+                    last_pos = mid
+                left = mid + 1
+        return last_pos
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
+    
+    
     
 # print('----------------------------')
 # sol = Solution()
