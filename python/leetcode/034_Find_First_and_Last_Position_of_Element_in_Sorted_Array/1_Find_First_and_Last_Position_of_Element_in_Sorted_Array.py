@@ -1,10 +1,10 @@
 #problem: https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/description/
 
-from typing import List, Dict
+
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def searchRange1(self, nums: List[int], target: int) -> List[int]:
+    def searchRange1(self, nums: list[int], target: int) -> list[int]:
     
         left: int = -1
         right: int = -1
@@ -20,10 +20,10 @@ class Solution:
         return [left, right]
     #-------------------------------------------------------------------------    
     #-------------------------------------------------------------------------
-    def binary_search(self, nums:List[int], left: int, right: int, target: int) -> int:
+    def binary_search(self, nums:list[int], left: int, right: int, target: int) -> int:
         # if nums[left] == target: return left
         # if nums[right] == target: return right
-        # print('hi')
+
         while left <= right:  
             midpoint: int = (right - left) // 2 + left
 
@@ -39,7 +39,7 @@ class Solution:
         return -1
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def search_left(self, nums: List[int], target: int, left: int, right: int) -> int:
+    def search_left(self, nums: list[int], target: int, left: int, right: int) -> int:
         # print('hi')
         while right >= left:
             temp_idx: int = self.binary_search(nums = nums, left = left, right = right, target = target)
@@ -53,7 +53,7 @@ class Solution:
                 return temp_idx
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def search_right(self, nums: List[int], target: int, left: int, right: int) -> int:
+    def search_right(self, nums: list[int], target: int, left: int, right: int) -> int:
         # print('hi')
         while right >= left:
             temp_idx = self.binary_search(nums = nums, left = left, right = right, target = target)
@@ -66,7 +66,7 @@ class Solution:
                 return temp_idx
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def searchRange(self, nums: List[int], target: int) -> List[int]:
+    def searchRange(self, nums: list[int], target: int) -> list[int]:
         if not nums : return [-1,-1]
         left : int = self.search_left(nums= nums, target = target, left = 0, right = len(nums) -1)
         if left == -1 : return [-1, -1] #not found
