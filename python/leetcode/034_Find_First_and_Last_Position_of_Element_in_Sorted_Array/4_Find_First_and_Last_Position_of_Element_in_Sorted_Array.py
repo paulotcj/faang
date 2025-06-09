@@ -32,8 +32,9 @@ class Solution:
         left_idx, right_idx = 0, len(arr) - 1
         #-----------------------------------
         while left_idx <= right_idx:
-            mid_idx = (left_idx + right_idx) // 2
+            mid_idx : int = (left_idx + right_idx) // 2
             
+            #-----
             if arr[mid_idx] == target:
                 return mid_idx
             
@@ -42,6 +43,7 @@ class Solution:
                 
             else:
                 right_idx = mid_idx - 1
+            #-----
         #-----------------------------------
         return -1 
     #-------------------------------------------------------------------------    
