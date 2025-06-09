@@ -4,10 +4,23 @@
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
     def searchRange(self, nums: list[int], target: int) -> list[int]:
-        if target not in nums:
-            return [-1, -1]
-        return [nums.index(target), len(nums) - 1 - nums[::-1].index(target)]
+        if target not in nums: return [-1,-1]
+        #---
+        first_occurrence : int = nums.index(target)
+        #---
+        # if you have this list: lst = [1, 2, 3, 3, 3, 4], the last occurence is at
+        # idx 4. So what you do is, figure out the last_idx: 5, then how many steps
+        # starting from the back until the first occurrence: 1.
+        # then the math is: last_idx - steps_from_the_back = 5 - 1 = 4
+        last_idx : int = len(nums) - 1
+        steps_from_the_back : int = nums[::-1].index(target)  # get the steps from the back until the first occurrence
+        
+        second_occurrence : int = last_idx - steps_from_the_back
+        #---
+        
+        return [first_occurrence, second_occurrence]
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
     

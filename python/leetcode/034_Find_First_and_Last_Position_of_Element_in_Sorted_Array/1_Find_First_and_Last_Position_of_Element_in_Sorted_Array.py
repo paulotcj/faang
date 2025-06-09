@@ -2,22 +2,25 @@
 
 
 #-------------------------------------------------------------------------
-class Solution:
+class Solution : 
     #-------------------------------------------------------------------------
-    def searchRange(self, nums: list[int], target: int) -> list[int]:
-    
-        left: int = -1
-        right: int = -1
-    
-        for i, v in enumerate(nums):
-            if v == target:
-                if left == -1:
-                    left = i
-                    right = i
-                else:
-                    right = i
+    def searchRange( self , nums : list[int] , target : int ) -> list[int] :
+        left_idx : int = -1
+        right_idx : int = -1
         
-        return [left, right]
+        #-----------------------------------
+        for loop_idx, loop_val in enumerate(nums):
+            
+            if loop_val == target:
+                #-----
+                if left_idx == -1: # found the first match...
+                    left_idx = loop_idx  # set both indexes to where the first occurence starts
+                    right_idx = loop_idx
+                else: # this is no longer he first match, now only set the right pointer
+                    right_idx = loop_idx
+                #-----
+        #-----------------------------------
+        return [left_idx, right_idx]
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
     
