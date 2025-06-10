@@ -37,11 +37,11 @@ class BinaryTree: # don't care about this implementation
 class Solution:
     #-------------------------------------------------------------------------
     def maxDepth(self, root: Optional[TreeNode]) -> int:
-        return_val : int = self.max_depth_breadth_first(curr_node = root)
+        return_val : int = self.max_depth_dfs(curr_node = root)
         return return_val
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def max_depth_breadth_first( self , curr_node : Optional[TreeNode] ) -> int :
+    def max_depth_dfs( self , curr_node : Optional[TreeNode] ) -> int :
         if curr_node is None : return 0
         max_depth : int = 1 # as of right now we know it's at least 1
 
