@@ -41,33 +41,29 @@ class BinaryTree: # don't care about this implementation
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def levelOrder(self, root: Optional[TreeNode]) -> list[list[int]]:
-        if root is None: return []
+    def levelOrder( self , root : Optional[TreeNode] ) -> list[list[int]] :
+        if root is None : return []
 
-        queue : list[int] = [root]
-        count_down_level : int = 1
+        queue : deque[TreeNode] = deque( [root] )
+        count_down_siblings : int = 1 # because at the root level there's only 1 node
         return_list : list[ list[int] ] = [[]]
 
         #-----------------------------------
-        while queue:
-            current : TreeNode = queue.pop(0)
-            count_down_level -= 1
+        while queue : 
+            current : TreeNode = queue.popleft()
+            count_down_siblings -= 1
             return_list[-1].append(current.val)
 
+            if current.left  : queue.append(current.left)
+            if current.right : queue.append(current.right)
 
-            if current.left:
-                queue.append(current.left)       
-            if current.right:
-                queue.append(current.right)
-         
-
-            if count_down_level == 0:
-                count_down_level = len(queue)
-                return_list.append([])
+            if count_down_siblings == 0 :
+                count_down_siblings = len(queue) # some nodes only have 1 child, some have 2 children
+                return_list.append( [] )
         #-----------------------------------
-                
-        return_list.pop() #remove the last empty list
-                
+
+        return_list.pop() # remove the tail empty list added by default when a level is depleted
+
         return return_list
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------

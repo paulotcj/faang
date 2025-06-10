@@ -40,7 +40,7 @@ class BinaryTree: # don't care about this implementation
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def levelOrder( self , root : Optional[TreeNode] ) -> list[list[int]] :
+    def levelOrder( self , root : Optional[TreeNode] ) -> list[list[int]] : # DFS style
         if root is None : return []
 
         stack : list[tuple[TreeNode,int]] = [ (root, 1) ]
