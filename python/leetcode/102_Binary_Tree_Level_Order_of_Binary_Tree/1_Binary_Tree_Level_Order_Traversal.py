@@ -41,7 +41,7 @@ class BinaryTree: # don't care about this implementation
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def levelOrder_1(self, root: Optional[TreeNode]) -> list[list[int]]:
+    def levelOrder(self, root: Optional[TreeNode]) -> list[list[int]]:
         if root is None: return []
 
         stack : list[ list[TreeNode, int] ] = [ [root,1] ]
@@ -71,84 +71,6 @@ class Solution:
         #-----------------------------------
                 
         return return_list
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def levelOrder_2(self, root: Optional[TreeNode]) -> list[list[int]]:
-        if root is None: return []
-
-        queue : list[int] = [root]
-        count_down_level : int = 1
-        return_list : list[ list[int] ] = [[]]
-
-        #-----------------------------------
-        while queue:
-            current : TreeNode = queue.pop(0)
-            count_down_level -= 1
-            return_list[-1].append(current.val)
-
-
-            if current.left:
-                queue.append(current.left)       
-            if current.right:
-                queue.append(current.right)
-         
-
-            if count_down_level == 0:
-                count_down_level = len(queue)
-                return_list.append([])
-        #-----------------------------------
-                
-        return_list.pop() #remove the last empty list
-                
-        return return_list
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def levelOrder(self, root: Optional[TreeNode]) -> list[list[int]]:
-        if not root : return []
-        result : list[ list[int] ] = []
-        queue : list[TreeNode] = [root]
-        
-        #-----------------------------------
-        while queue:
-            current_level : list[int] = []
-            #-----------------------------------
-            for _ in range(len(queue)):
-                current : TreeNode = queue.pop(0)
-                current_level.append(current.val)
-
-                if current.left: queue.append(current.left)
-                if current.right: queue.append(current.right)
-            #-----------------------------------
-            result.append(current_level)
-        #-----------------------------------
-        return result
-    #-------------------------------------------------------------------------    
-    #-------------------------------------------------------------------------
-    def levelOrder3(self, root: Optional[TreeNode]) -> list[list[int]]:
-        if not root: return []
-        
-        result : list[list[int]] = []
-        queue : deque = deque([root])
-
-        #-----------------------------------
-        while queue:
-            size_queue : int = len(queue)
-            curr_level : list[int] = []
-            #-----------------------------------
-            for i in range(size_queue):
-                node : TreeNode = queue.popleft() #dequeue
-                curr_level.append(node.val)
-
-                if node.left:
-                    queue.append(node.left)
-                if node.right:
-                    queue.append(node.right)
-            #-----------------------------------
-            result.append(curr_level)
-        #-----------------------------------
-
-        return result
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
     
