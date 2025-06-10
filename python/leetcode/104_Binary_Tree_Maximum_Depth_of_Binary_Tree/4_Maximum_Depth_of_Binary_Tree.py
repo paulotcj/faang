@@ -41,28 +41,25 @@ class Solution:
         return return_val
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def max_depth_bfs(self, curr_node: Optional[TreeNode]) -> int:
-        if not curr_node: return 0
+    def max_depth_bfs( sefl , curr_node : Optional[TreeNode] ) -> int :
+        if not curr_node : return 0
 
-        queue: deque[TreeNode] = deque([curr_node])
-        depth : int = 0
+        queue : deque[TreeNode] = deque( [curr_node] )
+        max_depth : int = 0
 
         #-----------------------------------
-        while queue:
-            level_size : int = len(queue)
+        while queue : 
+            queue_size : int =  len(queue)
             #-----------------------------------
-            for _ in range(level_size):
-                node = queue.popleft()
-                if node.left:
-                    queue.append(node.left)
-                if node.right:
-                    queue.append(node.right)
+            for _ in range(queue_size) : # this second loop to perform  BFS and be able to count the level
+                curr_node : TreeNode = queue.popleft()
+                if curr_node.left  : queue.append( curr_node.left  )
+                if curr_node.right : queue.append( curr_node.right )
             #-----------------------------------
-            depth += 1
+            max_depth += 1 # we've explored all the nodes in this level, so add up 1
         #-----------------------------------
-
-        return depth
-    #-------------------------------------------------------------------------    
+        return max_depth
+    #-------------------------------------------------------------------------  
 #-------------------------------------------------------------------------
 
 
