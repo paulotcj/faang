@@ -42,21 +42,22 @@ class Solution:
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def max_depth_bfs(self, curr_node: Optional[TreeNode]) -> int:
-        if not curr_node:
-            return 0
+        if not curr_node: return 0
 
         queue: deque[TreeNode] = deque([curr_node])
-        depth = 0
+        depth : int = 0
 
         #-----------------------------------
         while queue:
-            level_size = len(queue)
+            level_size : int = len(queue)
+            #-----------------------------------
             for _ in range(level_size):
                 node = queue.popleft()
                 if node.left:
                     queue.append(node.left)
                 if node.right:
                     queue.append(node.right)
+            #-----------------------------------
             depth += 1
         #-----------------------------------
 
