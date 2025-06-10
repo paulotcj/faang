@@ -41,7 +41,39 @@ class BinaryTree: # don't care about this implementation
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def levelOrder(self, root: Optional[TreeNode]) -> list[list[int]]:
+    def levelOrder_1(self, root: Optional[TreeNode]) -> list[list[int]]:
+        if root is None: return []
+
+        stack : list[ list[TreeNode, int] ] = [ [root,1] ]
+        return_list : list[list[int]] = []
+        #---
+        temp_l : list[TreeNode, int]
+        current = TreeNode
+        current_level : int
+
+        #-----------------------------------
+        while stack:
+            temp_l  = stack.pop()
+            current = temp_l[0]
+            current_level = temp_l[1]
+
+            #---
+            if len(return_list) < current_level: #new level needs to be added
+                return_list.append([current.val])
+            else:
+                return_list[current_level-1].append(current.val)
+            #---
+            if current.right: #the right side needs to be added first, because we will push to the stack and then when we pop this will be the last
+                stack.append([current.right,current_level+1])
+            if current.left:
+                stack.append([current.left, current_level+1])
+            #---
+        #-----------------------------------
+                
+        return return_list
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def levelOrder_2(self, root: Optional[TreeNode]) -> list[list[int]]:
         if root is None: return []
 
         queue : list[int] = [root]
@@ -69,6 +101,54 @@ class Solution:
         return_list.pop() #remove the last empty list
                 
         return return_list
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def levelOrder(self, root: Optional[TreeNode]) -> list[list[int]]:
+        if not root : return []
+        result : list[ list[int] ] = []
+        queue : list[TreeNode] = [root]
+        
+        #-----------------------------------
+        while queue:
+            current_level : list[int] = []
+            #-----------------------------------
+            for _ in range(len(queue)):
+                current : TreeNode = queue.pop(0)
+                current_level.append(current.val)
+
+                if current.left: queue.append(current.left)
+                if current.right: queue.append(current.right)
+            #-----------------------------------
+            result.append(current_level)
+        #-----------------------------------
+        return result
+    #-------------------------------------------------------------------------    
+    #-------------------------------------------------------------------------
+    def levelOrder3(self, root: Optional[TreeNode]) -> list[list[int]]:
+        if not root: return []
+        
+        result : list[list[int]] = []
+        queue : deque = deque([root])
+
+        #-----------------------------------
+        while queue:
+            size_queue : int = len(queue)
+            curr_level : list[int] = []
+            #-----------------------------------
+            for i in range(size_queue):
+                node : TreeNode = queue.popleft() #dequeue
+                curr_level.append(node.val)
+
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            #-----------------------------------
+            result.append(curr_level)
+        #-----------------------------------
+
+        return result
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
     
