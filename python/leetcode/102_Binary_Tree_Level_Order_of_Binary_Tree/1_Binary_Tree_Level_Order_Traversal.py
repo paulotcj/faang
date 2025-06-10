@@ -1,6 +1,6 @@
 #problem: https://leetcode.com/problems/binary-tree-level-order-traversal
 from collections import deque
-from typing import List, Optional, Dict
+from typing import Optional
 # Definition for a binary tree node.
 
 #-------------------------------------------------------------------------
@@ -41,13 +41,13 @@ class BinaryTree: # don't care about this implementation
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def levelOrder_1(self, root: Optional[TreeNode]) -> List[List[int]]:
+    def levelOrder_1(self, root: Optional[TreeNode]) -> list[list[int]]:
         if root is None: return []
 
-        stack : List[ List[TreeNode, int] ] = [ [root,1] ]
-        return_list : List[List[int]] = []
+        stack : list[ list[TreeNode, int] ] = [ [root,1] ]
+        return_list : list[list[int]] = []
         #---
-        temp_l : List[TreeNode, int]
+        temp_l : list[TreeNode, int]
         current = TreeNode
         current_level : int
 
@@ -73,12 +73,12 @@ class Solution:
         return return_list
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def levelOrder_2(self, root: Optional[TreeNode]) -> List[List[int]]:
+    def levelOrder_2(self, root: Optional[TreeNode]) -> list[list[int]]:
         if root is None: return []
 
-        queue : List[int] = [root]
+        queue : list[int] = [root]
         count_down_level : int = 1
-        return_list : List[ List[int] ] = [[]]
+        return_list : list[ list[int] ] = [[]]
 
         #-----------------------------------
         while queue:
@@ -104,14 +104,14 @@ class Solution:
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+    def levelOrder(self, root: Optional[TreeNode]) -> list[list[int]]:
         if not root : return []
-        result : List[ List[int] ] = []
-        queue : List[TreeNode] = [root]
+        result : list[ list[int] ] = []
+        queue : list[TreeNode] = [root]
         
         #-----------------------------------
         while queue:
-            current_level : List[int] = []
+            current_level : list[int] = []
             #-----------------------------------
             for _ in range(len(queue)):
                 current : TreeNode = queue.pop(0)
@@ -125,16 +125,16 @@ class Solution:
         return result
     #-------------------------------------------------------------------------    
     #-------------------------------------------------------------------------
-    def levelOrder3(self, root: Optional[TreeNode]) -> List[List[int]]:
+    def levelOrder3(self, root: Optional[TreeNode]) -> list[list[int]]:
         if not root: return []
         
-        result : List[List[int]] = []
+        result : list[list[int]] = []
         queue : deque = deque([root])
 
         #-----------------------------------
         while queue:
             size_queue : int = len(queue)
-            curr_level : List[int] = []
+            curr_level : list[int] = []
             #-----------------------------------
             for i in range(size_queue):
                 node : TreeNode = queue.popleft() #dequeue
