@@ -41,7 +41,7 @@ class Solution:
         current = TreeNode
         current_level : int
 
-        #-------------
+        #-----------------------------------
         while stack:
             temp_l  = stack.pop()
             current = temp_l[0]
@@ -58,7 +58,7 @@ class Solution:
             if current.left:
                 stack.append([current.left, current_level+1])
             #---
-        #-------------
+        #-----------------------------------
                 
         return return_list
     #-------------------------------------------------------------------------
@@ -70,7 +70,7 @@ class Solution:
         count_down_level : int = 1
         return_list : List[ List[int] ] = [[]]
 
-        #-------------
+        #-----------------------------------
         while queue:
             current : TreeNode = queue.pop(0)
             count_down_level -= 1
@@ -86,7 +86,7 @@ class Solution:
             if count_down_level == 0:
                 count_down_level = len(queue)
                 return_list.append([])
-        #-------------
+        #-----------------------------------
                 
         return_list.pop() #remove the last empty list
                 
@@ -99,18 +99,19 @@ class Solution:
         result : List[ List[int] ] = []
         queue : List[TreeNode] = [root]
         
+        #-----------------------------------
         while queue:
             current_level : List[int] = []
-            #-------------
+            #-----------------------------------
             for _ in range(len(queue)):
                 current : TreeNode = queue.pop(0)
                 current_level.append(current.val)
 
                 if current.left: queue.append(current.left)
                 if current.right: queue.append(current.right)
-            #-------------
+            #-----------------------------------
             result.append(current_level)
-        #-------------
+        #-----------------------------------
         return result
     #-------------------------------------------------------------------------    
     #-------------------------------------------------------------------------
@@ -120,11 +121,11 @@ class Solution:
         result : List[List[int]] = []
         queue : deque = deque([root])
 
-        #-------------
+        #-----------------------------------
         while queue:
             size_queue : int = len(queue)
             curr_level : List[int] = []
-            #-------------
+            #-----------------------------------
             for i in range(size_queue):
                 node : TreeNode = queue.popleft() #dequeue
                 curr_level.append(node.val)
@@ -133,9 +134,9 @@ class Solution:
                     queue.append(node.left)
                 if node.right:
                     queue.append(node.right)
-            #-------------
+            #-----------------------------------
             result.append(curr_level)
-        #-------------
+        #-----------------------------------
 
         return result
     #-------------------------------------------------------------------------
