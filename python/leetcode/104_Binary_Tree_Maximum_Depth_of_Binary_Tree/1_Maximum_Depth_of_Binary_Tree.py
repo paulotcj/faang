@@ -35,17 +35,29 @@ class BinaryTree: # don't care about this implementation
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 class Solution:
+    ''' Depth First Search style - the idea here is that you go recursively dow the tree 
+    until you reach the lowest possible node, this node will have its left and right 
+    pointers as None, then they both will return 0 to its valid parent node. The parent 
+    node will issue a max() function between the return levels of left and right, which
+    will be max(0,0) = 0, but then it will also add + 1.
+    Anf this bubbles up, the parent of this current node will receive current node
+    level (1) and then add 1 resulting in 2.
+    If the current node's sibling was None, then then the current node reports to its
+    parent we would have: max(1, 0) = 1... 
+    '''
     #-------------------------------------------------------------------------
-    def maxDepth_recursive(self, curr_node: TreeNode) -> int:
-        if curr_node is None: return 0
-        return 1 + max( 
-            self.maxDepth_recursive(curr_node = curr_node.left), 
-            self.maxDepth_recursive(curr_node = curr_node.right) 
+    def max_depth_recusive_dfs( self , curr_node : TreeNode ) -> int :
+        if curr_node is None : return 0
+
+        return_result : int = 1 + max (
+            self.max_depth_recusive_dfs( curr_node = curr_node.left ) ,
+            self.max_depth_recusive_dfs( curr_node = curr_node.right)
         )
-    #-------------------------------------------------------------------------    
+        return return_result
+    #-------------------------------------------------------------------------  
     #-------------------------------------------------------------------------
     def maxDepth(self, root: Optional[TreeNode]) -> int:
-        return_val : int = self.maxDepth_recursive(curr_node = root)
+        return_val : int = self.max_depth_recusive_dfs(curr_node = root)
         return return_val
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
