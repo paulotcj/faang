@@ -36,67 +36,38 @@ class BinaryTree: # don't care about this implementation
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def maxDepth_recursive(self, root: TreeNode) -> int:
-        
-        if root is None: return 0
-        return 1 + max( self.maxDepth_recursive(root = root.left), self.maxDepth_recursive(root = root.right) )
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        return_val : int = self.max_depth_breadth_first(curr_node = root)
+        return return_val
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def maxDepth_beadth_first(self, root: TreeNode) -> int:
-        if root is None: return 0
-        max_depth : int = 1
-        stack : List[ List[TreeNode, int] ] = [ [root, max_depth] ]
+    def max_depth_breadth_first( self , curr_node : Optional[TreeNode] ) -> int :
+        if curr_node is None : return 0
+        max_depth : int = 1 # as of right now we know it's at least 1
 
-        #-------------
-        while stack:
-            temp_l : List[TreeNode, int] = stack.pop()
-            temp: TreeNode = temp_l[0]
-            current_level : int = temp_l[1]
-            #---
-            if temp.left is None and temp.right is None:
-                continue
-            current_level += 1
-            max_depth = max(max_depth, current_level)
-            #---
-            if temp.left:
-                stack.append([temp.left,current_level])
-            if temp.right:
-                stack.append([temp.right,current_level])
-            #---
-        #-------------
-        
-        return max_depth
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def maxDepth_depth_first(self, root: TreeNode) -> int:
-        if root is None: return 0
-        #----
-        max_depth : int = 0
-        depth_level: int = 0
-        current: TreeNode = root
-        stack : List[TreeNode] = [] #backtrack my path
-        visited : Dict[TreeNode, bool] = {} #i also need to know which ones I visited
-        #----
-        while current:
+        stack : list[tuple[TreeNode, int]] = [ (curr_node, max_depth) ]
 
-            if current not in visited: # new node never visited
-                depth_level += 1
-                max_depth = max(max_depth, depth_level)
-                visited[current] = True
+        #-----------------------------------
+        while stack : 
+            #-----
+            temp_pop : tuple[TreeNode , int] = stack.pop()
+            loop_node : TreeNode = temp_pop[0]
+            current_level : int = temp_pop[1]
+            #-----
 
+            # if both children are None then the current level is correct already
+            if loop_node.left is None and loop_node.right is None : continue
 
-            if current.left and current.left not in visited:
-                stack.append(current) #backtrack my path
-                current = current.left  
-            elif current.right and current.right not in visited:
-                stack.append(current) #backtrack my path
-                current = current.right
-            else:
-                current = stack.pop() if stack else None
-                depth_level -= 1
+            current_level += 1 # at least one valid child, so we add 1 level
 
-        #----
-                
+            max_depth = max( max_depth, current_level )
+
+            if loop_node.left:
+                stack.append( (loop_node.left, current_level) )
+            if loop_node.right:
+                stack.append( (loop_node.right, current_level) )
+        #-----------------------------------
+
         return max_depth
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------

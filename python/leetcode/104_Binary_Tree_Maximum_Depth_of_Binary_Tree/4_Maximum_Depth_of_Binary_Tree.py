@@ -36,29 +36,43 @@ class BinaryTree: # don't care about this implementation
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def maxDepth(self, root: Optional[TreeNode]) -> int:
-        return_val : int = self.max_depth_breadth_first(curr_node = root)
-        return return_val
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def max_depth_breadth_first(self, curr_node: Optional[TreeNode]) -> int:
-        if not curr_node: return 0
-
-        max_depth : int = 1
-        stack : list[tuple[TreeNode, int]] = [(curr_node, max_depth)]
+    def maxDepth_recursive(self, root: TreeNode) -> int:
         
-        #-----------------------------------
-        while stack:
-            loop_node, loop_node_depth = stack.pop()
-            #-----
-            if loop_node:
-                max_depth = max(max_depth, loop_node_depth)
-                stack.append((loop_node.left, loop_node_depth + 1))
-                stack.append((loop_node.right, loop_node_depth + 1))
-            #-----
-        #-----------------------------------
-        return max_depth   
-    #------------------------------------------------------------------------- 
+        if root is None: return 0
+        return 1 + max( self.maxDepth_recursive(root = root.left), self.maxDepth_recursive(root = root.right) )
+    #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+    def maxDepth_depth_first(self, root: TreeNode) -> int:
+        if root is None: return 0
+        #----
+        max_depth : int = 0
+        depth_level: int = 0
+        current: TreeNode = root
+        stack : list[TreeNode] = [] #backtrack my path
+        visited : list[TreeNode, bool] = {} #i also need to know which ones I visited
+        #----
+        while current:
+
+            if current not in visited: # new node never visited
+                depth_level += 1
+                max_depth = max(max_depth, depth_level)
+                visited[current] = True
+
+
+            if current.left and current.left not in visited:
+                stack.append(current) #backtrack my path
+                current = current.left  
+            elif current.right and current.right not in visited:
+                stack.append(current) #backtrack my path
+                current = current.right
+            else:
+                current = stack.pop() if stack else None
+                depth_level -= 1
+
+        #----
+                
+        return max_depth
+    #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
 
