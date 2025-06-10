@@ -1,7 +1,6 @@
 #problem: https://leetcode.com/problems/binary-tree-level-order-traversal
 from collections import deque
 from typing import Optional
-# Definition for a binary tree node.
 
 #-------------------------------------------------------------------------
 class TreeNode:
@@ -41,35 +40,23 @@ class BinaryTree: # don't care about this implementation
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def levelOrder(self, root: Optional[TreeNode]) -> list[list[int]]:
-        if root is None: return []
+    def levelOrder( self , root : Optional[TreeNode] ) -> list[list[int]] :
+        if root is None : return []
 
-        stack : list[ list[TreeNode, int] ] = [ [root,1] ]
+        stack : list[tuple[TreeNode,int]] = [ (root, 1) ]
         return_list : list[list[int]] = []
-        #---
-        temp_l : list[TreeNode, int]
-        current = TreeNode
-        current_level : int
-
         #-----------------------------------
-        while stack:
-            temp_l  = stack.pop()
-            current = temp_l[0]
-            current_level = temp_l[1]
+        while stack :
+            current , current_level = stack.pop()
 
-            #---
-            if len(return_list) < current_level: #new level needs to be added
-                return_list.append([current.val])
-            else:
-                return_list[current_level-1].append(current.val)
-            #---
-            if current.right: #the right side needs to be added first, because we will push to the stack and then when we pop this will be the last
-                stack.append([current.right,current_level+1])
-            if current.left:
-                stack.append([current.left, current_level+1])
-            #---
+            if len(return_list) < current_level : return_list.append( [] ) # new level needs to be added
+
+            return_list[current_level - 1].append(current.val)
+
+            # the right side needs to be added first, as when the stack pops the left will be the first out
+            if current.right : stack.append( (current.right , current_level + 1) ) 
+            if current.left  : stack.append( (current.left  , current_level + 1) )
         #-----------------------------------
-                
         return return_list
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
