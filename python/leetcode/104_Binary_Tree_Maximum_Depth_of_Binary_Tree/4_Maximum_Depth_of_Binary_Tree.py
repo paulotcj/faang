@@ -51,12 +51,12 @@ class Solution:
         while queue : 
             queue_size : int =  len(queue)
             #-----------------------------------
-            for _ in range(queue_size) : # this second loop to perform  BFS and be able to count the level
+            for _ in range(queue_size) : # process all nodes at the current level
                 curr_node : TreeNode = queue.popleft()
                 if curr_node.left  : queue.append( curr_node.left  )
                 if curr_node.right : queue.append( curr_node.right )
             #-----------------------------------
-            max_depth += 1 # we've explored all the nodes in this level, so add up 1
+            max_depth += 1 # after processing the current level, increase depth
         #-----------------------------------
         return max_depth
     #-------------------------------------------------------------------------  
