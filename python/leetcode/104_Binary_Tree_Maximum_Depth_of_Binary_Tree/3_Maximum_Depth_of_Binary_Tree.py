@@ -41,24 +41,26 @@ class Solution:
         return return_val
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def max_depth_breadth_first(self, curr_node: Optional[TreeNode]) -> int:
-        if not curr_node: return 0
+    def max_depth_breadth_first( self , curr_node : Optional[TreeNode] ) -> int :
+        if not curr_node : return 0
 
-        max_depth : int = 1
-        stack : list[tuple[TreeNode, int]] = [(curr_node, max_depth)]
-        
+        max_depth : int = 1 # at this point we know this is the min depth of the tree
+        stack : list[tuple[TreeNode, int]] = [ ( curr_node , max_depth ) ]
+
         #-----------------------------------
-        while stack:
-            loop_node, loop_node_depth = stack.pop()
+        while stack :
+            node_loop , node_loop_depth = stack.pop()
             #-----
-            if loop_node:
-                max_depth = max(max_depth, loop_node_depth)
-                stack.append((loop_node.left, loop_node_depth + 1))
-                stack.append((loop_node.right, loop_node_depth + 1))
+            if node_loop : # need to check, as this might be None from a non-existing child
+                max_depth = max( max_depth , node_loop_depth ) # the node_loop_depth was not computed yet, it was pushed to the stack but not calculated
+                # now schedule to check the left and right child
+                stack.append( ( node_loop.left , node_loop_depth + 1 ) ) # we will only compute this added level if this node is not empty
+                stack.append( ( node_loop.right, node_loop_depth + 1 ) ) # same here
             #-----
         #-----------------------------------
-        return max_depth   
-    #------------------------------------------------------------------------- 
+
+        return max_depth
+    #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
 
