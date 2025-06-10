@@ -15,21 +15,24 @@ class BinaryTree: # don't care about this implementation
     #-------------------------------------------------------------------------
     @staticmethod
     def from_list(values: list[Optional[int]]) -> Optional[TreeNode]:
-        if not values:
-            return None
-        root = TreeNode(values[0])
+        if not values: return None
+
+        root : TreeNode = TreeNode( val = values[0])
         queue: deque[TreeNode] = deque([root])
-        i = 1
+
+        #-----------------------------------
+        i : int = 1
         while queue and i < len(values):
-            node = queue.popleft()
+            curr_node : TreeNode = queue.popleft()
             if i < len(values) and values[i] is not None:
-                node.left = TreeNode(values[i])
-                queue.append(node.left)
+                curr_node.left = TreeNode(values[i])
+                queue.append(curr_node.left)
             i += 1
             if i < len(values) and values[i] is not None:
-                node.right = TreeNode(values[i])
-                queue.append(node.right)
+                curr_node.right = TreeNode(values[i])
+                queue.append(curr_node.right)
             i += 1
+        #-----------------------------------
         return root
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
