@@ -39,25 +39,31 @@ class BinaryTree: # don't care about this implementation
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
-        if not root: return []
+    def rightSideView( self , root : Optional[TreeNode] ) -> List[int] :
+        if not root : return []
 
-        queue : List [TreeNode] = [root]
-        return_list : List[int] = []
+        queue : deque[TreeNode] = deque( [root] )
+        return_list : list[int] = []
 
         #-----------------------------------
-        while queue:
-            return_list.append(None)
+        while queue : 
+            return_list.append(None) #dummy value for the node which is about to pop
             #-----------------------------------
-            for _ in range(len(queue)):
-                current : TreeNode = queue.pop(0)
-                return_list[-1] = current.val
-                
-                if current.left: queue.append(current.left)
-                if current.right: queue.append(current.right)
+            for _ in range(len(queue)) : # loop through was added at this current level
+                curr : TreeNode = queue.popleft()
+
+                ''' the way this is set up: if a node has both children, the last one
+                 will overwrite the previous one, and in this case we are popping left
+                 first, meaning the right child might override left. Now if there's no
+                 left right will be the default, no issues here. Similarly if we only
+                 have a left side, this will be the default
+                 '''
+                return_list[-1] = curr.val
+
+                if curr.left  : queue.append( curr.left )
+                if curr.right : queue.append( curr.right )
             #-----------------------------------
         #-----------------------------------
-            
         return return_list
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
