@@ -1,6 +1,8 @@
 #problem: https://leetcode.com/problems/count-complete-tree-nodes/description/
+
 from typing import Optional
 from collections import deque
+
 #-------------------------------------------------------------------------
 class TreeNode:
     #-------------------------------------------------------------------------
@@ -39,64 +41,51 @@ class BinaryTree: # don't care about this implementation
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def get_height(self, root: TreeNode) -> int:
-        height : int = 0
-        current : TreeNode = root
-        while current:
-            height += 1
-            current = current.left
+    def countNodes( self , root : Optional[TreeNode] ) -> int :
+        if root is None : return 0
 
-        return height
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def exists(self, root: TreeNode, target : int) -> bool:
-        path : list[str] = []
-        while target > 1:
-            if target % 2 == 0: path.append('L')
-            else: path.append('R')
+        count : int = 0
+        stack : list[TreeNode] = [ root ]
+        #-----------------------------------
+        while stack : 
+            curr : TreeNode = stack.pop()
+            count += 1
 
-            target = target // 2
-
-        path.reverse()
-
-        curr : TreeNode = root
-
-        for direction in path:
-            if direction == 'L' and curr.left: 
-                curr = curr.left
-            elif direction == 'R' and curr.right: 
-                curr = curr.right
-            else: return False
-
-        return True
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def countNodes(self, root: Optional[TreeNode]) -> int:
-        if root is None: return 0
-
-        tree_height : int = self.get_height(root)
-        potential_total_nodes : int = 2 ** tree_height - 1
-
-        #now let's try to play with binary search
-        last_level_possible_nodes : int = 2 ** (tree_height - 1) 
-        
-        left : int = potential_total_nodes - last_level_possible_nodes + 1 #plus 1 because we know that at least the left most node must exists
-        right : int = potential_total_nodes
-        if self.exists(root, right): return potential_total_nodes
-
-        while left <= right:
-            mid : int = left + (right - left) // 2
-            if self.exists(root, mid):
-                left = mid + 1
-            else:
-                right = mid - 1
-
-        return left - 1
-    #-------------------------------------------------------------------------
+            if curr.right : stack.append( curr.right )
+            if curr.left : stack.append( curr.left ) 
+        #-----------------------------------
+        return count
+    #-------------------------------------------------------------------------    
 #-------------------------------------------------------------------------
-            
-tree = CreateTree.create_tree()
+
+
+print('------------------')
+input = [1,2,3,4,5,6]
+binary_tree_root = BinaryTree.from_list(values = input)
+expected = 6
 sol = Solution()
-# sol.exists(tree, 11)
-result = sol.countNodes(tree)
-print(result)
+result = sol.countNodes(root = binary_tree_root)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected }') 
+
+
+
+print('------------------')
+input = [1]
+binary_tree_root = BinaryTree.from_list(values = input)
+expected = 1
+sol = Solution()
+result = sol.countNodes(root = binary_tree_root)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected }') 
+
+
+
+print('------------------')
+input = []
+binary_tree_root = BinaryTree.from_list(values = input)
+expected = 0
+sol = Solution()
+result = sol.countNodes(root = binary_tree_root)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected }') 

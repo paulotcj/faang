@@ -41,19 +41,52 @@ class BinaryTree: # don't care about this implementation
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def countNodes(self, root: Optional[TreeNode]) -> int:
-        if root is None: return 0
+    def countNodes( self , root : Optional[TreeNode] ) -> int :
+        if root is None : return 0
 
         count : int = 0
-        queue : list[TreeNode] = [root]
+        queue : deque[TreeNode] = deque( [root] )
 
-        while queue:
-            current : TreeNode = queue.pop(0)
+        #-----------------------------------
+        while queue : 
+            curr : TreeNode = queue.popleft()
             count += 1
 
-            if current.left: queue.append(current.left)
-            if current.right: queue.append(current.right)
-        
+            if curr.left : queue.append( curr.left ) 
+            if curr.right : queue.append( curr.right )
+        #-----------------------------------
         return count
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
+
+
+print('------------------')
+input = [1,2,3,4,5,6]
+binary_tree_root = BinaryTree.from_list(values = input)
+expected = 6
+sol = Solution()
+result = sol.countNodes(root = binary_tree_root)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected }') 
+
+
+
+print('------------------')
+input = [1]
+binary_tree_root = BinaryTree.from_list(values = input)
+expected = 1
+sol = Solution()
+result = sol.countNodes(root = binary_tree_root)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected }') 
+
+
+
+print('------------------')
+input = []
+binary_tree_root = BinaryTree.from_list(values = input)
+expected = 0
+sol = Solution()
+result = sol.countNodes(root = binary_tree_root)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected }') 
