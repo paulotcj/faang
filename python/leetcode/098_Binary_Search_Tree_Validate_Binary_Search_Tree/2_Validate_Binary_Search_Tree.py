@@ -1,5 +1,5 @@
 #problem: https://leetcode.com/problems/validate-binary-search-tree
-from typing import Optional, List, Dict
+from typing import Optional
 from collections import deque
 #-------------------------------------------------------------------------
 class TreeNode:
@@ -39,41 +39,62 @@ class BinaryTree: # don't care about this implementation
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def isValidBST(self, root: Optional[TreeNode]) -> bool:
-        if not root: return False
-        current: TreeNode = root
-        queue : List[ List[int, TreeNode, int] ] = [ [float("-inf"), current, float("inf") ] ]
-        #-------------
-        while queue:
-            min , current, max = queue.pop(0)
+    def isValidBST( self , root : Optional[TreeNode] ) -> bool :
+        if not root : return True # an empty tree is still valid
 
-            if current.val <= min or current.val >= max:
-                return False
+        stack : list[tuple[TreeNode, int, int]] = [ (root, float('-inf'), float('inf')) ]
+
+        #-----------------------------------
+        while stack :
+            node , min_val , max_val = stack.pop()
+            if not node : continue # no issues here, still valid (node and subtree)
+
+            if not ( min_val < node.val < max_val ) : return False # if this is not true then it breaks the rules of a valid BST
+
+            ''' lets recap, left < curr_node < right. And the stack a tuple with this format:
+            (node_to_stack, min_val, max_val).
+            That means when we stack the left node, the min value continues to be whatever it was
+              before, but the max value is now limited by the parent node, as we now have this info
+            When we stack the the right node, the max_value continue to be whatever it was, but the min
+              value now is the parent node's value, as now we have this info
+            '''
+            # format (node_to_stack, min_val, max_val)
+            stack.append( (node.left, min_val, node.val) ) # the left node is smaller than the current node
+            stack.append( (node.right, node.val, max_val) )
             
-            if current.left: 
-                queue.append([min, current.left, current.val])
-            if current.right:
-                queue.append([current.val, current.right, max])
-        #-------------
+        #-----------------------------------
+
         return True
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def helper(self,node:TreeNode, min: int,max: int):
-        if not node: return True
-        
-        #node cannot be smalle or equal to min or node cannot be greater or equal to max
-        if min >= node.val or max<=node.val:
-            return False
-        
-        #investigate left and right subtrees
-        res:bool = self.helper(node = node.left, min = min, max = node.val) and self.helper(node = node.right, min = node.val, max = max)
-        
-        return res
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
     
-tree = CreateTree.create_tree()
+print('------------------')
+input = [2,1,3]
+binary_tree_root = BinaryTree.from_list(values = input)
+expected = True
 sol = Solution()
-# sol.exists(tree, 11)
-result = sol.isValidBST(tree)
-print(result)    
+result = sol.isValidBST(root = binary_tree_root)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected }') 
+
+
+
+print('------------------')
+input = [5,1,4,None,None,3,6]
+binary_tree_root = BinaryTree.from_list(values = input)
+expected = False
+sol = Solution()
+result = sol.isValidBST(root = binary_tree_root)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected }') 
+
+
+
+print('------------------')
+input = [2,1,3]
+binary_tree_root = BinaryTree.from_list(values = input)
+expected = True
+sol = Solution()
+result = sol.isValidBST(root = binary_tree_root)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected }') 
