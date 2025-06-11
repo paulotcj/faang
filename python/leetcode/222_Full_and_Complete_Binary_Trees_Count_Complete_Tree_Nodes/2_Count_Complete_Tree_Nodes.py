@@ -1,54 +1,6 @@
 #problem: https://leetcode.com/problems/count-complete-tree-nodes/description/
-from typing import Optional, List, Dict
-#-------------------------------------------------------------------------
-class CreateTree:
-    #-------------------------------------------------------------------------
-    def create_tree_1():
-        root = TreeNode(3)
-        
-        root.left = TreeNode(9)
-        root.right = TreeNode(20)
-
-        root.left.left = TreeNode(1)
-        root.left.right = TreeNode(4)
-        root.right.left = TreeNode(15)
-        root.right.right = TreeNode(7)
-        
-        return root
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def create_tree():
-        #---
-        #level 1
-        root = TreeNode(1)
-        #---
-        #level 2
-        root.left = TreeNode(2)
-        root.right = TreeNode(3)
-        #---
-        #level 3
-        root.left.left = TreeNode(4)
-        root.left.right = TreeNode(5)
-
-        root.right.left = TreeNode(6)
-        root.right.right = TreeNode(7)
-        #---
-        #level 4
-        root.left.left.left = TreeNode(8)
-        root.left.left.right = TreeNode(9)
-
-        root.left.right.left = TreeNode(10)
-        root.left.right.right = TreeNode(11)
-
-        root.right.left.left = TreeNode(12)
-        # root.right.left.right = TreeNode(13)
-
-        # root.right.right.left = TreeNode(14)
-        # root.right.right.right = TreeNode(15)
-        
-        return root
-    #-------------------------------------------------------------------------    
-#-------------------------------------------------------------------------
+from typing import Optional
+from collections import deque
 #-------------------------------------------------------------------------
 class TreeNode:
     #-------------------------------------------------------------------------
@@ -56,7 +8,33 @@ class TreeNode:
         self.val = val
         self.left = left
         self.right = right
-        #-------------------------------------------------------------------------
+    #-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
+class BinaryTree: # don't care about this implementation
+    #-------------------------------------------------------------------------
+    @staticmethod
+    def from_list(values: list[Optional[int]]) -> Optional[TreeNode]:
+        if not values: return None
+
+        root : TreeNode = TreeNode( val = values[0])
+        queue: deque[TreeNode] = deque([root])
+
+        #-----------------------------------
+        i : int = 1
+        while queue and i < len(values):
+            curr_node : TreeNode = queue.popleft()
+            if i < len(values) and values[i] is not None:
+                curr_node.left = TreeNode(values[i])
+                queue.append(curr_node.left)
+            i += 1
+            if i < len(values) and values[i] is not None:
+                curr_node.right = TreeNode(values[i])
+                queue.append(curr_node.right)
+            i += 1
+        #-----------------------------------
+        return root
+    #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 class Solution:
@@ -72,7 +50,7 @@ class Solution:
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def exists(self, root: TreeNode, target : int) -> bool:
-        path : List[str] = []
+        path : list[str] = []
         while target > 1:
             if target % 2 == 0: path.append('L')
             else: path.append('R')
