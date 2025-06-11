@@ -62,27 +62,6 @@ class Solution:
         #-----------------------------------
         return result
     #-------------------------------------------------------------------------     
-    #-------------------------------------------------------------------------
-    def levelOrder2(self, root: Optional[TreeNode]) -> list[list[int]]:
-        if not root : return []
-        result : list[ list[int] ] = []
-        queue : list[TreeNode] = [root]
-        
-        #-----------------------------------
-        while queue:
-            current_level : list[int] = []
-            #-----------------------------------
-            for _ in range(len(queue)):
-                current : TreeNode = queue.pop(0)
-                current_level.append(current.val)
-
-                if current.left: queue.append(current.left)
-                if current.right: queue.append(current.right)
-            #-----------------------------------
-            result.append(current_level)
-        #-----------------------------------
-        return result
-    #-------------------------------------------------------------------------    
 #-------------------------------------------------------------------------
     
 
