@@ -40,24 +40,34 @@ class BinaryTree: # don't care about this implementation
 class Solution:
     #-------------------------------------------------------------------------
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
-        if not root: return []
+        if root is None: return []
 
-        queue : List [TreeNode] = [root]
-        return_list : List[int] = []
+        stack : List[ List[TreeNode, int] ] = [ [root,1] ]
+        return_list : List[ int ] = []
+        #---
+        temp_l : List[TreeNode, int]
+        current = TreeNode
+        current_level : int
 
         #-----------------------------------
-        while queue:
-            return_list.append(None)
-            #-----------------------------------
-            for _ in range(len(queue)):
-                current : TreeNode = queue.pop(0)
-                return_list[-1] = current.val
+        while stack:
+            temp_l  = stack.pop()
+            current = temp_l[0]
+            current_level = temp_l[1]
+
+            #---
+            if len(return_list) < current_level: #new level needs to be added
+                return_list.append(current.val)
+            else:
+                return_list[current_level-1] = current.val
+            #---
+            if current.right: #the right side needs to be added first, because we will push to the stack and then when we pop this will be the last
+                stack.append([current.right,current_level+1])
+            if current.left:
+                stack.append([current.left, current_level+1])
+            #---
+        #-----------------------------------
                 
-                if current.left: queue.append(current.left)
-                if current.right: queue.append(current.right)
-            #-----------------------------------
-        #-----------------------------------
-            
         return return_list
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
