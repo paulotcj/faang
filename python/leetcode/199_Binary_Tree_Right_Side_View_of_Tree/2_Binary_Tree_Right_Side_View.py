@@ -39,36 +39,28 @@ class BinaryTree: # don't care about this implementation
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
-        if root is None: return []
+    def rightSideView( self , root : Optional[TreeNode] ) -> List[int] :
+        if root is None : return []
 
-        stack : List[ List[TreeNode, int] ] = [ [root,1] ]
-        return_list : List[ int ] = []
-        #---
-        temp_l : List[TreeNode, int]
-        current = TreeNode
-        current_level : int
+        stack : list[ list[TreeNode, int] ] = [ [root, 1] ]
+        result : list[int] = []
 
         #-----------------------------------
-        while stack:
-            temp_l  = stack.pop()
-            current = temp_l[0]
-            current_level = temp_l[1]
+        while stack : 
+            curr , curr_lvl = stack.pop()
 
-            #---
-            if len(return_list) < current_level: #new level needs to be added
-                return_list.append(current.val)
-            else:
-                return_list[current_level-1] = current.val
-            #---
-            if current.right: #the right side needs to be added first, because we will push to the stack and then when we pop this will be the last
-                stack.append([current.right,current_level+1])
-            if current.left:
-                stack.append([current.left, current_level+1])
-            #---
+            if len(result) < curr_lvl : result.append( None ) # shortcut new level needs to be added
+            result[curr_lvl-1] = curr.val
+            
+            # need to investigate this
+            # print(f'   curr_lvl-1       : {curr_lvl-1}')
+            # print(f'   result[-1] idx is: { len(result)-1 }')
+
+            if curr.right : stack.append( (curr.right , curr_lvl + 1 )) #the right side needs to be added first, because we will push to the stack and then when we pop this will be the last
+            if curr.left  : stack.append( (curr.left  , curr_lvl + 1 ))
         #-----------------------------------
-                
-        return return_list
+        return result
+
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
     
