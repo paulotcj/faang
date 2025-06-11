@@ -41,7 +41,29 @@ class BinaryTree: # don't care about this implementation
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def levelOrder(self, root: Optional[TreeNode]) -> list[list[int]]:
+    def levelOrder( self , root : Optional[TreeNode] ) -> list[list[int]] : # BFS style
+        if not root : return []
+
+        result : list[list[int]] = []
+        queue : deque[TreeNode] = deque( [root] )
+
+        #-----------------------------------
+        while queue : 
+            current_siblings_level : list[int] = []
+            #-----------------------------------
+            for _ in range(len(queue)) :
+                current_node : TreeNode = queue.popleft()
+                current_siblings_level.append(current_node.val)
+
+                if current_node.left  : queue.append(current_node.left)
+                if current_node.right : queue.append(current_node.right)
+            #-----------------------------------
+            result.append(current_siblings_level)
+        #-----------------------------------
+        return result
+    #-------------------------------------------------------------------------     
+    #-------------------------------------------------------------------------
+    def levelOrder2(self, root: Optional[TreeNode]) -> list[list[int]]:
         if not root : return []
         result : list[ list[int] ] = []
         queue : list[TreeNode] = [root]
