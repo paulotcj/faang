@@ -1,44 +1,6 @@
 #problem: https://leetcode.com/problems/validate-binary-search-tree
-from typing import Optional, List, Dict
-#-------------------------------------------------------------------------
-class CreateTree:
-    #-------------------------------------------------------------------------
-    def create_tree():
-        root : TreeNode = None
-        #---
-        #level 1
-        root = TreeNode(12)
-        #---
-        #level 2
-        root.left = TreeNode(7)
-        root.right = TreeNode(18)
-        #---
-        #level 3
-        root.left.left = TreeNode(5)
-        root.left.right = TreeNode(9)
-
-        root.right.left = TreeNode(14)
-        root.right.right = TreeNode(25)
-        #---
-        #level 4
-        # root.left.left.left = TreeNode(8)
-        # root.left.left.right = TreeNode(9)
-
-        root.left.right.left = TreeNode(8)
-        root.left.right.right = TreeNode(11)
-
-        # root.right.left.left = TreeNode(12)
-        root.right.left.right = TreeNode(15)
-
-        # root.right.right.left = TreeNode(14)
-        # root.right.right.right = TreeNode(15)
-        #---
-        #level 5
-        root.right.left.right.right = TreeNode(16)
-        
-        return root
-    #-------------------------------------------------------------------------
-#-------------------------------------------------------------------------
+from typing import Optional
+from collections import deque
 #-------------------------------------------------------------------------
 class TreeNode:
     #-------------------------------------------------------------------------
@@ -49,28 +11,78 @@ class TreeNode:
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
+class BinaryTree: # don't care about this implementation
+    #-------------------------------------------------------------------------
+    @staticmethod
+    def from_list(values: list[Optional[int]]) -> Optional[TreeNode]:
+        if not values: return None
+
+        root : TreeNode = TreeNode( val = values[0])
+        queue: deque[TreeNode] = deque([root])
+
+        #-----------------------------------
+        i : int = 1
+        while queue and i < len(values):
+            curr_node : TreeNode = queue.popleft()
+            if i < len(values) and values[i] is not None:
+                curr_node.left = TreeNode(values[i])
+                queue.append(curr_node.left)
+            i += 1
+            if i < len(values) and values[i] is not None:
+                curr_node.right = TreeNode(values[i])
+                queue.append(curr_node.right)
+            i += 1
+        #-----------------------------------
+        return root
+    #-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def isValidBST(self, root: Optional[TreeNode]) -> bool:
-        return self.helper(node = root, min = float("-inf"), max = float("inf"))
+    def isValidBST( self , root : Optional[TreeNode] ) -> bool :
+        result : bool = self.helper( node = root, min = float('-inf'), max = float('inf') )
+        return result
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def helper(self,node:TreeNode, min: int,max: int):
-        if not node: return True
-        
-        #node cannot be smalle or equal to min or node cannot be greater or equal to max
-        if min >= node.val or max<=node.val:
-            return False
-        
-        #investigate left and right subtrees
-        res:bool = self.helper(node = node.left, min = min, max = node.val) and self.helper(node = node.right, min = node.val, max = max)
-        
-        return res
+    def helper( self , node : TreeNode , min : int , max : int ) -> bool :
+        if not node : return True # if this node is None then its subtree is valid
+
+        if min >= node.val or max <= node.val : return False # invalid BST
+
+        result : bool = self.helper( node = node.left, min = min, max = node.val ) \
+                    and self.helper( node = node.right, min = node.val, max = max )
+    
+        return result
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
     
-tree = CreateTree.create_tree()
+print('------------------')
+input = [2,1,3]
+binary_tree_root = BinaryTree.from_list(values = input)
+expected = True
 sol = Solution()
-# sol.exists(tree, 11)
-result = sol.isValidBST(tree)
-print(result)    
+result = sol.isValidBST(root = binary_tree_root)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected }') 
+
+
+
+print('------------------')
+input = [5,1,4,None,None,3,6]
+binary_tree_root = BinaryTree.from_list(values = input)
+expected = False
+sol = Solution()
+result = sol.isValidBST(root = binary_tree_root)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected }') 
+
+
+
+print('------------------')
+input = [2,1,3]
+binary_tree_root = BinaryTree.from_list(values = input)
+expected = True
+sol = Solution()
+result = sol.isValidBST(root = binary_tree_root)
+print(f'result: {result}')
+print(f'Is the result correct? { result == expected }') 

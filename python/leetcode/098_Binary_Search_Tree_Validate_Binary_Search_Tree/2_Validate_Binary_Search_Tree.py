@@ -1,44 +1,6 @@
 #problem: https://leetcode.com/problems/validate-binary-search-tree
 from typing import Optional, List, Dict
-#-------------------------------------------------------------------------
-class CreateTree:
-    #-------------------------------------------------------------------------
-    def create_tree():
-        root : TreeNode = None
-        #---
-        #level 1
-        root = TreeNode(12)
-        #---
-        #level 2
-        root.left = TreeNode(7)
-        root.right = TreeNode(18)
-        #---
-        #level 3
-        root.left.left = TreeNode(5)
-        root.left.right = TreeNode(9)
-
-        root.right.left = TreeNode(14)
-        root.right.right = TreeNode(25)
-        #---
-        #level 4
-        # root.left.left.left = TreeNode(8)
-        # root.left.left.right = TreeNode(9)
-
-        root.left.right.left = TreeNode(8)
-        root.left.right.right = TreeNode(11)
-
-        # root.right.left.left = TreeNode(12)
-        root.right.left.right = TreeNode(15)
-
-        # root.right.right.left = TreeNode(14)
-        # root.right.right.right = TreeNode(15)
-        #---
-        #level 5
-        root.right.left.right.right = TreeNode(16)
-        
-        return root
-    #-------------------------------------------------------------------------
-#-------------------------------------------------------------------------
+from collections import deque
 #-------------------------------------------------------------------------
 class TreeNode:
     #-------------------------------------------------------------------------
@@ -46,6 +8,32 @@ class TreeNode:
         self.val = val
         self.left = left
         self.right = right
+    #-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
+class BinaryTree: # don't care about this implementation
+    #-------------------------------------------------------------------------
+    @staticmethod
+    def from_list(values: list[Optional[int]]) -> Optional[TreeNode]:
+        if not values: return None
+
+        root : TreeNode = TreeNode( val = values[0])
+        queue: deque[TreeNode] = deque([root])
+
+        #-----------------------------------
+        i : int = 1
+        while queue and i < len(values):
+            curr_node : TreeNode = queue.popleft()
+            if i < len(values) and values[i] is not None:
+                curr_node.left = TreeNode(values[i])
+                queue.append(curr_node.left)
+            i += 1
+            if i < len(values) and values[i] is not None:
+                curr_node.right = TreeNode(values[i])
+                queue.append(curr_node.right)
+            i += 1
+        #-----------------------------------
+        return root
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
