@@ -50,11 +50,17 @@ class Solution:
             curr , curr_lvl = stack.pop()
 
             if len(result) < curr_lvl : result.append( None ) # shortcut new level needs to be added
+            
+            ''' the reason to use  result[curr_lvl-1] instead of result[-1], is because this solution
+            uses a stack, meaning, we go DFS, and we might be exploring a deep down level, say level 3
+            and when we go back popping back the pending items from the stack, itens placed before will
+            pop up later, meaning, we might find a new item from a previous level, say lvl 2, pending
+            to be processed.'''
             result[curr_lvl-1] = curr.val
             
             # need to investigate this
-            # print(f'   curr_lvl-1       : {curr_lvl-1}')
-            # print(f'   result[-1] idx is: { len(result)-1 }')
+            print(f'   curr_lvl-1       : {curr_lvl-1}')
+            print(f'   result[-1] idx is: { len(result)-1 }')
 
             if curr.right : stack.append( (curr.right , curr_lvl + 1 )) #the right side needs to be added first, because we will push to the stack and then when we pop this will be the last
             if curr.left  : stack.append( (curr.left  , curr_lvl + 1 ))
@@ -72,7 +78,7 @@ sol = Solution()
 result = sol.rightSideView(root = binary_tree_root)
 print(f'result: {result}')
 print(f'Is the result correct? { result == expected }') 
-
+exit()
 
 print('------------------')
 input = [1,2,3,4,None,None,None,5]
