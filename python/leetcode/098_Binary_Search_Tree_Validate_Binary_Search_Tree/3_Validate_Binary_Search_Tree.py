@@ -39,32 +39,32 @@ class BinaryTree: # don't care about this implementation
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def isValidBST( self , root : Optional[TreeNode] ) -> bool : # DFS style
+    def isValidBST( self, root : Optional[TreeNode] ) -> bool : # BFS style
         if not root : return True # an empty tree is still valid
 
-        stack : list[tuple[TreeNode, int, int]] = [ (root, float('-inf'), float('inf')) ]
+        queue : deque[tuple[TreeNode, int, int]] = deque( [ (root, float('-inf'), float('inf')) ] )
 
         #-----------------------------------
-        while stack :
-            node , min_val , max_val = stack.pop()
-            if not node : continue # no issues here, still valid (node and subtree)
+        while queue : 
+            node , min_val , max_val = queue.popleft()
 
-            if not ( min_val < node.val < max_val ) : return False # if this is not true then it breaks the rules of a valid BST
+            if not node: continue # still a valid BST
 
-            ''' lets recap, left < curr_node < right. And the stack a tuple with this format:
-            (node_to_stack, min_val, max_val).
-            That means when we stack the left node, the min value continues to be whatever it was
-              before, but the max value is now limited by the parent node, as we now have this info
-            When we stack the the right node, the max_value continue to be whatever it was, but the min
-              value now is the parent node's value, as now we have this info
+            if not (min_val < node.val < max_val) : return False # invalid BST
+
+            ''' the format is: min_val < node.val < max_val
+            The left node is smaller than the curr_node, that doesn't tell us anything about the min_val
+            but we now know that max_val should not be bigger than curr_node.val, so for the left node:
+              (left_node, min_val, curr_node.val)
+            The right node is bigger than curr_node, that doesn't tell us anything about the max_val but
+              we now know that the min_val should not be smaller than curr_node.val, so:
+              (right_node, curr_node.val, max_node)
             '''
-            # format (node_to_stack, min_val, max_val)
-            stack.append( (node.left, min_val, node.val) ) # the left node is smaller than the current node
-            stack.append( (node.right, node.val, max_val) )
-            
-        #-----------------------------------
+            queue.append( ( node.left  , min_val  , node.val ) )
+            queue.append( ( node.right , node.val , max_val  ) )
 
-        return True
+        #-----------------------------------
+        return True # if no fault was found, the everything is alright
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
     
