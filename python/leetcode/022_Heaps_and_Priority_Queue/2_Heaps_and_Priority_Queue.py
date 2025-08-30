@@ -20,6 +20,7 @@ class PriorityQueue :
     def __init__( self) -> None :
         self.__heap : list[int] = []
         # self.comparator : Callable[[int,int], bool] = fnc_comparator
+        self.h : list[int] = self.__heap
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def peek(self) -> int|None :
@@ -40,13 +41,13 @@ class PriorityQueue :
         return parent
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def __get_left_child(self, current_idx : int) -> int :
+    def __get_left_child_idx(self, current_idx : int) -> int :
         left_child_idx : int = (current_idx * 2) + 1
         if left_child_idx < len(self.__heap) : return left_child_idx # ok, within range
         else : return None
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    def __get_right_child(self, current_idx : int) -> int :
+    def __get_right_child_idx(self, current_idx : int) -> int :
         right_child_idx : int = (current_idx * 2) + 2
         if right_child_idx < len(self.__heap) : return right_child_idx # ok , within range
         else : return None
@@ -78,8 +79,8 @@ class PriorityQueue :
 
         #----------------------------------------
         while curr_idx < len(self.__heap) :
-            left_idx    : int = self.__get_left_child(current_idx=curr_idx)
-            right_idx   : int = self.__get_right_child(current_idx=curr_idx)
+            left_idx    : int = self.__get_left_child_idx(current_idx=curr_idx)
+            right_idx   : int = self.__get_right_child_idx(current_idx=curr_idx)
 
             if left_idx is not None and right_idx is not None : # you have both left and right children, check which one is bigger
                 #-----
@@ -115,8 +116,9 @@ class PriorityQueue :
                 else:
                     break
                 #-----
-        #----------------------------------------
-    #-------------------------------------------------------------------------
+            else: # no child - break
+                break
+        #---------------------------------------- 
     #-------------------------------------------------------------------------
     def push(self, input : int) -> None :
         self.__heap.append(input)
@@ -131,7 +133,7 @@ class PriorityQueue :
         self.__sift_down()
 
         return ret_val
-    #-------------------------------------------------------------------------  
+    #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
 
@@ -147,7 +149,7 @@ x.push(7)
 x.push(1)
 x.push(8)
 x.push(4)
-print('hi')
+print('------------------')
 while x.is_empty() == False:
     result = x.pop()
     print(result)
