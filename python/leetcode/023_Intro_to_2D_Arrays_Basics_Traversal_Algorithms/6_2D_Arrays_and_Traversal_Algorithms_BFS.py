@@ -16,36 +16,47 @@ class create_data_structures:
 
 from collections import deque
 #-------------------------------------------------------------------------
-def bfs_traversal(matrix: list[list[int]], start_row: int = 0, start_col: int = 0) -> list[int]:
-    if not matrix or not matrix[0]:
-        return []
+def bfs_traversal(matrix : list[list[int]] , start_row : int = 0 , start_col : int = 0) -> list[int] :
+    if not matrix or not matrix[0] : return []
 
-    rows: int = len(matrix)
-    cols: int = len(matrix[0])
-    visited: list[list[bool]] = [[False] * cols for _ in range(rows)]
-    result: list[int] = []
+    rows : int = len(matrix)
+    cols : int = len(matrix[0])
+    path_visited : list[int] = []
+    queue : deque = deque()
 
-    queue: deque[tuple[int, int]] = deque()
-    queue.append((start_row, start_col))
+    seen : list[list[bool]] = [
+        [False] * cols
+        for _ in range(rows)
+    ]
+    # up , right , down, left - we must obey this order
+    directions : list[list[int]] = [ [-1,0], [0,1], [1,0], [0,-1] ]
 
-    directions: list[tuple[int, int]] = [(-1,0), (0,1), (1,0), (0,-1)]
+    queue.append( [start_row , start_col] )
 
-    while queue:
-        r, c = queue.popleft()
-        if not (0 <= r < rows and 0 <= c < cols):
-            continue
-        if visited[r][c]:
-            continue
 
-        visited[r][c] = True
-        result.append(matrix[r][c])
+    #----------------------------------------
+    while queue :
+        w_r , w_c = queue.popleft()
+        if w_r < 0 or w_r >= rows : continue
+        if w_c < 0 or w_c >= cols : continue
+        if seen[w_r][w_c] == True : continue
 
-        for dr, dc in directions:
-            nr, nc = r + dr, c + dc
-            queue.append((nr, nc))
+        seen[w_r][w_c] = True
+        path_visited.append( matrix[w_r][w_c] )
 
-    return result
+        # now queue in all possible directions to explore
+        #----------------------------------------
+        for row_dir , col_dir in directions : 
+            new_r : int = w_r + row_dir
+            new_c : int = w_c + col_dir
+            queue.append( [ new_r , new_c ] )
+
+        #----------------------------------------
+    #----------------------------------------
+
+    return path_visited
 #-------------------------------------------------------------------------
+
 
 
 matrix = create_data_structures.create_matrix()
