@@ -10,46 +10,48 @@ was tried, resulting in a dead end. You must use DFS or BFS for this problem
 from collections import deque
 
 #-------------------------------------------------------------------------
-class Solution:
+class Solution : 
     #-------------------------------------------------------------------------
-    def numIslands(self, grid: list[list[str]]) -> int:
-
-        rows: int = len(grid)
-        cols: int = len(grid[0])
-        num_islands: int = 0
-
-        # Directions: up, down, left, right
-        directions: list[list[int]] = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+    def numIslands(self , grid : list[list[str]]) -> int : 
+        rows : int = len(grid)
+        cols : int = len(grid[0])
+        num_islands : int = 0
+        directions : list[list[int]] = [ [-1,0], [0,1], [1,0], [0,-1] ] # up, right, down, left
 
         #-------------------------------------------------------------------------
-        def explore_bfs(start_row: int, start_col: int) -> None:
-            queue: deque[list[int]] = deque()
-            queue.append((start_row, start_col))
-            grid[start_row][start_col] = '0'  # Mark as visited
+        def explore_bfs(row : int , col : int ) -> None :
+            queue : deque[list[int]] = deque()
+            queue.append( [row, col] )
+
+            grid[row][col] = '*'
 
             #----------------------------------------
-            while queue:
-                row, col = queue.popleft()
+            while queue : 
+                q_r , q_c = queue.popleft()
                 #----------------------------------------
-                for dr, dc in directions:
-                    new_row: int = row + dr
-                    new_col: int = col + dc
-                    # Check bounds and if the cell is land
-                    if 0 <= new_row < rows and 0 <= new_col < cols and grid[new_row][new_col] == '1':
-                        grid[new_row][new_col] = '0'  # Mark as visited
-                        queue.append((new_row, new_col))
+                for dir_r, dir_c in directions:
+                    probe_r = q_r + dir_r
+                    probe_c = q_c + dir_c
+
+                    if probe_r < 0 or probe_r >= rows : continue
+                    if probe_c < 0 or probe_c >= cols : continue
+                    if grid[probe_r][probe_c] != '1'  : continue
+
+                    grid[probe_r][probe_c] = '*'
+
+                    queue.append( [probe_r, probe_c] )
+
+
                 #----------------------------------------
             #----------------------------------------
         #-------------------------------------------------------------------------
 
         #----------------------------------------
-        for row in range(rows):
-            for col in range(cols):
-                #-----
-                if grid[row][col] == '1':
+        for for_row in range(rows):
+            for for_col in range(cols) :
+                if grid[for_row][for_col] == '1':
                     num_islands += 1
-                    explore_bfs(row, col)
-                #-----
+                    explore_bfs(row = for_row, col = for_col)
         #----------------------------------------
 
         return num_islands
