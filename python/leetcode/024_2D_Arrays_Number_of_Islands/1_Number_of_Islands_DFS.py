@@ -1,58 +1,43 @@
 #problem: https://leetcode.com/problems/number-of-islands
 
-''' Notes : this solution utilizes BFS (breadth first search), and it's so far the
-fastest (BFS) implementation found and fairly simple.
+''' Notes : this solution utilizes DFS (depth first search), and it's so far the
+fastest (DFS) implementation found and fairly simple.
 Please also note that an attempted approach of exploring only the immediate vicinity
 was tried, resulting in a dead end. You must use DFS or BFS for this problem
 '''
 
-
-from collections import deque
-
 #-------------------------------------------------------------------------
-class Solution:
+class Solution :
     #-------------------------------------------------------------------------
-    def numIslands(self, grid: list[list[str]]) -> int:
-
-        rows: int = len(grid)
-        cols: int = len(grid[0])
-        num_islands: int = 0
-
-        # Directions: up, down, left, right
-        directions: list[list[int]] = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+    def numIslands( self , grid : list[list[str]] ) -> int :
+        rows : int = len(grid)
+        cols : int = len(grid[0])
+        num_islands : int = 0
 
         #-------------------------------------------------------------------------
-        def explore_bfs(start_row: int, start_col: int) -> None:
-            queue: deque[list[int]] = deque()
-            queue.append((start_row, start_col))
-            grid[start_row][start_col] = '0'  # Mark as visited
+        def explore_dfs(row : int , col : int ) -> None : 
+            # using DFS means we might expore out of bounds, so we must check bounds
+            if row < 0 or row >= rows   : return
+            if col < 0 or col >= cols   : return
+            if grid[row][col] != '1'    : return
 
-            #----------------------------------------
-            while queue:
-                row, col = queue.popleft()
-                #----------------------------------------
-                for dr, dc in directions:
-                    new_row: int = row + dr
-                    new_col: int = col + dc
-                    # Check bounds and if the cell is land
-                    if 0 <= new_row < rows and 0 <= new_col < cols and grid[new_row][new_col] == '1':
-                        grid[new_row][new_col] = '0'  # Mark as visited
-                        queue.append((new_row, new_col))
-                #----------------------------------------
-            #----------------------------------------
+            grid[row][col] = '*' # marking it as explored
+
+            explore_dfs(row = row - 1 , col = col + 0) # up
+            explore_dfs(row = row + 0 , col = col + 1) # right
+            explore_dfs(row = row + 1 , col = col + 0) # down
+            explore_dfs(row = row + 0 , col = col - 1) # left
         #-------------------------------------------------------------------------
-
+    
         #----------------------------------------
-        for row in range(rows):
-            for col in range(cols):
-                #-----
-                if grid[row][col] == '1':
+        for for_row in range(rows):
+            for for_col in range(cols):
+                if grid[for_row][for_col] == '1' : 
                     num_islands += 1
-                    explore_bfs(row, col)
-                #-----
+                    explore_dfs(row = for_row , col = for_col)
         #----------------------------------------
-
         return num_islands
+
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
