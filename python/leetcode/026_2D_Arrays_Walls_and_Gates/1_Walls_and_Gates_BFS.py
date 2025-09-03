@@ -1,46 +1,41 @@
 from collections import deque
-
-
-from typing import List
-from collections import deque
-
-
 #-------------------------------------------------------------------------
-class Solution:
+class Solution :
     #-------------------------------------------------------------------------
-    def wallsAndGates(self, rooms: list[list[int]]) -> None:
-
-        if not rooms or not rooms[0]: return
-
+    def wallsAndGates(self, rooms: list[list[int]]) -> list[list[int]]:
         rows  : int = len(rooms)
         cols  : int = len(rooms[0])
         INF   : int = 2_147_483_647
-        queue : deque[list[int, int]] = deque()
+        queue : deque[list[int]] = deque()
+        directions: list[list[int, int]] = [[-1, 0], [1, 0], [0, -1], [0, 1]]
 
         # Enqueue all gates (cells with value 0)
         #----------------------------------------
-        for r in range(rows):
-            for c in range(cols):
-                if rooms[r][c] == 0:
-                    queue.append((r, c))
+        for for_r in range(rows) :
+            for for_c in range(cols) :
+                if rooms[for_r][for_c] == 0 :
+                    queue.append( [for_r, for_c] )
         #----------------------------------------
-
-        # Directions: up, down, left, right
-        directions: list[list[int, int]] = [[-1, 0], [1, 0], [0, -1], [0, 1]]
 
         # BFS from all gates
         #----------------------------------------
-        while queue:
-            row, col = queue.popleft()
+        while queue : 
+            q_r , q_c = queue.popleft()
             #----------------------------------------
-            for dr, dc in directions:
-                nr, nc = row + dr, col + dc
-                # If neighbor is an empty room, update its distance and enqueue it
-                if 0 <= nr < rows and 0 <= nc < cols and rooms[nr][nc] == INF:
-                    rooms[nr][nc] = rooms[row][col] + 1
-                    queue.append((nr, nc))
+            for dir_r, dir_c in directions : 
+                probing_r : int = q_r + dir_r
+                probing_c : int = q_c + dir_c
+
+                if probing_r < 0 or probing_r >= rows : continue
+                if probing_c < 0 or probing_c >= cols : continue
+                #-----
+                if (rooms[probing_r][probing_c]) > (rooms[q_r][q_c] + 1) :
+                    rooms[probing_r][probing_c] = rooms[q_r][q_c] + 1
+                    queue.append( [probing_r,probing_c] )
+                #-----
             #----------------------------------------
         #----------------------------------------
+
         return rooms
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
