@@ -1,5 +1,7 @@
 from collections import deque
 
+from sklearn import neighbors
+
 
 #-------------------------------------------------------------------------
 def traversal_bfs_1(graph : list[list[int]] , start_idx : int) -> list[int] : 
@@ -68,6 +70,27 @@ def traversal_bfs_3(graph: list[list[int]], start_idx : int) -> list[int]:
     #----------------------------------------
     return explored_path
 #-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
+def traversal_bfs_4(graph: list[list[int]], start_idx: int) -> list[int]:
+    queue : deque[int] = deque( [ start_idx ] )
+    seen : set[int] = set()
+    explored_path : list[int] = []
+
+    #----------------------------------------
+    while queue : 
+        node : int = queue.popleft()
+        explored_path.append(node)
+        seen.add(node)
+
+        #----------------------------------------
+        for conn in graph[node] :
+            if conn not in seen : 
+                queue.append(conn)
+        #----------------------------------------
+    #----------------------------------------
+    return explored_path
+#-------------------------------------------------------------------------
+
 
 
 adjacency_list : list[list[int]] = [
@@ -89,4 +112,7 @@ values = traversal_bfs_2(graph = adjacency_list, start_idx=0)
 print(values)
 
 values = traversal_bfs_3(graph = adjacency_list, start_idx=0)
+print(values)
+
+values = traversal_bfs_4(graph = adjacency_list, start_idx=0)
 print(values)
