@@ -1,79 +1,76 @@
 from collections import deque
-from typing import List
+
 
 #-------------------------------------------------------------------------
-def traversal_bfs(graph , start_idx):
-    queue         = [start_idx]
-    explored_path = []
-    seen          = {}
+def traversal_bfs_1(graph : list[list[int]] , start_idx : int) -> list[int] : 
+    queue           : deque[int] = deque()
+    explored_path   : list[int] = []
+    seen            : dict[int, bool] = {}
 
-    #---------------------------
-    while queue:
-        vertex = queue.pop(0)
+    queue.append(start_idx)
+    #----------------------------------------
+    while queue :
+        vertex : int = queue.popleft()
         explored_path.append(vertex)
         seen[vertex] = True
 
-        connections = graph[vertex] # get the vertex's connections
-        #---------------------------
-        for connection in connections:
-            if connection not in seen:
-                queue.append(connection)
-        #---------------------------
-
-    #---------------------------
+        connections : list[int] = graph[vertex]
+        #----------------------------------------
+        for for_cn in connections : 
+            if for_cn not in seen : 
+                queue.append(for_cn)
+        #----------------------------------------
+    #----------------------------------------
 
     return explored_path
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
-def graph_bfs(graph : List[List[int]], start_idx: int):
-    q               = deque([start_idx])
-    explored_path   = []
-    seen            = set() # could be a list, but a dictionary has constant time to check for elements
+def traversal_bfs_2(graph : list[list[int]], start_idx: int) -> list[int] :
+    q               : deque[int] = deque()
+    explored_path   : list[int] = []
+    seen            : set[int] = set()
 
-    #---------------------------
-    while q:
-        current = q.popleft()
+    q.append(start_idx)
+    #----------------------------------------
+    while q : 
+        current : int = q.popleft()
         explored_path.append(current)
         seen.add(current)
 
-        #---------------------------
-        conns = graph[current]
-        for e in conns:
-            if e not in seen:
-                q.append(e)
-        #---------------------------
-    #---------------------------
-
+        conns : list[int] = graph[current]
+        for cn in conns:
+            if cn not in seen:
+                q.append(cn)
+    #----------------------------------------
     return explored_path
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
-def graph_dfs_2(graph: List[List[int]], start_idx : int) -> List[int]:
-    q = deque([start_idx])
-    visited = set()
-    explored_path = []
+def traversal_bfs_3(graph: list[list[int]], start_idx : int) -> list[int]:
+    q : deque[int] = deque()
+    seen : set[int] = set()
+    explored_path : list[int] = []
 
-    #---------------------------
-    while q:
-        current = q.popleft() #current is an index
-        if current not in visited:
-            visited.add(current)
-            explored_path.append(current)
+    q.append(start_idx)
+    #----------------------------------------
+    while q : 
+        curr : int = q.popleft()
+        if curr not in seen :
+            seen.add(curr)
+            explored_path.append(curr)
 
-            #---------------------------
-            for cnn_idx in graph[current]:
-                if cnn_idx not in visited:
-                    q.append(cnn_idx)
-            #---------------------------
+            conns : list[int] = graph[curr]
+            #----------------------------------------
+            for cn in conns :
+                if cn not in seen :
+                    q.append(cn)
+            #----------------------------------------
 
-    #---------------------------
-
+    #----------------------------------------
     return explored_path
-
-
 #-------------------------------------------------------------------------
 
 
-adjacency_list = [
+adjacency_list : list[list[int]] = [
     [1, 3],         #0 - start idx
     [0],            #1
     [3, 8],         #2
@@ -85,11 +82,11 @@ adjacency_list = [
     [2]             #
 ]
 
-values = traversal_bfs(graph = adjacency_list, start_idx=0)
+values = traversal_bfs_1(graph = adjacency_list, start_idx=0)
 print(values)
 
-values = graph_bfs(graph = adjacency_list, start_idx=0)
+values = traversal_bfs_2(graph = adjacency_list, start_idx=0)
 print(values)
 
-values = graph_dfs_2(graph = adjacency_list, start_idx=0)
+values = traversal_bfs_3(graph = adjacency_list, start_idx=0)
 print(values)
