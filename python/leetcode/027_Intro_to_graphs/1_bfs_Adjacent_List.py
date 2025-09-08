@@ -1,8 +1,5 @@
 from collections import deque
 
-from sklearn import neighbors
-
-
 #-------------------------------------------------------------------------
 def traversal_bfs_1(graph : list[list[int]] , start_idx : int) -> list[int] : 
     queue           : deque[int] = deque()
