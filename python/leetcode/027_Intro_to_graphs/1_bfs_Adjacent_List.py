@@ -1,7 +1,8 @@
 from collections import deque
 
+
 #-------------------------------------------------------------------------
-def traversal_bfs_1(graph : list[list[int]] , start_idx : int) -> list[int] : 
+def traversal_bfs_1_old(graph : list[list[int]] , start_idx : int) -> list[int] : 
     queue           : deque[int] = deque()
     explored_path   : list[int] = []
     seen            : dict[int, bool] = {}
