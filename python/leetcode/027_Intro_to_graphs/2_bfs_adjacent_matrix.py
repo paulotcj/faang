@@ -1,24 +1,27 @@
 from collections import deque
 #-------------------------------------------------------------------------
 def traversal_bfs_1(graph : list[list[int]], start_idx : int) -> list[int] :
-    queue : deque[int] = deque()
+    q : deque[int] = deque( [ start_idx ] )
     seen : set[int] = set()
     explored_path : list[int] = []
 
-    rows : int = len( graph )
-    cols : int = len( graph[0] )
+    rows : int = len(graph)
+    cols : int = len(graph[0])
 
-    queue.append(start_idx)
+    ''' note that we might end up not exploring all rows, because there might be the case
+     where the vertexes to explore don't include that row at all. But we do need to check
+     all the links from the row we are exploring, meaning, we need to check every column '''
+
     #----------------------------------------
-    while queue :
-        row_idx : int = queue.popleft()
+    while q :
+        row_idx : int = q.popleft()
         seen.add(row_idx)
         explored_path.append(row_idx)
 
         #----------------------------------------
-        for col_idx in range( cols ) :
-            if graph[row_idx][col_idx] == 1 and not col_idx in seen :
-                queue.append(col_idx)
+        for col_idx in range(cols) :
+            if graph[row_idx][col_idx] == 1 and col_idx not in seen :
+                q.append(col_idx)
         #----------------------------------------
     #----------------------------------------
 
@@ -26,11 +29,10 @@ def traversal_bfs_1(graph : list[list[int]], start_idx : int) -> list[int] :
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 def traversal_bfs_2(graph : list[list[int]], start_idx : int) -> list[int] :
-    q : deque[int] = deque()
+    q : deque[int] = deque( [ start_idx ] )
     seen : set[int] = set()
     explored_path : list[int] = []
 
-    q.append(start_idx)
     #----------------------------------------
     while q : 
         row_idx : int = q.popleft()
@@ -38,33 +40,33 @@ def traversal_bfs_2(graph : list[list[int]], start_idx : int) -> list[int] :
         seen.add(row_idx)
 
         #----------------------------------------
-        for col_idx, col_v in enumerate( graph[row_idx] ) :
-            if col_v == 1 and col_idx not in seen:
+        for col_idx , col_v in enumerate( graph[row_idx] ) :
+            if col_v == 1 and col_idx not in seen :
                 q.append(col_idx)
         #----------------------------------------
-
     #----------------------------------------
+
     return explored_path
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 def traversal_bfs_3(graph : list[list[int]], start_idx: int) -> list[int] :
-    q = deque([start_idx])
-    seen = set()
-    explored_path = []
+    q : deque[int] = deque( [ start_idx ] )
+    seen : set[int] = set()
+    explored_path : list[int] = []
 
     #----------------------------------------
-    while q:
-        current = q.popleft()
-        explored_path.append(current)
-        seen.add(current)
+    while q : 
+        curr : int = q.popleft()
+        seen.add(curr)
+        explored_path.append( curr )
 
         #----------------------------------------
-        conns = graph[current]
-        for idx, val in enumerate(conns):
-            if val == 1 and idx not in seen:
-                q.append(idx)
+        for col_idx , col_v in enumerate( graph[curr] ) :
+            if col_v == 1 and col_idx not in seen :
+                q.append(col_idx)
         #----------------------------------------
     #----------------------------------------
+
     return explored_path
 #-------------------------------------------------------------------------
 
