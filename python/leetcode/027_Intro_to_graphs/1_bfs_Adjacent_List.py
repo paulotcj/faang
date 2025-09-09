@@ -1,24 +1,23 @@
 from collections import deque
 
-
 #-------------------------------------------------------------------------
-def traversal_bfs_1_old(graph : list[list[int]] , start_idx : int) -> list[int] : 
+def traversal_bfs_1(graph : list[list[int]] , start_idx : int) -> list[int] : 
     queue           : deque[int] = deque()
     explored_path   : list[int] = []
-    seen            : dict[int, bool] = {}
+    seen            : dict[int,bool] = {}
 
     queue.append(start_idx)
     #----------------------------------------
-    while queue :
+    while queue : 
         vertex : int = queue.popleft()
         explored_path.append(vertex)
         seen[vertex] = True
 
-        connections : list[int] = graph[vertex]
+        conns : list[int] = graph[vertex]
         #----------------------------------------
-        for for_cn in connections : 
-            if for_cn not in seen : 
-                queue.append(for_cn)
+        for conn in conns:
+            if conn not in seen :
+                queue.append(conn)
         #----------------------------------------
     #----------------------------------------
 
@@ -26,22 +25,24 @@ def traversal_bfs_1_old(graph : list[list[int]] , start_idx : int) -> list[int] 
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 def traversal_bfs_2(graph : list[list[int]], start_idx: int) -> list[int] :
-    q               : deque[int] = deque()
+    queue           : deque[int] = deque()
     explored_path   : list[int] = []
     seen            : set[int] = set()
 
-    q.append(start_idx)
+    queue.append(start_idx)
     #----------------------------------------
-    while q : 
-        current : int = q.popleft()
+    while queue :
+        current : int = queue.popleft()
         explored_path.append(current)
         seen.add(current)
 
-        conns : list[int] = graph[current]
-        for cn in conns:
-            if cn not in seen:
-                q.append(cn)
+        #----------------------------------------
+        for conn in graph[current] :
+            if conn not in seen :
+                queue.append(conn)
+        #----------------------------------------
     #----------------------------------------
+
     return explored_path
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
@@ -52,37 +53,35 @@ def traversal_bfs_3(graph: list[list[int]], start_idx : int) -> list[int]:
 
     q.append(start_idx)
     #----------------------------------------
-    while q : 
+    while q: 
         curr : int = q.popleft()
-        if curr not in seen :
-            seen.add(curr)
+        if curr not in seen: # I don't think this is necessary, this should never happen
             explored_path.append(curr)
+            seen.add(curr)
 
-            conns : list[int] = graph[curr]
             #----------------------------------------
-            for cn in conns :
-                if cn not in seen :
-                    q.append(cn)
+            for conn in graph[curr] :
+                if conn not in seen:
+                    q.append(conn)
             #----------------------------------------
-
     #----------------------------------------
     return explored_path
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 def traversal_bfs_4(graph: list[list[int]], start_idx: int) -> list[int]:
-    queue : deque[int] = deque( [ start_idx ] )
+    queue : deque[int] = deque( [start_idx] )
     seen : set[int] = set()
     explored_path : list[int] = []
 
     #----------------------------------------
-    while queue : 
+    while queue:
         node : int = queue.popleft()
         explored_path.append(node)
         seen.add(node)
 
         #----------------------------------------
         for conn in graph[node] :
-            if conn not in seen : 
+            if conn not in seen:
                 queue.append(conn)
         #----------------------------------------
     #----------------------------------------
