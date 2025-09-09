@@ -1,52 +1,38 @@
-
 #-------------------------------------------------------------------------
-def traversal_dfs(vertex, graph, p_visited_path, seen):
-    p_visited_path.append(vertex)
-    seen[vertex] = True
+def dfs_adj_list_1(start_idx : int, graph : list[list[int]]):
+    visited_path : list[list[int]] = []
+    seen : set[int] = set()
 
-    #---------------------------
-    connections = graph[vertex]
-    for connection in connections:
-        if not seen.get(connection, False): # check if connection exists, if not return False
-            traversal_dfs(
-                vertex          = connection, 
-                graph           = graph, 
-                p_visited_path  = p_visited_path, 
-                seen            = seen
-            )
-    #---------------------------
-#-------------------------------------------------------------------------
-#-------------------------------------------------------------------------
-def dfs_adj_list(current_idx, graph, p_visited_path, seen):
-    p_visited_path.append(current_idx)
-    seen[current_idx] = True
+    #-------------------------------------------------------------------------
+    def inner_dfs_adj_list(current_idx : int) -> None :
+        visited_path.append(current_idx)
+        seen.add(current_idx)
 
-    #---------------------------
-    connections = graph[current_idx]
-    for cnn in connections:
-        if cnn not in seen:
-            dfs_adj_list(
-                current_idx     = cnn,
-                graph           = graph,
-                p_visited_path  = p_visited_path,
-                seen            = seen
-            )
-    #---------------------------
+        #----------------------------------------
+        for conn in graph[current_idx] :
+            if conn not in seen :
+                inner_dfs_adj_list(current_idx=conn)
+        #----------------------------------------        
+    #-------------------------------------------------------------------------
+    
+    inner_dfs_adj_list(current_idx=start_idx)
+
+    return visited_path
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
-def dfs_adj_list_iterative(start_idx, graph):
-    stack = [start_idx]
-    visited_path = []
-    seen = {}
+def dfs_adj_list_3(start_idx : int, graph : list[list[int]]):
+    stack : list[int] = [ start_idx ]
+    visited_path : list[int] = []
+    seen : set[int] = set()
 
-    #---------------------------
-    while stack:
-        current = stack.pop()
-        if current not in seen:
-            visited_path.append(current)
-            seen[current] = True
+    #----------------------------------------
+    while stack : 
+        curr_idx : int = stack.pop()
+        if curr_idx not in seen :
+            visited_path.append(curr_idx)
+            seen.add(curr_idx)
 
-            #---------------------------
+            #----------------------------------------
             '''Add neighbors to the stack in reverse order to maintain the same order as recursion
              a little further explanation here. Consider the connections to the node 0: [1, 3]
              we should visit first 1 and then 3. If we put then in the stack as they are the stack
@@ -56,44 +42,20 @@ def dfs_adj_list_iterative(start_idx, graph):
              intuitively, the previous implementation of recursion tells us that was a stack
              abstraction.
             '''
-            rev_conns = reversed(graph[current])
-            for conn in rev_conns:
+            for conn in reversed( graph[curr_idx] ) :
                 if conn not in seen:
                     stack.append(conn)
-            #---------------------------
-    #---------------------------
-
-    return visited_path
-#-------------------------------------------------------------------------
-from collections import deque
-from typing import List
-#-------------------------------------------------------------------------
-def dfs_adj_list_iterative_2(graph, start_idx):
-    stack = deque([start_idx])
-    visited_path = []
-    seen = set()
-
-    #---------------------------
-    while stack:
-        curr = stack.pop()
-        if curr not in seen:
-            visited_path.append(curr)
-            seen.add(curr)
-
-            #---------------------------
-            rev_conns = reversed( graph[curr] ) #this is not sorted but reversed from whatever order it was provided
-            for cn in rev_conns:
-                if cn not in seen:
-                    stack.append(cn)
-            #---------------------------
-    #---------------------------
+            #----------------------------------------
+    #----------------------------------------
 
     return visited_path
 #-------------------------------------------------------------------------
 
 
 
-adjacency_list = [
+
+
+adjacency_list : list[list[int]] = [
     [1, 3],         # 0
     [0],            # 1
     [3, 8],         # 2
@@ -106,31 +68,20 @@ adjacency_list = [
 ]
 
 
-global_visited_path = []
-traversal_dfs(
-    vertex          = 0, 
-    graph           = adjacency_list, 
-    p_visited_path  = global_visited_path, 
-    seen            = {}
+
+result = dfs_adj_list_1(
+    start_idx   =  0, 
+    graph       = adjacency_list,
 )
-print(global_visited_path)
-
-global_visited_path = []
-dfs_adj_list(
-    current_idx     =  0, 
-    graph           = adjacency_list, 
-    p_visited_path  = global_visited_path, 
-    seen            = {}
-)
-print(global_visited_path)
-
-
-
-result = dfs_adj_list_iterative(start_idx = 0, graph = adjacency_list)
 print(result)
 
 
-result = dfs_adj_list_iterative_2(start_idx = 0, graph = adjacency_list)
+
+result = dfs_adj_list_3(start_idx = 0, graph = adjacency_list)
+print(result)
+
+
+result = dfs_adj_list_4(start_idx = 0, graph = adjacency_list)
 print(result)
 
 
