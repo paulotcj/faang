@@ -6,38 +6,40 @@ from collections import deque, defaultdict
 class Solution:
     #-------------------------------------------------------------------------
     def numOfMinutes(self, n: int, headID: int, manager: list[int], informTime: list[int] ) -> int:
-        # Build the adjacency list: manager -> list of direct subordinates
-        subordinates: dict[int, list[int]] = defaultdict(list)
+        # build the adjacency list: manager -> list of direct subordinates
+        subordinates : dict[int, list[int]] = defaultdict(list)
+
         #----------------------------------------
-        for employee_id, mgr_id in enumerate(manager):
-            if mgr_id != -1:
-                subordinates[mgr_id].append(employee_id)
+        for emp_id , mgr_id in enumerate(manager) :
+            if mgr_id == -1 : continue 
+            subordinates[mgr_id].append(emp_id)
         #----------------------------------------
-        
-        # BFS queue: (current_employee, time_to_reach_this_employee)
-        queue: deque[tuple[int, int]] = deque()
-        queue.append((headID, 0))
-        
-        max_time: int = 0
-        
+
+        # bfs queue: (current_employee, time_to_reach_this_employee)
+        queue : deque[ list[int] ] = deque( [ [headID , 0] ])
+        max_time : int = 0
+
         #----------------------------------------
-        while queue:
-            current_id, current_time = queue.popleft()
-            # Update the maximum time needed so far
-            max_time = max(max_time, current_time)
-            # Traverse all direct subordinates
+        while queue : 
+            curr_emp_id , current_emp_time = queue.popleft()
+            # update the maximum time needed so far
+            max_time = max( max_time , current_emp_time )
+
+            # now explore all direct subordinates
+            #----------------------------------------
+            for subordinate_id in subordinates[curr_emp_id] :
+                # each subordinate can be informed after current_time + informTime[curr_emp_id] - and
+                #   that is (and careful because this can cause a bug) the way we approach this is that
+                #   the lower level employees witout subordinates take 0 min to inform, but their
+                #   managers require time, so we always append the manager's time
+                queue.append( [ subordinate_id , current_emp_time + informTime[curr_emp_id] ] )
 
             #----------------------------------------
-            for subordinate in subordinates.get(current_id, []):
-                # Each subordinate can be informed after current_time + informTime[current_id]
-                queue.append((subordinate, current_time + informTime[current_id]))
-            #----------------------------------------
         #----------------------------------------
-        
+
         return max_time
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
-
 
 
 
