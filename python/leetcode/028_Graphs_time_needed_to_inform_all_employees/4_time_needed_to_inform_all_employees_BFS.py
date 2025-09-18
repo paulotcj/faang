@@ -72,14 +72,10 @@ class Solution:
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
-#                    0  1  2  3   4  5  6  7
 managers_array    = [2, 2, 4, 6, -1, 4, 4, 5]
 inform_time_array = [0, 0, 4, 0, 7, 3, 6, 0]
-
+expected : int = 13
 sol = Solution()
+result : int = sol.numOfMinutes(n = 8, headID = 4, manager=managers_array, informTime= inform_time_array)
 
-
-print(sol.numOfMinutes(8, 4, managers_array, inform_time_array))
-
-
-#13
+print(f'Result : {result} - expected : {expected} - is the result the same? {result==expected}')
