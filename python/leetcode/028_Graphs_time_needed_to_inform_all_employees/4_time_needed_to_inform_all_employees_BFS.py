@@ -1,73 +1,37 @@
 # https://leetcode.com/problems/time-needed-to-inform-all-employees/description/
 
-from collections import defaultdict, deque
-from typing import List, Deque, Tuple, Dict
-
+from collections import defaultdict
 
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def numOfMinutes(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:
-        subordinates : Dict[int, List[int]] = defaultdict(list)
+    def numOfMinutes(self, n: int, headID: int, manager: list[int], informTime: list[int]) -> int:
+        # step 1 - just create and populate an adjacency list
+        subordinates : dict[int, list[int]] = defaultdict(list)
 
-        #---------------------------
-        for employee_id in range(n):
-            emp_manager : int = manager[employee_id]
-            if emp_manager == -1: continue
+        #----------------------------------------
+        for emp_id , mgr_id in enumerate(manager) :
+            if mgr_id == -1 : continue
+            subordinates[mgr_id].append(emp_id)
+        #----------------------------------------
 
-            subordinates[emp_manager].append( employee_id )
-        #---------------------------
-
-        queue : Deque[Tuple[int,int]] = deque([(headID, 0)])
+        # step 2 - explore the adjacency list DFS style - return the max time to inform
+        stack : list[list[int]] = [ [headID, 0] ] # head_id starts with 0 inform time from its superiors as it's the head node
         max_time : int = 0
-        
-        #---------------------------
-        while queue:
-            current_emp_id , time_taken_upstream = queue.pop()
-            max_time : int = max(max_time, time_taken_upstream)
-            
-            #---------------------------
-            #explore child nodes BFS style
-            subordinates_slice : List[int] = subordinates[current_emp_id]
-            for subordinate_id in subordinates_slice:
-                manager_inform_time  : int = informTime[current_emp_id]
-                
-                queue.append( (subordinate_id, manager_inform_time + time_taken_upstream) )
-            #---------------------------
-                
-        #---------------------------
-        
-        return max_time
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def numOfMinutes_old(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:
-        # Build an adjacency list to represent the tree structure
-        subordinates = defaultdict(list)
-        
-        #---------------------------
-        for employee_id in range(n):
-            if manager[employee_id] == -1: continue
-            subordinates[manager[employee_id]].append(employee_id)
-        #---------------------------
-        
-        # Perform BFS to calculate the total time needed
-        queue = deque([(headID, 0)])  # (current_employee, time_taken_to_reach)
-        max_time = 0
-        
-        #---------------------------
-        while queue:
-            '''the major difference between a DFS and a BFS is that the DFS uses a stack, and the
-            the BFS is more like a queue, in other other words, the immediate child nodes of a
-            a node are processed first, and the accumulate any other nodes we come across to be
-            processed later. '''
-            current, time_taken_upstream = queue.popleft() 
-            max_time = max(max_time, time_taken_upstream)
-            
-            for subordinate_id in subordinates[current]:
-                manager_inform_time : int = informTime[current]
-                queue.append((subordinate_id, time_taken_upstream + manager_inform_time))
-        #---------------------------
-        
+        #----------------------------------------
+        while stack : 
+            curr_emp_id , time_taken_upstream = stack.pop()
+            max_time = max(max_time, time_taken_upstream )
+
+            #----------------------------------------
+            # explore child nodes bfs style
+            subordinates_slide : list[int] = subordinates[curr_emp_id]
+            for subordinate_id in subordinates_slide:
+                manager_inform_time : int = informTime[curr_emp_id]
+                stack.append( [subordinate_id , manager_inform_time + time_taken_upstream] )
+            #----------------------------------------
+        #----------------------------------------
+
         return max_time
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
