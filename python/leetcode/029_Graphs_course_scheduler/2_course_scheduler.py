@@ -73,7 +73,36 @@ class Solution:
 #-------------------------------------------------------------------------
 
 
-p = [[1, 0], [2, 1], [2, 5], [0, 3], [4, 3], [3, 5], [4, 5]]
+# [1,0] -> to take course 1 you need to take course 0
+# [2,1] -> to take course 2 you need to take course 1
+input : list[list[int]] = [[1, 0], [2, 1], [2, 5], [0, 3], [4, 3], [3, 5], [4, 5]]
+num_courses : int = 6
 sol = Solution()
+expected = True
+result = sol.canFinish(numCourses=num_courses, prerequisites=input)
 
-print(sol.canFinish(6, p))
+print(f'result : {result} - expected : {expected} - is the result what was expected : {result==expected}')
+
+print('--------------')
+
+
+input : list[list[int]] = [[1,0]]
+num_courses : int = 2
+sol = Solution()
+expected = True
+result = sol.canFinish(numCourses=num_courses, prerequisites=input)
+
+print(f'result : {result} - expected : {expected} - is the result what was expected : {result==expected}')
+
+print('--------------')
+
+
+input : list[list[int]] = [[1,0],[0,1]]
+num_courses : int = 2
+sol = Solution()
+expected = False
+result = sol.canFinish(numCourses=num_courses, prerequisites=input)
+
+print(f'result : {result} - expected : {expected} - is the result what was expected : {result==expected}')
+
+print('--------------')
