@@ -62,81 +62,39 @@ sol = Solution()
 # times[i] = (ui, vi, wi), where ui is the source node, vi is the target node, and wi is the time it takes
 #  in other words: [1, 2, 9] -> from node 1 to node 2 takes 9 units of time
 #  [1, 4, 2] -> from node 1 to node 4 takes 2 units of time
-t = [[1, 2, 9], [1, 4, 2], [2, 5, 1], [4, 2, 4], [4, 5, 6], [3, 2, 3], [5, 3, 7], [3, 1, 5]]
-print(sol.networkDelayTime(t, 5, 1))
+times : list[list[int]] = [[1, 2, 9], [1, 4, 2], [2, 5, 1], [4, 2, 4], [4, 5, 6], [3, 2, 3], [5, 3, 7], [3, 1, 5]]
+n : int = 5
+k : int = 1
+expected : int = 14
+result : int = sol.networkDelayTime(times = times, n = n, k = k)
+print(f'result : {result} - expected : {expected} - is the result correct : {result == expected}')
+print('-------------')
 
-exit()
 
-#-------------------------------------------------------------------------
-# Priority Queue implementation
-class PriorityQueue:
-    def __init__(self, comparator=lambda a, b: a > b):
-        self._heap = []
-        self._comparator = comparator
+times = [[2,1,1],[2,3,1],[3,4,1]] 
+n = 4
+k = 2
+expected : int = 2
+result : int = sol.networkDelayTime(times = times, n = n, k = k)
+print(f'result : {result} - expected : {expected} - is the result correct : {result == expected}')
+print('-------------')
 
-    def size(self):
-        return len(self._heap)
 
-    def peek(self):
-        return self._heap[0] if self._heap else None
+times = [[1,2,1]]
+n = 2
+k = 1
+expected : int = 1
+result : int = sol.networkDelayTime(times = times, n = n, k = k)
+print(f'result : {result} - expected : {expected} - is the result correct : {result == expected}')
+print('-------------')
 
-    def is_empty(self):
-        return len(self._heap) == 0
 
-    def _parent(self, idx):
-        return (idx - 1) // 2
+times = [[1,2,1]]
+n = 2
+k = 2
+expected : int = -1
+result : int = sol.networkDelayTime(times = times, n = n, k = k)
+print(f'result : {result} - expected : {expected} - is the result correct : {result == expected}')
+print('-------------')
 
-    def _left_child(self, idx):
-        return idx * 2 + 1
 
-    def _right_child(self, idx):
-        return idx * 2 + 2
-
-    def _swap(self, i, j):
-        self._heap[i], self._heap[j] = self._heap[j], self._heap[i]
-
-    def _compare(self, i, j):
-        return self._comparator(self._heap[i], self._heap[j])
-
-    def push(self, value):
-        self._heap.append(value)
-        self._sift_up()
-        return self.size()
-
-    def _sift_up(self):
-        node_idx = self.size() - 1
-        while node_idx > 0 and self._compare(node_idx, self._parent(node_idx)):
-            self._swap(node_idx, self._parent(node_idx))
-            node_idx = self._parent(node_idx)
-
-    def pop(self):
-        if self.size() > 1:
-            self._swap(0, self.size() - 1)
-        popped_value = self._heap.pop()
-        self._sift_down()
-        return popped_value
-
-    def _sift_down(self):
-        node_idx = 0
-        while (
-            (self._left_child(node_idx) < self.size() and
-             self._compare(self._left_child(node_idx), node_idx)) or
-            (self._right_child(node_idx) < self.size() and
-             self._compare(self._right_child(node_idx), node_idx))
-        ):
-            greater_child_idx = (
-                self._right_child(node_idx) < self.size() and
-                self._compare(self._right_child(node_idx), self._left_child(node_idx))
-            )
-            greater_child_idx = self._right_child(node_idx) if greater_child_idx else self._left_child(node_idx)
-            self._swap(greater_child_idx, node_idx)
-            node_idx = greater_child_idx
-#-------------------------------------------------------------------------
-
-sol = Solution()
-# Test case
-# times[i] = (ui, vi, wi), where ui is the source node, vi is the target node, and wi is the time it takes
-#  in other words: [1, 2, 9] -> from node 1 to node 2 takes 9 units of time
-#  [1, 4, 2] -> from node 1 to node 4 takes 2 units of time
-t = [[1, 2, 9], [1, 4, 2], [2, 5, 1], [4, 2, 4], [4, 5, 6], [3, 2, 3], [5, 3, 7], [3, 1, 5]]
-print(sol.networkDelayTime_old(t, 5, 1))
