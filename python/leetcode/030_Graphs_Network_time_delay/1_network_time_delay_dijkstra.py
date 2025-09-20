@@ -14,46 +14,48 @@ class Solution:
     #   that means we have to traverse to all nodes, and find the shortest path to that node, and also
     #   keep track if we visited all nodes, otherwise the answer should be -1
     #-------------------------------------------------------------------------
-    def networkDelayTime(self, times: list[list[int]], n: int, k: int) -> int:
+    def networkDelayTime(self, times: list[list[int]], n: int, k: int) -> int :
         time_req_list : list[int] = [inf] * n # all vertices are set to inf time, if we don't reach any of these nodes then we will know
         adj_list : list[list[int]] = [ [] for _ in range(n) ]
-        
-        time_req_list[k - 1] = 0 # set root vertex time to reach itself to zero
-        
+
+        time_req_list[k - 1] = 0 # set root vertex time to reach itself to zero, and K-1 because K is not base zero
         #----------------------------------------
-        for from_vertex, to_vertex, time_needed in times:
-            adj_list[from_vertex - 1].append( ( to_vertex - 1, time_needed ) ) # from_vertex -1 -> remember we need to offset the idx
+        for from_vertex, to_vertex, time_needed in times :
+            adj_list[ from_vertex-1 ].append( [to_vertex-1 , time_needed] ) # from_vertex -1 -> remember we need to offset the idx
         #----------------------------------------
 
-        heap : list[tuple[int,int]] = [(0, k - 1)]
+        priority_queue : list[list[int]] = [ [ k - 1 , 0 ] ] # vertex , time to reach it
         #----------------------------------------
-        while heap:
-            current_time, current_vertex = heapq.heappop(heap)
-            
+        while priority_queue :
+            curr_vertex , curr_time_needed = heapq.heappop( priority_queue )
+
             # note that all values at time_req_list start with inf, so we will look at every node at least once
-            if current_time > time_req_list[current_vertex]: continue # we alread have a lower time, then skip this - but should we check its children?
-            
+            ''' added explanation because this condition is tricky: if curr_time_needed == time_req_list[curr_vertex] then the node should still 
+              be processed to explore its neighbors, as there might be other paths that depend on this node. Additionally, if the condition were >=, 
+              the algorithm would skip processing nodes even when curr_time_needed == time_req_list[curr_vertex] - this could lead to missing 
+              valid paths to other nodes that depend on this node being processed. by using '>' the algorithm ensures that only strictly worse 
+              paths are ignored. This maintains the correctness of Dijkstra's algorithm, as it guarantees that all shortest paths are explored
+            '''
+            if curr_time_needed > time_req_list[curr_vertex] : continue
+
             # then current time must be less or equal to time_req_list[current_vertex]
-            time_req_list[current_vertex] = current_time
-            
+            time_req_list[curr_vertex] = curr_time_needed
+
             #----------------------------------------
-            for neigh_vertex, neigh_time_needed in adj_list[current_vertex]:
-                
-                new_time : int = neigh_time_needed + current_time
-                
-                #----------------------------------------
-                if new_time < time_req_list[neigh_vertex]: #found a new shorter path
-                    time_req_list[neigh_vertex] = new_time
-                    
-                    heapq.heappush(heap, (new_time, neigh_vertex))
-                #----------------------------------------
+            for to_vertex , to_vertex_time in adj_list[curr_vertex] :
+                new_time : int = to_vertex_time + curr_time_needed
+
+                #-----
+                if new_time < time_req_list[to_vertex] : #found a new shorter path
+                    time_req_list[to_vertex] = new_time
+                    heapq.heappush( priority_queue , [to_vertex, new_time] )
+                #-----
             #----------------------------------------
         #----------------------------------------
-        
-        #return the answer
+
         max_time : int = max(time_req_list)
-        
-        return -1 if max_time == inf else max_time
+        result : int = max_time if max_time != inf else -1
+        return result
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
