@@ -40,7 +40,7 @@ class Solution :
         #  to list them, but it's enough as the question asks us to be able to tell if we can 
         #  take all the courses or not. And in this case we only can take them all if the number
         #  of courses poped out from the stack is the same as the total number of courses.
-        result : bool = stack_pop_count == num_courses
+        result : bool = stack_pop_count == numCourses
         return result
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
