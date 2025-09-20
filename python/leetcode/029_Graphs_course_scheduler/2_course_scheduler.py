@@ -1,76 +1,50 @@
 # https://leetcode.com/problems/course-schedule/description/
 
 from collections import defaultdict, deque
-from typing import List, DefaultDict
 
 #-------------------------------------------------------------------------
-class Solution:
+class Solution :
     #-------------------------------------------------------------------------
-    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        adj_list : DefaultDict[int, List[int]] = defaultdict(list)
-        in_degree : List[int] = [0] * numCourses
+    def canFinish(self, numCourses: int, prerequisites: list[list[int]]) -> bool:
+        adj_list : defaultdict[int, list[int]] = defaultdict(list)
+        in_degree : list[int] = [0] * numCourses
 
-        #---------------------------
-        for course , requirement in prerequisites:
-            in_degree[course] += 1 # if something points to it, then it increases its in-degree, in this case a requirement points to the course
-            adj_list[requirement].append(course) # this is a classic relation for a graph, the parent node holds a list of all its children
-        #---------------------------
+        #----------------------------------------
+        for dependent_course , prerequisite_course in prerequisites:
+            in_degree[dependent_course] += 1 # if something points to it, then it increases its in-degree, in this case a requirement points to the course
+            adj_list[prerequisite_course].append(dependent_course) # if I take this course, which couses can I take after this then?
+        #----------------------------------------
 
-        stack : List[int] = [ course 
-                             for course, in_deg_val in enumerate(in_degree) 
-                             if in_deg_val == 0 ]
-        count_stack_pop : int = 0
+        # let's find where to start - get all current nodes with in-degree of 0
+        stack : list[int] = [
+            in_degree_course
+            for in_degree_course , in_degree_val  in enumerate(in_degree)
+            if in_degree_val == 0
+        ]
 
-        #---------------------------
-        while stack:
-            current_course : int = stack.pop()
-            count_stack_pop += 1
+        stack_pop_count : int = 0 # we need this to detect cyclic blocked courses
 
-            for dependent_course in adj_list[current_course]:
-                in_degree[dependent_course] -= 1
-                if in_degree[dependent_course] == 0 : stack.append(dependent_course)
-        #---------------------------
+        #----------------------------------------
+        while stack : 
+            zero_in_deg_course : int = stack.pop()
+            stack_pop_count += 1
 
-        return count_stack_pop == numCourses
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def canFinish_old(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        # Create an adjacency list for the graph
-        adj_list = defaultdict(list)
-        # Create an array to track the in-degree of each course
-        in_degree = [0] * numCourses
-        
-        #---------------------------
-        # Build the graph and in-degree array
-        for course, prereq in prerequisites:
-            adj_list[prereq].append(course)
-            in_degree[course] += 1
-        #---------------------------
-        
-        # Initialize a queue with all courses that have in-degree 0
-        queue = deque([i for i in range(numCourses) if in_degree[i] == 0])
-        count_pop_stack = 0
-        
-        #---------------------------
-        # Process the courses in topological order
-        while queue:
-            current_course = queue.popleft()
-            count_pop_stack += 1
+            #----------------------------------------
+            for dependent_course in adj_list[zero_in_deg_course] : # let's check every course that depends on this current one (zero_in_deg_course)
+                in_degree[dependent_course] -= 1 
+                if in_degree[dependent_course] == 0 : stack.append(dependent_course) # if this couse becomes a 0 in-degree, add to the stack
+            #----------------------------------------
+        #----------------------------------------
 
-            #---------------------------
-            # Reduce the in-degree of neighboring courses
-            for dependent_course in adj_list[current_course]:
-                in_degree[dependent_course] -= 1
-                # If in-degree becomes 0, add it to the queue
-                if in_degree[dependent_course] == 0:
-                    queue.append(dependent_course)
-            #---------------------------
-        #---------------------------
-        
-        # If we visited all courses, return True, otherwise False
-        return count_pop_stack == numCourses
+        # now it's possible that we have cyclic courses (blocked courses) remaining. We don't need
+        #  to list them, but it's enough as the question asks us to be able to tell if we can 
+        #  take all the courses or not. And in this case we only can take them all if the number
+        #  of courses poped out from the stack is the same as the total number of courses.
+        result : bool = stack_pop_count == num_courses
+        return result
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
+
 
 
 # [1,0] -> to take course 1 you need to take course 0

@@ -1,40 +1,49 @@
 # https://leetcode.com/problems/course-schedule/description/
 
 from collections import defaultdict, deque
-from typing import List, DefaultDict
 
 #-------------------------------------------------------------------------
-class Solution:
+class Solution : 
     #-------------------------------------------------------------------------
-    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        # Build the adjacency list and in-degree array
-        graph: dict[int, List[int]] = defaultdict(list)
-        in_degree: List[int] = [0] * numCourses
+    def canFinish(self, numCourses: int, prerequisites: list[list[int]]) -> bool:
+        adj_list : dict[int, list[int]] = defaultdict(list)
+        in_degree : list[int] = [0] * numCourses
 
         #----------------------------------------
-        for course, requirement in prerequisites:
-            graph[requirement].append(course)
-            in_degree[course] += 1
+        for dependent_course , prerequisite_course in prerequisites : 
+            in_degree[dependent_course] += 1 # number of requirements pointing to that course
+            adj_list[prerequisite_course].append(dependent_course) # if I take this course, which couses can I take after this then?
         #----------------------------------------
 
-        # Initialize queue with all courses having zero in-degree (no prerequisites)
-        queue: deque[int] = deque([i for i in range(numCourses) if in_degree[i] == 0])
-        visited: int = 0  # Count of courses that can be taken
+        queue : deque[int] = deque(
+            [
+                in_deg_course
+                for in_deg_course , in_deg_val in enumerate(in_degree)
+                if in_deg_val == 0
+            ]
+        )
+
+        visited : int = 0 # we need this to detect cyclic blocked courses
 
         #----------------------------------------
-        while queue:
-            course: int = queue.popleft()
+        while queue : 
+            zero_in_deg_course : int = queue.popleft()
             visited += 1
             #----------------------------------------
-            for neighbor in graph[course]:
-                in_degree[neighbor] -= 1
-                if in_degree[neighbor] == 0:
-                    queue.append(neighbor)
+            for dependent_course in adj_list[zero_in_deg_course] :
+                in_degree[dependent_course] -= 1
+                if in_degree[dependent_course] == 0 : queue.append(dependent_course)
             #----------------------------------------
         #----------------------------------------
 
-        # If all courses have been visited, it's possible to finish all
-        return visited == numCourses
+        # now it's possible that we have cyclic courses (blocked courses) remaining. We don't need
+        #  to list them, but it's enough as the question asks us to be able to tell if we can 
+        #  take all the courses or not. And in this case we only can take them all if the number
+        #  of courses poped out from the stack is the same as the total number of courses.
+        result : bool = visited == numCourses
+
+        return result
+
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
