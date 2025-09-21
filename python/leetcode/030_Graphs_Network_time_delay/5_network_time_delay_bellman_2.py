@@ -5,61 +5,7 @@ import heapq
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def networkDelayTime_old(self, times: list[list[int]], n: int, k: int) -> int:
-        distances = [float('inf')] * n
-        
-        distances[k - 1] = 0
-        #----------------------------------------
-        for i in range(n - 1):
-            count = 0
-            #----------------------------------------
-            for j in range(len(times)):
-                source = times[j][0]
-                target = times[j][1]
-                weight = times[j][2]
-                
-                if distances[source - 1] + weight < distances[target - 1]:
-                    distances[target - 1] = distances[source - 1] + weight
-                    count += 1
-            #----------------------------------------
-            
-            if count == 0:
-                break
-        #----------------------------------------
-        
-        ans = max(distances)
-        return -1 if ans == float('inf') else ans
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def networkDelayTime(self, times: list[list[int]], n: int, k: int) -> int:
-        dist: list[int] = [float('inf')] * (n+1)
-        dist[k] = 0
-        
-        #----------------------------------------
-        # Relax all edges up to n-1 times
-        for _ in range(n-1): # the n-1 is given from bellman-ford algorithm
-            
-            # An optimization, since we don't need to loop until n-1 if we havent found
-            #  a new shortest path in the loop, meaning, no shorther path will be found
-            #  in any future loops
-            new_shortest_path_found = False
-            #----------------------------------------
-            for from_node, to_node, time_needed in times:
-                if dist[from_node] != float('inf'): #this node has a known distance so we can calculate the steps below
-                    dist_from_node_plus_time_needed = dist[from_node] + time_needed
-                    if dist_from_node_plus_time_needed < dist[to_node]: # we found a shorter path to 'to_node'
-                        dist[to_node] = dist_from_node_plus_time_needed
-                        new_shortest_path_found = True
-            #----------------------------------------
-            if new_shortest_path_found is False:
-                break
-        #----------------------------------------
-        
-        max_distance : int = max(dist[1:]) #slice from idx 1 to the end in order to ignore idx 0
-        return max_distance if max_distance != float('inf') else -1
-    #-------------------------------------------------------------------------
-    #-------------------------------------------------------------------------
-    def networkDelayTime2(self, times: list[list[int]], n: int, k: int) -> int:
+    def networkDelayTime_2(self, times: list[list[int]], n: int, k: int) -> int:
         # Initialize distances with "infinity" except for the starting node k
         dist : list[int] = [float('inf')] * (n + 1) # n+1 because if we had a n = 3 we would have [inf, inf, inf], and we want to simply not have to deal with issues at index zero, so we want [inf, inf, inf, inf]
         dist[k] = 0 # start node gets distance 0
