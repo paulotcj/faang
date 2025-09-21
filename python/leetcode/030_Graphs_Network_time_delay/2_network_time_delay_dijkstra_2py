@@ -3,21 +3,63 @@
 import heapq
 from collections import defaultdict
 
-
 #-------------------------------------------------------------------------
-class Solution:
+class Solution :
+    #-------------------------------------------------------------------------
+    def networkDelayTime(self, times: list[list[int]], n: int, k: int) -> int:
+        # Build the graph as an adjacency list
+        adj_list : defaultdict[ int , list[int]] = defaultdict(list) # any key not present, the default value is a list
+
+        #----------------------------------------
+        for from_node , to_node , time_needed in times :
+            adj_list[from_node].append( [to_node , time_needed] )
+        #----------------------------------------
+
+        min_heap : list[list[int]] = [ [k , 0] ] # Min-heap to store [node , time]
+
+        time_required_dict : dict[int,int] = {} # dictionary to store the shortest time to reach each node
+
+        #----------------------------------------
+        while min_heap :
+            curr_node , curr_node_time = heapq.heappop( min_heap )
+
+            if curr_node in time_required_dict : continue # if the node is already visited, skip it
+
+            time_required_dict[curr_node] = curr_node_time # record the shortest time to reach this node
+
+
+            #----------------------------------------
+            for to_node , to_node_time in adj_list[curr_node] :
+                if to_node in time_required_dict : continue # if the node is already visited, skip it
+                new_time : int = to_node_time + curr_node_time
+                heapq.heappush( min_heap , [to_node, new_time] )
+            #----------------------------------------
+        #----------------------------------------
+
+        max_time : int = max(time_required_dict.values())
+
+        result : int = max_time if len(time_required_dict) == n else -1
+
+        return result
+    #-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
+class Solution_old :
     #-------------------------------------------------------------------------
     def networkDelayTime(self, times: list[list[int]], n: int, k: int) -> int:
         # Build the graph as an adjacency list
         adj_list : defaultdict[ int, list[ tuple[int,int] ] ] = defaultdict(list) # any key not present, the default value is a list
+
+        #----------------------------------------
         for from_node, to_node, time_needed in times:
             adj_list[from_node].append((to_node, time_needed))
+        #----------------------------------------
         
         # Min-heap to store (time, node)
-        heap : list[ tuple[int,int] ] = [(0, k)] # put in the first element, root vertex with distance of zero
+        min_heap : list[ tuple[int,int] ] = [(0, k)] # put in the first element, root vertex with distance of zero
         
-        # dictionary to store the shortest time to reach each node
-        shortest_time : dict[int, int] = {}
+        
+        time_required_list : dict[int, int] = {}
         
         #----------------------------------------
         ''' In this min-heap-based Dijkstra approach, the first time a node is popped 
@@ -26,28 +68,28 @@ class Solution:
         is in the shortest_time dictionary, no shorter path can appear afterward, so 
         it's safe to skip that node.
         '''
-        while heap:
-            current_time, current_vertex = heapq.heappop(heap)
+        while min_heap:
+            current_time, current_vertex = heapq.heappop(min_heap)
             
             # If the node is already visited, skip it
-            if current_vertex in shortest_time:
+            if current_vertex in time_required_list:
                 continue
             
-            # Record the shortest time to reach this node
-            shortest_time[current_vertex] = current_time
+            
+            time_required_list[current_vertex] = current_time
             
             #----------------------------------------
-            # Explore neighbors
+            
             for neigh_vertex, neigh_time_needed in adj_list[current_vertex]:
                 
-                if neigh_vertex not in shortest_time:
+                if neigh_vertex not in time_required_list:
                     new_time = current_time + neigh_time_needed
-                    heapq.heappush(heap, (new_time, neigh_vertex))
+                    heapq.heappush(min_heap, (new_time, neigh_vertex))
             #----------------------------------------
         #----------------------------------------
         
         # If all nodes are reached, return the maximum time; otherwise, return -1
-        return max(shortest_time.values()) if len(shortest_time) == n else -1
+        return max(time_required_list.values()) if len(time_required_list) == n else -1
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
