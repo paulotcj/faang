@@ -5,7 +5,7 @@ import heapq
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def networkDelayTime_3(self, times: list[list[int]], n: int, k: int) -> int:
+    def networkDelayTime(self, times: list[list[int]], n: int, k: int) -> int:
         dist: list[int] = [float('inf')] * (n+1)
         dist[k] = 0
         

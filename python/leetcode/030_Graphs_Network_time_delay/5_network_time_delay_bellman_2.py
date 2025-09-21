@@ -5,7 +5,7 @@ import heapq
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
-    def networkDelayTime_2(self, times: list[list[int]], n: int, k: int) -> int:
+    def networkDelayTime(self, times: list[list[int]], n: int, k: int) -> int:
         # Initialize distances with "infinity" except for the starting node k
         dist : list[int] = [float('inf')] * (n + 1) # n+1 because if we had a n = 3 we would have [inf, inf, inf], and we want to simply not have to deal with issues at index zero, so we want [inf, inf, inf, inf]
         dist[k] = 0 # start node gets distance 0
