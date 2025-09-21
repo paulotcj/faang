@@ -24,10 +24,10 @@ class Solution:
             adj_list[ from_vertex-1 ].append( [to_vertex-1 , time_needed] ) # from_vertex -1 -> remember we need to offset the idx
         #----------------------------------------
 
-        priority_queue : list[list[int]] = [ [ k - 1 , 0 ] ] # vertex , time to reach it
+        priority_queue : list[list[int]] = [ [ 0, k - 1  ] ] # vertex , time to reach it
         #----------------------------------------
         while priority_queue :
-            curr_vertex , curr_time_needed = heapq.heappop( priority_queue )
+            curr_time_needed, curr_vertex = heapq.heappop( priority_queue )
 
             # note that all values at time_req_list start with inf, so we will look at every node at least once
             ''' added explanation because this condition is tricky: if curr_time_needed == time_req_list[curr_vertex] then the node should still 
@@ -36,7 +36,11 @@ class Solution:
               valid paths to other nodes that depend on this node being processed. by using '>' the algorithm ensures that only strictly worse 
               paths are ignored. This maintains the correctness of Dijkstra's algorithm, as it guarantees that all shortest paths are explored
             '''
-            if curr_time_needed > time_req_list[curr_vertex] : continue
+
+            try :
+                if curr_time_needed > time_req_list[curr_vertex] : continue
+            except Exception as e:
+                print('error')
 
             # then current time must be less or equal to time_req_list[current_vertex]
             time_req_list[curr_vertex] = curr_time_needed
@@ -48,7 +52,7 @@ class Solution:
                 #-----
                 if new_time < time_req_list[to_vertex] : #found a new shorter path
                     time_req_list[to_vertex] = new_time
-                    heapq.heappush( priority_queue , [to_vertex, new_time] )
+                    heapq.heappush( priority_queue , [new_time , to_vertex] )
                 #-----
             #----------------------------------------
         #----------------------------------------
