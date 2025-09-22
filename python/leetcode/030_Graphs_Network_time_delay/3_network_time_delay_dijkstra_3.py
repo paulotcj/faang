@@ -3,41 +3,42 @@
 import heapq
 from collections import defaultdict
 
-
 #-------------------------------------------------------------------------
-class Solution:
+class Solution : 
     #-------------------------------------------------------------------------
     def networkDelayTime(self, times: list[list[int]], n: int, k: int) -> int:
-        adj_list : defaultdict[int, list[tuple[int,int]]] = defaultdict(list)
-        
+        adj_list : defaultdict[int, list[int]] = defaultdict(list)
+        priority_queue : list[list[int]] = [ [0, k] ] # Min-heap to store [time , node] - it needs to be in this order unfortunately
+        shortest_time : dict[int, int] = {}        
+
         #----------------------------------------
-        for from_node, to_node, time_needed in times:
-            adj_list[from_node].append((to_node, time_needed))
+        for from_node, to_node, time_required in times :
+            adj_list[from_node].append( [to_node, time_required] )
         #----------------------------------------
-        
-        heap : list[ tuple[int,int] ] = [(0,k)]
-        
-        shortest_time : dict[int,int] = {}
-        
+
         #----------------------------------------
-        while heap:
-            current_time, current_vertex = heapq.heappop(heap)
-            
-            if current_vertex in shortest_time: continue
-            
-            shortest_time[current_vertex] = current_time
-            
+        while priority_queue :
+            curr_node_time , curr_node = heapq.heappop(priority_queue)
+
+            if curr_node in shortest_time : continue
+
+            shortest_time[curr_node] = curr_node_time
+
             #----------------------------------------
-            for neigh_vertex, neigh_time in adj_list[current_vertex]:
-                if neigh_vertex not in shortest_time:
-                    new_time = current_time + neigh_time
-                    heapq.heappush(heap, (new_time, neigh_vertex))
+            for to_node , to_node_time in adj_list[curr_node] :
+                if to_node in shortest_time : continue
+                new_time : int = to_node_time + curr_node_time
+                heapq.heappush(priority_queue, [ new_time , to_node ] )
             #----------------------------------------
         #----------------------------------------
-        
-        max_time = max(shortest_time.values())
-        return max_time if len(shortest_time) == n else -1
+
+        max_time : int = max(shortest_time.values())
+
+        result : int = max_time if len(shortest_time) == n else -1
+
+        return result
     #-------------------------------------------------------------------------
+
 #-------------------------------------------------------------------------
 
 

@@ -3,6 +3,8 @@
 import heapq
 from collections import defaultdict
 
+from tomlkit import item
+
 #-------------------------------------------------------------------------
 class Solution :
     #-------------------------------------------------------------------------
@@ -10,18 +12,17 @@ class Solution :
         # Build the graph as an adjacency list
         adj_list : defaultdict[ int , list[int]] = defaultdict(list) # any key not present, the default value is a list
 
+        priority_queue : list[list[int]] = [ [0, k] ] # Min-heap to store [time , node] - it needs to be in this order unfortunately
+        time_required_dict : dict[int,int] = {} # dictionary to store the shortest time to reach each node        
+
         #----------------------------------------
         for from_node , to_node , time_needed in times :
             adj_list[from_node].append( [to_node , time_needed] )
         #----------------------------------------
 
-        min_heap : list[list[int]] = [ [0, k] ] # Min-heap to store [time , node] - it needs to be in this order unfortunately
-
-        time_required_dict : dict[int,int] = {} # dictionary to store the shortest time to reach each node
-
         #----------------------------------------
-        while min_heap :
-            curr_node_time , curr_node  = heapq.heappop( min_heap )
+        while priority_queue :
+            curr_node_time , curr_node  = heapq.heappop( priority_queue )
 
             ''' this part is super tricky and absolutely not obvious at first glance. The initial thinking process is that
             there might be other paths found later that can be shorter. But you have to remember that we are poping the
@@ -49,7 +50,7 @@ class Solution :
             for to_node , to_node_time in adj_list[curr_node] :
                 if to_node in time_required_dict : continue # if the node is already visited, skip it
                 new_time : int = to_node_time + curr_node_time
-                heapq.heappush( min_heap , [new_time , to_node] )
+                heapq.heappush(priority_queue , [new_time , to_node] )
             #----------------------------------------
         #----------------------------------------
 
