@@ -1,37 +1,55 @@
 # https://leetcode.com/problems/network-delay-time/description/
-import heapq
 
 
+''' Note 1: this implementation does not check for negative cycles, as Bellman-Ford loops
+  for n-1, as it would then guarantee the shortest path, but if we wanted to check for
+  negative cycles we would run this one last time, and if after n-1 we could still find
+  a new shortest path, that means we are in a negative cycle.
+Note 2 : Another question about Bellman-Ford is why we loop 'n-1' times. The reason is 
+  that at the worst possible case, any graph is connected by n-1 edges/lind. If we find more 
+  than n-1 edges/links that means we are in a cycle, for instance:
+  Nodes: A , B , C , D   Connections: A -> B -> C -> D  We can observe 3 edges/links
+
+Note 3 : IMPORTANT - Checking for negative cycles implemented
+'''
 #-------------------------------------------------------------------------
-class Solution:
+class Solution :
     #-------------------------------------------------------------------------
     def networkDelayTime(self, times: list[list[int]], n: int, k: int) -> int:
-        distances = [float('inf')] * n
-        
-        distances[k - 1] = 0
+        # because we ase using a distance list and not a default dict, we need to convert the basing index to -1
+        time_req_list : list[int] = [ float('inf') ] * n
+        time_req_list[k-1] = 0
+
         #----------------------------------------
-        for i in range(n - 1):
-            count = 0
+        for i in range( n - 1 ) : # bellman-ford approach, always loop for n-1 edges/links
+            new_time_found_flag : bool = False
             #----------------------------------------
-            for j in range(len(times)):
-                source = times[j][0]
-                target = times[j][1]
-                weight = times[j][2]
-                
-                if distances[source - 1] + weight < distances[target - 1]:
-                    distances[target - 1] = distances[source - 1] + weight
-                    count += 1
+            for from_node, to_node, time_req in times :
+
+                from_node_new_time : int = time_req_list[from_node - 1] + time_req
+
+                #-----
+                if from_node_new_time < time_req_list[to_node - 1] :
+                    time_req_list[to_node - 1] = from_node_new_time
+                    new_time_found_flag = True
+                #-----
             #----------------------------------------
-            
-            if count == 0:
-                break
+            if new_time_found_flag == 0 : break
         #----------------------------------------
-        
-        ans = max(distances)
-        return -1 if ans == float('inf') else ans
+
+        # additional iteration to check for negative weight cycles - simple solution
+        #----------------------------------------
+        for from_node, to_node, time_req in times :
+            from_node_new_time : int = time_req_list[from_node - 1] + time_req
+            if from_node_new_time < time_req_list[to_node - 1] :
+                return - 1 # negative weight cycle detected
+        #----------------------------------------  
+
+        max_time : int = max(time_req_list)
+        result : int = max_time if max_time != float('inf') else -1
+        return result
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
-
 
 
 sol = Solution()
