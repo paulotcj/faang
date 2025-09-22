@@ -21,7 +21,7 @@ class Solution :
         time_req_list[k-1] = 0
 
         #----------------------------------------
-        for i in range( n - 1 ) : # bellman-ford approach, always loop for n-1 edges/links
+        for _ in range( n - 1 ) : # bellman-ford approach, always loop for n-1 edges/links
             new_time_found_flag : bool = False
             #----------------------------------------
             for from_node, to_node, time_req in times :

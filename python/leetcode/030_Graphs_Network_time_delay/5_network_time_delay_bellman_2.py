@@ -1,48 +1,47 @@
 # https://leetcode.com/problems/network-delay-time/description/
-import heapq
 
 
 #-------------------------------------------------------------------------
-class Solution:
+class Solution :
     #-------------------------------------------------------------------------
     def networkDelayTime(self, times: list[list[int]], n: int, k: int) -> int:
-        # Initialize distances with "infinity" except for the starting node k
-        dist : list[int] = [float('inf')] * (n + 1) # n+1 because if we had a n = 3 we would have [inf, inf, inf], and we want to simply not have to deal with issues at index zero, so we want [inf, inf, inf, inf]
-        dist[k] = 0 # start node gets distance 0
+        # Initialize times with "infinity" except for the starting node k
+        time_needed_list : list[int] = [ float('inf') ] * (n+1) # n+1 because if we had a n = 3 we would have [inf, inf, inf], and we want to simply not have to deal with issues at index zero, so we want [inf, inf, inf, inf]
+        time_needed_list[k] = 0
 
         #----------------------------------------
-        
-        for _ in range(n - 1): # the n-1 is given from bellman-ford algorithm
-            
+        for _ in range(n - 1) : # the n-1 is given from bellman-ford algorithm
             #----------------------------------------
-            for from_node, to_node, time_needed in times:
-                
-                ''' note: distance here is used as time-distance
-                The logic below is, if the distance to the current node is known, then we can
-                compute or compare the added distence to the neighbour (target) node. Otherwise we 
-                would be calculating inf + some_number which would be inf anyway.
+            for from_node, to_node, time_needed in times :
+
+                ''' the logic below is, if the time to the from_node is known, then we can
+                compute or compare the added time to to_node. Otherwise we would be calculating 
+                inf + some_number which would be infinity anyway.
                 After that then we need to compare if: the distance of the from_node plus the edge's
                 distance is smaller than the current distance of the to_node's distance. If yes, then a 
                 new shortest path was found, and we update the distance.'''
-                if dist[from_node] != float('inf'): # if the distance to this node is known
-                    
-                    # if the distance from 'from_node' plus time needed is smaller than the currently 
-                    #  known distance to 'to_node' then update 'to_node' distance
-                    if ( dist[from_node] + time_needed ) < dist[to_node]: 
-                        dist[to_node] = dist[from_node] + time_needed
+                if time_needed_list[from_node] == float('inf') : continue # the time to this node is not know, there's nothing we can do now
+
+                # if the time from 'from_node' plus time needed is smaller than the currently 
+                #  known time to 'to_node' then update 'to_node' time
+                from_node_new_time : int = time_needed_list[from_node] + time_needed
+                if from_node_new_time < time_needed_list[to_node] : 
+                    time_needed_list[to_node] = from_node_new_time
             #----------------------------------------
         #----------------------------------------
-                    
-        # Bellman-Ford sets impossible paths to inf, so we check if any node was never updated
-        max_distance : int = max(dist[1:])  # ignore index 0
-        return -1 if max_distance == float('inf') else max_distance
 
+        max_time : int = max(time_needed_list[1:]) # slice the array, we can't use index 0 as it will always be float('inf')
+
+        result : int = max_time if max_time != float('inf') else -1
+
+        return result
+    
         """
         Explanation:
         - Bellman-Ford systematically relaxes all edges in the graph up to n-1 times.
         - Each relaxation tries to improve the best known distance to each node.
         - If after n-1 iterations a node's distance remains infinity, it means it's unreachable.
-        """
+        """    
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
