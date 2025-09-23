@@ -45,18 +45,11 @@ class Solution:
 
 
 
-
 sol = Solution()
-
-# cost = [10,15,20]
-
-# result = sol.minCostClimbingStairs(cost=cost)
-
-# print(f'result: {result}')
-# print('-----------------------------------')
-
 cost = [1,100,1,1,1,100,1,1,100,1]
+
+expected : int = 6
 
 result = sol.minCostClimbingStairs(cost=cost)
 
-print(f'result: {result}')
+print(f'result: {result} - expected : {expected} - is the result correct: {result==expected}')
