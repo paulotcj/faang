@@ -1,51 +1,43 @@
 # https://leetcode.com/problems/network-delay-time/description/
-import heapq
 
-from typing import List, Dict
-import heapq  # For priority queue implementation
+
 #-------------------------------------------------------------------------
-class Solution:
+class Solution :
     #-------------------------------------------------------------------------
-    def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
-        # Step 1: Build the adjacency list representation of the graph
-        graph: Dict[int, List[tuple[int, int]]] = {i: [] for i in range(1, n + 1)}
+    def networkDelayTime(self, times: list[list[int]], n: int, k: int) -> int:
+        time : list[int] = [float('inf')] * (n + 1) # n+1 because if we had a n = 3 we would have [inf, inf, inf], and we want to simply not have to deal with issues at index zero, so we want [inf, inf, inf, inf]
+        time[k] = 0
 
+        # Relax all edges up to n-1 times
         #----------------------------------------
-        for u, v, w in times:
-            graph[u].append((v, w))  # Append (target node, weight)
-        #----------------------------------------
+        for _ in range(n-1) : # the n-1 is given from bellman-ford algorithm
 
-        # Step 2: Use a priority queue to implement Dijkstra's algorithm
-        min_heap: List[tuple[int, int]] = [(0, k)]  # (time, node)
-        shortest_time: Dict[int, int] = {}  # To store the shortest time to each node
-
-        #----------------------------------------
-        while min_heap:
-            current_time, current_node = heapq.heappop(min_heap)
-
-            # If the node is already visited, skip it
-            if current_node in shortest_time:
-                continue
-
-            # Record the shortest time to reach this node
-            shortest_time[current_node] = current_time
+            # An optimization, since we don't need to loop until n-1 if we havent found
+            #  a new shortest path in the loop, meaning, no shorther path will be found
+            #  in any future loops
+            new_shortest_path_found : bool = False
 
             #----------------------------------------
-            # Explore neighbors
-            for neighbor, travel_time in graph[current_node]:
-                if neighbor not in shortest_time:
-                    heapq.heappush(min_heap, (current_time + travel_time, neighbor))
+            for from_node, to_node, time_needed in times:
+                if time_needed == float('inf') : continue # this node doesnt have a known time, we cant calculate anything from here
+                from_node_new_time : int = time[from_node] + time_needed
+                if from_node_new_time < time[to_node] :
+                    time[to_node] = from_node_new_time
+                    new_shortest_path_found = True
             #----------------------------------------
+            if new_shortest_path_found == False : break
         #----------------------------------------
 
-        # Step 3: Check if all nodes are reachable
-        if len(shortest_time) != n:
-            return -1
-
-        # Step 4: Return the maximum time among all shortest paths
-        return max(shortest_time.values())
+        max_time : int = max( time[1:] ) #slice from idx 1 to the end in order to ignore idx 0
+        return max_time if max_time != float('inf') else -1
+        """
+        Explanation:
+        - Bellman-Ford systematically relaxes all edges in the graph up to n-1 times.
+        - Each relaxation tries to improve the best known distance to each node.
+        - If after n-1 iterations a node's distance remains infinity, it means it's unreachable.
+        """        
     #-------------------------------------------------------------------------
-#-------------------------------------------------------------------------    
+#-------------------------------------------------------------------------
 
 
 
