@@ -11,8 +11,8 @@ class Solution :
         i : int = 0
         #----------------------------------------
         while i < len(cost)-1 :
-            i_plus_1_step : int = cost[i] + cost[i+1]
-            i_plus_2_steps : int = cost[i] + cost[i+2]
+            cost_1 : int = cost[i] + cost[i+1]
+            cost_2 : int = cost[i] + cost[i+2]
 
             
 

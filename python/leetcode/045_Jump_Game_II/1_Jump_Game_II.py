@@ -48,11 +48,6 @@ result = sol.jump(nums = input)
 print(f'result: {result} - expected: {expected_result} - is the result expected?: {result==expected_result}')
 print('-----')
 
-sol = Solution()
-input = [2,3,0,1,4]
-expected_result = 2
-result = sol.jump(nums = input)
-print(f'result: {result} - expected: {expected_result} - is the result expected?: {result==expected_result}')
-print('-----')
+
 
 
