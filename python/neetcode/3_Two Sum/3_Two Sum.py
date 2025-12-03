@@ -3,16 +3,21 @@ class Solution:
     #-------------------------------------------------------------------------
     def twoSum(self, nums: list[int], target: int) -> list[int]:
 
-        arr_map = {}
+        arr_map : dict[int,int] = {}
 
         #--------------------------------------------------
-
+        for idx , num in enumerate(nums) :
+            diff = target - num
+            #----
+            if diff in arr_map:
+                # just rearrange how we display the indexes as the solution expects the lower index to be shown
+                #  first, and it just so happens to be what is stored in the arr_map
+                return [ arr_map[diff] , idx ]
+            #----
+            arr_map[num] = idx
         #--------------------------------------------------
 
-        #--------------------------------------------------
-
-        #--------------------------------------------------
-
+        return []
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
         

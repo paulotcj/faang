@@ -3,7 +3,7 @@ class Solution:
     #-------------------------------------------------------------------------
     def twoSum(self, nums: list[int], target: int) -> list[int]:
 
-        indices = {}
+        indices: dict[int, int] = {}
         # build the num -> index dict
         #--------------------------------------------------
         for idx , val in enumerate(nums) : 
@@ -14,7 +14,7 @@ class Solution:
         for idx , val in enumerate(nums):
             
             # this basically means: do we have a solution for this number?
-            diff = target - val 
+            diff: int = target - val 
 
             # check if we have a solution, and if the solution is different than the current number
             if (diff in indices) and indices[diff] != idx :
