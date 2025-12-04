@@ -3,16 +3,17 @@ from collections import Counter
 class Solution:
     #-------------------------------------------------------------------------
     def isAnagram(self, s: str, t: str) -> bool:
-        if len(s) != len(t) : return False
+        if len(s) != len(t):
+            return False
 
-        cnt_s , cnt_t = {} , {}
+        cnt_s: dict[str, int] = {}
+        cnt_t: dict[str, int] = {}
 
-        #--------------------------------------------------
-        for i in range( len(s) ) :
-            s_val , t_val = s[i], t[i]
-            cnt_s[ s_val ] = cnt_s.get( s_val , 0 ) + 1
-            cnt_t[ t_val ] = cnt_t.get( t_val , 0 ) + 1
-        #--------------------------------------------------
+        for i in range(len(s)):
+            s_val: str = s[i]
+            t_val: str = t[i]
+            cnt_s[s_val] = cnt_s.get(s_val, 0) + 1
+            cnt_t[t_val] = cnt_t.get(t_val, 0) + 1
 
         return cnt_s == cnt_t
     #-------------------------------------------------------------------------
