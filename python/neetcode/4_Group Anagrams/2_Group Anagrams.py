@@ -3,7 +3,7 @@ from collections import defaultdict
 class Solution:
     #-------------------------------------------------------------------------
     def groupAnagrams(self, strs: list[str]) -> list[list[str]]:
-        res : defaultdict[int] = defaultdict( list )
+        res : defaultdict[tuple[int], list[str]] = defaultdict( list )
 
         #--------------------------------------------------
         for loop_str in strs :
@@ -16,13 +16,11 @@ class Solution:
                 count[ char_idx ] += 1 # increment the count value
             #-----
             
-            dict_key_tuple = tuple(count) #after this pre-processing any anagram would be sorted in the same fashion resulting in the same key
+            dict_key_tuple : tuple[int] = tuple(count) #after this pre-processing any anagram would be sorted in the same fashion resulting in the same key
             res[ dict_key_tuple ].append( loop_str ) #then we can group them together by using the same key
         #--------------------------------------------------
 
         return list( res.values() )
-
-
 
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
