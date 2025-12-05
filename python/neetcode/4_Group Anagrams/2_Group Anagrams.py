@@ -3,15 +3,27 @@ from collections import defaultdict
 class Solution:
     #-------------------------------------------------------------------------
     def groupAnagrams(self, strs: list[str]) -> list[list[str]]:
-        temp_dict: defaultdict[str, list[str]] = defaultdict(list)  # create a default dict with a default value of a list
+        res : defaultdict[int] = defaultdict( list )
+
         #--------------------------------------------------
-        for loop_str in strs:
-            temp_sorted_str: str = ''.join(sorted(loop_str))  # make a sorted version of the loop string
-            temp_dict[temp_sorted_str].append(loop_str)  # make the sorted version the dict key, and append the sorted string to the list
+        for loop_str in strs :
+            count : list[int] = [0] * 26 # creates a list with 26 zeroes
+            #-----
+            for char in loop_str :
+
+                # we are basically trying to shift the unicode value of this string into a zero based alphabet array
+                char_idx : int = ord(char) - ord('a') # ord -> return the unicode value of a single char string
+                count[ char_idx ] += 1 # increment the count value
+            #-----
+            
+            dict_key_tuple = tuple(count) #after this pre-processing any anagram would be sorted in the same fashion resulting in the same key
+            res[ dict_key_tuple ].append( loop_str ) #then we can group them together by using the same key
         #--------------------------------------------------
 
-        return_obj: list[list[str]] = list(temp_dict.values())  # convert the dict values to a list of lists
-        return return_obj  # now we have all the anagram pairs combined in lists inside a list
+        return list( res.values() )
+
+
+
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
