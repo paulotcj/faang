@@ -13,7 +13,13 @@ expected = False
 
 sol = Solution()
 result = sol.hasDuplicate(nums=input)
-print(f'is the result what was expected? {expected == result} - expected: {expected} - result : {result}')
+
+is_equal = expected == result
+if is_equal:
+    status_result = f"\033[1;37;42m{is_equal}\033[0m"  # Bold, white text, green background
+else:
+    status_result = f"\033[1;37;41m{is_equal}\033[0m"  # Bold, white text, red background
+print(f'is the result what was expected? {status_result} - expected: {expected} - result : {result}')
 
 
 
@@ -23,4 +29,10 @@ expected = True
 
 sol = Solution()
 result = sol.hasDuplicate(nums=input)
-print(f'is the result what was expected? {expected == result} - expected: {expected} - result : {result}')
+
+is_equal = expected == result
+if is_equal:
+    status_result = f"\033[1;37;42m{is_equal}\033[0m"  # Bold, white text, green background
+else:
+    status_result = f"\033[1;37;41m{is_equal}\033[0m"  # Bold, white text, red background
+print(f'is the result what was expected? {status_result} - expected: {expected} - result : {result}')
