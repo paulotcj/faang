@@ -2,32 +2,32 @@
 class Solution:
     #-------------------------------------------------------------------------
     def encode(self, strs: list[str]) -> str:
-        if not strs : return ""
-
-        sizes : list[str] = [ str(len(loop_str)) for loop_str in strs ]
-
-        return_obj : str = f"{ ','.join(sizes) }#{ ''.join(strs) }"
-
-        return return_obj
+        res = ""
+        for s in strs:
+            res += str(len(s)) + "#" + s
+        return res
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def decode(self, s: str) -> list[str]:
-        if not s: return []
+        res = []
+        i = 0
 
-        sizes , strings_pack = s.split("#",1)
-        sizes : list[int] = [ int(size) for size in sizes.split(",")]
-        
-        return_obj : list[str] = []
-        start : int = 0
-        #--------------------------------------------------
-        for str_len in sizes:
-            end : int = start + str_len
-            temp_str : str = strings_pack[start:end]
-            return_obj.append( temp_str )
-            start = end
+        while i < len(s):
+            j = i
+            while s[j] != '#':
+                j += 1
+            length = int(s[i:j])
+            i = j + 1
+            j = i + length
+            res.append(s[i:j])
+            i = j
+
+        return res
         #--------------------------------------------------
 
-        return return_obj
+        #--------------------------------------------------
+
+
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
         
