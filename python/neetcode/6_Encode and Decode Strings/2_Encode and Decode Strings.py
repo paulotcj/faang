@@ -15,21 +15,16 @@ class Solution:
         
         return_obj : list[str] = []
         #--------------------------------------------------
-        while True:
-            if "#" not in s : break
+        while "#" in s:
             str_len , s = s.split("#",1)
             end : int = int(str_len)
 
             temp_str = s[: end]
-
             return_obj.append(temp_str)
-
             s = s[end:]
         #--------------------------------------------------
 
         return return_obj
-        
-
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
         
