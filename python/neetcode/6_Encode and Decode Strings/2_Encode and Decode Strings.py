@@ -2,31 +2,33 @@
 class Solution:
     #-------------------------------------------------------------------------
     def encode(self, strs: list[str]) -> str:
-        res = ""
-        for s in strs:
-            res += str(len(s)) + "#" + s
-        return res
+
+        temp_list : list[str] = [ 
+            f"{str(len(loop_str))}#{loop_str}" 
+            for loop_str in strs 
+        ]
+        return_obj : str = ''.join(temp_list)
+        return return_obj
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def decode(self, s: str) -> list[str]:
-        res = []
-        i = 0
+        
+        return_obj : list[str] = []
+        #--------------------------------------------------
+        while True:
+            if "#" not in s : break
+            str_len , s = s.split("#",1)
+            end : int = int(str_len)
 
-        while i < len(s):
-            j = i
-            while s[j] != '#':
-                j += 1
-            length = int(s[i:j])
-            i = j + 1
-            j = i + length
-            res.append(s[i:j])
-            i = j
+            temp_str = s[: end]
 
-        return res
+            return_obj.append(temp_str)
+
+            s = s[end:]
         #--------------------------------------------------
 
-        #--------------------------------------------------
-
+        return return_obj
+        
 
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
@@ -37,7 +39,7 @@ print('------------------------------------')
 sol = Solution()
 
 input = ["neet","code","love","you"]
-expected = "4,4,4,3#neetcodeloveyou"
+expected = "4#neet4#code4#love3#you"
 result = sol.encode(strs=input)
 
 is_equal = expected == result
@@ -48,9 +50,9 @@ else:
 print(f'is the result what was expected? {status_result} - expected: {expected} - result : {result}')
 
 #-----
-input = "4,4,4,3#neetcodeloveyou"
+input = "4#neet4#code4#love3#you"
 expected = ["neet","code","love","you"]
-result = sol.decode(s = input)
+result = sol.decode(s=input)
 
 is_equal = expected == result
 if is_equal:
@@ -58,7 +60,7 @@ if is_equal:
 else:
     status_result = f"\033[1;37;41m{expected == result}\033[0m"  # Bold, white text, red background
 print(f'is the result what was expected? {status_result} - expected: {expected} - result : {result}')
-
+exit()
 
 
 print('------------------------------------')
