@@ -55,15 +55,17 @@ if is_equal:
 else:
     status_result = f"\033[1;37;41m{expected == result}\033[0m"  # Bold, white text, red background
 print(f'is the result what was expected? {status_result} - expected: {expected} - result : {result}')
-exit()
+
 
 
 print('------------------------------------')
 sol = Solution()
 
 input = ["we","say",":","yes"]
-expected = "2,3,1,3#wesay:yes"
+expected = "2#we3#say1#:3#yes"
 result = sol.encode(strs=input)
+print(result)
+
 
 is_equal = expected == result
 if is_equal:
@@ -73,7 +75,7 @@ else:
 print(f'is the result what was expected? {status_result} - expected: {expected} - result : {result}')
 
 #-----
-input = "2,3,1,3#wesay:yes"
+input = "2#we3#say1#:3#yes"
 expected = ["we","say",":","yes"]
 result = sol.decode(s = input)
 
