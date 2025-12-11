@@ -17,13 +17,8 @@ class Solution:
 
                 curr_val : int = int(curr_val)
 
-                # let's go over the math for the squares. Consider we have squares from 0 to 8
-                #  where their coordinates is 0->[0][0] to 8->[2][2]
-                # rows should produce the x coordinates and rows from 0,1,2 should produce sq=0 ; 
-                #  3,4,5 sqr=1 ; 6,7,8 sqr=2
-                # We can see the X coordinates is basically: row // 3 = x_coord
-                # And the same logic applies to the columns
-                sqr_loc : tuple[int,int] = ( row_loop // 3 , col_loop // 3 )
+
+                sqr_loc : int = (( row_loop // 3 ) * 3) + (col_loop // 3 )
 
                 #now the bit masking is a 'bit' confusing. But when we do this: 
                 # 1 << num  we are shifting the number 1 by 'num' bits. 
@@ -42,46 +37,17 @@ class Solution:
                 ) :
                     return False
                 #-----
+
+                # | -> is the bit 'or' operator. It will set the flag for the number being
+                # investigated by the bit_mask
+                rows[row_loop] = rows[row_loop] | bit_mask
+                cols[col_loop] = cols[col_loop] | bit_mask
+                squares[sqr_loc] = squares[sqr_loc] | bit_mask
         #--------------------------------------------------
 
-    def isValidSudoku2(self, board: list[list[str]]) -> bool:
-        #######################################
-        board_side_len : int = 9
-        num_subsquares : int = 9
-        rows        : list[int] = [0] * board_side_len # 9 rows
-        cols        : list[int] = [0] * board_side_len # 9 cols
-        squares     : list[int] = [0] * num_subsquares # 9 subsquares
-
-        #--------------------------------------------------
-        for r in range(9):
-            #--------------------------------------------------
-            for c in range(9):
-                val = board[r][c]
-
-                if val == ".":
-                    continue
-
-                val = int(val)
-
-                if (1 << val) & rows[r]:
-                    return False
-                if (1 << val) & cols[c]:
-                    return False
-                if (1 << val) & squares[(r // 3) * 3 + (c // 3)]:
-                    return False
-
-                rows[r] |= (1 << val)
-                cols[c] |= (1 << val)
-                squares[(r // 3) * 3 + (c // 3)] |= (1 << val)
-            #--------------------------------------------------
-        #--------------------------------------------------
+        # if we looped through all and we didn't find a reason to return False, then at this
+        #  point we must return True
         return True
-
-        #--------------------------------------------------
-
-        #--------------------------------------------------
-
-
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
@@ -101,7 +67,7 @@ input = [
 expected = True
 
 sol = Solution()
-result = sol.isValidSudoku2(board=input)
+result = sol.isValidSudoku(board=input)
 is_equal = expected == result
 if is_equal:
     status_result = f"\033[1;37;42m{is_equal}\033[0m"  # Bold, white text, green background
@@ -125,7 +91,7 @@ input = [
 expected = False
 
 sol = Solution()
-result = sol.isValidSudoku2(board=input)
+result = sol.isValidSudoku(board=input)
 is_equal = expected == result
 if is_equal:
     status_result = f"\033[1;37;42m{is_equal}\033[0m"  # Bold, white text, green background
