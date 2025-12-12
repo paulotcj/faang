@@ -1,27 +1,23 @@
+from collections import defaultdict
 #-------------------------------------------------------------------------
 class Solution:
     #-------------------------------------------------------------------------
     def longestConsecutive(self, nums: list[int]) -> int:
-        if len(nums) == 0 : return 0
-        num_set : set[int] = set(nums)
-        max_streak : int = 1
+
 
         #--------------------------------------------------
-        for num in num_set:
-            # explanation: if num-1 is not in the set, that means num is the start of a new
-            #  sequence. That sequence might be of len 1, or 999,999 it doesn't matter but
-            #  because there's a gap then num must be the start of a new sequence
-            #-----
-            if (num-1) not in num_set : 
-                curr_streak : int = 1
-                #-----
-                while (num + curr_streak) in num_set :
-                    curr_streak += 1
-                #-----
-                max_streak = max(max_streak, curr_streak)
-            #-----
+
         #--------------------------------------------------
-        return max_streak
+        mp = defaultdict(int)
+        res = 0
+
+        for num in nums:
+            if not mp[num]:
+                mp[num] = mp[num - 1] + mp[num + 1] + 1
+                mp[num - mp[num - 1]] = mp[num]
+                mp[num + mp[num + 1]] = mp[num]
+                res = max(res, mp[num])
+        return res
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
