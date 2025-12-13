@@ -3,26 +3,54 @@ class MinStack:
     #-------------------------------------------------------------------------
     def __init__(self):
         self.stack : list[int] = []
-        self.min : int = float('inf') # set min to the max possible value so any number will be smaller
+        self.min : int = None
 
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def push(self, val: int) -> None:
 
+        if not self.stack:
+            self.stack.append(0)
+            self.min = val
+        else:
+            new_temp_val : int = val - self.min
+            self.stack.append(new_temp_val)
+            if val < self.min:
+                self.min = val
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def pop(self) -> int:
+        if not self.stack : return None
 
+
+        pop : int = self.stack.pop()
+
+        if pop < 0:
+            self.min = self.min - pop
+
+        return_pop_val : int = self.min + pop
+        return return_pop_val
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def top(self) -> int:
-        
+        if not self.stack : return None
+        top_val : int = self.stack[-1]
+        if top_val > 0 : return top_val + self.min
+        else: return self.min
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def getMin(self) -> int:
         return self.min
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
+
+minStack = MinStack()
+minStack.push(-99)
+minStack.push(-9)
+minStack.push(-100)
+print(minStack.pop())
+print(minStack.pop())
+exit()
 
 
 print('------------------------------------')
