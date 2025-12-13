@@ -44,13 +44,13 @@ class MinStack:
     #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
-minStack = MinStack()
-minStack.push(-99)
-minStack.push(-9)
-minStack.push(-100)
-print(minStack.pop())
-print(minStack.pop())
-exit()
+# minStack = MinStack()
+# minStack.push(-99)
+# minStack.push(-9)
+# minStack.push(-100)
+# print(minStack.pop())
+# print(minStack.pop())
+# exit()
 
 
 print('------------------------------------')
