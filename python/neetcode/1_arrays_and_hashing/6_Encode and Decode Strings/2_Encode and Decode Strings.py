@@ -39,9 +39,9 @@ result = sol.encode(strs=input)
 
 is_equal = expected == result
 if is_equal:
-    status_result = f"\033[1;37;42m{expected == result}\033[0m"  # Bold, white text, green background
+    status_result = f"\033[1;97;42m{expected == result}\033[0m"  # Bold, white text, green background
 else:
-    status_result = f"\033[1;37;41m{expected == result}\033[0m"  # Bold, white text, red background
+    status_result = f"\033[1;97;41m{expected == result}\033[0m"  # Bold, white text, red background
 print(f'is the result what was expected? {status_result} - expected: {expected} - result : {result}')
 
 #-----
@@ -51,9 +51,9 @@ result = sol.decode(s=input)
 
 is_equal = expected == result
 if is_equal:
-    status_result = f"\033[1;37;42m{expected == result}\033[0m"  # Bold, white text, green background
+    status_result = f"\033[1;97;42m{expected == result}\033[0m"  # Bold, white text, green background
 else:
-    status_result = f"\033[1;37;41m{expected == result}\033[0m"  # Bold, white text, red background
+    status_result = f"\033[1;97;41m{expected == result}\033[0m"  # Bold, white text, red background
 print(f'is the result what was expected? {status_result} - expected: {expected} - result : {result}')
 
 
@@ -69,9 +69,9 @@ print(result)
 
 is_equal = expected == result
 if is_equal:
-    status_result = f"\033[1;37;42m{expected == result}\033[0m"  # Bold, white text, green background
+    status_result = f"\033[1;97;42m{expected == result}\033[0m"  # Bold, white text, green background
 else:
-    status_result = f"\033[1;37;41m{expected == result}\033[0m"  # Bold, white text, red background
+    status_result = f"\033[1;97;41m{expected == result}\033[0m"  # Bold, white text, red background
 print(f'is the result what was expected? {status_result} - expected: {expected} - result : {result}')
 
 #-----
@@ -81,9 +81,9 @@ result = sol.decode(s = input)
 
 is_equal = expected == result
 if is_equal:
-    status_result = f"\033[1;37;42m{expected == result}\033[0m"  # Bold, white text, green background
+    status_result = f"\033[1;97;42m{expected == result}\033[0m"  # Bold, white text, green background
 else:
-    status_result = f"\033[1;37;41m{expected == result}\033[0m"  # Bold, white text, red background
+    status_result = f"\033[1;97;41m{expected == result}\033[0m"  # Bold, white text, red background
 print(f'is the result what was expected? {status_result} - expected: {expected} - result : {result}')
 
 
